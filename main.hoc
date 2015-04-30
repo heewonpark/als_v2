@@ -22,22 +22,62 @@
 // setRecorder()
 // setPrinter()
 //************************************************
+{load_file("loadinfo.hoc")}
+strdef info_filename
+info_filename = "./cell_info/network_info_simple.dat"
+
+objref pc
+pc = new ParallelContext()
 
 proc mkNetwork(){
     mkCells()
     mkConnections()
 }
 
-proc mkCells(){
-
+proc mkCells(){localobj pn,ln,rn, nc, nil
+    loadinfo(info_filename)
+    pns = new List()// projection neurons
+    lns = new List()// local interneurons
+    rns = new List()// receptor neurons
+    
+    for(i = pc.id; i < NCELLS; i+=pc.nhost){
+	if(i<NPN){
+	    j = i
+	    pn = new CellSwc(pn_swcpath[j],pn_matrix[j][0],pn_matrix[j][1],pn_matrix[j][2])
+	    pns.append(pn)
+	    //nc= pn.connect2target(0,nil)
+	}else if(i>=NPN && i<NPN+NLN){
+	    j = i-NPN
+	    ln = new CellSwc(ln_swcpath[j],ln_matrix[j][0],ln_matrix[j][1],ln_matrix[j][2])
+	    lns.append(pn)
+	    //nc= ln.connect2target(0,nil)
+	}else{
+	    j = i-NPN-NLN
+	    rn = new CellSwc(rnfilename,1,)
+	    rns.append(pn)
+	    //nc= rn.connect2target(0,nil)
+	}
+	//pc.set_gid2node(i,pc.id)
+	pc.cell(i,nc)
+    }
+    pc.barrier()
 }
-
 proc mkConnections(){
     connectRNtoLNPN()
     connectLNtoLN()
     //connectPNtoLN()
     connectLNtoPN()
 }
+
+proc connectRNtoLNPN(){
+    nclist = new List()
+    
+    for(i=0; i<NPN+NLN; i+=1){
+	
+    }
+
+}
+
 
 proc mkStimulations(){
 

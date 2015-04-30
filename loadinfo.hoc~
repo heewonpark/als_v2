@@ -1,0 +1,60 @@
+//************************************************
+// FILE NAME : main.hoc
+// 2015.04.30
+// Heewon Park
+//************************************************
+
+//************************************************
+// MODIFICATION HISTORY
+//************************************************
+//
+//
+//
+
+
+//************************************************
+// FUNCTION LIST
+//************************************************
+// loadinfo() : read network_info_XXX.dat file
+//              and save informations
+//************************************************
+pn_matrix = new Matrix()
+ln_matrix = new Matrix()
+
+func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_fp
+    strdef buf
+    strdef info_filename
+    strdef celltype
+    strdef swcpath, rotatepath
+    
+    info_filename = $s1
+    info_fp = new File()
+    if(info_fp.ropen(info_filename) != 1){
+	printf("ERROR : File was not found. (%s)\n", info_filename)
+	return(-1) 
+    }
+    while(info_fp.scanstr(buf) != -1){
+	if(strcmp("#",buf)==0){
+	    continue
+	}else if(strcmp("$",buf)==0){
+	    info_fp.gets(buf)
+	    sscanf(buf, "%s %d\n",celltype, &num)
+	    if(strcmp("PN",celltype)==0){
+		pn_matrix.resize(num, 5)
+	    }else if(strcmp("LN",celltype)==0){
+		ln_matrix.resize(num, 5)
+	    }
+	    print celltype," ", num
+	    for(i=0;i<num;i=i+1){
+		info_fp.gets(buf)
+		sscanf(buf, "%d %d %d %s %s\n",&cellid, &swcid, &cloneid, swcpath, rotatepath)
+		printf("%d %d %d %s %s\n",cellid, swcid, cloneid, swcpath, rotatepath)
+		
+	    }
+	}
+    }
+    return 0
+}
+
+//for test
+//loadinfo("./cell_info/network_info_simple.dat")

@@ -1,0 +1,174 @@
+NEURON -- VERSION 7.3 ansi (1078:2b0c984183df) 2014-04-04
+Duke, Yale, and the BlueBrain Project -- Copyright 1984-2014
+See http://www.neuron.yale.edu/neuron/credits
+
+Additional mechanisms from files
+ expsid.mod
+loading membrane mechanisms from ./mod/x86_64/.libs/libnrnmech.so
+$ Number of Neurons : 3
+
+['$ Number of Neurons :', '3']
+3 3
+$ Number of PNs : 1
+
+['$ Number of PNs :', '1']
+1 1
+$ Number of LNs : 2
+
+['$ Number of LNs :', '2']
+2 2
+Read NeuronList
+
+['200', '300', '301']
+['./swc/050622_4_sn_bestrigid0106_mkRegion.swc', './swc/040823_5_sn_bestrigid0106_mkRegion.swc', './swc/050205_7_sn_bestrigid0106_mkRegion.swc']
+1 2 3
+error check
+error check
+./swc/050622_4_sn_bestrigid0106_mkRegion.swc
+load : ./swc/050622_4_sn_bestrigid0106_mkRegion.swc ok
+error check
+712
+error check
+./swc/040823_5_sn_bestrigid0106_mkRegion.swc
+load : ./swc/040823_5_sn_bestrigid0106_mkRegion.swc ok
+error check
+1510
+error check
+./swc/050205_7_sn_bestrigid0106_mkRegion.swc
+load : ./swc/050205_7_sn_bestrigid0106_mkRegion.swc ok
+error check
+914
+Calculate Distance
+
+0 1
+0 2
+1 2
+200 10
+./synlist/200_300_randomize.csv ./synlist/300_200_randomize.csv
+83
+90
+135
+172
+96
+73
+66
+147
+175
+35
+22
+172
+177
+77
+19
+159
+85
+166
+103
+125
+[83, 90, 135, 172, 96, 73, 66, 147, 175, 35] [22, 172, 177, 77, 19, 159, 85, 166, 103, 125]
+['CellSwc[0].Dend[1168]', 'CellSwc[1].Dend[14097]', '30.114407']
+['CellSwc[1].Dend[14097]', 'CellSwc[0].Dend[1168]', '30.114407']
+['CellSwc[0].Dend[1161]', 'CellSwc[1].Dend[19167]', '57.572802']
+['CellSwc[1].Dend[19167]', 'CellSwc[0].Dend[1161]', '57.572802']
+['CellSwc[0].Dend[1152]', 'CellSwc[1].Dend[16960]', '57.876931']
+['CellSwc[1].Dend[16960]', 'CellSwc[0].Dend[1152]', '57.876931']
+['CellSwc[0].Dend[1161]', 'CellSwc[1].Dend[19448]', '41.011079']
+['CellSwc[1].Dend[19448]', 'CellSwc[0].Dend[1161]', '41.011079']
+['CellSwc[0].Dend[1164]', 'CellSwc[1].Dend[19956]', '29.114953']
+['CellSwc[1].Dend[19956]', 'CellSwc[0].Dend[1164]', '29.114953']
+['CellSwc[0].Dend[1168]', 'CellSwc[1].Dend[16663]', '54.883167']
+['CellSwc[1].Dend[16663]', 'CellSwc[0].Dend[1168]', '54.883167']
+['CellSwc[0].Dend[1161]', 'CellSwc[1].Dend[19303]', '42.465162']
+['CellSwc[1].Dend[19303]', 'CellSwc[0].Dend[1161]', '42.465162']
+['CellSwc[0].Dend[1172]', 'CellSwc[1].Dend[16210]', '56.860996']
+['CellSwc[1].Dend[16210]', 'CellSwc[0].Dend[1172]', '56.860996']
+['CellSwc[0].Dend[1161]', 'CellSwc[1].Dend[19017]', '46.820652']
+['CellSwc[1].Dend[19017]', 'CellSwc[0].Dend[1161]', '46.820652']
+['CellSwc[0].Dend[1160]', 'CellSwc[1].Dend[16663]', '50.771003']
+['CellSwc[1].Dend[16663]', 'CellSwc[0].Dend[1160]', '50.771003']
+200 10
+./synlist/200_301_randomize.csv ./synlist/301_200_randomize.csv
+127
+90
+160
+48
+143
+40
+6
+92
+3
+26
+181
+23
+3
+120
+156
+195
+60
+178
+78
+143
+[127, 90, 160, 48, 143, 40, 6, 92, 3, 26] [181, 23, 3, 120, 156, 195, 60, 178, 78, 143]
+['CellSwc[0].Dend[713]', 'CellSwc[2].Dend[11238]', '6.694512']
+['CellSwc[2].Dend[11238]', 'CellSwc[0].Dend[713]', '6.694512']
+['CellSwc[0].Dend[626]', 'CellSwc[2].Dend[11403]', '2.002548']
+['CellSwc[2].Dend[11403]', 'CellSwc[0].Dend[626]', '2.002548']
+['CellSwc[0].Dend[661]', 'CellSwc[2].Dend[11236]', '0.865045']
+['CellSwc[2].Dend[11236]', 'CellSwc[0].Dend[661]', '0.865045']
+['CellSwc[0].Dend[750]', 'CellSwc[2].Dend[10843]', '5.065020']
+['CellSwc[2].Dend[10843]', 'CellSwc[0].Dend[750]', '5.065020']
+['CellSwc[0].Dend[903]', 'CellSwc[2].Dend[9376]', '6.096121']
+['CellSwc[2].Dend[9376]', 'CellSwc[0].Dend[903]', '6.096121']
+['CellSwc[0].Dend[921]', 'CellSwc[2].Dend[10064]', '7.187703']
+['CellSwc[2].Dend[10064]', 'CellSwc[0].Dend[921]', '7.187703']
+['CellSwc[0].Dend[907]', 'CellSwc[2].Dend[10369]', '3.173751']
+['CellSwc[2].Dend[10369]', 'CellSwc[0].Dend[907]', '3.173751']
+['CellSwc[0].Dend[1080]', 'CellSwc[2].Dend[8119]', '6.660157']
+['CellSwc[2].Dend[8119]', 'CellSwc[0].Dend[1080]', '6.660157']
+['CellSwc[0].Dend[808]', 'CellSwc[2].Dend[10362]', '3.871066']
+['CellSwc[2].Dend[10362]', 'CellSwc[0].Dend[808]', '3.871066']
+['CellSwc[0].Dend[871]', 'CellSwc[2].Dend[11068]', '5.735652']
+['CellSwc[2].Dend[11068]', 'CellSwc[0].Dend[871]', '5.735652']
+200 10
+./synlist/300_301_randomize.csv ./synlist/301_300_randomize.csv
+180
+57
+130
+98
+48
+111
+166
+178
+49
+44
+91
+137
+146
+173
+136
+198
+66
+16
+131
+108
+[180, 57, 130, 98, 48, 111, 166, 178, 49, 44] [91, 137, 146, 173, 136, 198, 66, 16, 131, 108]
+['CellSwc[1].Dend[15171]', 'CellSwc[2].Dend[11949]', '4.436328']
+['CellSwc[2].Dend[11949]', 'CellSwc[1].Dend[15171]', '4.436328']
+['CellSwc[1].Dend[8242]', 'CellSwc[2].Dend[11215]', '5.961837']
+['CellSwc[2].Dend[11215]', 'CellSwc[1].Dend[8242]', '5.961837']
+['CellSwc[1].Dend[15719]', 'CellSwc[2].Dend[11022]', '6.106359']
+['CellSwc[2].Dend[11022]', 'CellSwc[1].Dend[15719]', '6.106359']
+['CellSwc[1].Dend[20204]', 'CellSwc[2].Dend[11541]', '6.757354']
+['CellSwc[2].Dend[11541]', 'CellSwc[1].Dend[20204]', '6.757354']
+['CellSwc[1].Dend[21436]', 'CellSwc[2].Dend[10089]', '5.885598']
+['CellSwc[2].Dend[10089]', 'CellSwc[1].Dend[21436]', '5.885598']
+['CellSwc[1].Dend[20938]', 'CellSwc[2].Dend[11219]', '7.595935']
+['CellSwc[2].Dend[11219]', 'CellSwc[1].Dend[20938]', '7.595935']
+['CellSwc[1].Dend[8808]', 'CellSwc[2].Dend[11580]', '3.850280']
+['CellSwc[2].Dend[11580]', 'CellSwc[1].Dend[8808]', '3.850280']
+['CellSwc[1].Dend[8853]', 'CellSwc[2].Dend[11534]', '1.432600']
+['CellSwc[2].Dend[11534]', 'CellSwc[1].Dend[8853]', '1.432600']
+['CellSwc[1].Dend[8856]', 'CellSwc[2].Dend[11257]', '5.758865']
+['CellSwc[2].Dend[11257]', 'CellSwc[1].Dend[8856]', '5.758865']
+['CellSwc[1].Dend[8854]', 'CellSwc[2].Dend[11422]', '5.022369']
+['CellSwc[2].Dend[11422]', 'CellSwc[1].Dend[8854]', '5.022369']

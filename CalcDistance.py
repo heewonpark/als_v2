@@ -8,7 +8,7 @@
 ######################################################################################
 
 # MODIFIED HISTORY
-# 2015.04.30 CellSwc_Ver2.hoc -> CellSwc.hoc
+# 2015.04.30 This code is eddited for al_V2
 
 from neuron import h
 import neuron as nrn
