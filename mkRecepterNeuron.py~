@@ -1,0 +1,110 @@
+#! /usr/bin/python
+# coding: UTF-8
+
+###########################################
+# FILE NAME : mkRecepterNeuron.py
+# 2015.04.27
+# Heewon Park
+###########################################
+
+import datetime
+import locale
+import os
+import math
+
+source = "DESIGNED BY PARK"
+scale_x = 1.0
+scale_y = 1.0
+scale_z = 1.0
+
+NUM_BRANCH = 5
+x_origin = 0.0
+y_origin = 0.0
+z_origin = 0.0
+radius = 2500 # for Length of antenna
+theta = math.pi / 500.0
+
+
+
+def write_header(f):
+    d = datetime.datetime.today()
+    
+    f.write("#ORIGINAL_SOURCE %s\n"%(source))
+    f.write("#CREATURE \n")
+    f.write("#REGION \n")
+    f.write("#FIELD/LAYER \n")
+    f.write("#TYPE \n")
+    f.write("#CONTRIBUTOR \n")
+    f.write("#REFERENCE \n")
+    f.write("#RAW \n")
+    f.write("#EXTRAS \n")
+    f.write("#SOMA_AREA \n")
+    f.write("#SHINKAGE_CORRECTION 1.000000 1.000000 1.000000\n")
+    f.write("#VERSION_NUMBER \n")
+    f.write("#VERSION_DATE %s-%s-%s\n"%(d.year, d.month, d.day))
+    f.write("#SCALE %.1f %.1f %.1f\n"%(scale_x, scale_y, scale_z))
+
+
+# ncmp : number of compartment
+def calcCoordinate(ncmt):
+    x = [0.0 for _ in range(ncmt)]
+    y = [0.0 for _ in range(ncmt)]
+    z = [0.0 for _ in range(ncmt)]
+
+    xrev = [0.0 for _ in range(ncmt)]
+    yrev = [0.0 for _ in range(ncmt)]
+    zrev= [0.0 for _ in range(ncmt)]
+
+    i = 0
+    while i<ncmt:
+        if(i==0):
+            x[i]=x_origin
+            y[i]=y_origin
+        else:
+            x[i] = x[i-1] + radius*theta*math.sin(i*theta)
+            y[i] = y[i-1] + radius*theta*math.cos(i*theta)
+        print x[i], y[i]
+        i +=1
+
+    i=0
+    while i<ncmt:
+        xrev[i] = x[ncmt-1]-x[i]
+        yrev[i] = y[ncmt-1]-y[i]
+        i +=1
+    xyz = []
+    xyz.append(xrev)
+    xyz.append(yrev)
+    xyz.append(zrev)
+    return xyz
+        
+# n sample number
+# t type
+# x,y,z  position
+# r radius of compartment
+# p parent sample
+def mkRecepter(f):
+    xyz = []
+    r = 10
+    xyz = calcCoordinate(500)
+    n0 = 1
+    t0 = 3
+    t = 3
+    p0 = -1
+    print xyz[0]
+    print xyz[1]
+    print xyz[2]
+    f.write("%d %d %f %f %f %f %d\n"%(n0, t0 , xyz[0][0], xyz[1][0], xyz[2][0], r, p0))
+    for i in range(1,500):
+        f.write("%d %d %f %f %f %f %d\n"%(i+1, t, xyz[0][i], xyz[1][i], xyz[2][i], r, i))
+    
+def write_swcfile(counter):
+    directory = "./swc/RN"
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+    filename = "orn%04d.swc"%(counter)
+    path = os.path.join(directory,filename)
+    f = open(path,'w')
+    write_header(f)
+    mkRecepter(f)
+
+write_swcfile(0)

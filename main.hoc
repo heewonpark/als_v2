@@ -1,0 +1,61 @@
+//************************************************
+// FILE NAME : main.hoc
+// 2015.04.28
+// Heewon Park
+//************************************************
+
+//************************************************
+// MODIFICATION HISTORY
+//************************************************
+//
+//
+//
+
+
+//************************************************
+// FUNCTION LIST
+//************************************************
+// mkNetwork()
+// mkCells()
+// mkConnections()
+// mkStimulations()
+// setRecorder()
+// setPrinter()
+//************************************************
+
+proc mkNetwork(){
+    mkCells()
+    mkConnections()
+}
+
+proc mkCells(){
+
+}
+
+proc mkConnections(){
+    connectRNtoLNPN()
+    connectLNtoLN()
+    //connectPNtoLN()
+    connectLNtoPN()
+}
+
+proc mkStimulations(){
+
+}
+
+proc setRecorder(){
+
+}
+
+tstop = 0
+{pc.set_maxstep(10)}
+stdinit()
+{pc.psolve(tstop)}
+
+proc setPrinter(){
+
+}
+
+{pc.runworker()}
+{pc.done()}
+quit()
