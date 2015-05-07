@@ -16,6 +16,8 @@ begintemplate CellSwc
 public init, shape, translation, subsets, geom, biophys, geom_nseg, biophys_inhomo, makeSyn, makeNetCon
 public Scalex, ScaleY, ScaleZ, Shrinkagex, Shrinkagey, Shrinkagez
 public all, secInput, secOutput
+public axonlist, getAxon
+
 public SynList
 public Dend, SectionNum
 
@@ -59,6 +61,7 @@ SectionNum = 1
 // Section lists
 //------------------------------------------------------------------------------
 objref all, secInput, secOutput
+objref axonlist
 
 //------------------------------------------------------------------------------
 // synaptic points
@@ -92,6 +95,7 @@ tranlationX = translationY = translationZ = 0
 proc init() {
     strdef swc_filename
     swc_filename = $s1
+
     cellid  = $2
     swcid   = $3
     cloneid = $4
@@ -104,7 +108,9 @@ proc init() {
     all = new SectionList()
     secInput = new SectionList()
     secOutput = new SectionList()
-    
+
+    axonlist = new SectionList()
+
     shape(swc_filename)
     subsets()
     geom()
@@ -306,6 +312,15 @@ proc subsets() {
 	Dend[0] all.wholetree()
 }
 
+proc getAxon(){local i, type_axon
+    type_axon = 3
+    for i=0, SectionNum-1{
+	if(Type.x[i] == type_axon){
+	    Dend[i] axonlist.append()
+	}
+    }
+}
+
 proc geom() {
 }
 
@@ -362,6 +377,7 @@ proc ReadSynlist(){local i localobj f
 objref syn__
 
 //fixed 2015.01.08
+/*
 proc synapses(){local targetno
     targetno = $1
     Dend[targetno] syn__ = new ExpSid(0.2) synlist.append(syn__)
@@ -373,7 +389,7 @@ proc synapses(){local targetno
     //syn__.tau = 5
     //syn__.e = -80
 }
-
+*/
 /*
 proc synapse(){local targetno
     targetno = $1
@@ -385,6 +401,7 @@ proc synapse(){local targetno
 */
 
 objref Syn__
+/*
 obfunc mkSyn(){local targetno
     targetno = $1
     
@@ -393,6 +410,8 @@ obfunc mkSyn(){local targetno
     Syn__.e   = $2
     return Syn__
 }
+*/
+
 
 obfunc mkExp2Syn(){local targetno
     targetno = $1

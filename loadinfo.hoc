@@ -22,10 +22,13 @@
 
 NPN = 0
 NLN = 0
+NRN = 0
 
-objref pn_matrix, ln_matrix
+objref pn_matrix, ln_matrix, rn_matrix
 pn_matrix = new Matrix()
 ln_matrix = new Matrix()
+rn_matrix = new Matrix()
+
 objref pn_swcpath[100],pn_rotatepath[100]
 for i = 0,100-1{
     pn_swcpath[i] = new String()
@@ -35,6 +38,11 @@ objref ln_swcpath[500],ln_rotatepath[500]
 for i = 0,500-1{
     ln_swcpath[i] = new String()
     ln_rotatepath[i] = new String()
+}
+objref rn_swcpath[2000],rn_rotatepath[2000]
+for i = 0, 2000-1{
+    rn_swcpath[i] = new String()
+    rn_rotatepath[i] = new String()
 }
 
 func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_fp
@@ -83,6 +91,21 @@ func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_
 		    ln_swcpath[i].s = swcpath
 		    ln_rotatepath[i].s = rotatepath
 		}
+	    }else if(strcmp("RN",celltype)==0){
+		rn_matrix.resize(num, 3)
+		print celltype," ", num
+		NRN = num
+		for(i=0;i<num;i=i+1){
+		    info_fp.gets(buf)
+		    sscanf(buf, "%d %d %d %s %s\n",&cellid, &swcid, &cloneid, swcpath, rotatepath)
+		    printf("%d %d %d %s %s\n",cellid, swcid, cloneid, swcpath, rotatepath)
+		    rn_matrix.x[i][0] = cellid
+		    rn_matrix.x[i][1] = swcid
+		    rn_matrix.x[i][2] = cloneid
+		    rn_swcpath[i].s = swcpath
+		    rn_rotatepath[i].s = rotatepath
+		}
+		
 	    }
 	}
     }

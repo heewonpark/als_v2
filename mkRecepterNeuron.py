@@ -13,6 +13,7 @@ import os
 import math
 import random
 
+NUM_RN_SWC = 100
 source = "DESIGNED BY PARK"
 scale_x = 1.0
 scale_y = 1.0
@@ -52,7 +53,6 @@ def write_header(f):
     f.write("#VERSION_DATE %s-%s-%s\n"%(d.year, d.month, d.day))
     f.write("#SCALE %.1f %.1f %.1f\n"%(scale_x, scale_y, scale_z))
 
-
 # ncmp : number of compartment
 def calcCoordinate(ncmt):
     x = [0.0 for _ in range(ncmt)]
@@ -85,7 +85,6 @@ def calcCoordinate(ncmt):
     xyz.append(zrev)
     return xyz
         
-
 # n sample number
 # t type
 # x,y,z  position
@@ -119,9 +118,10 @@ def write_swcfile(counter):
     f = open(path,'w')
     write_header(f)
     #random.seed()
+    
     ncmt = int(random.uniform(100,500))
     writeAxon(f,ncmt)
     writeDendrite(f,ncmt)
 
-for i in range(0,100):
+for i in range(0,NUM_RN_SWC):
     write_swcfile(i)

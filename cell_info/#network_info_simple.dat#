@@ -1,4 +1,5 @@
 # cellid, swcid, cloneid, SWC file path, position&rotation file
+$ RN_PATH ./cell_info/network_info_simple_rn.dat
 $ CELLS 40
 $ PN 5
 2 0 0 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
@@ -42,4 +43,3 @@ $ LN 35
 3 1 14 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
 3 1 15 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
 3 1 16 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-
