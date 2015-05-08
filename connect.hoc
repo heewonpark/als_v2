@@ -36,14 +36,10 @@ proc mkPreSynapseOnReceptor(){local i localobj syn, nil, nc
     }
 }
 
-strdef pn_synlist, ln1synlist, ln2synlist
-pn_synlist = "./List/050622_4_sn_SynapseList.dat"
-ln1synlist = "./List/040823_5_sn_SynapseList.dat"
-ln2synlist = "./List/050205_7_sn_SynapseList.dat"
-
 proc connectRNtoOthers(){
     mkPreSynapseOnReceptor()
     pc.barrier()
     mkPostSynapse()
-
 }
+
+proc 

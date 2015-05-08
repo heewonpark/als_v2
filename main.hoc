@@ -28,9 +28,9 @@
 {load_file("loadinfo.hoc")}
 
 strdef info_filename
-info_filename = "./cell_info/network_info_3cells.dat"
+info_filename = "./info/network_info_3cells.dat"
 strdef info_filename_rn
-info_filename_rn = "./cell_info/network_info_10rns.dat"
+info_filename_rn = "./info/network_info_10rns.dat"
 
 objref pc
 pc = new ParallelContext()
@@ -53,22 +53,25 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
     for(i = pc.id; i < NCELLS; i+=pc.nhost){
 	if(i<NPN){
 	    j = i
-	    pn = new CellSwc(pn_swcpath[j].s,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2])
+	    pn = new CellSwc(pn_path[j].swcpath,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2])
+	    pn.setPath(pn_path[j].ppath, pn_path[j].synpath)
 	    pns.append(pn)
-	    print "pn ", i
+	    print "pn ", i, j
 	    nc = pn.connect2target(0,nil)
 	}else if(i>=NPN && i<NPN+NLN){
 	    j = i-NPN
-	    ln = new CellSwc(ln_swcpath[j].s,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2])
+	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2])
+	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    lns.append(ln)
-	    print "ln ", i
+	    print "ln ", i, j
 	    nc = ln.connect2target(0,nil)
 	}else{
 	    j = i-NPN-NLN
-	    rn = new CellSwc(rn_swcpath[j].s,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
+	    rn = new CellSwc(rn_path[j].swcpath,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
 	    rn.getAxon()
+	    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 	    rns.append(rn)
-	    print "rn ", i
+	    print "rn ", i, j
 	    nc = rn.connect2target(0,nil)
 	}
 	pc.set_gid2node(i,pc.id)

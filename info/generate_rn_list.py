@@ -12,19 +12,20 @@
 # This program generate rn list
 #
 #
-NUM_RN = 2000
-LISTFILENAME = "./network_info_simple_rn.dat"
+NUM_RN = 10
+LISTFILENAME = "./network_info_%drns.dat"%(NUM_RN)
 SWCFILEPATH_DIR = "./swc/rn/"
 SWCFILENAME = "orn"
 NUM_SWCFILES = 100
 CELLID = 1 # cellid for rn is 1 (pn = 2, ln = 3)
 POSITIONFILEPATH = "none"
+SYNAPSEINFOPATH = "none"
 def write_header(f):
-    f.write("# cellid, swcid, cloneid, SWC file path, position&rotation file\n")
+    f.write("# cellid, swcid, cloneid, SWC file path, position&rotation file, Synapse information file\n")
     f.write("$ RN %d\n"%(NUM_RN))
 
-def write_line(f, cid, sid, clid, spath, ppath):
-    f.write("%d %d %d %s %s\n"%(cid, sid, clid, spath, ppath))
+def write_line(f, cid, sid, clid, spath, ppath, synpath):
+    f.write("%d %d %d %s %s %s\n"%(cid, sid, clid, spath, ppath, synpath))
 
 def main():
     F = open(LISTFILENAME,'w')
@@ -34,7 +35,7 @@ def main():
     for i in range(NUM_RN):
         SWCFILEPATH = SWCFILEPATH_DIR + SWCFILENAME + "%04d.swc"%(counter)
         swcid = counter
-        write_line(F, CELLID, swcid, cloneid[swcid], SWCFILEPATH, POSITIONFILEPATH) 
+        write_line(F, CELLID, swcid, cloneid[swcid], SWCFILEPATH, POSITIONFILEPATH, SYNAPSEINFOPATH) 
         counter = counter + 1
         cloneid[swcid] = cloneid[swcid]+1
         if(counter == NUM_SWCFILES):

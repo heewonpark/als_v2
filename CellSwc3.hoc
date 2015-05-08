@@ -13,27 +13,32 @@ Use ExpSid to make synapse
 */
 
 begintemplate CellSwc
+//------------------------------------------------------
+// Original Variables and Functions
 public init, shape, translation, subsets, geom, biophys, geom_nseg, biophys_inhomo, makeSyn, makeNetCon
 public Scalex, ScaleY, ScaleZ, Shrinkagex, Shrinkagey, Shrinkagez
 public all, secInput, secOutput
 public axonlist, getAxon
-
 public SynList
 public Dend, SectionNum
 
+//-------------------------------------------------------
+// Public Functions
+public mkIclamp
+public mkSyn,mkExp2Syn
+public mkSynapses
+public setPath
+
+//-------------------------------------------------------
+// Public Variables
+public ID, Type, pID //pID -> parent ID
+public cellid, swcid, cloneid, ppath, synpath
+public synlist_
 public synlist,synapse
 public SynNumberList, numSynapse
-public mkSynapses
 
-public synlist_,mkSyn,mkExp2Syn
 
-public mkIclamp
 // will be re-created in shape()
-
-public ID, Type, pID //pID -> parent ID
-
-public cellid, swcid, cloneid
-
 create Dend[1]
 
 //------------------------------------------------------------------------------
@@ -99,6 +104,7 @@ proc init() {
     cellid  = $2
     swcid   = $3
     cloneid = $4
+    
     SynList = new List()
     synlist = new List()
     SynNo = new Vector()
@@ -319,6 +325,12 @@ proc getAxon(){local i, type_axon
 	    Dend[i] axonlist.append()
 	}
     }
+}
+
+strdef ppath, synpath
+proc setPath(){
+    ppath   = $s1
+    synpath = $s2
 }
 
 proc geom() {

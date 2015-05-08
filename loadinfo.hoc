@@ -29,27 +29,15 @@ pn_matrix = new Matrix()
 ln_matrix = new Matrix()
 rn_matrix = new Matrix()
 
-objref pn_swcpath[100],pn_rotatepath[100]
-for i = 0,100-1{
-    pn_swcpath[i] = new String()
-    pn_rotatepath[i] = new String()
-}
-objref ln_swcpath[500],ln_rotatepath[500]
-for i = 0,500-1{
-    ln_swcpath[i] = new String()
-    ln_rotatepath[i] = new String()
-}
-objref rn_swcpath[2000],rn_rotatepath[2000]
-for i = 0, 2000-1{
-    rn_swcpath[i] = new String()
-    rn_rotatepath[i] = new String()
-}
+{load_file("Path.hoc")}
+objref pn_path[100], ln_path[500], rn_path[2000]
 
 func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_fp
     strdef buf
     strdef info_filename
     strdef celltype
-    strdef swcpath, rotatepath
+    //swc file path, position file path, synapse file path
+    strdef swcpath, ppath, synpath
     
     info_filename = $s1
     info_fp = new File()
@@ -69,13 +57,12 @@ func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_
 		NPN = num
 		for(i=0;i<num;i=i+1){
 		    info_fp.gets(buf)
-		    sscanf(buf, "%d %d %d %s %s\n",&cellid, &swcid, &cloneid, swcpath, rotatepath)
-		    printf("%d %d %d %s %s\n",cellid, swcid, cloneid, swcpath, rotatepath)
+		    sscanf(buf, "%d %d %d %s %s %s\n",&cellid, &swcid, &cloneid, swcpath,ppath,synpath)
+		    printf("%d %d %d %s %s %s\n",cellid, swcid, cloneid, swcpath, ppath,synpath)
 		    pn_matrix.x[i][0] = cellid
 		    pn_matrix.x[i][1] = swcid
 		    pn_matrix.x[i][2] = cloneid
-		    pn_swcpath[i].s = swcpath
-		    pn_rotatepath[i].s = rotatepath
+		    pn_path[i] = new Path(swcpath, ppath, synpath)
 		}
 	    }else if(strcmp("LN",celltype)==0){
 		ln_matrix.resize(num, 3)
@@ -83,13 +70,12 @@ func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_
 		NLN = num
 		for(i=0;i<num;i=i+1){
 		    info_fp.gets(buf)
-		    sscanf(buf, "%d %d %d %s %s\n",&cellid, &swcid, &cloneid, swcpath, rotatepath)
-		    printf("%d %d %d %s %s\n",cellid, swcid, cloneid, swcpath, rotatepath)
+		    sscanf(buf, "%d %d %d %s %s %s\n",&cellid, &swcid, &cloneid,swcpath,ppath,synpath)
+		    printf("%d %d %d %s %s %s\n",cellid, swcid, cloneid, swcpath, ppath,synpath)
 		    ln_matrix.x[i][0] = cellid
 		    ln_matrix.x[i][1] = swcid
 		    ln_matrix.x[i][2] = cloneid
-		    ln_swcpath[i].s = swcpath
-		    ln_rotatepath[i].s = rotatepath
+		    ln_path[i] = new Path(swcpath, ppath, synpath)
 		}
 	    }else if(strcmp("RN",celltype)==0){
 		rn_matrix.resize(num, 3)
@@ -97,19 +83,66 @@ func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_
 		NRN = num
 		for(i=0;i<num;i=i+1){
 		    info_fp.gets(buf)
-		    sscanf(buf, "%d %d %d %s %s\n",&cellid, &swcid, &cloneid, swcpath, rotatepath)
-		    printf("%d %d %d %s %s\n",cellid, swcid, cloneid, swcpath, rotatepath)
+		    sscanf(buf, "%d %d %d %s %s %s\n",&cellid, &swcid, &cloneid, swcpath,ppath,synpath)
+		    printf("%d %d %d %s %s %s\n",cellid, swcid, cloneid, swcpath, ppath,synpath)
 		    rn_matrix.x[i][0] = cellid
 		    rn_matrix.x[i][1] = swcid
 		    rn_matrix.x[i][2] = cloneid
-		    rn_swcpath[i].s = swcpath
-		    rn_rotatepath[i].s = rotatepath
+		    rn_path[i] = new Path(swcpath, ppath, synpath)		    
 		}
-		
 	    }
 	}
     }
     return 0
+}
+
+func loadSynapseInfo(){localobj syn_fp, cell
+    cell = $o1
+
+    strdef buf
+    strdef syn_filename
+    strdef class, path
+
+    syn_filename = $s1
+    syn_fp = new File()
+    if(info_fp.ropen(info_filename) != 1){
+	printf("ERROR : File was not found. (%s)\n", info_filename)
+	return(-1) 
+    }
+    while(syn_fp.scanstr(buf) != -1){
+	if(strcmp("#",buf)==0){
+	    continue
+	}else if(strcmp("$",buf)==0){
+	    syn_fp.gets(buf)
+	    sscanf(buf, "%s %s\n", class, path)
+	    if(strcmp("fromRN",class)==0){
+		cell.
+	    }
+	    /*
+	    else if(strcmp("LN",celltype)==0){
+
+	    }else if(strcmp("RN",celltype)==0){
+		rn_matrix.resize(num, 3)
+		print celltype," ", num
+		NRN = num
+		for(i=0;i<num;i=i+1){
+		    info_fp.gets(buf)
+		    sscanf(buf, "%d %d %d %s %s %s\n",&cellid, &swcid, &cloneid, swcpath,ppath,synpath)
+		    printf("%d %d %d %s %s %s\n",cellid, swcid, cloneid, swcpath, ppath,synpath)
+		    rn_matrix.x[i][0] = cellid
+		    rn_matrix.x[i][1] = swcid
+		    rn_matrix.x[i][2] = cloneid
+		    rn_path[i] = new Path(swcpath, ppath, synpath)		    
+		}
+	    }
+	    */
+	}
+    }
+    return 0
+}
+
+proc loadSynapseInfo(){
+
 }
 //for test
 //loadinfo("./cell_info/network_info_simple.dat")

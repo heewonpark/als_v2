@@ -1,7 +1,0 @@
-# Number of Neurons : 3
-# Number of PNs : 1
-# Number of LNs : 2
-# ABB A for cell_id(1=pn, 2=ln), BB for swc_id
-200 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc
-300 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc
-301 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc

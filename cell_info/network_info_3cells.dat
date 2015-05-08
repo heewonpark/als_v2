@@ -1,7 +1,0 @@
-# cellid, swcid, cloneid, SWC file path, position&rotation file
-$ CELLS 3
-$ PN 1
-2 0 0 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
-$ LN 2
-3 0 0 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 1 0 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
