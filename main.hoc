@@ -31,13 +31,15 @@ strdef info_filename
 info_filename = "./info/network_info_3cells.dat"
 strdef info_filename_rn
 info_filename_rn = "./info/network_info_10rns.dat"
+//info_filename_rn = "./info/network_info_2000rns.dat"
 
 objref pc
 pc = new ParallelContext()
 
+print "PC.NHOST ",pc.nhost
 proc mkNetwork(){
     mkCells()
-    //mkConnections()
+    mkConnections()
 }
 
 objref pns,lns,rns
@@ -58,11 +60,15 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pns.append(pn)
 	    print "pn ", i, j
 	    nc = pn.connect2target(0,nil)
+	    //pns.o(0).mkSynapses("./synlist/fromRN/050622_4_sn_SynapseList.dat")
+
 	}else if(i>=NPN && i<NPN+NLN){
 	    j = i-NPN
 	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2])
 	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    lns.append(ln)
+	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
+	    //if(j==1) ln.mkSynapses("./synlist/fromRN/050205_7_sn_SynapseList.dat")
 	    print "ln ", i, j
 	    nc = ln.connect2target(0,nil)
 	}else{
@@ -70,8 +76,9 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    rn = new CellSwc(rn_path[j].swcpath,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
 	    rn.getAxon()
 	    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
+	    print "SectionNumber " ,rn.SectionNum
 	    rns.append(rn)
-	    print "rn ", i, j
+	    print "rn ", i, j, pc.id
 	    nc = rn.connect2target(0,nil)
 	}
 	pc.set_gid2node(i,pc.id)
@@ -80,17 +87,24 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
     pc.barrier()
 }
 
+{load_file("connect.hoc")}
 proc mkConnections(){
-    //connectRNtoLNPN()
-    connectLNtoLN()
+    connectRNtoOthers()
+    //connectLNtoLN()
     //connectPNtoLN()
-    connectLNtoPN()
+    //connectLNtoPN()
 }
 mkNetwork()
+print "NUMBER OF PROJECTION NEURONS :",pns.count()
+print "NUMBER OF LOCAL INTERNEURONS :",lns.count()
+print "NUMBER OF RECEPTOR NEURONS   :",rns.count()
+//pns.o(0).mkSynapses("./synlist/fromRN/050622_4_sn_SynapseList.dat")
+//lns.o(0).mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
+loadSynapseInfo(pns.object(0))
 
-{load_file("connect.hoc")}
+
 //forsec rns.object(0).axonlist print secname()
-mkPreSynapseOnReceptor()
+//mkPreSynapseOnReceptor()
 
 objref nclist
 nclist = new List()

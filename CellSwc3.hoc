@@ -26,7 +26,7 @@ public Dend, SectionNum
 // Public Functions
 public mkIclamp
 public mkSyn,mkExp2Syn
-public mkSynapses
+public mkSynapses, synapses
 public setPath
 
 //-------------------------------------------------------
@@ -97,6 +97,7 @@ tranlationX = translationY = translationZ = 0
 // obfunc makeNetCon
 
 //
+objref this
 proc init() {
     strdef swc_filename
     swc_filename = $s1
@@ -383,7 +384,7 @@ proc ReadSynlist(){local i localobj f
 	SynNumberList.append(f.scanvar())
     }
     //print numSynapse
-    print SynNumberList
+    //print SynNumberList
 }
 
 objref syn__
@@ -402,6 +403,20 @@ proc synapses(){local targetno
     //syn__.e = -80
 }
 */
+
+proc synapses(){local targetno
+    targetno = $1
+    print targetno
+    this.Dend[targetno] syn__ = new Exp2Syn(0.2) synlist.append(syn__)
+    //print syn__.e
+    //syn__.tau = 2
+    this.Dend[targetno] syn__ = new Exp2Syn(0.4) synlist.append(syn__)
+    this.Dend[targetno] syn__ = new Exp2Syn(0.6) synlist.append(syn__)
+    this.Dend[targetno] syn__ = new Exp2Syn(0.8) synlist.append(syn__)
+    //syn__.tau = 5
+    //syn__.e = -80
+}
+
 /*
 proc synapse(){local targetno
     targetno = $1
@@ -461,7 +476,20 @@ proc mkSynapses(){local i
     //$s1 = Synapse list data file name
     str1 = $s1
     ReadSynlist(str1)
+    //for test
+    /*
+    for i = 0, SectionNum-1{
+	synapses(i)
+    }*/
+
+
+    print SynNumberList
     for i=0, SynNumberList.size()-1{
+	/*	
+	print "pre"
+	Dend[SynNumberList.x[i]] print secname()
+	print "post"
+	*/
 	synapses(SynNumberList.x[i])
     }
 }

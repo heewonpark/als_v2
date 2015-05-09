@@ -18,28 +18,73 @@
 //
 //************************************************
 
+{load_file("loadinfo.hoc")}
+
 objref rnclist
 rnclist = new List()
-proc mkPreSynapseOnReceptor(){local i localobj syn, nil, nc
+proc mkPreSynapseOnRN(){local i localobj syn, nil, nc
     gid_base = 1000000
-    gid_cnt  = 0
     for i=0, rns.count()-1{
+	print i
+	gid_cnt  = 0
 	forsec rns.object(i).axonlist{
 	    nc = new NetCon(&v(0.5),nil) 
 	    nc.threshold = 1
-	    syn_gid = gid_base + gid_cnt
-	    pc.set_gid2node(syn_gid , pc.id)
+	    syn_gid = gid_base + i + NRN * gid_cnt*(pc.id+1)
+	    pc.set_gid2node(syn_gid,pc.id)
 	    pc.cell(syn_gid, nc)
 	    rnclist.append(nc)
+	    print "syn_gid ",syn_gid , pc.id
 	    gid_cnt += 1
 	}
     }
+    printf("Max synapse gid %d\n",syn_gid)
 }
+/*
+proc mkPostSynapseOfRN(){local i localobj cell, syn
+    for i=0, i<(NPN+NLN-1){
+	if(pc.gid_exists(i)){
+	    cell = pc.gid2obj(i)
+	    loadSynapseInfo(cell)
+	    syn = cell.synlist.o(0)
+	    
+	    nc  = pc.gid_connect(syngids.x[i],syn)
+            nc.delay  = delay
+            nc.weight = weight
+            nclist_para.append(nc)
 
+	}
+    }
+}
+*/
 proc connectRNtoOthers(){
-    mkPreSynapseOnReceptor()
+    mkPreSynapseOnRN()
     pc.barrier()
-    mkPostSynapse()
+    //mkPostSynapseOfRN()
 }
 
-proc 
+/*
+proc makePostSynapse(){local i, post_cell,rev_potential, delay, weight localobj post,nc,syn
+    post_cell = $1
+    delay = $2
+    weight = $3
+    if(pc.gid_exists(post_cell)){
+        post = pc.gid2obj(post_cell)
+        for i=0, post_comps.size()-1{
+            if(types.x[i]==1){
+                rev_potential = -75
+            }else if(types.x[i]==2){
+                rev_potential = 0
+            }else{
+                print "makePostSynapse : Type error"
+                return
+            }
+            syn = post.mkSyn(post_comps.x[i],rev_potential)
+            nc = pc.gid_connect(syngids.x[i],syn)
+            nc.delay = delay
+            nc.weight = weight
+            nclist_para.append(nc)
+        }
+    }
+}
+*/

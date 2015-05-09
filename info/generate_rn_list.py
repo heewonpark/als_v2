@@ -12,7 +12,7 @@
 # This program generate rn list
 #
 #
-NUM_RN = 10
+NUM_RN = 2000
 LISTFILENAME = "./network_info_%drns.dat"%(NUM_RN)
 SWCFILEPATH_DIR = "./swc/rn/"
 SWCFILENAME = "orn"

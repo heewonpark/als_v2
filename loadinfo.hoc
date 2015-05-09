@@ -17,7 +17,13 @@
 //************************************************
 // loadinfo() : read network_info_XXX.dat file
 //              and save informations with some matrix and array
+//
+// loadSynapseInfo() 
+// : read XXXsyn.dat file
+//   this file include synapse informations            
+//
 //************************************************
+
 {load_file("stdlib.hoc")}
 
 NPN = 0
@@ -103,10 +109,13 @@ func loadSynapseInfo(){localobj syn_fp, cell
     strdef syn_filename
     strdef class, path
 
-    syn_filename = $s1
+    syn_filename = cell.synpath
+    
+    print cell
+    print cell.synpath
     syn_fp = new File()
-    if(info_fp.ropen(info_filename) != 1){
-	printf("ERROR : File was not found. (%s)\n", info_filename)
+    if(syn_fp.ropen(syn_filename) != 1){
+	printf("ERROR : File was not found. (%s)\n", syn_filename)
 	return(-1) 
     }
     while(syn_fp.scanstr(buf) != -1){
@@ -116,7 +125,9 @@ func loadSynapseInfo(){localobj syn_fp, cell
 	    syn_fp.gets(buf)
 	    sscanf(buf, "%s %s\n", class, path)
 	    if(strcmp("fromRN",class)==0){
-		cell.
+		print path
+		print cell.SectionNum
+		cell.mkSynapses(path)
 	    }
 	    /*
 	    else if(strcmp("LN",celltype)==0){
@@ -140,9 +151,8 @@ func loadSynapseInfo(){localobj syn_fp, cell
     }
     return 0
 }
-
-proc loadSynapseInfo(){
-
-}
+//objref c
+//print "loadsynapseinfo---------------"
+//loadSynapseInfo(c)
 //for test
 //loadinfo("./cell_info/network_info_simple.dat")

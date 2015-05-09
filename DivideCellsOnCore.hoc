@@ -1,0 +1,10 @@
+
+for i=0, NCELL-1{
+    if(pc.id<NPN){
+	makePN()
+    }else if(pc.id>=NPN && pc.id<NLN+NPN){
+	makeLN()
+    }else{
+	makeLN()
+    }
+}
