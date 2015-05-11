@@ -1,5 +1,6 @@
-CellSwc[0] CellSwc[2]
-----------
+$ PRE_CELL 200
+$ POST_CELL 301
+$ NCONNECTIONS 10
 831 11387 
 668 11401 
 597 11555 
