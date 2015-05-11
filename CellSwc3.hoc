@@ -36,7 +36,8 @@ public cellid, swcid, cloneid, ppath, synpath
 public synlist_
 public synlist,synapse
 public SynNumberList, numSynapse
-
+public SynPathList //Synapse information file path list
+public fromRNsyn
 
 // will be re-created in shape()
 create Dend[1]
@@ -67,6 +68,11 @@ SectionNum = 1
 //------------------------------------------------------------------------------
 objref all, secInput, secOutput
 objref axonlist
+
+//------------------------------------------------------------------------------
+// List
+//------------------------------------------------------------------------------
+objref SynPathList 
 
 //------------------------------------------------------------------------------
 // synaptic points
@@ -101,7 +107,8 @@ objref this
 proc init() {
     strdef swc_filename
     swc_filename = $s1
-
+    strdef fromRNsyn
+    
     cellid  = $2
     swcid   = $3
     cloneid = $4
@@ -111,6 +118,7 @@ proc init() {
     SynNo = new Vector()
     
     synlist_ = new List()
+    SynPathList = new List()
 
     all = new SectionList()
     secInput = new SectionList()

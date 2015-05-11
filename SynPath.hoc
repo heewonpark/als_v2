@@ -1,0 +1,9 @@
+begintemplate SynPath
+//synapse file path and neuron id
+public s, nid
+strdef s
+proc init(){
+    nid = $1
+    s = $s2
+}
+endtemplate SynPath

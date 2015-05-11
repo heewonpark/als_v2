@@ -71,6 +71,7 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 	if(pc.gid_exists(i)){
 	    target = pc.gid2obj(i)
 	    loadSynapseInfo(target)
+	    target.mkSynapses(target.fromRNsyn)
 	    print "end load synapse info"
 	    for j=0, target.synlist.count()-1{
 		syn = target.synlist.o(j)
@@ -85,10 +86,28 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
     }
 }
 
-proc connectRNtoOthers(){local gid_base
+proc connectRNtoOthers(){\
+    local gid_base
     gid_base = 1000000
     mkPreSynapseOnRN(gid_base)
     pc.barrier()
     mkPostSynapseOfRN(gid_base)
     pc.barrier()
+}
+
+proc setSynapseInfo(){\
+    localobj cell
+    for i=0, NPN+NLN-1{
+	if(pc.gid_exists(i)){
+	    cell = pc.gid2obj(i)
+	    loadSynapseInfo(cell)
+	}
+    }
+}
+
+//----------------------------------------------------
+// Connect Neurons to Neurons
+// for example ln to ln, ln to pn
+proc connectNtoN(){
+
 }

@@ -132,10 +132,9 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 
 {load_file("connect.hoc")}
 proc mkConnections(){
+    setSynapseInfo()
     connectRNtoOthers()
-    //connectLNtoLN()
-    //connectPNtoLN()
-    //connectLNtoPN()
+    connectNtoN()
 }
 mkNetwork()
 pc.barrier()
