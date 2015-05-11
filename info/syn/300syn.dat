@@ -1,3 +1,9 @@
 # This file shows the file path of synapse of cell
-$ fromRN ./synlist/fromRN/040823_5_sn_SynapseList.dat
-
+$ fromRN
+./synlist/fromRN/040823_5_sn_SynapseList.dat
+# Cell to Cell
+# Neuron id(nid), synapse file path
+$ CtoC
+2
+20000000 ./300_200_randomize.txt
+30100000 ./300_301_randomize.txt

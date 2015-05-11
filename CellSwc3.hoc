@@ -293,7 +293,7 @@ proc shape() { localobj strFunc, fobj strdef str, strName, strValue, strTemp
 	
 	{fobj.close()}
 	
-	print "load : ", $s1, " ok"
+	//print "load : ", $s1, " ok"
 } // shape()
 
 proc translation() {
@@ -406,7 +406,7 @@ proc synapses(){local targetno
 
 proc synapses(){local targetno
     targetno = $1
-    print targetno
+    //print targetno
     this.Dend[targetno] syn__ = new Exp2Syn(0.2) synlist.append(syn__)
     //print syn__.e
     //syn__.tau = 2
@@ -483,7 +483,7 @@ proc mkSynapses(){local i
     }*/
 
 
-    print SynNumberList
+    //print SynNumberList
     for i=0, SynNumberList.size()-1{
 	/*	
 	print "pre"

@@ -1,0 +1,44 @@
+obfunc divider(){local nhost, id, i,j localobj cellm
+    nhost = $1
+    cellm = new Matrix(nhost,3)
+    for i=0, nhost-1{
+	for j=0, 3-1{
+	    cellm.x[i][j]=0
+	}
+    }
+    for id=0, nhost-1{
+	for i=0, NCELLS-1{
+	    if((i%nhost==id)&&(i<NPN)){
+		cellm.x[id][0] +=1
+	    }else if((i%nhost==id)&&(i>=NPN && i<NPN+NLN)){
+		cellm.x[id][1] +=1
+	    }else if(i>=NPN+NLN){
+		if(nhost>NPN+NLN){
+		    if((i-NLN-NPN)%(nhost-NPN-NLN)==(id-NPN-NLN)){
+			cellm.x[id][2] +=1
+			//print cellv.x[id]
+		    }
+		}else if(nhost<=NPN+NLN){
+		    if(i%nhost==id){
+			cellm.x[id][2] +=1
+			//print cellv.x[id]
+		    }
+		}else{
+		    print "SOMETHING WRONG IN devider"
+		}
+	    }
+	}
+    }
+    if(pc.id == 0){
+	print "DIVIDER"
+	printf("pn\tln\trn\n")
+	for i=0, nhost-1{
+	    for j=0, 3-1{
+		printf("%d\t",cellm.x[i][j])
+	    }
+	    printf("\n")
+	}
+    }
+    //    cellm.printf("%d\t")
+    return cellm
+}
