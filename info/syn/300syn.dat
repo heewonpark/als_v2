@@ -5,5 +5,5 @@ $ fromRN
 # Neuron id(nid), synapse file path
 $ CtoC
 2
-20000000 ./300_200_randomize.txt
-30100000 ./300_301_randomize.txt
+1 300 0 200 ./synlist/300_200_randomize.txt
+1 300 0 301 ./synlist/300_301_randomize.txt

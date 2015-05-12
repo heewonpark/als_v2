@@ -38,7 +38,7 @@ rn_matrix = new Matrix()
 {load_file("Path.hoc")}
 objref pn_path[100], ln_path[500], rn_path[2000]
 
-func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_fp
+func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localobj info_fp
     strdef buf
     strdef info_filename
     strdef celltype
@@ -58,29 +58,31 @@ func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_
 	    info_fp.gets(buf)
 	    sscanf(buf, "%s %d\n",celltype, &num)
 	    if(strcmp("PN",celltype)==0){
-		pn_matrix.resize(num, 3)
+		pn_matrix.resize(num, 4)
 		//print celltype," ", num
 		NPN = num
 		for(i=0;i<num;i=i+1){
 		    info_fp.gets(buf)
-		    sscanf(buf, "%d %d %d %s %s %s\n",&cellid, &swcid, &cloneid, swcpath,ppath,synpath)
+		    sscanf(buf, "%d %d %d %d %s %s %s\n",&c_gid,&cellid, &swcid, &cloneid, swcpath,ppath,synpath)
 		    //printf("%d %d %d %s %s %s\n",cellid, swcid, cloneid, swcpath, ppath,synpath)
-		    pn_matrix.x[i][0] = cellid
-		    pn_matrix.x[i][1] = swcid
-		    pn_matrix.x[i][2] = cloneid
+		    pn_matrix.x[i][0] = c_gid
+		    pn_matrix.x[i][1] = cellid
+		    pn_matrix.x[i][2] = swcid
+		    pn_matrix.x[i][3] = cloneid
 		    pn_path[i] = new Path(swcpath, ppath, synpath)
 		}
 	    }else if(strcmp("LN",celltype)==0){
-		ln_matrix.resize(num, 3)
+		ln_matrix.resize(num, 4)
 		//print celltype," ", num
 		NLN = num
 		for(i=0;i<num;i=i+1){
 		    info_fp.gets(buf)
-		    sscanf(buf, "%d %d %d %s %s %s\n",&cellid, &swcid, &cloneid,swcpath,ppath,synpath)
+		    sscanf(buf, "%d %d %d %d %s %s %s\n",&c_gid,&cellid, &swcid, &cloneid,swcpath,ppath,synpath)
 		    //printf("%d %d %d %s %s %s\n",cellid, swcid, cloneid, swcpath, ppath,synpath)
-		    ln_matrix.x[i][0] = cellid
-		    ln_matrix.x[i][1] = swcid
-		    ln_matrix.x[i][2] = cloneid
+		    ln_matrix.x[i][0] = c_gid
+		    ln_matrix.x[i][1] = cellid
+		    ln_matrix.x[i][2] = swcid
+		    ln_matrix.x[i][3] = cloneid
 		    ln_path[i] = new Path(swcpath, ppath, synpath)
 		}
 	    }else if(strcmp("RN",celltype)==0){
@@ -102,16 +104,19 @@ func loadinfo(){local num_pn, num_ln, num, cellid, swcid, cloneid localobj info_
     return 0
 }
 {load_file("SynPath.hoc")}
-func loadSynapseInfo(){local i,nid,ndata localobj syn_fp, cell, synp
-    cell = $o1
-
+objref SynPathList
+func loadSynapseInfo(){local i,pregid,postgid,pre_nid,post_nid,ndata,mode localobj syn_fp, cell, synp
     strdef buf
     strdef syn_filename
     strdef class, path
-    syn_filename = cell.synpath
-    
-    print cell
-    print cell.synpath
+
+    cell = $o1
+    syn_filename = $s2
+    mode = $3 //mode =1 read RN synapse, mode = 2 other synapse
+
+    SynPathList = new List()
+    //print cell
+    //print cell.synpath
     syn_fp = new File()
     if(syn_fp.ropen(syn_filename) != 1){
 	printf("ERROR : File was not found. (%s)\n", syn_filename)
@@ -123,23 +128,24 @@ func loadSynapseInfo(){local i,nid,ndata localobj syn_fp, cell, synp
 	}else if(strcmp("$",buf)==0){
 	    syn_fp.gets(buf)
 	    sscanf(buf, "%s\n", class)
-	    if(strcmp("fromRN",class)==0){
+	    if((strcmp("fromRN",class)==0)&&(mode==1)){
 		syn_fp.gets(buf)
 		sscanf(buf, "%s\n", path)
 		//print path
 		//print cell.SectionNum
 		//cell.mkSynapses(path)
 		cell.fromRNsyn = path
-	    }else if(strcmp("CtoC",class)==0){
+	    }else if((strcmp("CtoC",class)==0)&&(mode==2)){
 		syn_fp.gets(buf)
 		sscanf(buf, "%d\n",&ndata)
 		printf("%d\n",ndata)
 		for(i=0;i<ndata;i=i+1){
 		    syn_fp.gets(buf)
-		    sscanf(buf,"%d %s\n",&nid,synpath)
-		    printf("%d %s\n",nid,synpath)
-		    synp = new SynPath(nid, synpath)
-		    cell.SynPathList.append(synp)
+		    sscanf(buf,"%d %d %d %d %s\n",&pregid, &pre_nid, &postgid, &post_nid,synpath)
+		    printf("%d %d %d %d %s\n",pregid, pre_nid, postgid, post_nid,synpath)
+		    synp = new SynPath(pregid, pre_nid,postgid, post_nid,synpath)
+		    //cell.SynPathList.append(synp)
+		    SynPathList.append(synp)
 		}
 	    }
 	}

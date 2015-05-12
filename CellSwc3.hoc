@@ -32,7 +32,7 @@ public setPath
 //-------------------------------------------------------
 // Public Variables
 public ID, Type, pID //pID -> parent ID
-public cellid, swcid, cloneid, ppath, synpath
+public gid,cellid, swcid, cloneid, ppath, synpath
 public synlist_
 public synlist,synapse
 public SynNumberList, numSynapse
@@ -108,10 +108,10 @@ proc init() {
     strdef swc_filename
     swc_filename = $s1
     strdef fromRNsyn
-    
-    cellid  = $2
-    swcid   = $3
-    cloneid = $4
+    gid     = $2
+    cellid  = $3
+    swcid   = $4
+    cloneid = $5
     
     SynList = new List()
     synlist = new List()
@@ -373,7 +373,7 @@ obfunc makeSyn() { local targetno localobj r
 		targetno = $1
 	}
 	SynNo.append(targetno)
-	Dend[targetno] syn_ = new Exp2Syn(0.5) SynList.append(syn_)
+	this.Dend[targetno] syn_ = new Exp2Syn(0.5) SynList.append(syn_)
 	syn_.tau1 = $2
 	syn_.tau2 = $3
 	syn_.e = $4
@@ -436,22 +436,22 @@ proc synapse(){local targetno
 */
 
 objref Syn__
-/*
+
 obfunc mkSyn(){local targetno
     targetno = $1
     
-    Dend[targetno] Syn__ = new ExpSid(0.5) synlist_.append(Syn__) 
+    this.Dend[targetno] Syn__ = new ExpSyn(0.5) synlist_.append(Syn__) 
     Syn__.tau = 0.1
     Syn__.e   = $2
     return Syn__
 }
-*/
+
 
 
 obfunc mkExp2Syn(){local targetno
     targetno = $1
     
-    Dend[targetno] Syn__ = new Exp2Syn(0.5) synlist_.append(Syn__) 
+    this.Dend[targetno] Syn__ = new Exp2Syn(0.5) synlist_.append(Syn__) 
     
     Syn__.tau1 = 1
     Syn__.tau2 = 2
@@ -464,7 +464,7 @@ obfunc connect2target(){local numSynapses,pre_comp localobj nc,target
     pre_comp = $1
     target = $o2
     //numSynapses = $3
-    Dend[pre_comp] nc = new NetCon(&v(0.5),target)
+    this.Dend[pre_comp] nc = new NetCon(&v(0.5),target)
     nc.threshold = 1
     //nc.weight = 10/numSynapses
     //print "nc.weight ",nc.weight

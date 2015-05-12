@@ -65,7 +65,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
     for i=0, NCELLS-1{
 	if((i%pc.nhost==pc.id)&&(i<NPN)){
 	    j = i
-	    pn = new CellSwc(pn_path[j].swcpath,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2])
+	    pn = new CellSwc(pn_path[j].swcpath,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2],pn_matrix.x[j][3])
 	    pn.setPath(pn_path[j].ppath, pn_path[j].synpath)
 	    pns.append(pn)
 	    //print "pn ", i, j
@@ -77,7 +77,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    
 	}else if((i%pc.nhost==pc.id)&&(i>=NPN && i<NPN+NLN)){
 	    j = i-NPN
-	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2])
+	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
 	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    lns.append(ln)
 	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
@@ -93,7 +93,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		if((i-NLN-NPN)%(pc.nhost-NPN-NLN)==(pc.id-NPN-NLN)){
 		    j = i-NPN-NLN
 		    //print "j & i",j, i
-		    rn = new CellSwc(rn_path[j].swcpath,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
+		    rn = new CellSwc(rn_path[j].swcpath,-1,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 		    //print "SectionNumber " ,rn.SectionNum
@@ -109,7 +109,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		if(i%pc.nhost==pc.id){
 		    //print "j & i",j, i
 		    j = i-NPN-NLN
-		    rn = new CellSwc(rn_path[j].swcpath,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
+		    rn = new CellSwc(rn_path[j].swcpath,-1,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 		    //print "SectionNumber " ,rn.SectionNum
@@ -132,7 +132,6 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 
 {load_file("connect.hoc")}
 proc mkConnections(){
-    setSynapseInfo()
     connectRNtoOthers()
     connectNtoN()
 }

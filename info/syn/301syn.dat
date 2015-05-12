@@ -3,6 +3,5 @@ $ fromRN
 ./synlist/fromRN/050205_7_sn_SynapseList.dat
 $ CtoC
 2
-20000000 ./301_200_randomize.txt
-30100000 ./301_300_randomize.txt
-
+2 301 0 200 ./synlist/301_200_randomize.txt
+2 301 1 300 ./synlist/301_300_randomize.txt

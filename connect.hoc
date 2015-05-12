@@ -62,25 +62,25 @@ func calcSrcgid(){local base,syn_cnt, gid
     //just for the test
     return gid
 }
-objref nclist
-nclist = new List()
+objref nclist_RN
+nclist_RN = new List()
 proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
     gid_base = $1
     print gid_base
     for i=0, NPN+NLN-1{
 	if(pc.gid_exists(i)){
 	    target = pc.gid2obj(i)
-	    loadSynapseInfo(target)
+	    loadSynapseInfo(target, target.synpath, 1)
 	    target.mkSynapses(target.fromRNsyn)
 	    print "end load synapse info"
 	    for j=0, target.synlist.count()-1{
 		syn = target.synlist.o(j)
 		src_gid = calcSrcgid(gid_base, j, i)
-		print "src_gid ", src_gid
+		//print "src_gid ", src_gid
 		nc  = pc.gid_connect(src_gid, syn)
 		//nc.delay  = 1.0
 		//nc.weight = 1.0
-		nclist.append(nc)
+		nclist_RN.append(nc)
 	    }
 	}
     }
@@ -94,7 +94,7 @@ proc connectRNtoOthers(){\
     mkPostSynapseOfRN(gid_base)
     pc.barrier()
 }
-
+/*
 proc setSynapseInfo(){\
     local i\
     localobj cell
@@ -105,65 +105,31 @@ proc setSynapseInfo(){\
 	}
     }
 }
-
-//----------------------------------------------------
-// Connect Neurons to Neurons
-// for example ln to ln, ln to pn
-objref SynPathList, 
-proc connectNtoN(){\
-    local i, j\
-    localobj str
-    
-    strdef _syn_path
-    SynPathList = new List()
-    for i=0, NPN+NLN-1{
-	if(pc.gid_exists(i)){
-	    cell = pc.gid2obj(i)
-	    for(j=0;j<cell.SynPathList.count();j+=1){
-		_syn_path = cell.SynPathList.o(j)
-		pc.broadcast(_syn_path,i)
-		print _syn_path
-		str = new String(_syn_path)
-		SynPathList.append(str)
-	    }
-	}
-    }
-    for i=0, NPN+NLN-1{
-	if(pc.gid_exists(i)){
-	    cell = pc.gid2obj(i)
-	    for(j=0;j<cell.SynPathList.count();j+=1){
-		_syn_path = cell.SynPathList.o(j)
-		pc.broadcast(_syn_path,i)
-		print _syn_path
-		str = new String(_syn_path)
-		SynPathList.append(str)
-	    }
-	}
-    }
-
-    
-}
+*/
 
 _pre_nid  = 0
 _post_nid = 0
 _pre_comp = 0
 _post_comp = 0
-
 objref pre_comps,post_comps
 objref syntypes//types 1 inhibition 2 excitation, synapse type
-
+objref gidVec
 proc readSynapseList(){\
     local nid, nconnect, i\
-    localobj cell,synf,strobj,pre,post,nc,nil,syn
+    localobj synf,strobj,pre,post,nc,nil,syn
 
     strdef buf, ctype
     strdef syn_filename
-    cell = $o1
-    syn_filename = $s2
-    synf = new File()
+    
     pre_comps = new Vector()
     post_comps = new Vector()
-    stypes = new Vector()
+    syntypes = new Vector()
+    gidVec = new Vector()
+    syn_filename = $s1
+    gid_base = $2
+    gid_cnt  = 0
+
+    synf = new File()
     
     if(synf.ropen(syn_filename) != 1){
 	printf("ERROR : File was not found. (%s)\n",syn_filename)
@@ -175,7 +141,7 @@ proc readSynapseList(){\
 	    continue
 	}else if(strcmp("$",buf)==0){
 	    synf.gets(buf)
-	    sscanf(buf, "%s %d\n",ctype,nid)
+	    sscanf(buf,"%s %d\n",ctype,&nid)
 	    if(strcmp("PRE_CELL",ctype)==0){
 		_pre_nid  = nid
 	    }else if(strcmp("POST_CELL",ctype)==0){
@@ -188,63 +154,95 @@ proc readSynapseList(){\
 		    printf("%d %d\n",_pre_comp, _post_comp)
 		    pre_comps.append(_pre_comp)
 		    post_comps.append(_post_comp)
-		    if((_pre_nid-(_pre_nid%100))%100==3){
+		    gidVec.append(gid_base+gid_cnt)
+		    if((_pre_nid-(_pre_nid%100))/100==3){
 			print _pre_nid, _pre_comp, _post_nid,_post_comp,"Inhibition"
 			syntypes.append(1)
-		    }else((_pre_nid-(_pre_nid%100))%100==2){
+		    }else if((_pre_nid-(_pre_nid%100))/100==2){
 			print _pre_nid, _pre_comp, _post_nid,_post_comp,"Excitation"
-			syntypes.appidend(2)
+			syntypes.append(2)
 		    }else{
+			print _pre_nid
 			print "SOMETHINGS WRONG IN READ SYNAPSE LIST"
-		    }		    
+			return (-1)
+		    }
+		    gid_cnt += 1
 		}
 	    }
 	}
     }
-    pc.barrier()
-    makePreSynapse(s_pre_cell)
-    pc.barrier()
-    makePostSynapse(s_post_cell,1,1)
-    pc.barrier()
 }
 
-
-proc makePreSynapse(){local i, pre_cell localobj pre,nc,nil
+objref nclist_NtoN
+nclist_NtoN = new List()
+proc makePreSynapse(){local i, pre_cell, gid localobj pre,nc,nil
     pre_cell = $1
     if(pc.gid_exists(pre_cell)){
 	pre = pc.gid2obj(pre_cell)
+	print "SectionNum ", pre.SectionNum
 	for i=0, pre_comps.size()-1{
 	    nc = pre.connect2target(pre_comps.x[i],nil)
-	    pc.set_gid2node(syngids.x[i],pc.id)
-	    pc.cell(syngids.x[i],nc)
-	    nclist_para.append(nc)
+	    pc.set_gid2node(gidVec.x[i],pc.id)
+	    pc.cell(gidVec.x[i],nc)
+	    nclist_NtoN.append(nc)
 	}
     }
 }
 
-proc makePostSynapse(){local i, post_cell,rev_potential, delay, weight localobj post,nc,syn
+proc makePostSynapse(){local i, post_cell,rev_potential, delay, weight,gid localobj post,nc,syn
     post_cell = $1
-    delay = $2
+    delay  = $2
     weight = $3
+    
     if(pc.gid_exists(post_cell)){
 	post = pc.gid2obj(post_cell)
 	for i=0, post_comps.size()-1{
-	    if(types.x[i]==1){
+	    if(syntypes.x[i]==1){
 		rev_potential = -75
-	    }else if(types.x[i]==2){
+	    }else if(syntypes.x[i]==2){
 		rev_potential = 0
 	    }else{
 		print "makePostSynapse : Type error"
 		return
 	    }
 	    syn = post.mkSyn(post_comps.x[i],rev_potential)
-	    nc = pc.gid_connect(syngids.x[i],syn)
+	    nc = pc.gid_connect(gidVec.x[i], syn)
 	    nc.delay = delay
 	    nc.weight = weight
-	    nclist_para.append(nc)
+	    nclist_NtoN.append(nc)
 	}
     }
 }
 
+//----------------------------------------------------
+// Connect Neurons to Neurons
+// for example ln to ln, ln to pn
+proc connectNtoN(){\
+    local i, j,gid_base\
+    localobj str,nil,pre,post
 
+    strdef _syn_path
+    gid_base = 2000000
 
+    for(i=0;i<NPN;i=i+1){
+	print "error pn"
+	loadSynapseInfo(nil,pn_path[i].synpath,2)
+    }
+    for(i=0;i<NLN;i=i+1){
+	print "error ln"
+	loadSynapseInfo(nil,ln_path[i].synpath,2)
+    }
+    for(j=0;j<SynPathList.count();j+=1){
+	readSynapseList(SynPathList.o(j).synpath,gid_base)
+	pc.barrier()
+	makePreSynapse(SynPathList.o(j).pregid)
+	pc.barrier()
+	makePostSynapse(SynPathList.o(j).postgid,1,1)
+	if(pre_comps.size() == post_comps.size()){
+	    gid_base += pre_comps.size()
+	}else{
+	    print "ERROR IN CONNECTNTON"
+	    return (-1)
+	}
+   }
+}
