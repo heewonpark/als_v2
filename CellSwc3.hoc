@@ -28,7 +28,8 @@ public mkIclamp
 public mkSyn,mkExp2Syn
 public mkSynapses, synapses
 public setPath, setNid
-public setIntermitStim_gaus
+public setIntermitStim_gaus,setIClamp
+public insertHH,insertHH_RN
 
 //-------------------------------------------------------
 // Public Variables
@@ -367,6 +368,20 @@ proc geom_nseg() {
 
 proc biophys_inhomo() {}
 
+proc insertHH(){
+    forall{
+	insert hh
+    }
+}
+
+proc insertHH_RN(){
+    forall{
+	insert hh
+	gkbar_hh = 0.001
+	gnabar_hh = 0.0001 
+    }
+}
+
 objref syn_
 obfunc makeSyn() { local targetno localobj r
 	// args : targetSectionNo, tau1, tau2, e
@@ -513,10 +528,10 @@ proc mkSynapses(){local i
 objref iclamp
 proc mkIclamp(){local id, num,targetno
     targetno = $1
-    //print "setSinglePulse", id
-    Dend[targetno] iclamp = new IClamp(0.5)
+    //print "setSinglePulse ", gid
+    this.Dend[targetno] iclamp = new IClamp(0.5)
     iclamp.dur = 20
-    iclamp.amp = 1.5
+    iclamp.amp = 20
     iclamp.del = 0.5
     //iclamp.del = 2*id*(num+1)
     //iclamp.del = 20*id*(num+1)
@@ -538,8 +553,8 @@ obfunc makeNetCon() { local targetno localobj nc, r
 	return nc
 }
 
-
-obfunc setIntermitStim_gaus(){local delay, imax, interval, imax2, nstim,sigma_o localobj st
+objref st
+proc setIntermitStim_gaus(){local targetno, delay, imax, interval, imax2, nstim,sigma_o
     targetno = $1
     delay    = $2
     imax     = $3
@@ -547,7 +562,8 @@ obfunc setIntermitStim_gaus(){local delay, imax, interval, imax2, nstim,sigma_o 
     imax2    = $5
     nstim    = $6
     sigma_o  = $7
-    this.Dend[targetno] st = new intermitStimGaus(0.1)
+    
+    Dend[targetno] st = new intermitStimGaus(0.1)
     st.del = delay
     st.Imax = imax
     st.interval = interval
@@ -557,8 +573,97 @@ obfunc setIntermitStim_gaus(){local delay, imax, interval, imax2, nstim,sigma_o 
     st.nStim = nstim
     
     st.sigma_o = sigma_o
-    return st
+    //return st
 }
 
+/*
+num_spike : number of spikes
+*/
+objref ic
+objref stim_vec, tvec, stim_flg, spiketiming
+proc setIClamp(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_time, length, amp, L_RATIO,A_RATIO  localobj rand, datafile
+    stoptime = $1
+    timestep = $2
+    strdef filename
+    filename = $s3
+
+    span = stoptime/timestep
+    
+    //print "stoptime ",stoptime, " timestep ",timestep, " span ",span
+
+    this.Dend[0] ic = new IClamp(1.0)
+    ic.del = 0
+    ic.dur = 1e9
+    
+    L_RATIO = 2.0
+    A_RATIO = 0.3
+    amp = 15
+    length = 0.5
+    tvec = new Vector(span)
+    for i=0,span -1 {
+	tvec.x[i] = timestep * i
+    }
+    stim_flg = new Vector(span,0)
+    spiketiming = new Vector()
+    datafile = new File()
+    stim_vec = new Vector(span,0)
+    //sprint(filename,"spiketiming0.dat")
+    datafile.ropen(filename)
+  
+    while(!datafile.eof()){
+	var = datafile.scanvar()
+	//print "datafile " ,var
+	spiketiming.append(var-6.0)
+    }
+    spiketiming.remove(spiketiming.size()-1)
+    num_spike = spiketiming.size()
+        
+    //print filename
+    //spiketiming.printf("%5.8f\n")
+    datafile.close()
+    j=0
+    for i=0, span -1{
+	if(j<(num_spike-1)){
+	    //print tvec.x[i]
+	    if(((spiketiming.x[j]*1000) <= tvec.x[i])&&((spiketiming.x[j+1]*1000) > tvec.x[i])){
+		stim_flg.set(i,1)
+		j +=1
+	    }
+	}
+    }
+    flg = 0
+    stim_on = 0
+    for i=0, span-1{
+	if(stim_flg.x[i]==1){
+	    stim_on = 1
+	}
+	if(stim_on == 1){
+	    if(flg == 0){
+		start_time =tvec.x[i]
+		flg = 1
+	    }
+	    if(tvec.get(i) == start_time){
+		stim_vec.set(i,0)
+		//print stim_vec.get(i)
+	    }else if((tvec.get(i)-start_time)<=0){
+		stim_vec.set(i,-amp)
+		//print stim_vec.get(i)
+	    }else if((tvec.get(i)-start_time)<=length){
+		stim_vec.set(i,amp)
+		//print stim_vec.get(i)
+	    }else if((tvec.get(i)-start_time)<=L_RATIO*length){
+		stim_vec.set(i,-amp*A_RATIO)
+		//print stim_vec.get(i)
+	    }else{
+		stim_vec.set(i,0)
+		stim_on = 0
+		flg = 0
+	    }
+	}
+    }
+    stim_vec.play(&ic.amp, tvec, 1)
+    //print "stim_vec"
+    //stim_vec.printf()
+}
 
 endtemplate CellSwc

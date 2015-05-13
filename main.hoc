@@ -28,7 +28,7 @@
 {load_file("loadinfo.hoc")}
 
 RNperSYN = 5
-STOPTIME = 5
+STOPTIME = 10
 
 strdef info_filename
 info_filename = "./info/network_info_3cells.dat"
@@ -69,6 +69,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pn = new CellSwc(pn_path[j].swcpath,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2],pn_matrix.x[j][3])
 	    pn.setPath(pn_path[j].ppath, pn_path[j].synpath)
 	    pn.setNid()
+	    pn.insertHH()
 	    pns.append(pn)
 	    //print "pn ", i, j
 	    nc = pn.connect2target(0,nil)
@@ -82,6 +83,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
 	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    ln.setNid()
+	    ln.insertHH()
 	    lns.append(ln)
 	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
 	    //if(j==1) ln.mkSynapses("./synlist/fromRN/050205_7_sn_SynapseList.dat")
@@ -100,14 +102,16 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 		    rn.setNid()
+		    rn.insertHH_RN()
 		    //print "SectionNumber " ,rn.SectionNum
+		    
 		    rns.append(rn)
 		    //print "rn ", i, j, pc.id
 		    nc = rn.connect2target(0,nil)
 
 		    pc.set_gid2node(i,pc.id)
 		    pc.cell(i,nc)
-
+		    //psection()
 		}
 	    }else if(pc.nhost<=NPN+NLN){
 		if(i%pc.nhost==pc.id){
@@ -117,6 +121,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 		    rn.setNid()
+		    rn.insertHH_RN()
 		    //print "SectionNumber " ,rn.SectionNum
 		    rns.append(rn)
 		    //print "rn ", i, j, pc.id
@@ -124,7 +129,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    
 		    pc.set_gid2node(i,pc.id)
 		    pc.cell(i,nc)
-	
+		    
 		}
 	    }else{
 		print "SOMETHING WRONG IN MAKE RECEPTOR"
@@ -145,14 +150,18 @@ pc.barrier()
 
 {load_file("stim.hoc")}
 proc mkStimulations(){
-    mkIntermitStim()
+    //    mkIntermitStim()
+    mkIclamp()
+    //mkSerialStim()
 }
 mkStimulations()
+pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
     setVoltageRecord()
 }
 setRecorder()
+pc.barrier()
 tstop = STOPTIME
 {pc.set_maxstep(10)}
 stdinit()

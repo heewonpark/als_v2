@@ -18,8 +18,30 @@
 //
 //************************************************
 
-proc mkIntermitStim(){local i
+objref stlist
+proc mkIntermitStim(){local i localobj st
+    stlist = new List()
     for(i=0; i<rns.count();i=i+1){
-	rns.object(i).setIntermitStim_gaus(0,0,20000,300,10000,10,0.0)
+	print "mkIntermitStim"
+	st = rns.object(i).setIntermitStim_gaus(0,0,20000,300,10000,10,0.0)
+	stlist.append(st)
+    }
+}
+
+proc mkIclamp(){local i
+    for(i=0; i<rns.count();i=i+1){
+	rns.o(i).mkIclamp(0)
+	if(i == 0){
+	    psection()
+	}
+    }
+}
+
+proc mkSerialStim(){local i localobj rnd
+    rnd = new Random()
+    strdef spiketiming
+    for(i=0; i<rns.count();i=i+1){
+	sprint(spiketiming,"./spiketiming/spiketiming%d.dat",int(rnd.uniform(0,999)))
+	rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
     }
 }

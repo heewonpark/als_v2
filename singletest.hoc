@@ -1,0 +1,58 @@
+{load_file("nrngui.hoc")}
+{load_file("stdlib.hoc")}
+{load_file("CellSwc3.hoc")}
+
+objref c
+c = new CellSwc("./swc/rn/orn0000.swc",0,0,0,0)
+
+forall{
+    diam = 10
+    insert hh
+    gnabar_hh = 0.0001
+    gkbar_hh = 0.001
+}
+//c.setIntermitStim_gaus(0,0,10000000,300,0,100,0.0)
+c.mkIclamp(0)
+/*
+objref st
+c.Dend[0] st = new intermitStimGaus(0.5)
+st.del    = 0
+st.Imax  = 100
+st.interval = 100
+st.tau_fall = 400
+st.Imax2    = 100
+st.nStim    = 10
+st.sigma_o  = 0.0
+*/
+objref tvec, vec
+tvec = new Vector()
+vec  = new Vector()
+tvec.record(&t)
+vec.record(&c.Dend[0].v(0.5))
+
+psection()
+tstop = 50
+dt = 0.2
+
+/*--- shape plot ---*/
+/*
+objref sh
+sh = new PlotShape(1)
+sh.scale(0,0)
+
+sh.size(-300, 300, -300, 300)
+*/
+//sh.size(-3000, 3000, -3000, 3000)
+//sh.show(0)
+//sh.exec_menu("Shape Plot")
+//sh.view(-100, -100,200, 200,50,50,1024,1024)
+xopen("single.ses")
+
+run()
+/*
+
+
+for i=0, tvec.size()-1{
+    printf("%5.5f\t%5.5f\n",tvec.x[i],vec.x[i])
+}
+*/

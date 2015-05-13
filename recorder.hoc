@@ -62,13 +62,13 @@ objref PNvolt_vec
 objref LNvolt_vec
 objref PNvolt_vecs[4000]
 objref LNvolt_vecs[4000]
-objref RNvolt_vec[4000]
+objref RNvolt_vecs[4000]
 
 objref volt_tvec
 
 proc setVoltageRecord(){local i,j
     for i= 0, rns.count()-1{
-	RNvolt_vec[i] = new Vector()
+	RNvolt_vecs[i] = new Vector()
     }
     for i= 0, 4000-1{
 	PNvolt_vecs[i] = new Vector()
@@ -104,8 +104,8 @@ proc setVoltageRecord(){local i,j
 	}
     }
     for(j = 0; j<rns.count();j+=1){
-	if(j<5){
-	    RNvolt_vec[j].record(&rns.o(j).Dend[10].v(0.5))
+	if(j==0){
+	    RNvolt_vecs[j].record(&rns.o(j).Dend[0].v(0.5))
 	}
     }
     pc.barrier()
@@ -132,7 +132,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    for i=0, pns.o(j).SynNumberList.size()-1{
 		mt2.setcol(i+1,PNvolt_vecs[i])
 	    }
-	    sprint(filename,"./record/%dVolt_FromRN.dat",pns.o(j).nid)
+	    sprint(filename,"./record/%dVolt_FromRN.txt",pns.o(j).nid)
 	    file2.wopen(filename)
 	    mt2.fprint(file2,"%5.5f\t")
 	    file2.close()
@@ -157,23 +157,24 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    for i=0, lns.o(j).SynNumberList.size()-1{
 		mt2.setcol(i+1,LNvolt_vecs[i])
 	    }
-	    sprint(filename,"./record/%dVolt_FromRN.dat",lns.o(j).nid)
+	    sprint(filename,"./record/%dVolt_FromRN.txt",lns.o(j).nid)
 	    file2.wopen(filename)
 	    mt2.fprint(file2,"%5.5f\t")
 	    file2.close()
 	}
     }
     for(j = 0; j<rns.count();j+=1){
-	mt = new Matrix()
-	file = new File()
-	mt.resize(volt_tvec.size(),rns.count + 1)
-	mt.setcol(0,volt_tvec)
-	for i=0, rns.count-1{
-	    mt.setcol(i+1,RNvolt_vec[i])
+	if(j==0){
+	    mt = new Matrix()
+	    file = new File()
+	    mt.resize(volt_tvec.size(),rns.count + 1)
+	    mt.setcol(0,volt_tvec)
+	    mt.setcol(1,RNvolt_vecs[j])
+	    
+	    sprint(filename,"./record/%dVolt.txt",rns.o(j).nid)
+	    file.wopen(filename)
+	    mt.fprint(file,"%5.5f\t")
+	    file.close()
 	}
-	sprint(filename,"./record/%dVolt.txt",rns.o(j).nid)
-	file.wopen(filename)
-	mt.fprint(file,"%5.5f\t")
-	file.close()
     }
 }
