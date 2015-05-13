@@ -1,44 +1,44 @@
-# cellid, swcid, cloneid, SWC file path, position&rotation file
+# gid, cellid, swcid, cloneid, SWC file path, position&rotation file, Synapse information file
 $ CELLS 40
 $ PN 5
-2 0 0 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
-2 0 1 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
-2 0 2 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
-2 0 3 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
-2 0 4 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none
+0 2 0 0 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none none
+1 2 0 1 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none none
+2 2 0 2 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none none
+3 2 0 3 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none none
+4 2 0 4 ./swc/050622_4_sn_bestrigid0106_mkRegion.swc none none
 $ LN 35
-3 0 0 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 1 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 2 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 3 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 4 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 5 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 6 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 7 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 8 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 9 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 10 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 11 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 12 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 13 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 14 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 15 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 16 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 0 17 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none
-3 1 0 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 1 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 2 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 3 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 4 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 5 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 6 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 7 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 8 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 9 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 10 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 11 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 12 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 13 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 14 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 15 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
-3 1 16 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none
+5 3 0 0 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+6 3 0 1 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+7 3 0 2 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+8 3 0 3 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+9 3 0 4 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+10 3 0 5 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+11 3 0 6 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+12 3 0 7 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+13 3 0 8 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+14 3 0 9 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+15 3 0 10 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+16 3 0 11 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+17 3 0 12 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+18 3 0 13 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+19 3 0 14 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+20 3 0 15 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+21 3 0 16 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+22 3 0 17 ./swc/040823_5_sn_bestrigid0106_mkRegion.swc none none
+23 3 1 0 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+24 3 1 1 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+25 3 1 2 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+26 3 1 3 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+27 3 1 4 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+28 3 1 5 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+29 3 1 6 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+30 3 1 7 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+31 3 1 8 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+32 3 1 9 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+33 3 1 10 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+34 3 1 11 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+35 3 1 12 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+36 3 1 13 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+37 3 1 14 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+38 3 1 15 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none
+39 3 1 16 ./swc/050205_7_sn_bestrigid0106_mkRegion.swc none none

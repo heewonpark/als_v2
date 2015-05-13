@@ -1,0 +1,179 @@
+//************************************************
+// FILE NAME : recorder.hoc
+// 2015.05.13
+// Heewon Park
+//************************************************
+
+//************************************************
+// MODIFICATION HISTORY
+//************************************************
+//
+//
+//
+
+
+//************************************************
+// FUNCTION LIST
+//************************************************
+//
+//************************************************
+
+objref tvec, idvec
+proc spikerecord(){local i localobj nc, nil, nclist
+    tvec    = new Vector()
+    idvec   = new Vector()
+    nclist = new List()
+
+    for(i = 0; i<pns.count();i+=1){
+	pns.o(i).Dend[21] nc = new NetCon(&v(0.5),nil)
+	nc.record(tvec,idvec,nc.srcgid)
+	nclist.append(nc)
+    }
+    for(i = 0; i<lns.count();i+=1){
+	lns.o(i).Dend[21] nc = new NetCon(&v(0.5),nil)
+	nc.record(tvec,idvec,nc.srcgid)
+	nclist.append(nc)
+    }
+    for(i = 0; i<rns.count();i+=1){
+	rns.o(i).Dend[0] nc = new NetCon(&v(0.5),nil)
+	nc.record(tvec,idvec,nc.srcgid)
+	nclist.append(nc)
+    }
+}
+/*
+proc spikeout(){local i, rank localobj f
+    strdef fn
+    f = new File()
+
+    for rank = 0, pc.nhost-1{
+	sprint(fn,"./record/%dSpikeTiming.dat",pns.o(i).nid)
+	f.wopen(fn)
+	f.printf("\ntime\t cell\n")
+	for i = 0, tvec.size-1{
+	    f.printf("%g\t %d\n",tvec.x[i],idvec.x[i])
+	}
+    }
+    
+}
+*/
+
+
+objref PNvolt_vec
+objref LNvolt_vec
+objref PNvolt_vecs[4000]
+objref LNvolt_vecs[4000]
+objref RNvolt_vec[4000]
+
+objref volt_tvec
+
+proc setVoltageRecord(){local i,j
+    for i= 0, rns.count()-1{
+	RNvolt_vec[i] = new Vector()
+    }
+    for i= 0, 4000-1{
+	PNvolt_vecs[i] = new Vector()
+	LNvolt_vecs[i] = new Vector()
+    }
+    volt_tvec = new Vector()
+    volt_tvec.record(&t)
+    for(j = 0; j<pns.count();j+=1){
+	if(j == 0){
+	    PNvolt_vec = new Vector()
+	    //PNvolt_vec.record(&projection.Dend[1211].v(0.5))
+	    PNvolt_vec.record(&pns.o(j).Dend[475].v(0.5))
+	    print "PN record"
+	    for i=0, pns.o(j).SynNumberList.size()-1{
+		//print projection.SynNumberList.x[i]
+		PNvolt_vecs[i].record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
+	    }
+	}
+    }
+
+    for(j = 0; j<lns.count();j+=1){
+	if(j == 0){
+	    LNvolt_vec = new Vector()			    
+	    if(lns.o(j).swcid == 0){
+		LNvolt_vec.record(&lns.o(j).Dend[21706].v(0.5))
+	    }else if(lns.o(j).swcid == 1){
+		LNvolt_vec.record(&lns.o(j).Dend[11197].v(0.5))
+	    }
+	    for i=0, lns.o(j).SynNumberList.size()-1{
+		//print projection.SynNumberList.x[i]
+		LNvolt_vecs[i].record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
+	    }
+	}
+    }
+    for(j = 0; j<rns.count();j+=1){
+	if(j<5){
+	    RNvolt_vec[j].record(&rns.o(j).Dend[10].v(0.5))
+	}
+    }
+    pc.barrier()
+}
+
+proc fprintVoltageRecord(){localobj mt, file,mt2, file2
+    strdef filename
+    for(j = 0; j<pns.count();j+=1){
+	if(j == 0){
+	    mt = new Matrix()
+	    file = new File()
+	    mt.resize(volt_tvec.size(),2)
+	    mt.setcol(0,volt_tvec)
+	    mt.setcol(1,PNvolt_vec)
+	    sprint(filename,"./record/%dVolt.txt",pns.o(j).nid)
+	    file.wopen(filename)
+	    mt.fprint(file,"%5.5f\t")
+	    file.close()
+
+	    file2 = new File()
+	    mt2 = new Matrix()
+	    mt2.resize(volt_tvec.size(),pns.o(j).SynNumberList.size()+1)
+	    mt2.setcol(0,volt_tvec)
+	    for i=0, pns.o(j).SynNumberList.size()-1{
+		mt2.setcol(i+1,PNvolt_vecs[i])
+	    }
+	    sprint(filename,"./record/%dVolt_FromRN.dat",pns.o(j).nid)
+	    file2.wopen(filename)
+	    mt2.fprint(file2,"%5.5f\t")
+	    file2.close()
+	}
+    }
+    for(j = 0; j<lns.count();j+=1){
+	if(j == 0){
+	    mt = new Matrix()
+	    file = new File()
+	    mt.resize(volt_tvec.size(),2)
+	    mt.setcol(0,volt_tvec)
+	    mt.setcol(1,LNvolt_vec)
+	    sprint(filename,"./record/%dVolt.txt",lns.o(j).nid)
+	    file.wopen(filename)
+	    mt.fprint(file,"%5.5f\t")
+	    file.close()
+
+	    file2 = new File()
+	    mt2 = new Matrix()
+	    mt2.resize(volt_tvec.size(),lns.o(j).SynNumberList.size()+1)
+	    mt2.setcol(0,volt_tvec)
+	    for i=0, lns.o(j).SynNumberList.size()-1{
+		mt2.setcol(i+1,LNvolt_vecs[i])
+	    }
+	    sprint(filename,"./record/%dVolt_FromRN.dat",lns.o(j).nid)
+	    file2.wopen(filename)
+	    mt2.fprint(file2,"%5.5f\t")
+	    file2.close()
+	}
+    }
+    for(j = 0; j<rns.count();j+=1){
+	mt = new Matrix()
+	file = new File()
+	mt.resize(volt_tvec.size(),rns.count + 1)
+	mt.setcol(0,volt_tvec)
+	for i=0, rns.count-1{
+	    mt.setcol(i+1,RNvolt_vec[i])
+	}
+	sprint(filename,"./record/%dVolt.txt",rns.o(j).nid)
+	file.wopen(filename)
+	mt.fprint(file,"%5.5f\t")
+	file.close()
+    }
+}

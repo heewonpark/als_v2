@@ -27,12 +27,13 @@ public Dend, SectionNum
 public mkIclamp
 public mkSyn,mkExp2Syn
 public mkSynapses, synapses
-public setPath
+public setPath, setNid
+public setIntermitStim_gaus
 
 //-------------------------------------------------------
 // Public Variables
 public ID, Type, pID //pID -> parent ID
-public gid,cellid, swcid, cloneid, ppath, synpath
+public gid, nid, cellid, swcid, cloneid, ppath, synpath
 public synlist_
 public synlist,synapse
 public SynNumberList, numSynapse
@@ -341,6 +342,13 @@ proc setPath(){
     ppath   = $s1
     synpath = $s2
 }
+proc setNid(){
+    if(cellid == 1){
+	nid = cellid * 100000 + swcid
+    }else{
+	nid = cellid * 100000 + swcid*1000 + cloneid
+    }
+}
 
 proc geom() {
 }
@@ -529,5 +537,28 @@ obfunc makeNetCon() { local targetno localobj nc, r
 	Dend[targetno] nc = new NetCon(&v(0.5), $o2, $3, $4, $5)
 	return nc
 }
+
+
+obfunc setIntermitStim_gaus(){local delay, imax, interval, imax2, nstim,sigma_o localobj st
+    targetno = $1
+    delay    = $2
+    imax     = $3
+    interval = $4
+    imax2    = $5
+    nstim    = $6
+    sigma_o  = $7
+    this.Dend[targetno] st = new intermitStimGaus(0.1)
+    st.del = delay
+    st.Imax = imax
+    st.interval = interval
+    st.tau_fall = 400 
+    
+    st.Imax2 = imax2
+    st.nStim = nstim
+    
+    st.sigma_o = sigma_o
+    return st
+}
+
 
 endtemplate CellSwc
