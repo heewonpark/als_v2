@@ -7,6 +7,13 @@
 # Heewon Park
 ###########################################
 
+###########################################
+# MODIFIED HISTORY
+# 2015.05.14 radious and diameter of axon changed
+# ncmt = 120
+#
+#
+
 import datetime
 import locale
 import os
@@ -23,10 +30,11 @@ NUM_BRANCH = 5
 x_origin = 0.0
 y_origin = 0.0
 z_origin = 0.0
-radius = 2500 # for Length of antenna
+#radius = 2500 # for Length of antenna
+radius = 500
 theta = math.pi / 500.0 /2
 
-r_axon = 10
+r_axon = 2
 n0 = 1
 t_axon = 2
 p0 = -1
@@ -110,7 +118,7 @@ def writeDendrite(f,ncmt):
         f.write("%d %d %f %f %f %f %d\n"%(ncmt+i+1, t_dend, xd, yd, zd, r_dend, ncmt))
 
 def write_swcfile(counter):
-    directory = "./swc/rn"
+    directory = "./swc/rn0514"
     if not os.path.exists(directory):
         os.mkdir(directory)
     filename = "orn%04d.swc"%(counter)
@@ -119,7 +127,8 @@ def write_swcfile(counter):
     write_header(f)
     #random.seed()
     
-    ncmt = int(random.uniform(100,500))
+    #ncmt = int(random.uniform(100,500))
+    ncmt = 120
     writeAxon(f,ncmt)
     writeDendrite(f,ncmt)
 

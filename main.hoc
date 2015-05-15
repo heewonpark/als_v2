@@ -77,6 +77,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    
 	    pc.set_gid2node(i,pc.id)
 	    pc.cell(i,nc)
+	    psection()
 	    
 	}else if((i%pc.nhost==pc.id)&&(i>=NPN && i<NPN+NLN)){
 	    j = i-NPN
@@ -92,6 +93,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    
 	    pc.set_gid2node(i,pc.id)
 	    pc.cell(i,nc)
+	    psection()
 
 	}else if(i>=NPN+NLN){
 	    if(pc.nhost>NPN+NLN){
@@ -151,8 +153,8 @@ pc.barrier()
 {load_file("stim.hoc")}
 proc mkStimulations(){
     //    mkIntermitStim()
-    mkIclamp()
-    //mkSerialStim()
+    //mkIclamp()
+//    mkSerialStim()
 }
 mkStimulations()
 pc.barrier()

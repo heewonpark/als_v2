@@ -1,18 +1,35 @@
 {load_file("nrngui.hoc")}
 {load_file("stdlib.hoc")}
 {load_file("CellSwc3.hoc")}
+//{load_file("CellSwc.hoc")}
+
+STOPTIME = 200
 
 objref c
-c = new CellSwc("./swc/rn/orn0000.swc",0,0,0,0)
+c = new CellSwc("./swc/rn0514/orn0010.swc",0,0,0,0)
+//c = new CellSwc("./swc/070224_SN-23-R.swc",0,0,0,0)
 
 forall{
-    diam = 10
+    diam = 2
+    //insert pas
+    Ra   = 15
     insert hh
     gnabar_hh = 0.0001
-    gkbar_hh = 0.001
+    gkbar_hh = 0.01
 }
+
+c.Dend[0]{
+    insert hh
+    gnabar_hh = 0.0001
+    gkbar_hh = 0.01
+}
+
+
 //c.setIntermitStim_gaus(0,0,10000000,300,0,100,0.0)
-c.mkIclamp(0)
+//c.mkIclamp(0)
+strdef spiketiming
+sprint(spiketiming,"./spiketiming/spiketiming%d.dat",666)
+c.setIClamp(STOPTIME,dt,spiketiming)
 /*
 objref st
 c.Dend[0] st = new intermitStimGaus(0.5)
@@ -30,9 +47,6 @@ vec  = new Vector()
 tvec.record(&t)
 vec.record(&c.Dend[0].v(0.5))
 
-psection()
-tstop = 50
-dt = 0.2
 
 /*--- shape plot ---*/
 /*
@@ -46,8 +60,9 @@ sh.size(-300, 300, -300, 300)
 //sh.show(0)
 //sh.exec_menu("Shape Plot")
 //sh.view(-100, -100,200, 200,50,50,1024,1024)
-xopen("single.ses")
 
+xopen("single.ses")
+tstop = STOPTIME
 run()
 /*
 
@@ -56,3 +71,9 @@ for i=0, tvec.size()-1{
     printf("%5.5f\t%5.5f\n",tvec.x[i],vec.x[i])
 }
 */
+
+access c.Dend[110]
+c.Dend[110]  psection()
+//c.Dend[0].diam = 10
+print c.Dend[0].diam
+c.Dend[0]  psection()

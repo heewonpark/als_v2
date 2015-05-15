@@ -78,8 +78,8 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 		src_gid = calcSrcgid(gid_base, j, i)
 		//print "src_gid ", src_gid
 		nc  = pc.gid_connect(src_gid, syn)
-		//nc.delay  = 1.0
-		//nc.weight = 1.0
+		nc.delay  = 1.0
+		nc.weight = 3.0
 		nclist_RN.append(nc)
 	    }
 	}
