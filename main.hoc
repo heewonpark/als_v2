@@ -24,14 +24,43 @@
 //************************************************
 {load_file("nrngui.hoc")}
 {load_file("stdlib.hoc")}
+
 {load_file("CellSwc3.hoc")}
 {load_file("loadinfo.hoc")}
+{load_file("areaList.hoc")}
+{load_file("exSectionList.hoc")}
+//{load_file("declare_parameters.hoc")}
+//************************************************
+// For Goto's PN model parameter
+if(name_declared("SPIKEGEN_POS")!=5){ execute("SPIKEGEN_POS=10")}
+if(name_declared("SPIKEGEN_SIZE")!=5){ execute("SPIKEGEN_SIZE=10") }
+if(name_declared("GKDRBAR")!=5){ execute("GKDRBAR=0.7") }
+if(name_declared("GNABAR")!=5){ execute("GNABAR=1.2") }
+if(name_declared("GCATBAR")!=5){ execute("GCATBAR=0.0015") }
+if(name_declared("GKCABAR")!=5){ execute("GKCABAR=0.15") }
+if(name_declared("KCA")!=5){ execute("KCA=2.4") }
+if(name_declared("KNA")!=5){ execute("KNA=3.0") }
+if(name_declared("KK")!=5){ execute("KK=KNA") }
+if(name_declared("CM")!=5){ execute("CM=1") } //
+if(name_declared("GL")!=5){ execute("GL=0.00035") } //
+if(name_declared("EL")!=5){ execute("EL=-60") } //
+if(name_declared("CAGAIN")!=5){ execute("CAGAIN=0.16")}
+
+//************************************************
+if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
+/*
+if(name_declared("SWC_FILENAME")==0) { 
+	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
+}
+*/
 
 RNperSYN = 5
-STOPTIME = 10
+//STOPTIME = 300
+if(pc.id == 0){printf("STOPTIME : %d(ms)\n",STOPTIME)}
 
 strdef info_filename
-info_filename = "./info/network_info_3cells.dat"
+//info_filename = "./info/network_info_3cells.dat"
+info_filename = "./info/network_info_1LN.dat"
 strdef info_filename_rn
 info_filename_rn = "./info/network_info_2000rns.dat"
 
@@ -52,10 +81,12 @@ proc mkNetwork(){
 }
 {load_file("divider.hoc")}
 objref CELLM
+
 proc mkCells(){localobj pn,ln,rn, nc, nil
     loadinfo(info_filename)
     loadinfo(info_filename_rn)
     NCELLS = NPN + NLN + NRN
+    
     CELLM = divider(pc.nhost)
     pns = new List()// projection neurons
     lns = new List()// local interneurons
@@ -69,7 +100,13 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pn = new CellSwc(pn_path[j].swcpath,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2],pn_matrix.x[j][3])
 	    pn.setPath(pn_path[j].ppath, pn_path[j].synpath)
 	    pn.setNid()
-	    pn.insertHH()
+
+	    pn.cellbodylist = areaList(39,38,0)
+	    pn.dendlist = areaList(97,98,0)
+            pn.axonlist = areaList(99,100,0)
+	    pn.setSpikegenlist(SPIKEGEN_POS, SPIKEGEN_SIZE)
+	    initModel_PN(pn)
+
 	    pns.append(pn)
 	    //print "pn ", i, j
 	    nc = pn.connect2target(0,nil)
@@ -84,7 +121,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
 	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    ln.setNid()
-	    ln.insertHH()
+	    ln.insertLNlla()
 	    lns.append(ln)
 	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
 	    //if(j==1) ln.mkSynapses("./synlist/fromRN/050205_7_sn_SynapseList.dat")
@@ -142,10 +179,59 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
     pc.barrier()
 }
 
+proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
+    pn = $o1
+
+    pn forall {
+	uninsert pas
+	uninsert GPeA_k
+    }
+		
+    forsec pn.noaxonlist {
+	insert pas
+	e_pas = EL
+	g_pas = GL
+	cm = CM
+    }
+    forsec pn.axonlist {
+	insert GPeA_k
+	gnabar_GPeA_k = GNABAR*0.1
+	gkdrbar_GPeA_k = GKDRBAR*0.1
+	gcatbar_GPeA_k = GCATBAR*0.1
+	gkcabar_GPeA_k = GKCABAR*0.1
+	kca_GPeA_k = KCA
+	kna_GPeA_k = KNA
+	kk_GPeA_k = KNA
+	caGain_GPeA_k = CAGAIN
+	vol_GPeA_k = PI*diam*diam*L/4 * 1e-15
+	gl_GPeA_k = GL
+	el_GPeA_k = EL
+	cm = CM
+    }
+    
+    pn.spikegenlist = new SectionList()
+    axonnum = countSL(pn.axonlist)
+    tmplist = sl2list(pn.axonlist)
+    SPIKEGEN_POS = int(SPIKEGEN_POS)
+    SPIKEGEN_SIZE = int(SPIKEGEN_SIZE)
+    j = SPIKEGEN_POS
+    while(j < axonnum && j < SPIKEGEN_POS+SPIKEGEN_SIZE) {
+ 	tmplist.o(j).sec pn.spikegenlist.append()
+ 	j+=1
+    }
+    forsec pn.spikegenlist {
+	gnabar_GPeA_k = GNABAR*20
+	gkdrbar_GPeA_k = GKDRBAR*20
+	// gcatbar_GPeA_k = GCATBAR*0.1
+	// gkcabar_GPeA_k = GKCABAR*0.1
+    }
+    //stdinit() Why do i need to use this?
+}
+
 {load_file("connect.hoc")}
 proc mkConnections(){
     connectRNtoOthers()
-    connectNtoN()
+    //connectNtoN()
 }
 mkNetwork()
 pc.barrier()
@@ -154,7 +240,7 @@ pc.barrier()
 proc mkStimulations(){
     //    mkIntermitStim()
     //mkIclamp()
-//    mkSerialStim()
+    mkSerialStim()
 }
 mkStimulations()
 pc.barrier()
@@ -169,9 +255,11 @@ tstop = STOPTIME
 stdinit()
 {pc.psolve(tstop)}
 
+print "PRINTING..."
 proc setPrinter(){
     fprintVoltageRecord()
 }
+
 setPrinter()
 {pc.runworker()}
 {pc.done()}

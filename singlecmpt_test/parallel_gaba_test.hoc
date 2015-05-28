@@ -1,0 +1,201 @@
+
+{load_file("nrngui.hoc")}
+objref pc
+pc = new ParallelContext()
+{load_file("Stick.hoc")}
+{load_file("ranstream.hoc")}
+
+
+nPN = 1   // Number of BAL-PNs
+nLN = 1     // Number of LN-lla
+
+NCELL = nPN + nLN
+// NCELL : number of whole cells
+
+TSTOP = 500
+
+print "NCELL ", NCELL
+
+objref cells, nclist
+objref ranlist
+proc mknet(){
+    print "MAKE CELLS"
+    mkcells($1)
+    print "CONNECT CELLS"
+    connectcells_withgaba()
+}
+
+proc mkcells(){local i,ncell localobj cell, nc, nil
+    ncell = $1
+    cells = new List()
+    
+    for(i=pc.id; i<ncell; i+=pc.nhost){
+	cell = new Stick()
+	cells.append(cell)
+	if(i < nPN){
+	    cell.insertFukuda()
+	    cell.setType(1)
+	    cell.setExp2Syn(-75)
+	}else if((i>=nPN) && (i<nPN + nLN)){
+	    //cell.insertLNlla()
+	    cell.insertLNlla3()
+	    cell.setType(4)
+	}else{
+	    printf("mkcells error")
+	    quit()
+	}
+	pc.set_gid2node(i,pc.id)
+	nc = cell.connect2target(nil)
+	pc.cell(i,nc)
+    }
+}
+
+proc connectcells_withgaba(){local i,j, a_cnt, b_cnt localobj gaba
+    print "connect cells with GABAergic synapse"
+    gabalist = new List()
+    rnd = new Random()
+    rnd.uniform(0,1)
+ 
+    for i=0, cells.count-1{
+	print cells.object(i).type
+	if(cells.object(i).type == 1){
+	    print "e2 ", cells.object(i).type, i	    
+	    a_cnt = 0
+	    b_cnt = 0
+	    for j=nPN, NCELL-1{
+		if((j>=nPN) && (j<nPN + nLN)){
+		    if(rnd.repick()<1.0){
+			gaba = cells.object(i).setgaba(2.0/nPN)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			a_cnt += 1
+			printf("LNlla\t%d\t%d\t%d\n",pc.id, i, j)
+		    }
+	    }
+	    printf("a_cnt:%d\tb_cnt:%d\n",a_cnt,b_cnt)
+	}else if(cells.object(i).type == 4){
+	    for j=nPN, NCELL-1{
+		if((j>=nPN) && (j<nPN+nLN)){
+		    if(rnd.repick()<1.0){
+			gaba = cells.object(i).setgaba(0.3/nLN)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			print i, j
+		    }
+		}
+	    }
+	}
+    }
+}
+
+mknet(NCELL)
+
+cells.object(10).soma{
+    print "area ", area(0.5)
+}
+
+proc mkstim(){
+    for i = 0, cells.count -1 {
+	if(cells.object(i).type == 1){
+	    cells.object(i).setStim(50,35000)
+	}else if(cells.object(i).type == 4){
+	    cells.object(i).setStim(50,15000)
+	}
+    }
+}
+//mkstim()
+objref r_delay1, r_delay2, r_imax1, r_imax2
+proc mkstim_random(){local i
+    r_delay1 = new Random()
+    r_delay2 = new Random()
+    r_imax1 = new Random()
+    r_imax2 = new Random()
+    
+    delay2 = 200
+
+    r_delay1.uniform(0,50)
+    r_delay2.uniform(delay2,delay2+50)
+    r_imax1.uniform(35000,35000)
+    r_imax2.uniform(15000,15000)
+
+    imax1 = 35000*1.5
+    imax2 = 15000*1.25
+    
+    Interval = 300
+    for i = 0, cells.count -1 {
+	if(cells.object(i).type == 1){
+	    cells.object(i).Delay = r_delay1.repick()
+	    cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,35000,Interval,imax1,20,0.00)
+	}else if(cells.object(i).type == 4){
+	    //cells.object(i).setStim(r_delay.repick(),r_imax2.repick())
+	    //print "type 4 ",i
+	    cells.object(i).Delay = r_delay2.repick()
+	    cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,15000,Interval,imax2,20,0.00)
+	}
+    }
+}
+
+mkstim_random()
+print "set Current Record1()"
+cells.object(3).setCurrentRecord1()
+cells.object(30).setCurrentRecord1()
+
+proc setVoltageRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setVoltageRecord()
+    }
+}
+setVoltageRecord()
+
+proc setSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setSpikeRecord()
+    }
+}
+setSpikeRecord()
+
+pc.barrier()
+tstop = TSTOP
+{pc.set_maxstep(10)}
+stdinit()
+{pc.psolve(tstop)}
+
+proc printSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	if(cells.object(i).type<4){
+	    if(i%1==0){
+		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,kakuritsu_LNtoLN)
+		//		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,imax2)
+	    }
+	}else{
+	    if(i%10==0){
+		//		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,imax2)
+		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,kakuritsu_LNtoLN)
+	    }
+	}
+    }
+}
+
+printSpikeRecord()
+proc printVoltageRecord(){
+    for i = 0, cells.count -1{
+	if(cells.object(i).type<4){
+	    if(i%1==0){
+		cells.object(i).printVoltageRecord3(pc.id,i)
+	    }
+	}else{
+	    if(i%10==0){
+		cells.object(i).printVoltageRecord3(pc.id,i)
+	    }
+	}
+    }
+}
+printVoltageRecord()
+
+print "print stimcurrent"
+cells.object(30).printCurrentRecord1(30)
+cells.object(3).printCurrentRecord1(3)
+
+{pc.runworker()}
+{pc.done()}
+quit()

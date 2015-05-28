@@ -1,0 +1,86 @@
+
+load_file("nrngui.hoc")
+load_file("Stick.hoc")
+
+objref rnd, rnd2
+rnd = new Random()
+rnd2 = new Random()
+
+rnd.uniform(0,1000)
+rnd2.uniform(2000,4000)
+
+//******************************************************
+// DECLARE CELLS
+//
+objref cell[2]
+cell[0] = new Stick()
+cell[1] = new Stick()
+
+//******************************************************
+// SETUP CELLS PROPERTY
+//
+
+//cell[0].insertLNlla3()
+cell[0].insertHH()
+//cell[0].insertFukuda()
+//cell[0].setStim(rnd.repick(),15000)
+cell[0].setIclamp()
+//cell[0].setCurrentRecord()// for setStim
+cell[0].setVoltageRecord()
+
+cell[1].insertHH()
+//cell[1].insertLNlla3()
+//cell[1].insertFukuda()
+//cell[1].setStim(rnd.repick(),15000)
+//cell[1].setCurrentRecord()// for setStim
+cell[1].setVoltageRecord()
+
+//******************************************************
+// SETUP CONNECTIONS
+//
+objref nc
+cell[1].setExp2Syn(-75)
+//cell[1].setExpSyn(-75)
+nc = cell[0].connect2target(cell[1].esyn)
+/*
+objref gabalist, gaba1, gaba2
+gabalist = new List()
+
+gaba1 = cell[0].setGABAlla(200)
+//gaba1 = cell[0].setgaba(0.7)
+gabalist.append(gaba1)
+setpointer gaba1.pre, cell[1].soma.v(0.5)
+
+gaba2 = cell[1].setGABAlla(200)
+//gaba2 = cell[1].setgaba(0.7)
+gabalist.append(gaba2)
+setpointer gaba2.pre, cell[0].soma.v(0.5)
+
+cell[0].setGABACurrentRecord()
+cell[1].setGABACurrentRecord()
+*/
+
+//******************************************************
+// RUN PROGRAM
+//
+
+
+tstop = 100
+dt = 0.025
+
+run()
+
+
+//******************************************************
+// PRINTOUT RECORD
+//
+
+cell[0].printVoltageRecord(0)
+cell[1].printVoltageRecord(1)
+/*
+cell[0].printCurrentRecord(0)
+cell[1].printCurrentRecord(1)
+
+cell[0].printGABACurrentRecord(0)
+cell[1].printGABACurrentRecord(1)
+*/

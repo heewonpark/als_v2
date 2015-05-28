@@ -18,10 +18,16 @@ import copy
 import random
 import os
 
-NSWC     = 3
-
+###########################################
+# DEFAULT SETTING
+NSWC  = 3
 NPN   = 5
 NLN   = 35
+###########################################
+
+NPN = 0
+NLN = 1
+
 NCELL = NPN + NLN
 
 LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)

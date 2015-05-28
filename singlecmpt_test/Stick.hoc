@@ -1,0 +1,645 @@
+{load_file("stdlib.hoc")}
+//***************************************
+// 2015.05.20 setExpSyn added
+
+
+
+begintemplate Stick
+
+public soma
+public biophys, connect2target, setGABAlla,setGABAllb, setIclamp, setStim, setExp2Syn, setExpSyn
+public setgaba, setIntermitStim, setIntermitStim1
+public insertPN, insertLNlla,insertLNllb, insertFukuda, insertPas, insertHH
+public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, insertLNlla3
+public insertLNlla4, insertLNllb2
+public setVoltageRecord, printVoltageRecord, printVoltageRecord2
+public synlist,gabalist
+public type, setType
+public setSpikeRecord, printSpikeRecord, Delay
+objref synlist,gabalist
+
+public imax
+
+/*
+* if it has no mechnism_flg = 0
+* MsLN 1
+* MsPN 2
+* Fukuda 3
+* HH 4
+* Pas 5
+*/
+
+/*
+* cell type
+* 
+* BAL-PN = 1 
+* C15-PN = 2
+* MULTI-PN = 3
+* LNlla = 4
+* LNllb = 5
+*/
+objref mechname[10]
+objref typename[6]
+proc init(){
+    for i=0,10-1{
+	mechname[i] = new String()
+    }
+    for i = 0, 6-1{
+	typename[i] = new String()
+    }
+    mechname[0].s = "default"
+    mechname[1].s = "MsLN"
+    mechname[2].s = "MsPN"
+    mechname[3].s = "Fukuda"
+    mechname[4].s = "HH"
+    mechname[5].s = "Pas"
+    
+    typename[0].s = "default"
+    typename[1].s = "BALPN"
+    typename[2].s = "C15PN"
+    typename[3].s = "MULPN"
+    typename[4].s = "LNlla"
+    typename[5].s = "LNllb"
+
+    mechanism_flg = 0
+    type = 0
+    
+    //Interval = 0
+    Delay = 0
+    
+    imax =0
+
+    synlist = new List()
+    gabalist = new List()
+    biophys()
+}
+
+create soma
+proc biophys(){
+    soma{
+	/*	
+	nseg = 10
+	diam = 10
+	L = 10
+	*/	
+	//Ra = 100.0
+  }
+}
+proc setType(){
+    type = $1
+}
+
+public gsyn,esyn
+objref gsyn
+
+obfunc setgaba(){
+    soma gsyn = new GABA(0.3) gabalist.append(gsyn)
+    gsyn.gmax = $1
+    return gsyn
+}
+
+obfunc setGABAlla(){
+    soma gsyn = new GABAa(0.3) gabalist.append(gsyn)
+    //gsyn.gmax = 0.00008
+    gsyn.gmax = $1
+    //print gaba.gmax2
+    return gsyn
+}
+
+obfunc setGABAllb(){
+    soma gsyn = new GABAa(0.3) gabalist.append(gsyn)
+    //gsyn.gmax = 0.00004
+    gsyn.gmax = $1
+    //print gaba.gmax2
+    return gsyn
+}
+
+objref esyn
+obfunc setExp2Syn(){local rev
+    rev = $1
+    soma esyn = new Exp2Syn(0.7) synlist.append(esyn)
+    esyn.e = rev
+    esyn.tau1 = 1
+    esyn.tau2 = 2
+
+    return esyn
+}
+obfunc setExpSyn(){local rev
+    rev = $1
+    soma esyn = new ExpSyn(0.7) synlist.append(esyn)
+    esyn.e = rev
+    esyn.tau = 0.1
+    return esyn
+}
+
+proc insertLNlla(){
+    mechanism_flg = 1
+    soma{
+	insert MsLN
+	ena = 50
+	ek  = -100
+	el_MsLN = -67
+	insert IAHP
+	eahp_IAHP = -140
+	ctau_IAHP = 0.0000125
+	insert ICA
+	eca = 120
+    }
+}
+
+proc insertLNlla2(){
+    mechanism_flg = 1
+    soma{
+	insert MsLN
+	ena = 50
+	ek  = -100
+	el_MsLN = -67
+	insert IAHP2
+	eahp_IAHP2 = -140
+	insert cad
+	ctau_cad = 0.0000125
+	insert ICA
+	eca = 120
+    }
+}
+
+proc insertLNlla3(){
+    mechanism_flg = 1
+    soma{
+	insert hh
+	gnabar_hh = 0.190
+	gkbar_hh = 0.060
+	gl_hh = 0.0001
+	el_hh = -67
+	ena = 50
+	ek = -100
+	insert IAHP2
+	eahp_IAHP2 = -140
+	insert cad
+	ctau_cad = 0.0000125
+	insert ICA
+	eca = 120
+    }
+}
+
+proc insertLNlla4(){
+    mechanism_flg = 1
+    soma{
+	insert MsLN
+	ena = 50
+	ek  = -100
+	el_MsLN = -67
+	insert IAHP2
+	eahp_IAHP2 = -140
+	insert cad
+	cainf_cad = 1.8
+	ctau_cad = 0.0000125
+	insert ICA
+	eca = 120
+    }
+}
+
+proc insertMsLN(){
+    mechanism_flg = 1
+    soma{
+	insert MsLN
+	ena = 50
+	ek  = -100
+	el_MsLN = -67
+    }
+}
+/*
+proc insertIAHP(){
+    mechanism_flg = 1
+    soma{
+	insert IAHP
+	eahp_IAHP = -140
+	ctau_IAHP = 0.0000125
+    }
+}
+*/
+proc insertIAHP2(){
+    mechanism_flg = 1
+    soma{
+	insert IAHP2
+	eahp_IAHP2 = -140
+    }
+}
+
+proc insertCAD(){
+    mechanism_flg = 1
+    soma{
+	insert cad
+	ctau_cad = 0.0000125
+    }
+}
+
+proc insertICA(){
+    mechanism_flg = 1
+    soma{
+	insert ICA
+	eca = 120
+    }
+}
+
+proc insertLNllb(){
+    mechanism_flg = 1
+    forall{
+	insert MsLN
+	ena_MsLN = 50
+	ek_MsLN = -100
+	el_MsLN = -67
+	insert IAHP
+	eahp_IAHP = -140
+	ctau_IAHP = 0.000125
+	insert ICA
+	eca = 120
+    }
+}
+
+
+proc insertLNllb2(){
+    mechanism_flg = 1
+    forall{
+
+	insert MsLN
+	ena = 50
+	ek  = -100
+	el_MsLN = -67
+	insert IAHP2
+	eahp_IAHP2 = -140
+	insert cad
+	//cainf_cad = 1.4
+	ctau_cad = 0.000125
+	insert ICA
+	eca = 120
+
+    }
+}
+/*
+proc insertPN(){
+    mechanism_flg = 2
+    forall{
+	insert MsPN
+	ena_MsPN = 55
+	ek_MsPN = -70
+	eca_MsPN = 124
+	el_MsPN = -50
+    }
+}
+*/
+proc insertFukuda(){
+    mechanism_flg = 3
+    forall{
+	insert GPeA
+	ena_GPeA = 55
+	ek_GPeA = -70
+	eca_GPeA = 124
+	el_GPeA = -50
+    }
+}
+proc insertHH(){
+    mechanism_flg = 4
+    forall{
+	insert hh
+    }
+}
+
+proc insertPas(){
+    mechanism_flg = 5
+    forall{
+	insert pas
+    }
+}
+
+obfunc connect2target(){local numSynapses localobj nc,target
+    target = $o1
+    //numSynapses = $2
+    soma nc = new NetCon(&v(0.3),$o1)
+    nc.threshold = 0
+    nc.weight = 10
+    //print "nc.weight ",nc.weight
+    return nc
+}
+
+objref ic
+public ic
+proc setIclamp(){
+    soma ic = new IClamp(0.1)
+    ic.del = 1
+    ic.dur = 10
+    ic.amp = 5
+}
+
+objref st
+proc setStim(){local delay, imax
+    delay = $1
+    imax = $2
+    soma st = new Stim(0.1)
+    st.del = delay
+    st.Imax = imax
+}
+public st1
+objref st1
+obfunc setIntermitStim(){local delay, imax, interval
+    delay = $1
+    imax = $2
+    interval = $3
+    soma st1 = new intermitStim(0.1)
+    st1.del = delay
+    st1.Imax = imax
+    st1.interval = interval
+    st1.tau_fall = 400 
+    //st1.Imax2 = imax
+    st1.nStim = -1
+    return st1
+}
+
+obfunc setIntermitStim1(){local delay, imax, interval, imax2, nstim
+    delay = $1
+    imax = $2
+    interval = $3
+    imax2 = $4
+    nstim = $5
+    soma st1 = new intermitStim(0.1)
+    st1.del = delay
+    st1.Imax = imax
+    st1.interval = interval
+    st1.tau_fall = 400 
+    
+    st1.Imax2 = imax2
+    st1.nStim = nstim
+    
+    //st1.seed = 0
+    return st1
+}
+/*
+public setIntermitStim_withNoise
+obfunc setIntermitStim_withNoise(){local delay, imax, interval, imax2, nstim
+    delay = $1
+    imax = $2
+    interval = $3
+    imax2 = $4
+    nstim = $5
+    soma st1 = new intermitStimNoise(0.1)
+    st1.del = delay
+    st1.Imax = imax
+    st1.interval = interval
+    st1.tau_fall = 400 
+    
+    st1.Imax2 = imax2
+    st1.nStim = nstim
+    
+    return st1
+}
+*/
+
+public setIntermitStim_gaus
+obfunc setIntermitStim_gaus(){local delay, imax, interval, imax2, nstim,sigma_o
+    delay = $1
+    imax = $2
+    interval = $3
+    imax2 = $4
+    nstim = $5
+    sigma_o = $6
+    soma st1 = new intermitStimGaus(0.1)
+    st1.del = delay
+    st1.Imax = imax
+    st1.interval = interval
+    st1.tau_fall = 400 
+    
+    st1.Imax2 = imax2
+    st1.nStim = nstim
+    
+    st1.sigma_o = sigma_o
+    return st1
+}
+
+objref tvec, vec
+public tvec, vec
+proc setVoltageRecord(){
+    tvec = new Vector()
+    vec = new Vector()
+    
+    tvec.record(&t)
+    vec.record(&soma.v(0.5))
+}
+
+objref tvec2, veci
+public setCurrentRecord
+proc setCurrentRecord(){
+    tvec2 = new Vector()
+    veci = new Vector()
+    
+    tvec2.record(&t)
+    veci.record(&st.i)
+}
+
+objref tvec3, vecg
+public setGABACurrentRecord
+proc setGABACurrentRecord(){
+    tvec3 = new Vector()
+    vecg = new Vector()
+    tvec3.record(&t)
+    vecg.record(&gsyn.i)
+}
+
+objref tvec4, veci2
+public setCurrentRecord1
+proc setCurrentRecord1(){
+    tvec4 = new Vector()
+    veci2 = new Vector()
+    
+    tvec4.record(&t)
+    veci2.record(&st1.i)
+}
+
+
+objref mt3,file3
+public mt3, printGABACurrentRecord
+proc printGABACurrentRecord(){local i
+    i = $1
+    mt3 = new Matrix()
+    file3 = new File()
+    
+    //tvec.printf()
+    mt3.resize(tvec3.size(),2)
+    mt3.setcol(0,tvec3)
+    mt3.setcol(1,vecg)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"./record/gabacurrent_%s%d.txt",typename[type].s ,i) 
+    file3.wopen(filename)
+    mt3.fprint(file3,"%5.5f\t")
+    file3.close()
+}
+
+objref mt2,file2
+public mt2, printCurrentRecord
+proc printCurrentRecord(){local i
+    i = $1
+    mt2 = new Matrix()
+    file2 = new File()
+    
+    //tvec.printf()
+    mt2.resize(tvec2.size(),2)
+    mt2.setcol(0,tvec2)
+    mt2.setcol(1,veci)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"./record/stimcurrent_%s%d.txt",mechname[mechanism_flg].s ,i) 
+    file2.wopen(filename)
+    mt2.fprint(file2,"%5.5f\t")
+    file2.close()
+}
+
+objref mt3,file3
+public mt3, printCurrentRecord1
+proc printCurrentRecord1(){local i
+    i = $1
+    mt3 = new Matrix()
+    file3 = new File()
+    
+    //tvec.printf()
+    mt3.resize(tvec4.size(),2)
+    mt3.setcol(0,tvec4)
+    mt3.setcol(1,veci2)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"./record/stimcurrent_%s%d.txt",mechname[mechanism_flg].s ,i) 
+    file3.wopen(filename)
+    mt3.fprint(file3,"%5.5f\t")
+    file3.close()
+}
+
+
+objref mt,file
+public mt
+
+proc printVoltageRecord(){local i
+    i = $1
+    mt = new Matrix()
+    file = new File()
+    
+    //tvec.printf()
+    mt.resize(tvec.size(),2)
+    mt.setcol(0,tvec)
+    mt.setcol(1,vec)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"./record/iclamp_%s%d.txt",mechname[mechanism_flg].s ,i) 
+    file.wopen(filename)
+    mt.fprint(file,"%5.5f\t")
+    file.close()
+}
+
+
+proc printVoltageRecord2(){local i
+    i = $1
+    mt = new Matrix()
+    file = new File()
+    
+    //tvec.printf()
+    mt.resize(tvec.size(),2)
+    mt.setcol(0,tvec)
+    mt.setcol(1,vec)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"./record/iclamp_%s%d.txt",typename[type].s ,i) 
+    file.wopen(filename)
+    mt.fprint(file,"%5.5f\t")
+    file.close()
+}
+public printVoltageRecord3
+proc printVoltageRecord3(){local i
+    i = $2
+    pcid = $1
+    mt = new Matrix()
+    file = new File()
+    
+    //tvec.printf()
+    mt.resize(tvec.size(),2)
+    mt.setcol(0,tvec)
+    mt.setcol(1,vec)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"./record/%diclamp_%s%d.txt",pcid,typename[type].s ,i) 
+    file.wopen(filename)
+    mt.fprint(file,"%5.5f\t")
+    file.close()
+}
+
+/*
+objref vec2
+public vec2
+proc setRecord(){
+    tvec = new Vector()
+    vec2 = new Vector()
+    tvec.record(&t)
+
+}
+*/
+
+objref ncSR// netcon for Spike Record
+objref tvecSR, idvecSR //tvecSR time vector for Spike Record
+proc setSpikeRecord(){localobj nil
+    tvecSR = new Vector()
+    idvecSR = new Vector()
+    ncSR = connect2target(nil)
+    //ncSR.record(tvecSR,idvecSR.srcgid)
+    ncSR.record(tvecSR)
+}
+
+objref fileSR
+proc printSpikeRecord(){local i, interval,tstop
+    i = $1
+    interval = $2
+    tstop = $3
+    fileSR = new File()
+    strdef filename
+    sprint(filename,"./spikerecord/spikerecord_%s%d.dat",typename[type].s,i)
+    fileSR.wopen(filename)
+    fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+    fileSR.printf("$ Delay(ms): %f\n",Delay)
+    fileSR.printf("$ Number of data : %d\n",tvecSR.size())
+    fileSR.printf("$ TSTOP : %d\n",tstop)
+    tvecSR.printf(fileSR,"%5.5f\n")
+    fileSR.close()
+}
+
+public printSpikeRecord2
+proc printSpikeRecord2(){local i, interval,tstop, istim1, istim2
+    pcid = $1
+    n = $2
+    interval = $3
+    tstop = $4
+    istim1 = $5
+    istim2 = $6
+    istim1 = imax
+    fileSR = new File()
+    strdef filename
+    sprint(filename,"./spikerecord/%dspikerecord_%s%d.dat",pcid,typename[type].s,n)
+    fileSR.wopen(filename)
+    fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+    fileSR.printf("$ Delay(ms): %f\n",Delay)
+    fileSR.printf("$ Number of data : %d\n",tvecSR.size())
+    fileSR.printf("$ TSTOP : %d\n",tstop)
+    fileSR.printf("$ PN stimulation current max : %d\n",istim1)
+    fileSR.printf("$ LN stimulation current max : %d\n",istim2)
+    tvecSR.printf(fileSR,"%5.5f\n")
+    fileSR.close()
+}
+
+endtemplate Stick

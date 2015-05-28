@@ -30,7 +30,12 @@
 #*
 *#
 
+# recorded files
+record/
+record/**/*.txt
+
 # others
 !.gitkeep
 *.xlsx
 tail
+

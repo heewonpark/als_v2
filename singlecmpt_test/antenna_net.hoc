@@ -1,0 +1,533 @@
+{load_file("nrngui.hoc")}
+objref pc
+pc = new ParallelContext()
+{load_file("Stick.hoc")}
+{load_file("ranstream.hoc")}
+
+/*
+nBALPN = 14   // Number of BAL-PNs
+nC15PN = 14   // Number of C15-PNs
+nMULTIPN = 13 // Number of multiglomerular PNs
+nLNa = 86     // Number of LN-lla
+nLNb = 68     // Number of LN-llb
+*/
+
+nBALPN = 5   // Number of BAL-PNs
+nC15PN = 0   // Number of C15-PNs
+nMULTIPN = 0 // Number of multiglomerular PNs
+nLNa = 35     // Number of LN-lla
+nLNb = 0     // Number of LN-llb
+
+NCELL = nBALPN + nC15PN + nMULTIPN + nLNa + nLNb
+// NCELL : number of whole cells
+
+TSTOP = 15000
+
+print "NCELL ", NCELL
+
+objref cells, nclist
+objref ranlist
+proc mknet(){
+    print "mkcells"
+    mkcells2($1)
+    print "connectcells"
+    //connectcells_byNC() // NC means netcon
+    //connectcells_withGABA()
+    connectcells_withgaba()
+}
+
+proc mkcells(){local i,ncell localobj cell, nc, nil
+    ncell = $1
+    cells = new List()
+    
+    for(i=pc.id; i<ncell; i+=pc.nhost){
+	cell = new Stick()
+	cells.append(cell)
+	if(i < nBALPN + nC15PN + nMULTIPN){
+	    cell.insertFukuda()
+	    if(i<nBALPN){
+		cell.setType(1)
+		cell.setExp2Syn(-75)
+		print cell.type
+	    }else if(i>=nBALPN && i<nBALPN+nC15PN){
+		cell.setType(2)
+		cell.setExp2Syn(-75)
+		print cell.type
+	    }else{
+		cell.setType(3)
+		cell.setExp2Syn(-75)
+		print cell.type
+	    }
+	}else if((i>=nBALPN + nC15PN + nMULTIPN) && (i<nBALPN + nC15PN + nMULTIPN + nLNa)){
+	    //cell.insertLNlla()
+	    cell.insertLNlla3()
+	    cell.setType(4)
+	}else if((i>=nBALPN + nC15PN + nMULTIPN + nLNa) && (i < NCELL)){
+	    cell.insertLNllb()
+	    cell.setType(5)
+	}else{
+	    printf("mkcells error")
+	    quit()
+	}
+
+	pc.set_gid2node(i,pc.id)
+	nc = cell.connect2target(nil)
+	pc.cell(i,nc)
+    }
+}
+
+proc mkcells2(){local i,ncell localobj cell, nc, nil
+    ncell = $1
+    cells = new List()
+    for(i=0; i<ncell; i+=1){
+	cell = new Stick()
+	cells.append(cell)
+	if(i < nBALPN + nC15PN + nMULTIPN){
+	    cell.insertFukuda()
+	    if(i<nBALPN){
+		cell.setType(1)
+		cell.setExp2Syn(-75)
+		print cell.type
+	    }else if(i>=nBALPN && i<nBALPN+nC15PN){
+		cell.setType(2)
+		cell.setExp2Syn(-75)
+		print cell.type
+	    }else{
+		cell.setType(3)
+		cell.setExp2Syn(-75)
+		print cell.type
+	    }
+	}else if((i>=nBALPN + nC15PN + nMULTIPN) && (i<nBALPN + nC15PN + nMULTIPN + nLNa)){
+	    //cell.insertLNlla()
+	    cell.insertLNlla3()
+	    cell.setType(4)
+	}else if((i>=nBALPN + nC15PN + nMULTIPN + nLNa) && (i < NCELL)){
+	    cell.insertLNllb()
+	    cell.setType(5)
+	}else{
+	    printf("mkcells error")
+	    quit()
+	}
+    }
+}
+
+objref rnd
+proc connectcells_byNC(){local i, j, a_cnt, b_cnt localobj syn, nc 
+    rnd = new Random()
+    rnd.uniform(0,1)
+    nclist = new List()
+    print "e1"
+    if(pc.id==0) printf("type\tpc.id\ttarget\tsource\n")
+    for i=0, cells.count-1{
+	if(pc.gid_exists(i)){
+	    print cells.object(i).type
+	    if(cells.object(i).type == 1 || cells.object(i).type == 2 || cells.object(i).type == 3){
+		print "e2 ", cells.object(i).type, i	    
+		syn = cells.object(i).synlist.object(0)
+		a_cnt = 0
+		b_cnt = 0
+		for j=nBALPN + nC15PN + nMULTIPN, NCELL-1{
+		    if((j>=nBALPN + nC15PN + nMULTIPN) && (j<nBALPN + nC15PN + nMULTIPN + nLNa)){
+			if(rnd.repick()<0.5){
+			    nc = pc.gid_connect(j,syn)
+			    nclist.append(nc)
+			    nc.delay = 1
+			    nc.weight = 0.1
+			    a_cnt += 1
+			    printf("LNlla\t%d\t%d\t%d\n",pc.id, i, j)
+			}
+		    }else if((j>=nBALPN + nC15PN + nMULTIPN + nLNa) && (j < NCELL)){
+			if(rnd.repick()<0.2){
+			    nc = pc.gid_connect(j,syn)
+			    nclist.append(nc)
+			    nc.delay = 1
+			    nc.weight = 0.1
+			    b_cnt += 1
+			    printf("LNllb\t%d\t%d\t%d\n",pc.id, i, j)
+			}
+		    } 
+		}
+		printf("a_cnt:%d\tb_cnt:%d\n",a_cnt,b_cnt)
+	    }
+	}
+    }
+}
+
+// connect cells with GABAergic synapse, not for parallel simulation
+objref gabalist
+proc connectcells_withGABA(){local i,j, a_cnt, b_cnt localobj gaba
+    print "connect cells with GABAergic synapse"
+    gabalist = new List()
+    rnd = new Random()
+    rnd.uniform(0,1)
+    for i=0, cells.count-1{
+	print cells.object(i).type
+	if(cells.object(i).type == 1 || cells.object(i).type == 2 || cells.object(i).type == 3){
+	    print "e2 ", cells.object(i).type, i	    
+	    a_cnt = 0
+	    b_cnt = 0
+	    for j=nBALPN + nC15PN + nMULTIPN, NCELL-1{
+		if((j>=nBALPN + nC15PN + nMULTIPN) && (j<nBALPN + nC15PN + nMULTIPN + nLNa)){
+		    if(rnd.repick()<0.5){
+			gaba = cells.object(i).setGABAlla(3)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			a_cnt += 1
+			printf("LNlla\t%d\t%d\t%d\n",pc.id, i, j)
+		    }
+		}else if((j>=nBALPN + nC15PN + nMULTIPN + nLNa) && (j < NCELL)){
+		    if(rnd.repick()<0.2){
+			gaba = cells.object(i).setGABAllb(1.5)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			b_cnt += 1
+			printf("LNllb\t%d\t%d\t%d\n",pc.id, i, j)
+		    }
+		} 
+	    }
+	    printf("a_cnt:%d\tb_cnt:%d\n",a_cnt,b_cnt)
+	}
+    }
+}
+
+proc connectcells_withgaba(){local i,j, a_cnt, b_cnt localobj gaba
+    print "connect cells with GABAergic synapse"
+    gabalist = new List()
+    rnd = new Random()
+    rnd.uniform(0,1)
+    print rnd.repick()
+    print rnd.repick()
+    print rnd.repick()
+    print rnd.repick()
+    print rnd.repick()
+
+    for i=0, cells.count-1{
+	print cells.object(i).type
+	if(cells.object(i).type == 1 || cells.object(i).type == 2 || cells.object(i).type == 3){
+	    print "e2 ", cells.object(i).type, i	    
+	    a_cnt = 0
+	    b_cnt = 0
+	    for j=nBALPN + nC15PN + nMULTIPN, NCELL-1{
+		if((j>=nBALPN + nC15PN + nMULTIPN) && (j<nBALPN + nC15PN + nMULTIPN + nLNa)){
+		    kakuritsu_LNtoPN = 0.5
+		    /*
+		    if(pc.id == 0){
+			kakuritsu_LNtoPN = 0.2
+		    }else if(pc.id == 1){
+			kakuritsu_LNtoPN = 0.4
+		    }else if(pc.id == 2){
+			kakuritsu_LNtoPN = 0.6
+		    }else if(pc.id == 3){
+			kakuritsu_LNtoPN = 0.8
+		    }*//*else if(pc.id == 4){
+			kakuritsu_LNtoPN = 0.5
+		    }else if(pc.id == 5){
+			kakuritsu_LNtoPN = 0.6
+		    }else if(pc.id == 6){
+			kakuritsu_LNtoPN = 0.7
+		    }else if(pc.id == 7){
+			kakuritsu_LNtoPN = 0.8
+		    }*/
+		    
+		    if(rnd.repick()<kakuritsu_LNtoPN){
+			gmax_LNtoPN = 2.0
+			
+			if(pc.id == 0){
+			    gmax_LNtoPN = 0.5
+			}else if(pc.id == 1){
+			    gmax_LNtoPN = 1.0
+			}else if(pc.id == 2){
+			    gmax_LNtoPN = 1.5
+			}else if(pc.id == 3){
+			    gmax_LNtoPN = 2.0
+			}else if(pc.id == 4){
+			    gmax_LNtoPN = 2.5
+			}else if(pc.id == 5){
+			    gmax_LNtoPN = 3.0
+			}else if(pc.id == 6){
+			    gmax_LNtoPN = 3.5
+			}else if(pc.id == 7){
+			    gmax_LNtoPN = 4.0
+			}
+			
+			gaba = cells.object(i).setgaba(gmax_LNtoPN/nBALPN)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			a_cnt += 1
+			printf("LNlla\t%d\t%d\t%d\n",pc.id, i, j)
+		    }
+		}else if((j>=nBALPN + nC15PN + nMULTIPN + nLNa) && (j < NCELL)){
+		    /*
+		    if(rnd.repick()<0.2){
+			gaba = cells.object(i).setgaba(0.00275)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			b_cnt += 1
+			printf("LNllb\t%d\t%d\t%d\n",pc.id, i, j)
+		    }
+		    */
+		} 
+	    }
+	    printf("a_cnt:%d\tb_cnt:%d\n",a_cnt,b_cnt)
+	}else if(cells.object(i).type == 4){
+	    for j=nBALPN+nC15PN+nMULTIPN, NCELL-1{
+		if((j>=nBALPN + nC15PN + nMULTIPN) && (j<nBALPN + nC15PN + nMULTIPN + nLNa)){
+		    kakuritsu_LNtoLN = 0.5
+		    /*
+		    if(pc.id == 0){
+			kakuritsu_LNtoLN = 0.0
+		    }else if(pc.id == 1){
+			kakuritsu_LNtoLN = 0.2
+		    }else if(pc.id == 2){
+			kakuritsu_LNtoLN = 0.4
+		    }else if(pc.id == 3){
+			kakuritsu_LNtoLN = 0.6
+		    }else if(pc.id == 4){
+			kakuritsu_LNtoLN = 0.8
+		    }else if(pc.id == 5){
+			kakuritsu_LNtoLN = 1.0
+		    }*//*else if(pc.id == 6){
+			kakuritsu_LNtoLN = 0.6
+		    }else if(pc.id == 7){
+			kakuritsu_LNtoLN = 0.7
+		    }*/
+
+		    if(rnd.repick()<kakuritsu_LNtoLN){
+			gmax_LNtoLN = 0.3
+			/*
+			if(pc.id == 0){
+			    gmax_LNtoLN = 0.0
+			}else if(pc.id == 1){
+			    gmax_LNtoLN = 0.1
+			}else if(pc.id == 2){
+			    gmax_LNtoLN = 0.2
+			}else if(pc.id == 3){
+			    gmax_LNtoLN = 0.3
+			}else if(pc.id == 4){
+			    gmax_LNtoLN = 0.4
+			}else if(pc.id == 5){
+			    gmax_LNtoLN = 0.5
+			}*//*else if(pc.id == 6){
+			    gmax_LNtoLN = 0.6
+			}else if(pc.id == 7){
+			    gmax_LNtoLN = 0.7
+			}*/
+			//gaba = cells.object(i).setgaba(1.75/nLNa)
+			//gaba = cells.object(i).setgaba(0.35/nLNa)
+			gaba = cells.object(i).setgaba(gmax_LNtoLN/nLNa)
+			setpointer gaba.pre, cells.object(j).soma.v(0.5)
+			gabalist.append(gaba)
+			print i, j
+		    }
+		}
+	    }
+	}
+    }
+}
+
+mknet(NCELL)
+
+cells.object(10).soma{
+    print "area ", area(0.5)
+}
+
+proc mkstim(){
+    for i = 0, cells.count -1 {
+	if(cells.object(i).type == 1){
+	    cells.object(i).setStim(50,35000)
+	}else if(cells.object(i).type == 2){
+	    cells.object(i).setStim(50,35000)
+	}else if(cells.object(i).type == 3){
+	    cells.object(i).setStim(50,35000)
+	}else if(cells.object(i).type == 4){
+	    cells.object(i).setStim(50,15000)
+	}else if(cells.object(i).type == 5){
+	    cells.object(i).setStim(50,15000)
+	}
+    }
+}
+//mkstim()
+objref r_delay1, r_delay2, r_imax1, r_imax2
+proc mkstim_random(){local i
+    r_delay1 = new Random()
+    r_delay2 = new Random()
+    r_imax1 = new Random()
+    r_imax2 = new Random()
+    
+    delay2 = 200
+    /*
+    if(pc.id == 0){
+	delay2 = 0
+    }else if(pc.id == 1){
+	delay2 = 100
+    }else if(pc.id == 2){
+	delay2 = 200
+    }*//*else if(pc.id == 3){
+	delay2 = -50
+    }else if(pc.id == 4){
+	delay2 = 0
+    }else if(pc.id == 5){
+	delay2 = 50
+    }else if(pc.id == 6){
+	delay2 = 100
+    }else if(pc.id == 7){
+	delay2 = 150
+    }
+    */
+    r_delay1.uniform(0,50)
+    r_delay2.uniform(delay2,delay2+50)
+    //r_imax1.uniform(3800,3800)
+    r_imax1.uniform(35000,35000)
+    //r_imax2.uniform(9400,9400)
+    r_imax2.uniform(15000,15000)
+    /*
+    imax1 = 35000*0.5
+    imax2 = 15000*0.75
+    */
+    imax1 = 35000*1.5
+    imax2 = 15000*1.25
+    /*
+    if(pc.id == 0){
+	imax1 = 35000*1.0
+	imax2 = 15000*1.0
+    }else if(pc.id == 1){
+	imax1 = 35000*1.5
+	imax2 = 15000*1.25
+    }else if(pc.id == 2){
+	imax1 = 35000*0.5
+	imax2 = 15000*0.75
+    }else if(pc.id == 3){
+	imax1 = 35000*1.2
+	imax2 = 15000*1.1
+    }else if(pc.id == 4){
+	imax1 = 35000*1.4
+	imax2 = 15000*1.2
+    }else if(pc.id == 5){
+	imax1 = 35000*1.6
+	imax2 = 15000*1.3
+    }else if(pc.id == 6){
+	imax1 = 35000*1.8
+	imax2 = 15000*1.4
+    }else if(pc.id == 7){
+	imax1 = 35000*0.4
+	imax2 = 15000*0.7
+    }*/
+    
+    Interval = 300
+    for i = 0, cells.count -1 {
+	if(cells.object(i).type == 1){
+	    //cells.object(i).setStim(r_delay.repick(),r_imax1.repick())
+	    //print "type 1 ",i
+	    cells.object(i).Delay = r_delay1.repick()
+	    cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,35000,Interval,imax1,20,0.00)
+	}else if(cells.object(i).type == 2){
+	    cells.object(i).setStim(r_delay1.repick(),r_imax1.repick())
+	}else if(cells.object(i).type == 3){
+	    //cells.object(i).setStim(r_delay.repick(),r_imax1.repick())
+	    cells.object(i).setStim(r_delay1.repick(),3700)
+	}else if(cells.object(i).type == 4){
+	    //cells.object(i).setStim(r_delay.repick(),r_imax2.repick())
+	    //print "type 4 ",i
+	    cells.object(i).Delay = r_delay2.repick()
+	    cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,15000,Interval,imax2,20,0.00)
+	}else if(cells.object(i).type == 5){
+	    cells.object(i).setStim(r_delay2.repick(),r_imax2.repick())
+	}
+    }
+}
+
+mkstim_random()
+print "set Current Record1()"
+cells.object(3).setCurrentRecord1()
+cells.object(30).setCurrentRecord1()
+
+//Original version of spike record
+/*
+objref tvec, idvec
+proc spikerecord(){local i localobj nc,nil
+    print "spikerecord"
+    tvec = new Vector()
+    idvec = new Vector()
+    for i = 0, cells.count -1{
+	nc = cells.object(i).connect2target(nil)
+	nc.record(tvec, idvec, nc.srcgid)
+    }
+}
+spikerecord()
+*/
+
+proc setVoltageRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setVoltageRecord()
+    }
+}
+setVoltageRecord()
+
+proc setSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setSpikeRecord()
+    }
+}
+setSpikeRecord()
+
+pc.barrier()
+tstop = TSTOP
+{pc.set_maxstep(10)}
+stdinit()
+{pc.psolve(tstop)}
+//original version of spikeout
+/*
+proc spikeout(){local i, rank
+    pc.barrier()
+    if(pc.id==0) printf("\ntime\t cell\n")
+    for rank = 0, pc.nhost -1{
+	if(rank == pc.id){
+	    for i = 0, tvec.size -1{
+		printf("%g\t %d\n",tvec.x[i],idvec.x[i])
+	    }
+	}
+	pc.barrier()
+    }
+}
+*/
+//spikeout()
+
+proc printSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	if(cells.object(i).type<4){
+	    if(i%1==0){
+		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,kakuritsu_LNtoLN)
+		//		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,imax2)
+	    }
+	}else{
+	    if(i%10==0){
+		//		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,imax2)
+		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,kakuritsu_LNtoLN)
+	    }
+	}
+    }
+}
+
+printSpikeRecord()
+proc printVoltageRecord(){
+    for i = 0, cells.count -1{
+	if(cells.object(i).type<4){
+	    if(i%1==0){
+		cells.object(i).printVoltageRecord3(pc.id,i)
+	    }
+	}else{
+	    if(i%10==0){
+		cells.object(i).printVoltageRecord3(pc.id,i)
+	    }
+	}
+    }
+}
+printVoltageRecord()
+
+print "print stimcurrent"
+cells.object(30).printCurrentRecord1(30)
+cells.object(3).printCurrentRecord1(3)
+
+{pc.runworker()}
+{pc.done()}
+quit()

@@ -28,9 +28,14 @@ proc mkIntermitStim(){local i localobj st
     }
 }
 
-proc mkIclamp(){local i
+objref iclist
+proc mkIclamp(){local i localobj ic
+    iclist = new List()
     for(i=0; i<rns.count();i=i+1){
-	rns.o(i).mkIclamp(0)
+	ic = rns.o(i).mkIclamp(0)
+	iclist.append(ic)
+	ic = rns.o(i).mkIclamp(0,2,6,40)
+	iclist.append(ic)
 	if(i == 0){
 	    psection()
 	}

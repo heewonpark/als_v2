@@ -7,7 +7,7 @@
 //************************************************
 // MODIFICATION HISTORY
 //************************************************
-//
+// 2015/05/28 if number of cell is zero, nothing would be loaded
 //
 //
 
@@ -57,7 +57,7 @@ func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localob
 	}else if(strcmp("$",buf)==0){
 	    info_fp.gets(buf)
 	    sscanf(buf, "%s %d\n",celltype, &num)
-	    if(strcmp("PN",celltype)==0){
+	    if((strcmp("PN",celltype)==0)&&(num != 0)){
 		pn_matrix.resize(num, 4)
 		//print celltype," ", num
 		NPN = num
@@ -71,7 +71,7 @@ func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localob
 		    pn_matrix.x[i][3] = cloneid
 		    pn_path[i] = new Path(swcpath, ppath, synpath)
 		}
-	    }else if(strcmp("LN",celltype)==0){
+	    }else if((strcmp("LN",celltype)==0)&&(num != 0)){
 		ln_matrix.resize(num, 4)
 		//print celltype," ", num
 		NLN = num
@@ -85,7 +85,7 @@ func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localob
 		    ln_matrix.x[i][3] = cloneid
 		    ln_path[i] = new Path(swcpath, ppath, synpath)
 		}
-	    }else if(strcmp("RN",celltype)==0){
+	    }else if((strcmp("RN",celltype)==0)&&(num != 0)){
 		rn_matrix.resize(num, 3)
 		//print celltype," ", num
 		NRN = num

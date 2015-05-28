@@ -72,14 +72,18 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 	    target = pc.gid2obj(i)
 	    loadSynapseInfo(target, target.synpath, 1)
 	    target.mkSynapses(target.fromRNsyn)
-	    print "end load synapse info"
+	    printf("loadsynapseinfo()(pc.id : %d)\n",pc.id)
 	    for j=0, target.synlist.count()-1{
 		syn = target.synlist.o(j)
 		src_gid = calcSrcgid(gid_base, j, i)
 		//print "src_gid ", src_gid
 		nc  = pc.gid_connect(src_gid, syn)
 		nc.delay  = 1.0
-		nc.weight = 3.0
+		nc.weight = 0.05
+		if(target.cellid == 3 && target.swcid == 1){
+		    print "nc.weight change for 301"
+		    nc.weight = 0.008
+		}
 		nclist_RN.append(nc)
 	    }
 	}
@@ -225,11 +229,11 @@ proc connectNtoN(){\
     gid_base = 2000000
 
     for(i=0;i<NPN;i=i+1){
-	print "error pn"
+	//print "error pn"
 	loadSynapseInfo(nil,pn_path[i].synpath,2)
     }
     for(i=0;i<NLN;i=i+1){
-	print "error ln"
+	//print "error ln"
 	loadSynapseInfo(nil,ln_path[i].synpath,2)
     }
     for(j=0;j<SynPathList.count();j+=1){
@@ -237,7 +241,7 @@ proc connectNtoN(){\
 	pc.barrier()
 	makePreSynapse(SynPathList.o(j).pregid)
 	pc.barrier()
-	makePostSynapse(SynPathList.o(j).postgid,1,1)
+	makePostSynapse(SynPathList.o(j).postgid,100,0.2)
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()
 	}else{

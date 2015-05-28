@@ -1,0 +1,59 @@
+/*******************************
+      exSectionList.hoc
+                    2013/08/13    
+********************************/
+// utility functions for SectionList class
+
+strdef s1, s2
+
+obfunc sl2list() {localobj tmplist
+    // arguments
+    // $o1: SectionList
+    tmplist = new List()
+    forsec $o1 tmplist.append(new SectionRef())
+    return tmplist
+}
+
+func countSL() {local i
+    // arguments
+    // $o1: SectionList
+    i=0
+    forsec $o1 {
+	i+=1
+    }
+    return i
+}
+
+obfunc objectSL() {local n localobj l
+    // arguments
+    // $o1: SectionList
+    // $2: index of section
+    n = countSL($o1)
+    l = sl2list($o1)
+    if($2 < n) {
+	return l.o(i)
+    } else {
+	printf("error: index out of range(0-%d)\n", n)
+	return
+    }
+}
+
+func indexSL() {local i, n localobj tmplist
+    // arguments
+    // $o1: SectionList
+    // $o2: SectionRef    
+    tmplist = sl2list($o1)
+    $o2.sec s2 = secname()
+    n = countSL($o1)
+    i = 0
+    while(1) {
+	if( i >= n ) {
+	    printf("not found\n")
+	    return 0
+	}
+	tmplist.o(i).sec s1 = secname()
+	if( strcmp(s1,s2)==0 ) { break }
+	i+=1
+    }
+    return i
+}

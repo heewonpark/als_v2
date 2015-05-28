@@ -1,0 +1,24 @@
+//************************************************
+// For Goto's PN model parameter
+if(name_declared("SPIKEGEN_POS")!=5){ execute("SPIKEGEN_POS=10")}
+if(name_declared("SPIKEGEN_SIZE")!=5){ execute("SPIKEGEN_SIZE=10") }
+if(name_declared("GKDRBAR")!=5){ execute("GKDRBAR=0.7") }
+if(name_declared("GNABAR")!=5){ execute("GNABAR=1.2") }
+if(name_declared("GCATBAR")!=5){ execute("GCATBAR=0.0015") }
+if(name_declared("GKCABAR")!=5){ execute("GKCABAR=0.15") }
+if(name_declared("KCA")!=5){ execute("KCA=2.4") }
+if(name_declared("KNA")!=5){ execute("KNA=3.0") }
+if(name_declared("KK")!=5){ execute("KK=KNA") }
+if(name_declared("CM")!=5){ execute("CM=1") } //
+if(name_declared("GL")!=5){ execute("GL=0.00035") } //
+if(name_declared("EL")!=5){ execute("EL=-60") } //
+if(name_declared("CAGAIN")!=5){ execute("CAGAIN=0.16")}
+
+//************************************************
+if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
+
+/*
+if(name_declared("SWC_FILENAME")==0) { 
+	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
+}
+*/

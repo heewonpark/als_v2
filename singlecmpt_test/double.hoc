@@ -1,0 +1,88 @@
+load_file("nrngui.hoc")
+load_file("Stick.hoc")
+/*
+nrnpython("import random")
+objref py
+py = new PythonObject()
+nrnpython("a = random.randint(0,10000)")
+print py.a
+*/
+
+objref cell[1]
+cell[0] = new Stick()
+
+//cell[0].insertFukuda()
+cell[0].insertLNlla3()
+
+cell[0].setIntermitStim_gaus(50,15000,300,15000,10,0,0)
+//cell[0].setIntermitStim_gaus(50,35000,300,35000,10,0,0)
+cell[0].setCurrentRecord1()
+cell[0].setVoltageRecord()
+cell[0].soma{
+    psection()
+}
+
+tstop = 2000
+dt = 0.01
+
+MODE = 1
+if(MODE == 1){
+    run()
+            
+    cell[0].printVoltageRecord(0)
+    cell[0].printCurrentRecord1(0)
+
+}else if(MODE == 2){
+    tstop = 20
+    while(t < tstop){
+	//print t, cell[i].soma.v(0.5), cell[j].soma.v(0.5)
+	
+	i = 0
+	j = 2
+	/*
+	if(cell[i].soma.ina != cell[j].soma.ina){
+	    //print cell[i].soma.ik, cell[j].soma.ik,cell[i].soma.il_MsLN, cell[j].soma.il_MsLN
+	    //print cell[i].soma.iahp_MsLN, cell[j].soma.iahp_MsLN,cell[i].soma.icad_MsLN, cell[j].soma.icad_MsLN
+	    //	    print cell[i].soma.q_MsLN, cell[j].soma.q_MsLN
+	    
+	    //print cell[i].soma.cai, cell[j].soma.cai
+
+	    print "NA ",t, cell[i].soma.ina, cell[j].soma.ina, cell[i].soma.gna_MsLN, cell[j].soma.gna_MsLN
+	    //print cell[i].soma.h_MsLN, cell[j].soma.h_MsLN, cell[i].soma.m_MsLN, cell[j].soma.m_MsLN
+	    //print cell[i].soma.n_MsLN, cell[j].soma.n_MsLN,cell[i].soma.s_inf_MsLN, cell[j].soma.s_inf_MsLN
+	    print cell[i].soma.ha_MsLN, cell[j].soma.ha_MsLN, cell[i].soma.hb_MsLN, cell[j].soma.hb_MsLN
+	    print cell[i].soma.na_MsLN, cell[j].soma.na_MsLN, cell[i].soma.nb_MsLN, cell[j].soma.nb_MsLN
+	    print cell[i].soma.ma_MsLN, cell[j].soma.ma_MsLN, cell[i].soma.mb_MsLN, cell[j].soma.mb_MsLN
+	    
+	}
+	*/
+	/*
+	print t
+	cell[i].soma{
+	    print eca, ena, ek, el_MsLN, eahp_MsLN
+	    print ik, il_MsLN, iahp_MsLN, icad_MsLN, m_MsLN,n_MsLN,h_MsLN
+	    //print minf_MsLN, ninf_MsLN, hinf_MsLN, mtau_MsLN, ntau_MsLN, htau_MsLN
+	    //print ma_MsLN, mb_MsLN, na_MsLN, nb_MsLN, ha_MsLN, hb_MsLN, vv_MsLN
+	}
+	cell[j].soma{
+	    print eca, ena, ek, el_MsLN, eahp_MsLN
+	    print ik, il_MsLN, iahp_MsLN, icad_MsLN, m_MsLN,n_MsLN,h_MsLN
+	    //print minf_MsLN, ninf_MsLN, hinf_MsLN, mtau_MsLN, ntau_MsLN, htau_MsLN
+	    //print ma_MsLN, mb_MsLN, na_MsLN, nb_MsLN, ha_MsLN, hb_MsLN, vv_MsLN
+	}
+	*/
+	/*
+
+	if(cell[0].soma.ik != cell[2].soma.ik){
+	    print "K ", t, cell[0].soma.ik, cell[2].soma.ik
+	}
+	*/
+	//print t, cell[1].st1.j, cell[1].st1.cnt,cell[1].st1.k,cell[1].st1.flg, cell[1].st1.interval * cell[1].st1.k
+	//print cell[1].st1.temp
+	access cell[1].soma
+	//printf("%e ", noise.amp)
+	//printf("%e %d %e\n",noise.seed, noise.forseed, noise.timer)
+	fadvance()
+    }
+
+}

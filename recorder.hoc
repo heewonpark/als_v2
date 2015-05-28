@@ -76,20 +76,27 @@ proc setVoltageRecord(){local i,j
     }
     volt_tvec = new Vector()
     volt_tvec.record(&t)
+
     for(j = 0; j<pns.count();j+=1){
+	//printf("PN record(id:%d)\n",(pc.id))
+	//printf("pns.count %d#\n",pns.count())
+	print j
 	if(j == 0){
 	    PNvolt_vec = new Vector()
 	    //PNvolt_vec.record(&projection.Dend[1211].v(0.5))
 	    PNvolt_vec.record(&pns.o(j).Dend[475].v(0.5))
-	    print "PN record"
+	    //printf("pns.o(%d).SynNumerList.size(): %d#\n",j,pns.o(j).SynNumberList.size())
 	    for i=0, pns.o(j).SynNumberList.size()-1{
-		//print projection.SynNumberList.x[i]
+		//print pns.o(j).SynNumberList.x[i]
 		PNvolt_vecs[i].record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
 	    }
 	}
+	//printf("PN record(id:%d)END\n",(pc.id))
     }
 
     for(j = 0; j<lns.count();j+=1){
+	//printf("LN record(id:%d)\n",(pc.id))
+	//printf("lns.count:%d#\n",lns.count())
 	if(j == 0){
 	    LNvolt_vec = new Vector()			    
 	    if(lns.o(j).swcid == 0){
@@ -97,15 +104,21 @@ proc setVoltageRecord(){local i,j
 	    }else if(lns.o(j).swcid == 1){
 		LNvolt_vec.record(&lns.o(j).Dend[11197].v(0.5))
 	    }
+	    //printf("lns.o(%d).SynNumerList.size(): %d#\n",j,lns.o(j).SynNumberList.size())
 	    for i=0, lns.o(j).SynNumberList.size()-1{
-		//print projection.SynNumberList.x[i]
 		LNvolt_vecs[i].record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
 	    }
 	}
+	//printf("LN record(id:%d)END\n",(pc.id))
     }
+    //printf("RN record(id:%d)\n",(pc.id))
     for(j = 0; j<rns.count();j+=1){
+	//printf("RN record(id:%d)\n",(pc.id))
+	//printf("rns.count %d#\n",rns.count())
 	if(j==0){
-	    RNvolt_vecs[j].record(&rns.o(j).Dend[0].v(0.5))
+	    RNvolt_vecs[0].record(&rns.o(j).Dend[0].v(0.5))
+	    RNvolt_vecs[1].record(&rns.o(j).Dend[60].v(0.5))
+	    RNvolt_vecs[2].record(&rns.o(j).Dend[120].v(0.5))
 	}
     }
     pc.barrier()
@@ -167,9 +180,12 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	if(j==0){
 	    mt = new Matrix()
 	    file = new File()
-	    mt.resize(volt_tvec.size(),rns.count + 1)
+	    //mt.resize(volt_tvec.size(),rns.count + 1)
+	    mt.resize(volt_tvec.size(),4)
 	    mt.setcol(0,volt_tvec)
-	    mt.setcol(1,RNvolt_vecs[j])
+	    mt.setcol(1,RNvolt_vecs[0])
+	    mt.setcol(2,RNvolt_vecs[1])
+	    mt.setcol(3,RNvolt_vecs[2])
 	    
 	    sprint(filename,"./record/%dVolt.txt",rns.o(j).nid)
 	    file.wopen(filename)
