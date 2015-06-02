@@ -10,12 +10,12 @@
 #PJM --mpi "use-rankdir"
 
 # CHANGE TO YOUR OWN DIR
-#PJM --stgin-basedir /home/hp120263/k01793/
+#PJM --stgin-basedir /home/hp120263/k01793/github/neuron_kplus/
 
 #--PJM --stgout "rank=* %r:./prof/* /data/hp120263/k01793/result/prof/%j/"
 
-#--PJM --stgin "rank=* ./stgin/* %r:./"
-#PJM --stgin "rank=* $KPLUS/sparc64/special %r:./"
+#PJM --stgin "rank=* ./stgin/* %r:./"
+#PJM --stgin "rank=* ./specials/sparc64/special %r:./"
 #PJM --stgin "rank=* ./hoc/* %r:./"
 
 
@@ -23,9 +23,22 @@
 
 #export OMP_NUM_THREADS=8
 
-NRNIV="$KPLUS/specials/sparc64/special -mpi"
-HOC_NAME="../main.hoc"
-#NRNOPT=""
+NRNIV="./special -mpi"
+HOC_NAME="./bench_main.hoc"
+NRNOPT=\
+" -c MODEL=2"\
+" -c NSTIM_POS=1"\
+" -c NSTIM_NUM=400"\
+" -c NCELLS=256"\
+" -c NSYNAPSE=10"\
+" -c SYNAPSE_RANGE=1"\
+" -c NETWORK=1"\
+" -c STOPTIME=200"\
+" -c NTHREAD=1"\
+" -c MULTISPLIT=0"\
+" -c SPIKE_COMPRESS=0"\
+" -c CACHE_EFFICIENT=1"\
+" -c SHOW_SPIKE=1"
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"

@@ -1,0 +1,9 @@
+<Staging Information>
+[WARN] stgin "rank=* ./stgin/* %r:./" : /home/hp120263/k01793/stgin/* /work/run_k.sh.2854703/0/ : No such file or directory (code=2:S-E:I:--)
+[WARN] stgin "rank=* $KPLUS/sparc64/special %r:./" : /home/hp120263/k01793/$KPLUS/sparc64/special /work/run_k.sh.2854703/0/ : No such file or directory (code=2:S-E:I:--)
+[WARN] stgin "rank=* ./hoc/* %r:./" : /home/hp120263/k01793/hoc/* /work/run_k.sh.2854703/0/ : No such file or directory (code=2:S-E:I:--)
+
+<Error Information>
+[WARN] stgin "rank=* ./stgin/* %r:./" : /home/hp120263/k01793/stgin/* /work/run_k.sh.2854703/0/ : No such file or directory (code=2:S-E:I:--)
+[WARN] stgin "rank=* $KPLUS/sparc64/special %r:./" : /home/hp120263/k01793/$KPLUS/sparc64/special /work/run_k.sh.2854703/0/ : No such file or directory (code=2:S-E:I:--)
+[WARN] stgin "rank=* ./hoc/* %r:./" : /home/hp120263/k01793/hoc/* /work/run_k.sh.2854703/0/ : No such file or directory (code=2:S-E:I:--)
