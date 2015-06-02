@@ -1,1 +1,0 @@
-../pGPeA_fukuda.mod

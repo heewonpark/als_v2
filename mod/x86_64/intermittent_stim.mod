@@ -1,1 +1,0 @@
-../intermittent_stim.mod
