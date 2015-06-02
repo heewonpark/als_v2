@@ -1,10 +1,10 @@
 #! /bin/bash
 
-NRNIV="./mod/x86_64/special -mpi"
+NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=100"
+" -c STOPTIME=10"
 
 MPIEXEC="mpiexec -n 4"
 

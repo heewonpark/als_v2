@@ -1,5 +1,5 @@
 # This file shows the file path of synapse
 $ fromRN
-./input/synlist/fromRN/040823_5_sn_SynapseList.dat
+../input/synlist/fromRN/040823_5_sn_SynapseList.dat
 $ CtoC
 0

@@ -133,7 +133,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt.resize(volt_tvec.size(),2)
 	    mt.setcol(0,volt_tvec)
 	    mt.setcol(1,PNvolt_vec)
-	    sprint(filename,"./record/%dVolt.txt",pns.o(j).nid)
+	    sprint(filename,"../result/record/%dVolt.txt",pns.o(j).nid)
 	    file.wopen(filename)
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()
@@ -145,7 +145,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    for i=0, pns.o(j).SynNumberList.size()-1{
 		mt2.setcol(i+1,PNvolt_vecs[i])
 	    }
-	    sprint(filename,"./record/%dVolt_FromRN.txt",pns.o(j).nid)
+	    sprint(filename,"../result/record/%dVolt_FromRN.txt",pns.o(j).nid)
 	    file2.wopen(filename)
 	    mt2.fprint(file2,"%5.5f\t")
 	    file2.close()
@@ -158,7 +158,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt.resize(volt_tvec.size(),2)
 	    mt.setcol(0,volt_tvec)
 	    mt.setcol(1,LNvolt_vec)
-	    sprint(filename,"./record/%dVolt.txt",lns.o(j).nid)
+	    sprint(filename,"../result/record/%dVolt.txt",lns.o(j).nid)
 	    file.wopen(filename)
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()
@@ -170,7 +170,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    for i=0, lns.o(j).SynNumberList.size()-1{
 		mt2.setcol(i+1,LNvolt_vecs[i])
 	    }
-	    sprint(filename,"./record/%dVolt_FromRN.txt",lns.o(j).nid)
+	    sprint(filename,"../result/record/%dVolt_FromRN.txt",lns.o(j).nid)
 	    file2.wopen(filename)
 	    mt2.fprint(file2,"%5.5f\t")
 	    file2.close()
@@ -187,7 +187,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt.setcol(2,RNvolt_vecs[1])
 	    mt.setcol(3,RNvolt_vecs[2])
 	    
-	    sprint(filename,"./record/%dVolt.txt",rns.o(j).nid)
+	    sprint(filename,"../result/record/%dVolt.txt",rns.o(j).nid)
 	    file.wopen(filename)
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()

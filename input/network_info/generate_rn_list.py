@@ -14,7 +14,7 @@
 #
 NUM_RN = 2000
 LISTFILENAME = "./network_info_%drns.dat"%(NUM_RN)
-SWCFILEPATH_DIR = "./swc/rn0514/"
+SWCFILEPATH_DIR = "../input/swc/rn0514/"
 SWCFILENAME = "orn"
 NUM_SWCFILES = 100
 CELLID = 1 # cellid for rn is 1 (pn = 2, ln = 3)

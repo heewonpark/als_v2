@@ -55,17 +55,19 @@ if(name_declared("SWC_FILENAME")==0) {
 */
 
 RNperSYN = 5
-//STOPTIME = 300
-if(pc.id == 0){printf("STOPTIME : %d(ms)\n",STOPTIME)}
 
 strdef info_filename
-//info_filename = "./info/network_info_3cells.dat"
-info_filename = "./info/network_info_1LN.dat"
+info_filename = "../input/network_info/network_info_3cells.dat"
+//info_filename = "../input/network_info/network_info_1LN.dat"
 strdef info_filename_rn
-info_filename_rn = "./info/network_info_2000rns.dat"
+info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 
 objref pc
 pc = new ParallelContext()
+//STOPTIME = 300
+if(pc.id == 0){printf("STOPTIME : %d(ms)\n",STOPTIME)}
+
+
 if(pc.id == 0){
     print "PC.NHOST ",pc.nhost
 }

@@ -1,7 +1,7 @@
 # This file shows the file path of synapse of cell
 $ fromRN
-./synlist/fromRN/050205_7_sn_SynapseList.dat
+../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat
 $ CtoC
 2
-2 301 0 200 ./synlist/301_200_randomize.txt
-2 301 1 300 ./synlist/301_300_randomize.txt
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt

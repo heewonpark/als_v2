@@ -25,13 +25,14 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-NPN = 0
-NLN = 1
+NPN = 1
+NLN = 2
 
 NCELL = NPN + NLN
 
-LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)
-SYNPATH_DIR  = "./info/syn/%dcells/"%(NCELL)
+#LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)
+LISTFILENAME = "./network_info_%dcells.dat"%(NCELL)
+SYNPATH_DIR  = "../synapse_info/syn/%dcells/"%(NCELL)
 NPNSWC = 1
 NLNSWC = 2
 
@@ -81,12 +82,12 @@ class CELL:
     
 PN_default    = [None for _ in range(NPNSWC)]
 PN_default[0] = CELL()
-PN_default[0].setBase(cellid = 2, swcid = 0, swcpath = "./swc/050622_4_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "./synlist/fromRN/050622_4_sn_SynapseList.dat")
+PN_default[0].setBase(cellid = 2, swcid = 0, swcpath = "../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synlist/fromRN/050622_4_sn_SynapseList.dat")
 LN_default    = [None for _ in range(NLNSWC)]
 LN_default[0] = CELL()
-LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "./swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "./synlist/fromRN/040823_5_sn_SynapseList.dat") 
+LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synlist/fromRN/040823_5_sn_SynapseList.dat") 
 LN_default[1] = CELL()
-LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "./swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "./synlist/fromRN/050205_7_sn_SynapseList.dat")
+LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synlist/fromRN/050205_7_sn_SynapseList.dat")
 
 PN = [CELL() for _ in range(NPN)]
 LN = [CELL() for _ in range(NLN)]
