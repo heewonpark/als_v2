@@ -1,0 +1,134 @@
++ . /work/system/Env_base
+++ GMVERSION=1.2.0-17
+++ export Env_base=K-1.2.0-17-2
+++ Env_base=K-1.2.0-17-2
++++ /bin/uname -m
+++ '[' s64fx = s64fx ']'
+++ export MPI_HOME=/opt/FJSVtclang/GM-1.2.0-17
+++ MPI_HOME=/opt/FJSVtclang/GM-1.2.0-17
+++ export TOFU_HOME=/opt/FJSVpxtof/sparc64fx
+++ TOFU_HOME=/opt/FJSVpxtof/sparc64fx
+++ export PATH=/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ PATH=/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ export LD_LIBRARY_PATH=/opt/FJSVpnavi/sparc64fx/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVpnavi/sparc64fx/lib64
+++ export LD_LIBRARY_PATH=/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ export LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ export LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
+++ export TMPDIR=/work/runK.sh.2856681
+++ TMPDIR=/work/runK.sh.2856681
+++ CPATH=/opt/FJSVtclang/check
+++ export PATH=/opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ PATH=/opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ echo Env_base: K-1.2.0-17-2
++++ echo /opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
++++ undup
++++ awk -F: '
+{
+	lang=0
+	delimiter=""
+	for(i=1;i<=NF;i++){
+		flag[i]=1
+		if(match($i,"/opt/FJSVtclang/GM-1.2.0-")!=0){
+			if(lang==0){
+				lang=1
+			}else{
+				flag[i]=0
+			}
+		}else{
+			for(j=1;j<i;j++){
+				if($j==$i){
+					flag[i] = 0
+					break;
+				}
+			}
+		}
+		if(flag[i]!=0){
+			printf("%s%s",delimiter,$i);
+			delimiter=":"
+		}
+	}
+}'
+++ PATH=/opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
++++ echo /opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
++++ undup
++++ awk -F: '
+{
+	lang=0
+	delimiter=""
+	for(i=1;i<=NF;i++){
+		flag[i]=1
+		if(match($i,"/opt/FJSVtclang/GM-1.2.0-")!=0){
+			if(lang==0){
+				lang=1
+			}else{
+				flag[i]=0
+			}
+		}else{
+			for(j=1;j<i;j++){
+				if($j==$i){
+					flag[i] = 0
+					break;
+				}
+			}
+		}
+		if(flag[i]!=0){
+			printf("%s%s",delimiter,$i);
+			delimiter=":"
+		}
+	}
+}'
+++ LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
+++ unset undup
++ NRNIV='./special -mpi'
++ HOC_NAME=./main.hoc
++ NRNOPT=' -c STOPTIME=300 -c IS_SUPERCOMPUTER=1'
++ MPIEXEC='mpiexec -mca mpi_print_stats 1'
++ PROF=
++ '[' '!' -d ./record ']'
++ echo 'mkdir ./record'
++ mkdir ./record
++ echo ' mpiexec -mca mpi_print_stats 1 ./special -mpi  -c STOPTIME=300 -c IS_SUPERCOMPUTER=1 ./main.hoc'
++ mpiexec -mca mpi_print_stats 1 ./special -mpi -c STOPTIME=300 -c IS_SUPERCOMPUTER=1 ./main.hoc
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+NEURON -- Release 7.2 (562:42a47463b504) 2011-12-21
+Duke, Yale, and the BlueBrain Project -- Copyright 1984-2008
+See http://www.neuron.yale.edu/credits.html
+
+Additional mechanisms from files
+ ../mod//cad_0403.mod ../mod//cad.mod ../mod//exp2syn_k.mod ../mod//expsid.mod ../mod//gabaa.mod ../mod//GABAa.mod ../mod//gamma.mod ../mod//hh_k.mod ../mod//IAHP2_0403.mod ../mod//IAHP2.mod ../mod//IAHP.mod ../mod//ICA.mod ../mod//intermittent_stim_gaus.mod ../mod//intermittent_stim.mod ../mod//intermittent_stim_withNoise.mod ../mod//MsLN_0403.mod ../mod//MsLN.mod ../mod//normrand_test.mod ../mod//pGPeA_fukuda.mod ../mod//pGPeA_k.mod ../mod//region.mod ../mod//stim.mod
+[ERR.] PLE 0017 plexec The process terminated with the signal.(rank=1)(nid=0x030c0034)(sig=24)

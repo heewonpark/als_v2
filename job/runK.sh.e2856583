@@ -1,0 +1,707 @@
++ . /work/system/Env_base
+++ GMVERSION=1.2.0-17
+++ export Env_base=K-1.2.0-17-2
+++ Env_base=K-1.2.0-17-2
++++ /bin/uname -m
+++ '[' s64fx = s64fx ']'
+++ export MPI_HOME=/opt/FJSVtclang/GM-1.2.0-17
+++ MPI_HOME=/opt/FJSVtclang/GM-1.2.0-17
+++ export TOFU_HOME=/opt/FJSVpxtof/sparc64fx
+++ TOFU_HOME=/opt/FJSVpxtof/sparc64fx
+++ export PATH=/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ PATH=/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ export LD_LIBRARY_PATH=/opt/FJSVpnavi/sparc64fx/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVpnavi/sparc64fx/lib64
+++ export LD_LIBRARY_PATH=/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ export LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64
+++ export LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
+++ LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
+++ export TMPDIR=/work/runK.sh.2856583
+++ TMPDIR=/work/runK.sh.2856583
+++ CPATH=/opt/FJSVtclang/check
+++ export PATH=/opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ PATH=/opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
+++ echo Env_base: K-1.2.0-17-2
++++ echo /opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
++++ undup
++++ awk -F: '
+{
+	lang=0
+	delimiter=""
+	for(i=1;i<=NF;i++){
+		flag[i]=1
+		if(match($i,"/opt/FJSVtclang/GM-1.2.0-")!=0){
+			if(lang==0){
+				lang=1
+			}else{
+				flag[i]=0
+			}
+		}else{
+			for(j=1;j<i;j++){
+				if($j==$i){
+					flag[i] = 0
+					break;
+				}
+			}
+		}
+		if(flag[i]!=0){
+			printf("%s%s",delimiter,$i);
+			delimiter=":"
+		}
+	}
+}'
+++ PATH=/opt/FJSVtclang/check:/opt/FJSVtclang/GM-1.2.0-17/bin:/usr/local/bin:/bin:/usr/bin:/opt/FJSVxosmmm/sbin
++++ echo /opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
++++ undup
++++ awk -F: '
+{
+	lang=0
+	delimiter=""
+	for(i=1;i<=NF;i++){
+		flag[i]=1
+		if(match($i,"/opt/FJSVtclang/GM-1.2.0-")!=0){
+			if(lang==0){
+				lang=1
+			}else{
+				flag[i]=0
+			}
+		}else{
+			for(j=1;j<i;j++){
+				if($j==$i){
+					flag[i] = 0
+					break;
+				}
+			}
+		}
+		if(flag[i]!=0){
+			printf("%s%s",delimiter,$i);
+			delimiter=":"
+		}
+	}
+}'
+++ LD_LIBRARY_PATH=/opt/FJSVpxtof/sparc64fx/lib64:/opt/FJSVtclang/GM-1.2.0-17/lib64:/opt/FJSVpnavi/sparc64fx/lib64:/opt/FJSVXosSclib/lib64
+++ unset undup
++ NRNIV='./special -mpi'
++ HOC_NAME=./main.hoc
++ NRNOPT=' -c STOPTIME=1'
++ MPIEXEC='mpiexec -mca mpi_print_stats 1'
++ PROF=
++ echo ' mpiexec -mca mpi_print_stats 1 ./special -mpi  -c STOPTIME=1 ./main.hoc'
++ mpiexec -mca mpi_print_stats 1 ./special -mpi -c STOPTIME=1 ./main.hoc
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+jwe1050i-w The hardware barrier couldn't be used and continues processing using the software barrier.
+taken to (standard) corrective action, execution continuing.
+NEURON -- Release 7.2 (562:42a47463b504) 2011-12-21
+Duke, Yale, and the BlueBrain Project -- Copyright 1984-2008
+See http://www.neuron.yale.edu/credits.html
+
+Additional mechanisms from files
+ ../mod//cad_0403.mod ../mod//cad.mod ../mod//exp2syn_k.mod ../mod//expsid.mod ../mod//gabaa.mod ../mod//GABAa.mod ../mod//gamma.mod ../mod//hh_k.mod ../mod//IAHP2_0403.mod ../mod//IAHP2.mod ../mod//IAHP.mod ../mod//ICA.mod ../mod//intermittent_stim_gaus.mod ../mod//intermittent_stim.mod ../mod//intermittent_stim_withNoise.mod ../mod//MsLN_0403.mod ../mod//MsLN.mod ../mod//normrand_test.mod ../mod//pGPeA_fukuda.mod ../mod//pGPeA_k.mod ../mod//region.mod ../mod//stim.mod
+11 ./special: File not open: ./result/record/100008Volt.txt
+11  in ./main.hoc near line 264
+13 ./special: File not open: ./result/record/100010Volt.txt
+13  in ./main.hoc near line 264
+13  setPrinter()
+15 ./special: File not open: ./result/record/100012Volt.txt
+15  in ./main.hoc near line 264
+15  setPrinter()
+11  setPrinter()
+12 ./special: File not open: ./result/record/100009Volt.txt
+12  in ./main.hoc near line 264
+12  setPrinter()
+14 ./special: File not open: ./result/record/100011Volt.txt
+14  in ./main.hoc near line 264
+14  setPrinter()
+             ^
+             ^
+             ^
+9 ./special: File not open: ./result/record/100006Volt.txt
+9  in ./main.hoc near line 264
+9  setPrinter()
+             ^
+             ^
+10 ./special: File not open: ./result/record/100007Volt.txt
+10  in ./main.hoc near line 264
+10  setPrinter()
+        14 Matrix[4].fprint(File[0], "%5.5f	")
+      14 fprintVoltageRecord()
+        15 Matrix[4].fprint(File[0], "%5.5f	")
+      15 fprintVoltageRecord()
+    15 setPrinter()
+        12 Matrix[4].fprint(File[0], "%5.5f	")
+      12 fprintVoltageRecord()
+    12 setPrinter()
+        13 Matrix[4].fprint(File[0], "%5.5f	")
+      13 fprintVoltageRecord()
+    13 setPrinter()
+        11 Matrix[4].fprint(File[0], "%5.5f	")
+      11 fprintVoltageRecord()
+    11 setPrinter()
+    14 setPrinter()
+             ^
+        9 Matrix[4].fprint(File[0], "%5.5f	")
+      9 fprintVoltageRecord()
+    9 setPrinter()
+             ^
+        10 Matrix[4].fprint(File[0], "%5.5f	")
+      10 fprintVoltageRecord()
+    10 setPrinter()
+8 ./special: File not open: ./result/record/100005Volt.txt
+8  in ./main.hoc near line 264
+8  setPrinter()
+             ^
+        8 Matrix[4].fprint(File[0], "%5.5f	")
+      8 fprintVoltageRecord()
+    8 setPrinter()
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 8 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 9 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 15 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 10 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 11 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 13 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 14 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[f04-037:02702] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02702] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 12 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[f04-037:02702] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02702] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02714] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02702] ./special [0x32a9fc]
+[f04-037:02702] ./special [0x19b7fc]
+[f04-037:02702] ./special [0x2874c8]
+[f04-037:02704] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02702] ./special [0x2b9918]
+[f04-037:02702] ./special [0x1658b4]
+[f04-037:02714] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02714] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02714] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02702] ./special [0x167350]
+[f04-037:02702] ./special [0x15ad8c]
+[f04-037:02704] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02704] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02702] ./special [0x159420]
+[f04-037:02704] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02704] ./special [0x32a9fc]
+[f04-037:02714] ./special [0x32a9fc]
+[f04-037:02714] ./special [0x19b7fc]
+[f04-037:02714] ./special [0x2874c8]
+[f04-037:02714] ./special [0x2b9918]
+[f04-037:02702] ./special [0x15bbb4]
+[f04-037:02702] ./special [0x15bbb4]
+[f04-037:02702] ./special [0x16338c]
+[f04-037:02704] ./special [0x19b7fc]
+[f04-037:02704] ./special [0x2874c8]
+[f04-037:02714] ./special [0x1658b4]
+[f04-037:02714] ./special [0x167350]
+[f04-037:02714] ./special [0x15ad8c]
+[f04-037:02714] ./special [0x159420]
+[f04-037:02702] ./special [0x19cb60]
+[f04-037:02702] ./special [0x19c300]
+[f04-037:02702] ./special [0x105c18]
+[f04-037:02702] ./special(main+0x40) [0x104e80]
+[f04-037:02704] ./special [0x2b9918]
+[f04-037:02704] ./special [0x1658b4]
+[f04-037:02714] ./special [0x15bbb4]
+[f04-037:02714] ./special [0x15bbb4]
+[f04-037:02714] ./special [0x16338c]
+[f04-037:02702] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02702] ./special [0x104cec]
+[f04-037:02704] ./special [0x167350]
+[f04-037:02704] ./special [0x15ad8c]
+[f04-037:02704] ./special [0x159420]
+[f04-037:02704] ./special [0x15bbb4]
+[f04-037:02714] ./special [0x19cb60]
+[f04-037:02714] ./special [0x19c300]
+[f04-037:02714] ./special [0x105c18]
+[f04-037:02706] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02704] ./special [0x15bbb4]
+[f04-037:02704] ./special [0x16338c]
+1 ./special: File not open: ./result/record/300000Volt.txt
+1  in ./main.hoc near line 264
+1  setPrinter()
+2 ./special: File not open: ./result/record/301000Volt.txt
+2  in ./main.hoc near line 264
+3 ./special: File not open: ./result/record/100000Volt.txt
+3  in ./main.hoc near line 264
+3  setPrinter()
+2  setPrinter()
+7 ./special: File not open: ./result/record/100004Volt.txt
+7  in ./main.hoc near line 264
+7  setPrinter()
+             ^
+             ^
+             ^
+             ^
+        1 Matrix[4].fprint(File[0], "%5.5f	")
+      1 fprintVoltageRecord()
+    1 setPrinter()
+        2 Matrix[4].fprint(File[0], "%5.5f	")
+      2 fprintVoltageRecord()
+    2 setPrinter()
+4 ./special: File not open: ./result/record/100001Volt.txt
+4  in ./main.hoc near line 264
+4  setPrinter()
+        7 Matrix[4].fprint(File[0], "%5.5f	")
+      7 fprintVoltageRecord()
+    7 setPrinter()
+        3 Matrix[4].fprint(File[0], "%5.5f	")
+      3 fprintVoltageRecord()
+    3 setPrinter()
+5 ./special: File not open: ./result/record/100002Volt.txt
+5  in ./main.hoc near line 264
+5  setPrinter()
+6 ./special: File not open: ./result/record/100003Volt.txt
+6  in ./main.hoc near line 264
+6  setPrinter()
+             ^
+             ^
+             ^
+        4 Matrix[4].fprint(File[0], "%5.5f	")
+      4 fprintVoltageRecord()
+        6 Matrix[4].fprint(File[0], "%5.5f	")
+      6 fprintVoltageRecord()
+    6 setPrinter()
+        5 Matrix[4].fprint(File[0], "%5.5f	")
+      5 fprintVoltageRecord()
+    5 setPrinter()
+    4 setPrinter()
+0 ./special: File not open: ./result/record/200000Volt.txt
+0  in ./main.hoc near line 264
+0  setPrinter()
+             ^
+        0 Matrix[4].fprint(File[0], "%5.5f	")
+      0 fprintVoltageRecord()
+    0 setPrinter()
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 3 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 1 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 7 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 6 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[f04-037:02704] ./special [0x19cb60]
+[f04-037:02714] ./special(main+0x40) [0x104e80]
+[f04-037:02714] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02714] ./special [0x104cec]
+[f04-037:02706] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02706] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02706] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02706] ./special [0x32a9fc]
+[f04-037:02706] ./special [0x19b7fc]
+[f04-037:02706] ./special [0x2874c8]
+[f04-037:02706] ./special [0x2b9918]
+[f04-037:02706] ./special [0x1658b4]
+[f04-037:02706] ./special [0x167350]
+[f04-037:02706] ./special [0x15ad8c]
+[f04-037:02706] ./special [0x159420]
+[f04-037:02706] ./special [0x15bbb4]
+[f04-037:02706] ./special [0x15bbb4]
+[f04-037:02706] ./special [0x16338c]
+[f04-037:02706] ./special [0x19cb60]
+[f04-037:02706] ./special [0x19c300]
+[f04-037:02706] ./special [0x105c18]
+[f04-037:02706] ./special(main+0x40) [0x104e80]
+[f04-037:02706] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02706] ./special [0x104cec]
+[f04-037:02704] ./special [0x19c300]
+[f04-037:02704] ./special [0x105c18]
+[f04-037:02704] ./special(main+0x40) [0x104e80]
+[f04-037:02704] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02704] ./special [0x104cec]
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 4 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[f04-036:24523] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24523] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24523] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24523] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24523] ./special [0x32a9fc]
+[f04-036:24523] ./special [0x19b7fc]
+[f04-036:24523] ./special [0x2874c8]
+[f04-036:24523] ./special [0x2b9918]
+[f04-036:24523] ./special [0x1658b4]
+[f04-036:24523] ./special [0x167350]
+[f04-036:24523] ./special [0x15ad8c]
+[f04-036:24523] ./special [0x159420]
+[f04-036:24523] ./special [0x15bbb4]
+[f04-036:24523] ./special [0x15bbb4]
+[f04-036:24523] ./special [0x16338c]
+[f04-036:24523] ./special [0x19cb60]
+[f04-036:24523] ./special [0x19c300]
+[f04-036:24523] ./special [0x105c18]
+[f04-036:24523] ./special(main+0x40) [0x104e80]
+[f04-036:24523] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24523] ./special [0x104cec]
+[f04-036:24521] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24521] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24521] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24521] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24521] ./special [0x32a9fc]
+[f04-036:24521] ./special [0x19b7fc]
+[f04-036:24521] ./special [0x2874c8]
+[f04-036:24521] ./special [0x2b9918]
+[f04-036:24521] ./special [0x1658b4]
+[f04-036:24521] ./special [0x167350]
+[f04-036:24521] ./special [0x15ad8c]
+[f04-036:24521] ./special [0x159420]
+[f04-036:24521] ./special [0x15bbb4]
+[f04-036:24521] ./special [0x15bbb4]
+[f04-036:24521] ./special [0x16338c]
+[f04-036:24521] ./special [0x19cb60]
+[f04-036:24521] ./special [0x19c300]
+[f04-036:24521] ./special [0x105c18]
+[f04-036:24521] ./special(main+0x40) [0x104e80]
+[f04-036:24521] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24521] ./special [0x104cec]
+[f04-036:24517] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24517] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24517] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24517] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24517] ./special [0x32a9fc]
+[f04-036:24517] ./special [0x19b7fc]
+[f04-036:24517] ./special [0x2874c8]
+[f04-036:24517] ./special [0x2b9918]
+[f04-036:24517] ./special [0x1658b4]
+[f04-036:24517] ./special [0x167350]
+[f04-036:24517] ./special [0x15ad8c]
+[f04-036:24517] ./special [0x159420]
+[f04-036:24517] ./special [0x15bbb4]
+[f04-036:24517] ./special [0x15bbb4]
+[f04-036:24517] ./special [0x16338c]
+[f04-036:24517] ./special [0x19cb60]
+[f04-036:24517] ./special [0x19c300]
+[f04-036:24517] ./special [0x105c18]
+[f04-036:24517] ./special(main+0x40) [0x104e80]
+[f04-036:24517] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24517] ./special [0x104cec]
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 5 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[f04-036:24525] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24525] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24525] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24525] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24525] ./special [0x32a9fc]
+[f04-036:24525] ./special [0x19b7fc]
+[f04-036:24525] ./special [0x2874c8]
+[f04-036:24525] ./special [0x2b9918]
+[f04-036:24525] ./special [0x1658b4]
+[f04-036:24525] ./special [0x167350]
+[f04-036:24525] ./special [0x15ad8c]
+[f04-036:24525] ./special [0x159420]
+[f04-036:24525] ./special [0x15bbb4]
+[f04-036:24525] ./special [0x15bbb4]
+[f04-036:24525] ./special [0x16338c]
+[f04-036:24525] ./special [0x19cb60]
+[f04-036:24525] ./special [0x19c300]
+[f04-036:24525] ./special [0x105c18]
+[f04-036:24525] ./special(main+0x40) [0x104e80]
+[f04-036:24525] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24525] ./special [0x104cec]
+--------------------------------------------------------------------------
+[mpi::mpi-api::mpi-abort]
+MPI_ABORT was invoked on rank 2 in communicator MPI_COMM_WORLD 
+with errorcode -1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[f04-036:24519] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24519] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24519] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24519] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24519] ./special [0x32a9fc]
+[f04-036:24519] ./special [0x19b7fc]
+[f04-036:24519] ./special [0x2874c8]
+[f04-036:24519] ./special [0x2b9918]
+[f04-036:24519] ./special [0x1658b4]
+[f04-036:24519] ./special [0x167350]
+[f04-036:24519] ./special [0x15ad8c]
+[f04-036:24519] ./special [0x159420]
+[f04-036:24519] ./special [0x15bbb4]
+[f04-036:24519] ./special [0x15bbb4]
+[f04-036:24519] ./special [0x16338c]
+[f04-036:24519] ./special [0x19cb60]
+[f04-036:24519] ./special [0x19c300]
+[f04-036:24519] ./special [0x105c18]
+[f04-036:24519] ./special(main+0x40) [0x104e80]
+[f04-036:24519] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24519] ./special [0x104cec]
+[f04-036:24527] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24527] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24527] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24527] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24527] ./special [0x32a9fc]
+[f04-036:24527] ./special [0x19b7fc]
+[f04-036:24527] ./special [0x2874c8]
+[f04-036:24527] ./special [0x2b9918]
+[f04-036:24527] ./special [0x1658b4]
+[f04-036:24527] ./special [0x167350]
+[f04-036:24527] ./special [0x15ad8c]
+[f04-036:24527] ./special [0x159420]
+[f04-036:24527] ./special [0x15bbb4]
+[f04-036:24527] ./special [0x15bbb4]
+[f04-036:24527] ./special [0x16338c]
+[f04-036:24527] ./special [0x19cb60]
+[f04-036:24527] ./special [0x19c300]
+[f04-036:24527] ./special [0x105c18]
+[f04-036:24527] ./special(main+0x40) [0x104e80]
+[f04-036:24527] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24527] ./special [0x104cec]
+[f04-036:24529] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-036:24529] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-036:24529] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-036:24529] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-036:24529] ./special [0x32a9fc]
+[f04-036:24529] ./special [0x19b7fc]
+[f04-036:24529] ./special [0x2874c8]
+[f04-036:24529] ./special [0x2b9918]
+[f04-036:24529] ./special [0x1658b4]
+[f04-036:24529] ./special [0x167350]
+[f04-036:24529] ./special [0x15ad8c]
+[f04-036:24529] ./special [0x159420]
+[f04-036:24529] ./special [0x15bbb4]
+[f04-036:24529] ./special [0x15bbb4]
+[f04-036:24529] ./special [0x16338c]
+[f04-036:24529] ./special [0x19cb60]
+[f04-036:24529] ./special [0x19c300]
+[f04-036:24529] ./special [0x105c18]
+[f04-036:24529] ./special(main+0x40) [0x104e80]
+[f04-036:24529] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-036:24529] ./special [0x104cec]
+[f04-037:02710] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02710] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02710] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02710] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02710] ./special [0x32a9fc]
+[f04-037:02710] ./special [0x19b7fc]
+[f04-037:02710] ./special [0x2874c8]
+[f04-037:02710] ./special [0x2b9918]
+[f04-037:02710] ./special [0x1658b4]
+[f04-037:02710] ./special [0x167350]
+[f04-037:02710] ./special [0x15ad8c]
+[f04-037:02710] ./special [0x159420]
+[f04-037:02710] ./special [0x15bbb4]
+[f04-037:02710] ./special [0x15bbb4]
+[f04-037:02710] ./special [0x16338c]
+[f04-037:02710] ./special [0x19cb60]
+[f04-037:02710] ./special [0x19c300]
+[f04-037:02710] ./special [0x105c18]
+[f04-037:02710] ./special(main+0x40) [0x104e80]
+[f04-037:02710] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02710] ./special [0x104cec]
+[f04-037:02699] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02699] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02699] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02699] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02699] ./special [0x32a9fc]
+[f04-037:02699] ./special [0x19b7fc]
+[f04-037:02699] ./special [0x2874c8]
+[f04-037:02699] ./special [0x2b9918]
+[f04-037:02699] ./special [0x1658b4]
+[f04-037:02699] ./special [0x167350]
+[f04-037:02699] ./special [0x15ad8c]
+[f04-037:02699] ./special [0x159420]
+[f04-037:02699] ./special [0x15bbb4]
+[f04-037:02699] ./special [0x15bbb4]
+[f04-037:02699] ./special [0x16338c]
+[f04-037:02699] ./special [0x19cb60]
+[f04-037:02699] ./special [0x19c300]
+[f04-037:02699] ./special [0x105c18]
+[f04-037:02699] ./special(main+0x40) [0x104e80]
+[f04-037:02699] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02699] ./special [0x104cec]
+[f04-037:02712] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02712] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02712] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02712] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02712] ./special [0x32a9fc]
+[f04-037:02712] ./special [0x19b7fc]
+[f04-037:02712] ./special [0x2874c8]
+[f04-037:02712] ./special [0x2b9918]
+[f04-037:02712] ./special [0x1658b4]
+[f04-037:02712] ./special [0x167350]
+[f04-037:02712] ./special [0x15ad8c]
+[f04-037:02712] ./special [0x159420]
+[f04-037:02712] ./special [0x15bbb4]
+[f04-037:02712] ./special [0x15bbb4]
+[f04-037:02712] ./special [0x16338c]
+[f04-037:02712] ./special [0x19cb60]
+[f04-037:02712] ./special [0x19c300]
+[f04-037:02712] ./special [0x105c18]
+[f04-037:02712] ./special(main+0x40) [0x104e80]
+[f04-037:02712] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02712] ./special [0x104cec]
+[f04-037:02708] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(orte_errmgr_base_error_abort+0x84) [0xffffffff00c9d004]
+[f04-037:02708] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(ompi_mpi_abort+0x51c) [0xffffffff00a4335c]
+[f04-037:02708] /opt/FJSVtclang/GM-1.2.0-17/lib64/libmpi.so.0(MPI_Abort+0x6c) [0xffffffff00a5ae6c]
+[f04-037:02708] /opt/FJSVtclang/GM-1.2.0-17/lib64/libtrtmet_c.so.1(MPI_Abort+0x2c) [0xffffffff00159bf0]
+[f04-037:02708] ./special [0x32a9fc]
+[f04-037:02708] ./special [0x19b7fc]
+[f04-037:02708] ./special [0x2874c8]
+[f04-037:02708] ./special [0x2b9918]
+[f04-037:02708] ./special [0x1658b4]
+[f04-037:02708] ./special [0x167350]
+[f04-037:02708] ./special [0x15ad8c]
+[f04-037:02708] ./special [0x159420]
+[f04-037:02708] ./special [0x15bbb4]
+[f04-037:02708] ./special [0x15bbb4]
+[f04-037:02708] ./special [0x16338c]
+[f04-037:02708] ./special [0x19cb60]
+[f04-037:02708] ./special [0x19c300]
+[f04-037:02708] ./special [0x105c18]
+[f04-037:02708] ./special(main+0x40) [0x104e80]
+[f04-037:02708] /lib64/libc.so.6(__libc_start_main+0x194) [0xffffffff034db81c]
+[f04-037:02708] ./special [0x104cec]
+[ERR.] PLE 0019 plexec One of MPI processes was aborted.(rank=3)(nid=0x04140034)(CODE=1938,793745140674134016,65280)
+
+real	0m17.730s
+user	0m0.020s
+sys	0m0.020s
++ sync
