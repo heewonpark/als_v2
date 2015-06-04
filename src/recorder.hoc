@@ -125,11 +125,12 @@ proc setVoltageRecord(){local i,j
 
 
 strdef FPRINT_DIR
-if(IS_SUPERCOMPUTER = 1){
+if(IS_SUPERCOMPUTER == 1){
     FPRINT_DIR = "./"
 }else{
     FPRINT_DIR = "../result/record/"
 }
+print FPRINT_DIR
 
 proc fprintVoltageRecord(){localobj mt, file,mt2, file2
     strdef filename

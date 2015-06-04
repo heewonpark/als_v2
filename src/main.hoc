@@ -47,7 +47,7 @@ if(name_declared("CAGAIN")!=5){ execute("CAGAIN=0.16")}
 
 //************************************************
 if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
-if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER = 0")}
+if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
 
 /*
 if(name_declared("SWC_FILENAME")==0) { 
