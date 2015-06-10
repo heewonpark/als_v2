@@ -4,10 +4,10 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=100"\
+" -c STOPTIME=50"\
 " -c IS_SUPERCOMPUTER=0"
 
-MPIEXEC="mpiexec -n 8"
+MPIEXEC="mpiexec -n 4"
 
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 

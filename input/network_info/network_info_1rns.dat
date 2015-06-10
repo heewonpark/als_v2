@@ -1,0 +1,3 @@
+# cellid, swcid, cloneid, SWC file path, position&rotation file, Synapse information file
+$ RN 1
+1 0 0 ../input/swc/rn0514/orn0000.swc none none

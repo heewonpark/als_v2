@@ -61,12 +61,12 @@ objref PNvolt_vec
 objref LNvolt_vec
 objref PNvolt_vecs[4000]
 objref LNvolt_vecs[4000]
-objref RNvolt_vecs[4000]
+objref RNvolt_vecs[6000]
 
 objref volt_tvec
 
 proc setVoltageRecord(){local i,j
-    for i= 0, rns.count()-1{
+    for i= 0, rns.count()*3-1{
 	RNvolt_vecs[i] = new Vector()
     }
     for i= 0, 4000-1{
@@ -114,11 +114,13 @@ proc setVoltageRecord(){local i,j
     for(j = 0; j<rns.count();j+=1){
 	//printf("RN record(id:%d)\n",(pc.id))
 	//printf("rns.count %d#\n",rns.count())
+	//print "ERROR CHECK SETVOLATAGERECORD",1
 	if(j==0){
 	    RNvolt_vecs[0].record(&rns.o(j).Dend[0].v(0.5))
 	    RNvolt_vecs[1].record(&rns.o(j).Dend[60].v(0.5))
 	    RNvolt_vecs[2].record(&rns.o(j).Dend[120].v(0.5))
 	}
+	//print "ERROR CHECK SETVOLATAGERECORD",2
     }
     pc.barrier()
 }
