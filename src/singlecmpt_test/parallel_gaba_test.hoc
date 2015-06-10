@@ -1,10 +1,10 @@
 {load_file("nrngui.hoc")}
 {load_file("netparmpi.hoc")}
 objref pnm
-pnm = new ParallelNetManager(0)
+//pnm = new ParallelNetManager(0)
 objref pc
-pc = pnm.pc
-//pc = new ParallelContext()
+//pc = pnm.pc
+pc = new ParallelContext()
 {load_file("Stick.hoc")}
 {load_file("ranstream.hoc")}
 
@@ -14,7 +14,7 @@ nLN = 1     // Number of LN-lla
 NCELL = nPN + nLN
 // NCELL : number of whole cells
 
-TSTOP = 500
+TSTOP = 1500
 
 print "NCELL ", NCELL
 
@@ -52,28 +52,30 @@ proc mkcells(){local i,ncell localobj cell, nc, nil
     }
 }
 
-objref gabalist
+objref gabalist, dummylist
 //prl : parallel
 proc prl_connect_gaba(){localobj gaba, c1, c2, g1, g2
-    gabalist = new List()
+    gabalist  = new List()
+    dummylist = new List()
     print "pc.gid2obj"
     
-    if(pc.gid_exists(0)){
+    if(pc.gid_exists(1)){
 	print "0"
-	c2 = pc.gid2obj(0)
+	c2 = pc.gid2obj(1) //pre_synapse
 	c2.soma {
-	    //g2 = new GABA(0.5) gabalist.append(g2)
-	    //g2.gmax = 2.0
-	    pc.source_var(&v(.5), 10)
+	    g2 = new PRL_GABA(0.5) dummylist.append(g2)
+	    pc.target_var(&g2.dummy,11)
+	    pc.source_var(&v(.5),10)
 	}
     }
-    if(pc.gid_exists(1)){
+    if(pc.gid_exists(0)){
 	print "1"
-	c1 = pc.gid2obj(1)
+	c1 = pc.gid2obj(0) //post_synapse
 	c1.soma {
-	    g1 = new GABA(0.5) gabalist.append(g1)
+	    g1 = new PRL_GABA(0.5) gabalist.append(g1)
 	    g1.gmax = 2.0
-	    pc.target_var(&g1.pre, 10)
+	    pc.target_var(&g1.pre,10)
+	    pc.source_var(&v(.5),11)
 	}
     }
     
@@ -126,7 +128,7 @@ proc mkstim_random(){local i
     for i = 0, cells.count -1 {
 	if(cells.object(i).type == 1){
 	    cells.object(i).Delay = r_delay1.repick()
-	    cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,35000,Interval,imax1,20,0.00)
+	    //cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,35000,Interval,imax1,20,0.00)
 	}else if(cells.object(i).type == 4){
 	    //cells.object(i).setStim(r_delay.repick(),r_imax2.repick())
 	    //print "type 4 ",i
@@ -145,6 +147,17 @@ proc setVoltageRecord(){local i
 }
 setVoltageRecord()
 
+objref tvec, vec
+proc setVoltageRecord_gaba(){local i
+    tvec = new Vector()
+    vec  = new Vector()
+    tvec.record(&t)
+    if(gabalist.count != 0){
+	vec.record(&gabalist.object(0).pre)
+    }
+}
+setVoltageRecord_gaba()
+
 proc setSpikeRecord(){local i
     for i = 0, cells.count -1{
 	cells.object(i).setSpikeRecord()
@@ -156,9 +169,8 @@ pc.barrier()
 
 tstop = TSTOP
 pc.setup_transfer()
-{pnm.set_maxstep(10)}
-//{pc.set_maxstep(10)}
-
+//{pnm.set_maxstep(10)}
+{pc.set_maxstep(10)}
 stdinit()
 {pc.psolve(tstop)}
 
@@ -193,6 +205,25 @@ proc printVoltageRecord(){
     }
 }
 printVoltageRecord()
+
+objref mt, file
+proc printVoltageRecord_gaba(){local i
+    mt = new Matrix()
+    file = new File()
+    
+    //tvec.printf()
+    mt.resize(tvec.size(),2)
+    mt.setcol(0,tvec)
+    mt.setcol(1,vec)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    sprint(filename,"./record/%dgabaVoltage_0.txt",pc.id) 
+    file.wopen(filename)
+    mt.fprint(file,"%5.5f\t")
+    file.close()
+}
+printVoltageRecord_gaba()
 
 {pc.runworker()}
 {pc.done()}

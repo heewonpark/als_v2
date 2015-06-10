@@ -67,9 +67,9 @@ ENDCOMMENT
 INDEPENDENT {t FROM 0 TO 1 WITH 1 (ms)}
 
 NEURON {
-	POINT_PROCESS GABA
+	POINT_PROCESS PRL_GABA : parallel gaba
 	:POINTER pre
-	RANGE pre
+	RANGE pre, dummy
 	RANGE C, R, R0, R1, g, gmax, lastrelease, TimeCount
 	NONSPECIFIC_CURRENT i
 	GLOBAL Cmax, Cdur, Alpha, Beta, Erev, Prethresh, Deadtime, Rinf, Rtau
@@ -104,9 +104,11 @@ ASSIGNED {
 	R1				: open channels at end of release
 	Rinf				: steady state channels open
 	Rtau		(ms)		: time constant of channel binding
-	pre 				: pointer to presynaptic variable
+	pre      	(mV)		: pointer to presynaptic variable
 	lastrelease	(ms)		: time of last spike
 	TimeCount	(ms)		: time counter
+	
+	dummy           (mV)            : this value should always be zero to send pre synapse 	
 }
 
 INITIAL {
@@ -117,6 +119,8 @@ INITIAL {
 	lastrelease = -1000
 	R1=0
 	TimeCount=-1
+	
+	dummy = 0
 }
 
 BREAKPOINT {
