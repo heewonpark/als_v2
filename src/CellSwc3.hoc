@@ -30,6 +30,7 @@ public Dend, SectionNum
 public connect2target
 public mkSyn,mkExp2Syn
 public mkSynapses, synapses
+public mkGABA
 public setPath, setNid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp
 public insertHH,insertHH_RN, insertLNlla
@@ -555,8 +556,6 @@ obfunc mkSyn(){local targetno
     return Syn__
 }
 
-
-
 obfunc mkExp2Syn(){local targetno
     targetno = $1
     
@@ -567,7 +566,6 @@ obfunc mkExp2Syn(){local targetno
     Syn__.e   = $2
     return Syn__
 }
-
 
 obfunc connect2target(){local numSynapses,pre_comp localobj nc,target
     pre_comp = $1
@@ -580,6 +578,14 @@ obfunc connect2target(){local numSynapses,pre_comp localobj nc,target
     return nc
 }
 
+objref gaba
+obfunc mkGABA(){local gmax
+    pre_comp = $1
+    gmax     = $2
+    this.Dend[pre_comp] gaba = new PRL_GABA(0.5)
+    gaba.gmax = gmax
+    return gaba
+}
 
 public doNothing
 proc doNothing(){

@@ -24,7 +24,8 @@ proc mknet(){
     print "MAKE CELLS"
     mkcells($1)
     print "CONNECT CELLS"
-    prl_connect_gaba()
+    //prl_connect_gaba()
+    prl_connect_gaba2()
 }
 
 proc mkcells(){local i,ncell localobj cell, nc, nil
@@ -92,7 +93,29 @@ proc prl_connect_gaba(){localobj gaba, c1, c2, g1, g2
     }
     */
     pc.barrier()
+}
 
+proc prl_connect_gaba2(){localobj gaba, c1, c2, g1, g2
+    gabalist  = new List()
+    dummylist = new List()
+
+    if(pc.gid_exists(1)){
+	print "0"
+	c2 = pc.gid2obj(1) //pre_synapse
+	g2 = c2.setGABA(0)
+	dummylist.append(g2)
+	pc.target_var(&g2.dummy,11)
+	pc.source_var(&c2.soma.v(.5),10)
+    }
+    if(pc.gid_exists(0)){
+	print "1"
+	c1 = pc.gid2obj(0) //post_synapse
+	g1 = c1.setGABA(2.0)
+	gabalist.append(g1)
+	pc.target_var(&g1.pre,10)
+	pc.source_var(&c1.soma.v(.5),11)
+    }
+    pc.barrier()
 }
 
 mknet(NCELL)

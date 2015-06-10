@@ -235,6 +235,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     connectRNtoOthers()
     //connectNtoN()
+    connectNtoN_GABA()
 }
 mkNetwork()
 pc.barrier()

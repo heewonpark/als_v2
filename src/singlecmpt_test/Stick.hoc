@@ -18,6 +18,8 @@ public type, setType
 public setSpikeRecord, printSpikeRecord, Delay
 objref synlist,gabalist
 
+public gaba, setGABA
+
 public imax
 
 /*
@@ -40,6 +42,7 @@ public imax
 */
 objref mechname[10]
 objref typename[6]
+objref this
 proc init(){
     for i=0,10-1{
 	mechname[i] = new String()
@@ -338,6 +341,15 @@ proc setStim(){local delay, imax
     soma st = new Stim(0.1)
     st.del = delay
     st.Imax = imax
+}
+
+
+objref gaba
+obfunc setGABA(){local gmax
+    gmax = $1
+    soma gaba = new PRL_GABA(0.5)
+    gaba.gmax = gmax
+    return gaba
 }
 public st1
 objref st1
