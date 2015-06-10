@@ -235,8 +235,8 @@ proc makeGABAsynapse(){local gid_base,gid localobj pre_gaba, post_gaba, pre, pos
 	    dummylist.append(pre_gaba)
 	    gid = gid_base+(gidVec.x[i]-gidVec.x[0])*2
 	    //print gid
-	    pc.target_var(&pre_gaba.dummy,gid)
-	    pc.source_var(&pre.Dend[pre_comps.x[i]].v(0.5),gid+1)
+	    pc.target_var(&pre_gaba.dummy,gid)//dummy
+	    pc.source_var(&pre.Dend[pre_comps.x[i]].v(0.5),gid+1) //for real gaba
 	}
     }
 
@@ -248,7 +248,7 @@ proc makeGABAsynapse(){local gid_base,gid localobj pre_gaba, post_gaba, pre, pos
 	    gid = gid_base+(gidVec.x[i]-gidVec.x[0])*2
 	    //print gid
 	    pc.target_var(&post_gaba.pre,gid+1)
-	    pc.source_var(&post.Dend[post_comps.x[i]].v(0.5),gid)
+	    pc.source_var(&post.Dend[post_comps.x[i]].v(0.5),gid) //for dummy
 	}
     }
 }
