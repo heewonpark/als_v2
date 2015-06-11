@@ -155,13 +155,13 @@ proc setDummyRecord(){local i, j
     pc.barrier()
 }
 
-
-
 strdef FPRINT_DIR
 if(IS_SUPERCOMPUTER == 1){
     FPRINT_DIR = "./"
-}else{
+}else if(START_TIME == 0){
     FPRINT_DIR = "../result/record/"
+}else{
+    sprint(FPRINT_DIR,"../result/%010d/record/",START_TIME)
 }
 print FPRINT_DIR
 

@@ -33,7 +33,7 @@ public mkSynapses, synapses
 public mkGABA
 public setPath, setNid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp
-public insertHH,insertHH_RN, insertLNlla
+public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned
 public getAxon
 
 //-------------------------------------------------------
@@ -448,6 +448,20 @@ proc insertLNlla(){
 	ctau_cad = 0.0000125
 	insert ICA
 	eca = 120
+    }
+}
+proc insertFukuda_tunned(){
+    mechanism_flg = 3
+    forall{
+        insert GPeA
+        ena_GPeA = 55
+        ek_GPeA = -70
+	eca_GPeA = 124
+        el_GPeA = -50
+        //a_m_GPeA = 0.065
+        a_m_GPeA = 0.048
+        //a_W_GPeA = 0.055
+        a_W_GPeA = 0.060
     }
 }
 

@@ -48,6 +48,8 @@ if(name_declared("CAGAIN")!=5){ execute("CAGAIN=0.16")}
 //************************************************
 if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
 if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
+print "error check"
+if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
 
 /*
 if(name_declared("SWC_FILENAME")==0) { 
@@ -109,7 +111,9 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pn.dendlist = areaList(97,98,0)
             pn.axonlist = areaList(99,100,0)
 	    pn.setSpikegenlist(SPIKEGEN_POS, SPIKEGEN_SIZE)
-	    initModel_PN(pn)
+	    //initModel_PN(pn)
+	    
+	    pn.insertFukuda_tunned()
 
 	    pns.append(pn)
 	    //print "pn ", i, j
@@ -224,10 +228,10 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
  	j+=1
     }
     forsec pn.spikegenlist {
-	gnabar_GPeA_k = GNABAR*20
-	gkdrbar_GPeA_k = GKDRBAR*20
-	// gcatbar_GPeA_k = GCATBAR*0.1
-	// gkcabar_GPeA_k = GKCABAR*0.1
+	//gnabar_GPeA_k = GNABAR*20
+	//gkdrbar_GPeA_k = GKDRBAR*20
+	gcatbar_GPeA_k = GCATBAR*0.1
+	gkcabar_GPeA_k = GKCABAR*0.1
     }
     //stdinit() Why do i need to use this?
 }
@@ -236,7 +240,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     connectRNtoOthers()
     //connectNtoN()
-    connectNtoN_GABA()
+    //connectNtoN_GABA()
 }
 mkNetwork()
 pc.barrier()

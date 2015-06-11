@@ -1,13 +1,23 @@
 #! /bin/bash
 
+# Make directory to save data file
+Time=`date '+%m%d%H%M%S'`
+echo "TIME : ${Time}"
+BASE_DIR="../result/"
+RECORD_DIR="${BASE_DIR}${Time}/record"
+#SPIKERECORD_DIR="${BASE_DIR}${Time}/spike"
+echo "DATA DIRECTORY : ${RECORD_DIR}"
+mkdir -p ${RECORD_DIR}
+
 NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
 " -c STOPTIME=100"\
-" -c IS_SUPERCOMPUTER=0"
+" -c IS_SUPERCOMPUTER=0"\
+" -c START_TIME=${Time}"
 
-MPIEXEC="mpiexec -n 4"
+MPIEXEC="mpiexec -n 8"
 #MPIEXEC=""
 
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"

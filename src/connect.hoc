@@ -316,7 +316,13 @@ proc connectNtoN_GABA(){\
     for(j=0;j<SynPathList.count();j+=1){
 	print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
 	readSynapseList(SynPathList.o(j).synpath,gid_base)
-	makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,10.0,0)
+	if(SynPathList.o(j).postgid == 0){//If post-synaptic neuron is PN
+	    printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
+	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,60.0,0)
+	}else{
+	    printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
+	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,5.0,0)
+	}
 	pc.barrier()
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()*2
