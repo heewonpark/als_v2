@@ -105,6 +105,7 @@ func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localob
 }
 {load_file("SynPath.hoc")}
 objref SynPathList
+SynPathList = new List()
 func loadSynapseInfo(){local i,pregid,postgid,pre_nid,post_nid,ndata,mode localobj syn_fp, cell, synp
     strdef buf
     strdef syn_filename
@@ -113,8 +114,7 @@ func loadSynapseInfo(){local i,pregid,postgid,pre_nid,post_nid,ndata,mode localo
     cell = $o1
     syn_filename = $s2
     mode = $3 //mode =1 read RN synapse, mode = 2 other synapse
-
-    SynPathList = new List()
+    
     //print cell
     //print cell.synpath
     syn_fp = new File()

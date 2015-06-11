@@ -67,7 +67,8 @@ nclist_RN = new List()
 proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
     gid_base = $1
     print gid_base
-    for i=0, NPN+NLN-1{
+    //for i=0, NPN+NLN-1{
+    for i=NPN, NPN+NLN-1{
 	if(pc.gid_exists(i)){
 	    target = pc.gid2obj(i)
 	    loadSynapseInfo(target, target.synpath, 1)
@@ -160,7 +161,7 @@ proc readSynapseList(){\
 		    post_comps.append(_post_comp)
 		    gidVec.append(gid_base+gid_cnt)
 		    if((_pre_nid-(_pre_nid%100))/100==3){
-			//print _pre_nid, _pre_comp, _post_nid,_post_comp,"Inhibition"
+			print _pre_nid, _pre_comp, _post_nid,_post_comp,"Inhibition"
 			syntypes.append(1)
 		    }else if((_pre_nid-(_pre_nid%100))/100==2){
 			//print _pre_nid, _pre_comp, _post_nid,_post_comp,"Excitation"
@@ -217,19 +218,22 @@ proc makePostSynapse(){local i, post_cell,rev_potential, delay, weight,gid local
 	}
     }
 }
-
 objref gabalist, dummylist
-proc makeGABAsynapse(){local gid_base,gid localobj pre_gaba, post_gaba, pre, post
+gabalist  = new List()
+dummylist = new List()
+
+proc makeGABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj pre_gaba, post_gaba, pre, post
     pre_cell  = $1
     post_cell = $2
     gid_base  = $3
     gmax      = $4
     delay     = $5
-    gabalist  = new List()
-    dummylist = new List()
+    
+    printf("Pre: %d\tPost: %d\tGid_base :%d\tGamx :%d\n",pre_cell,post_cell,gid_base,gmax)
     if(pc.gid_exists(pre_cell)){
 	pre = pc.gid2obj(pre_cell)
-	//print "SectionNum ", pre.SectionNum
+	print "Pre SectionNum ", pre.SectionNum
+	printf("pre_comps.size() : %d (pc.id:%d)\n",pre_comps.size(),pc.id)
 	for i=0, pre_comps.size()-1{
 	    pre_gaba = pre.mkGABA(pre_comps.x[i],0)
 	    dummylist.append(pre_gaba)
@@ -239,9 +243,10 @@ proc makeGABAsynapse(){local gid_base,gid localobj pre_gaba, post_gaba, pre, pos
 	    pc.source_var(&pre.Dend[pre_comps.x[i]].v(0.5),gid+1) //for real gaba
 	}
     }
-
     if(pc.gid_exists(post_cell)){
 	post = pc.gid2obj(post_cell)
+	print "Post SectionNum ", post.SectionNum
+	printf("post_comps.size() : %d (pc.id:%d)\n",pre_comps.size(),pc.id)
 	for i=0, post_comps.size()-1{
 	    post_gaba = post.mkGABA(post_comps.x[i],gmax)
 	    gabalist.append(post_gaba)
@@ -292,19 +297,27 @@ proc connectNtoN_GABA(){\
 
     strdef _syn_path
     gid_base = 2000000
-
+    print "Connect Neuron to Neuron with GABAergic synapse"
     for(i=0;i<NPN;i=i+1){
 	//print "error pn"
+	print pn_path[i].synpath
 	loadSynapseInfo(nil,pn_path[i].synpath,2)
     }
     for(i=0;i<NLN;i=i+1){
 	//print "error ln"
+	print ln_path[i].synpath
 	loadSynapseInfo(nil,ln_path[i].synpath,2)
     }
+    
     for(j=0;j<SynPathList.count();j+=1){
+	SynPathList.o(j).write()
+    }
+    
+    for(j=0;j<SynPathList.count();j+=1){
+	print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
 	readSynapseList(SynPathList.o(j).synpath,gid_base)
-	pc.barrier()
 	makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,10.0,0)
+	pc.barrier()
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()*2
 	}else{

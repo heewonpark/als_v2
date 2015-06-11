@@ -252,6 +252,8 @@ pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
     setVoltageRecord()
+    setGABArecord()
+    setDummyRecord()
 }
 setRecorder()
 
@@ -265,6 +267,8 @@ stdinit()
 print "PRINTING..."
 proc setPrinter(){
     fprintVoltageRecord()
+    fprintGABArecord()
+    fprintDummyRecord()
 }
 
 setPrinter()

@@ -125,6 +125,37 @@ proc setVoltageRecord(){local i,j
     pc.barrier()
 }
 
+objref PNgaba_vecs[50]
+objref gaba_tvec
+proc setGABArecord(){local i, j
+    for i= 0, 50-1{
+	PNgaba_vecs[i] = new Vector()
+    }
+    gaba_tvec = new Vector()
+    gaba_tvec.record(&t)
+    
+    for(j=0; j<gabalist.count();j+=1){
+	PNgaba_vecs[j].record(&gabalist.o(j).pre)
+    }
+    pc.barrier()
+}
+
+objref PNdummy_vecs[50]
+objref dummy_tvec
+proc setDummyRecord(){local i, j
+    for i= 0, 50-1{
+	PNdummy_vecs[i] = new Vector()
+    }
+    dummy_tvec = new Vector()
+    dummy_tvec.record(&t)
+    
+    for(j=0; j<dummylist.count();j+=1){
+	PNdummy_vecs[j].record(&dummylist.o(j).pre)
+    }
+    pc.barrier()
+}
+
+
 
 strdef FPRINT_DIR
 if(IS_SUPERCOMPUTER == 1){
@@ -202,5 +233,36 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()
 	}
+    }
+}
+
+
+proc fprintGABArecord(){localobj mt, file
+    strdef filename
+    mt = new Matrix()
+    for(j = 0; j<gabalist.count();j+=1){
+	file = new File()
+	mt.resize(gaba_tvec.size(),2)
+	mt.setcol(0,gaba_tvec)
+	mt.setcol(1,PNgaba_vecs[j])
+	sprint(filename,"%s%d_%dGABA.txt",FPRINT_DIR,pc.id,j)
+	file.wopen(filename)
+	mt.fprint(file,"%5.5f\t")
+	file.close()
+    }
+}
+
+proc fprintDummyRecord(){localobj mt, file
+    strdef filename
+    mt = new Matrix()
+    for(j = 0; j<dummylist.count();j+=1){
+	file = new File()
+	mt.resize(dummy_tvec.size(),2)
+	mt.setcol(0,dummy_tvec)
+	mt.setcol(1,PNdummy_vecs[j])
+	sprint(filename,"%s%d_%dDummy.txt",FPRINT_DIR,pc.id,j)
+	file.wopen(filename)
+	mt.fprint(file,"%5.5f\t")
+	file.close()
     }
 }
