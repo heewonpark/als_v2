@@ -7,19 +7,24 @@ rotationPerStep = 0.006
 /*--- make cell ---*/
 
 objref cell[100]
+/*
 strdef filename
 for(i=0;i<100;i+=1){
-    sprint(filename,"./swc/rn/orn%04d.swc",i)
+    sprint(filename,"../input/swc/rn/orn%04d.swc",i)
     cell[i] = new CellSwc(filename)
     cell[i].translation(i/2.0*sin(i/10.0),0.0,i/2.0*cos(i/10.0))
 }
+*/
+
+
 
 /*--- insert mechanism ---*/
 objref shape
 shape = new Shape()
 
-strdef str
+
 func paint_neuron(){local i, s_color, n_color,counter localobj c
+    strdef str
     c = $o1
     s_color = $2
     n_color = $3
