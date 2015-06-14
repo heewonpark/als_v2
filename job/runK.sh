@@ -28,8 +28,8 @@
 #PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/record/%j/"
-#PJM --stgout "rank=* %r:./record/* /data/hp120263/park/result/%j/"
-#PJM --stgout "rank=* %r:./result/record/* /data/hp120263/park/result/record/%j/"
+#--#PJM --stgout "rank=* %r:./record/* /data/hp120263/park/result/%j/"
+#--#PJM --stgout "rank=* %r:./result/record/* /data/hp120263/park/result/record/%j/"
 
 # SET UP ENVIRONMENT OF LANGUAGE 
 . /work/system/Env_base
@@ -40,7 +40,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=300"\
+" -c STOPTIME=5"\
 " -c IS_SUPERCOMPUTER=1"
 
 #LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"

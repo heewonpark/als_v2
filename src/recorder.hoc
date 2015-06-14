@@ -163,8 +163,7 @@ if(IS_SUPERCOMPUTER == 1){
 }else{
     sprint(FPRINT_DIR,"../result/%010d/record/",START_TIME)
 }
-print FPRINT_DIR
-
+printf("OUTPUT DIR : %s\n",FPRINT_DIR)
 proc fprintVoltageRecord(){localobj mt, file,mt2, file2
     strdef filename
     for(j = 0; j<pns.count();j+=1){

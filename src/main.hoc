@@ -268,7 +268,9 @@ tstop = STOPTIME
 stdinit()
 {pc.psolve(tstop)}
 
-print "PRINTING..."
+if(pc.id == 0){
+    printf("PRINTING[%d]\n",pc.id)
+}
 proc setPrinter(){
     fprintVoltageRecord()
     fprintGABArecord()
@@ -276,6 +278,9 @@ proc setPrinter(){
 }
 
 setPrinter()
+if(pc.id == 0{
+    printf("END PROGRAM[%d]\n",pc.id)
+}
 {pc.runworker()}
 {pc.done()}
 quit()
