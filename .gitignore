@@ -34,8 +34,11 @@
 record/
 record/**/*.txt
 
-# ignoer specials
+# ignore specials
 x86_64/
+
+# ignore job scripts
+*.sh.*
 
 # others
 !.gitkeep

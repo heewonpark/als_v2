@@ -14,7 +14,7 @@
 #
 
 #NUM_RN = 2000
-NUM_RN = 1
+NUM_RN = 500
 LISTFILENAME = "./network_info_%drns.dat"%(NUM_RN)
 SWCFILEPATH_DIR = "../input/swc/rn0514/"
 SWCFILENAME = "orn"

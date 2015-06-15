@@ -56,7 +56,6 @@ proc spikeout(){local i, rank localobj f
 }
 */
 
-
 objref PNvolt_vec
 objref LNvolt_vec
 objref PNvolt_vecs[4000]
@@ -155,6 +154,30 @@ proc setDummyRecord(){local i, j
     pc.barrier()
 }
 
+objref PreGABA_vecs[50]
+objref PreGABA_tvec
+PreGABA_cnt = 0
+proc setPreGABArecord(){local i,j,k localobj pre,post
+    for i=0, 50-1{
+	PreGABA_vecs[i] = new Vector()
+    }
+    PreGABA_tvec = new Vector()
+    PreGABA_tvec.record(&t)
+    //printf("PreGABA RECORD(pc.id:%d)\n",pc.id)
+    for i = 0, NPN+NLN-1{
+	if(pc.gid_exists(i)){
+	    printf("PreGABA (pc.id:%d, gid:%d)\n",pc.id,i)
+	    pre = pc.gid2obj(i)
+	    for j=0, pre_comps_list[i].count()-1{
+		for k=0, pre_comps_list[i].o(j).size()-1{	
+		    PreGABA_vecs[PreGABA_cnt].record(&pre.Dend[pre_comps_list[i].o(j).x[k]].v(0.5))
+		    PreGABA_cnt += 1
+		}
+	    }
+	}
+    }
+}
+
 strdef FPRINT_DIR
 if(IS_SUPERCOMPUTER == 1){
     FPRINT_DIR = "./"
@@ -163,7 +186,9 @@ if(IS_SUPERCOMPUTER == 1){
 }else{
     sprint(FPRINT_DIR,"../result/%010d/record/",START_TIME)
 }
-printf("OUTPUT DIR : %s\n",FPRINT_DIR)
+if(pc.id == 0){
+    printf("OUTPUT DIR : %s\n",FPRINT_DIR)
+}
 proc fprintVoltageRecord(){localobj mt, file,mt2, file2
     strdef filename
     for(j = 0; j<pns.count();j+=1){
@@ -235,7 +260,6 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
     }
 }
 
-
 proc fprintGABArecord(){localobj mt, file
     strdef filename
     mt = new Matrix()
@@ -265,3 +289,37 @@ proc fprintDummyRecord(){localobj mt, file
 	file.close()
     }
 }
+
+proc fprintPreGABArecord(){local j localobj mt, file
+    strdef filename
+    if(PreGABA_cnt != 0){
+	mt = new Matrix()
+	file = new File()
+	mt.resize(PreGABA_tvec.size(),PreGABA_cnt+1)
+	mt.setcol(0,PreGABA_tvec)
+	for(j = 0; j<PreGABA_cnt;j+=1){
+	    mt.setcol(j+1,PreGABA_vecs[j])
+	}
+	sprint(filename,"%s%d_PreGABA%d.txt",FPRINT_DIR,pc.id,PreGABA_cnt)
+	file.wopen(filename)
+	mt.fprint(file,"%5.5f\t")
+	file.close()
+    }
+}
+
+
+/*
+print fprintSynapseList(){local i, j,pre_cnt, post_cnt localobj mt, file
+    strdef filename
+    mt = new Matrix()
+    pre_cnt  = 0
+    post_cnt = 0
+    for(i = 0; i<NPN+NLN;i+=1){
+	file = new File()
+	for(j=0;j<pre_comps_list[i].count();j+=1){
+	    pre_cnt = pre_comps_list[i].
+	}
+	mt.resize(pre_comps_list[i]
+    }
+}
+*/

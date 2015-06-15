@@ -1,0 +1,113 @@
+objref shape
+shape = new Shape()
+
+func paint_neuron(){local i, s_color, n_color,counter localobj c
+    strdef str
+    c = $o1
+    s_color = $2
+    n_color = $3
+    //$o1 CellSwc
+    //s_color synapse color
+    //n_color neuron color(dendrite color)
+    counter = 0
+    counter2 = 0
+    for(i=0;i<c.SectionNum;i=i+1){
+	parentType = c.Type.x[c.pID.x[i]]
+	if((c.Type.x[i] == 7)&&(parentType == 7)){
+	    c.Dend[i] shape.color(s_color)
+	    counter +=1
+	}else{
+	    c.Dend[i] shape.color(n_color)
+	}
+	if(c.Type.x[i]==7){
+	    counter2 +=1
+	}
+    }
+    //c.all.printnames()
+    c.Dend[0] str = secname()
+    printf("%s %d\n",str, counter)  
+    printf("%s %d\n",str, counter2)
+    return counter
+}
+
+_pre_nid  = 0
+_post_nid = 0
+_pre_comp = 0
+_post_comp = 0
+obfunc readSynapseList(){\
+    local nid, nconnect, i\
+    localobj synf,strobj,pre,post,nc,nil,syn, SynPathList_, pre_comps,post_comps,gidVec,syntypes
+
+    strdef buf, ctype
+    strdef syn_filename
+    strdef Return_Value
+    pre_comps = new Vector()
+    post_comps = new Vector()
+    syntypes = new Vector()
+    gidVec = new Vector()
+    syn_filename = $s1
+    Return_Value = $s2
+    gid_base = 0
+    gid_cnt  = 0
+
+    synf = new File()
+    
+    if(synf.ropen(syn_filename) != 1){
+	printf("ERROR : File was not found. (%s)\n",syn_filename)
+	return(-1) 
+    }
+
+    while(synf.scanstr(buf)!=-1){
+	if(strcmp("#",buf)==0){
+	    continue
+	}else if(strcmp("$",buf)==0){
+	    synf.gets(buf)
+	    sscanf(buf,"%s %d\n",ctype,&nid)
+	    if(strcmp("PRE_CELL",ctype)==0){
+		_pre_nid  = nid
+	    }else if(strcmp("POST_CELL",ctype)==0){
+		_post_nid = nid
+	    }else if(strcmp("NCONNECTIONS",ctype)==0){
+		nconnect = nid
+		for(i=0;i<nconnect;i+=1){
+		    synf.gets(buf)
+		    sscanf(buf,"%d %d\n",&_pre_comp, &_post_comp)
+		    //printf("%d %d\n",_pre_comp, _post_comp)
+		    pre_comps.append(_pre_comp)
+		    post_comps.append(_post_comp)
+		    gidVec.append(gid_base+gid_cnt)
+		    if((_pre_nid-(_pre_nid%100))/100==3){
+			//print _pre_nid, _pre_comp, _post_nid,_post_comp,"Inhibition"
+			syntypes.append(1)
+		    }else if((_pre_nid-(_pre_nid%100))/100==2){
+			//print _pre_nid, _pre_comp, _post_nid,_post_comp,"Excitation"
+			syntypes.append(2)
+		    }else{
+			print _pre_nid
+			print "SOMETHINGS WRONG IN READ SYNAPSE LIST"
+			return (-1)
+		    }
+		    gid_cnt += 1
+		}
+	    }
+	}
+    }
+    if(strcmp(Return_Value,"Post") == 0){
+	return post_comps
+    }else if(strcmp(Return_Value,"Pre") == 0){
+	return pre_comps
+    }else{
+	print "ERROR IN READSYNAPSELIST"
+	return 0
+    }
+}
+proc paint_cmpt(){local i, color localobj c, cmpt_vec
+    c        = $o1
+    cmpt_vec = $o2
+    color    = $3
+    for i=0,cmpt_vec.size()-1{
+	c.Dend[cmpt_vec.x[i]] shape.color(color)
+	print cmpt_vec.x[i]
+    }
+}
+

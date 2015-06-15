@@ -1,6 +1,6 @@
 //************************************************
-// FILE NAME : main.hoc
-// 2015.04.28
+// FILE NAME : single_projection_test.hoc
+// 2015.06.14
 // Heewon Park
 //************************************************
 
@@ -11,16 +11,6 @@
 //
 //
 
-//************************************************
-// FUNCTION LIST
-//************************************************
-// mkNetwork()
-// mkCells()
-// mkConnections()
-// mkStimulations()
-// setRecorder()
-// setPrinter()
-//************************************************
 {load_file("nrngui.hoc")}
 {load_file("stdlib.hoc")}
 
@@ -51,33 +41,19 @@ if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
 print "error check"
 if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
 
-/*
-if(name_declared("SWC_FILENAME")==0) { 
-	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
-}
-*/
-
 RNperSYN = 5
 
 strdef info_filename
-//info_filename = "../input/network_info/network_info_3cells.dat"
-info_filename = "../input/network_info/network_info_3cells_manual.dat"
-//info_filename = "../input/network_info/network_info_1LN.dat"
+info_filename = "../input/network_info/network_info_1PN.dat"
 strdef info_filename_rn
-info_filename_rn = "../input/network_info/network_info_2000rns.dat"
-//info_filename_rn = "../input/network_info/network_info_1rns.dat"
+info_filename_rn = "../input/network_info/network_info_500rns.dat"
 
 objref pc
 pc = new ParallelContext()
-//STOPTIME = 300
 if(pc.id == 0){printf("STOPTIME : %d(ms)\n",STOPTIME)}
+if(pc.id == 0){printf("PC.NHOST : %d\n",pc.nhost)}
 
-
-if(pc.id == 0){
-    print "PC.NHOST ",pc.nhost
-}
 objref pns,lns,rns
-
 proc mkNetwork(){
     mkCells()
     if(pc.id == 0){
@@ -112,36 +88,18 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pn.dendlist = areaList(97,98,0)
             pn.axonlist = areaList(99,100,0)
 	    pn.setSpikegenlist(SPIKEGEN_POS, SPIKEGEN_SIZE)
-	    pn.spikegenlist.printnames()
 	    initModel_PN(pn)
 	    
 	    //pn.insertFukuda_tunned()
-
 	    pns.append(pn)
 	    //print "pn ", i, j
 	    nc = pn.connect2target(0,nil)
 	    //pns.o(0).mkSynapses("./synlist/fromRN/050622_4_sn_SynapseList.dat")
-	    
+    
 	    pc.set_gid2node(i,pc.id)
 	    pc.cell(i,nc)
 	    psection()
-	    
 	}else if((i%pc.nhost==pc.id)&&(i>=NPN && i<NPN+NLN)){
-	    j = i-NPN
-	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
-	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
-	    ln.setNid()
-	    ln.insertLNlla()
-	    lns.append(ln)
-	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
-	    //if(j==1) ln.mkSynapses("./synlist/fromRN/050205_7_sn_SynapseList.dat")
-	    //print "ln ", i, j
-	    nc = ln.connect2target(0,nil)
-	    
-	    pc.set_gid2node(i,pc.id)
-	    pc.cell(i,nc)
-	    psection()
-
 	}else if(i>=NPN+NLN){
 	    if(pc.nhost>NPN+NLN){
 		if((i-NLN-NPN)%(pc.nhost-NPN-NLN)==(pc.id-NPN-NLN)){
@@ -259,7 +217,7 @@ pc.barrier()
 proc setRecorder(){
     setVoltageRecord()
     setGABArecord()
-    //setDummyRecord()
+    setDummyRecord()
     setPreGABArecord()
 }
 setRecorder()
@@ -277,7 +235,7 @@ if(pc.id == 0){
 proc setPrinter(){
     fprintVoltageRecord()
     fprintGABArecord()
-    //fprintDummyRecord()
+    fprintDummyRecord()
     //fprintSynapseList()
     fprintPreGABArecord()
 }

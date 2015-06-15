@@ -67,8 +67,8 @@ nclist_RN = new List()
 proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
     gid_base = $1
     print gid_base
-    //for i=0, NPN+NLN-1{
-    for i=NPN, NPN+NLN-1{
+    for i=0, NPN+NLN-1{
+    //for i=NPN, NPN+NLN-1{
 	if(pc.gid_exists(i)){
 	    target = pc.gid2obj(i)
 	    loadSynapseInfo(target, target.synpath, 1)
@@ -116,12 +116,17 @@ _pre_nid  = 0
 _post_nid = 0
 _pre_comp = 0
 _post_comp = 0
+objref pre_comps_list[100], post_comps_list[100]
+for i=0,100-1{
+    pre_comps_list[i]  = new List()
+    post_comps_list[i] = new List()
+}
 objref pre_comps,post_comps
 objref syntypes//types 1 inhibition 2 excitation, synapse type
 objref gidVec
 proc readSynapseList(){\
     local nid, nconnect, i\
-    localobj synf,strobj,pre,post,nc,nil,syn
+    localobj synf,strobj,pre,post,nc,nil,syn, SynPathList_
 
     strdef buf, ctype
     strdef syn_filename
@@ -130,7 +135,8 @@ proc readSynapseList(){\
     post_comps = new Vector()
     syntypes = new Vector()
     gidVec = new Vector()
-    syn_filename = $s1
+    SynPathList_ = $o1
+    syn_filename = SynPathList_.synpath
     gid_base = $2
     gid_cnt  = 0
 
@@ -176,6 +182,8 @@ proc readSynapseList(){\
 	    }
 	}
     }
+    pre_comps_list[SynPathList_.pregid].append(pre_comps)
+    post_comps_list[SynPathList_.postgid].append(post_comps)
 }
 
 objref nclist_NtoN
@@ -277,11 +285,11 @@ proc connectNtoN(){\
 	loadSynapseInfo(nil,ln_path[i].synpath,2)
     }
     for(j=0;j<SynPathList.count();j+=1){
-	readSynapseList(SynPathList.o(j).synpath,gid_base)
+	readSynapseList(SynPathList.o(j),gid_base)
 	pc.barrier()
 	makePreSynapse(SynPathList.o(j).pregid)
 	pc.barrier()
-	makePostSynapse(SynPathList.o(j).postgid,100,0.2)
+	makePostSynapse(SynPathList.o(j).postgid,30,0.2)
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()
 	}else{
@@ -315,14 +323,15 @@ proc connectNtoN_GABA(){\
     
     for(j=0;j<SynPathList.count();j+=1){
 	print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
-	readSynapseList(SynPathList.o(j).synpath,gid_base)
+	readSynapseList(SynPathList.o(j),gid_base)
 	if(SynPathList.o(j).postgid == 0){//If post-synaptic neuron is PN
 	    printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
-	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,60.0,0)
+	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,1.0,0)
 	}else{
 	    printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
 	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,5.0,0)
 	}
+	
 	pc.barrier()
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()*2
