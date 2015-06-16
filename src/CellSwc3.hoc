@@ -593,10 +593,10 @@ obfunc connect2target(){local numSynapses,pre_comp localobj nc,target
 }
 
 objref gaba
-obfunc mkGABA(){local gmax
-    pre_comp = $1
-    gmax     = $2
-    this.Dend[pre_comp] gaba = new PRL_GABA(0.5)
+obfunc mkGABA(){local gmax,comp
+    comp = $1
+    gmax = $2
+    this.Dend[comp] gaba = new PRL_GABA(0.5)
     gaba.gmax = gmax
     return gaba
 }

@@ -1,0 +1,680 @@
+numprocs=8
+error check
+error check
+error check
+error check
+error check
+error check
+error check
+error check
+STOPTIME : 100(ms)
+PC.NHOST 8 
+DIVIDER
+pn	ln	rn
+1	0	0	
+0	1	0	
+0	1	0	
+0	0	400	
+0	0	400	
+0	0	400	
+0	0	400	
+0	0	400	
+NCELLS 2003 
+CellSwc[0].Dend[129]
+CellSwc[0].Dend[130]
+CellSwc[0].Dend[135]
+CellSwc[0].Dend[136]
+CellSwc[0].Dend[141]
+CellSwc[0].Dend[142]
+CellSwc[0].Dend[149]
+CellSwc[0].Dend[151]
+CellSwc[0].Dend[150]
+CellSwc[0].Dend[156]
+CellSwc[0].Dend[100] { nseg=1  L=1.14546  Ra=35.4
+	CellSwc[0].Dend[99] connect CellSwc[0].Dend[100] (0), 1
+	/* First segment only */
+	insert morphology { diam=1.41}
+	insert capacitance { cm=1}
+	insert GPeA_k { gnabar_GPeA_k=0.12 kna_GPeA_k=3 gkdrbar_GPeA_k=0.07 kk_GPeA_k=3 gl_GPeA_k=0.00035 el_GPeA_k=-60 kca_GPeA_k=2.4 vol_GPeA_k=1.78858e-15 caGain_GPeA_k=0.16 gcatbar_GPeA_k=0.00015 gkcabar_GPeA_k=0.015}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+CellSwc[0].Dend[0] { nseg=1  L=0.801184  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert hh { gnabar_hh=0.19 gkbar_hh=0.06 gl_hh=0.0001 el_hh=-67}
+	insert na_ion { ena=50}
+	insert IAHP2 { gahpbar_IAHP2=0.004 eahp_IAHP2=-140 ctau_IAHP2=1.25e-05}
+	insert k_ion { ek=-100}
+	insert cad { depth_cad=0.1 ctau_cad=1.25e-05 cainf_cad=0.00024 kt_cad=0 kd_cad=0}
+	insert ICA { gcabar_ICA=0.005}
+	insert ca_ion {}
+}
+CellSwc[0].Dend[0] { nseg=1  L=0.586698  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert hh { gnabar_hh=0.19 gkbar_hh=0.06 gl_hh=0.0001 el_hh=-67}
+	insert na_ion { ena=50}
+	insert IAHP2 { gahpbar_IAHP2=0.004 eahp_IAHP2=-140 ctau_IAHP2=1.25e-05}
+	insert k_ion { ek=-100}
+	insert cad { depth_cad=0.1 ctau_cad=1.25e-05 cainf_cad=0.00024 kt_cad=0 kd_cad=0}
+	insert ICA { gcabar_ICA=0.005}
+	insert ca_ion {}
+}
+pc.id	pn	ln	rn
+0	1	0	0
+(syn_gid, pc.id)
+Max synapse gid 0
+3	0	0	400
+4	0	0	400
+5	0	0	400
+6	0	0	400
+7	0	0	400
+2	0	1	0
+Max synapse gid 0
+1	0	1	0
+Max synapse gid 0
+Max synapse gid 1008399
+Max synapse gid 1008799
+Max synapse gid 1009199
+Max synapse gid 1009599
+Max synapse gid 1009999
+1000000 
+1000000 
+1000000 
+1000000 
+1000000 1000000 
+1000000 
+1000000 
+
+loadsynapseinfo()(pc.id : 0)
+loadsynapseinfo()(pc.id : 1)
+loadsynapseinfo()(pc.id : 2)
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/301syn.dat 
+../input/synapse_info/301syn.dat 
+../input/synapse_info/301syn.dat 
+../input/synapse_info/301syn.dat 
+../input/synapse_info/301syn.dat 
+../input/synapse_info/301syn.dat 
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/301syn.dat 
+2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+300 19321 200 1164 Inhibition
+300 14519 200 1184 Inhibition
+300 20314 200 1155 Inhibition
+300 14519 200 1176 Inhibition
+300 12904 200 2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+300 19321 200 1164 Inhibition
+300 14519 200 1184 Inhibition
+300 20314 200 1155 Inhibition
+300 14519 200 1176 Inhibition
+300 12904 200 1180 Inhibition
+2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+300 19321 200 2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+300 19321 200 1164 Inhibition
+1180 Inhibition
+300 14649 200 1165 Inhibition
+300 14519 300 14649 200 1165 Inhibition
+300 14519 200 1180 300 19321 200 1164 Inhibition
+300 14519 200 300 19321 200 1164 Inhibition
+300 14519 200 1184 Inhibition
+1164 Inhibition
+300 14519 200 1184 Inhibition
+300 20314 200 1180 Inhibition
+300 12904 200 1177 Inhibition
+Inhibition
+300 12904 200 1177 Inhibition
+1184 Inhibition
+300 20314 200 1155 Inhibition
+300 20314 200 1155 Inhibition
+200 1155 Inhibition
+300 14519 200 1176 Inhibition
+300 14519 200 1184 Inhibition
+300 20314 200 1155 Inhibition
+300 14519 200 1176 Inhibition300 14649 200 1173 Inhibition
+300 16210 200 1172 Inhibition
+300 16210 200 1172 Inhibition
+300 14519 200 1176 Inhibition
+300 12904 200 1180 300 14519 200 1176 Inhibition
+300 12904 200 1180 Inhibition
+300 12904 200 1180 Inhibition
+
+300 12904 200 1180 Inhibition
+300 19321 200 1164 Inhibition
+300 14519 200 1184 Inhibition
+POST SYNAPSE IS PN(pc.id:1)
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+Pre SectionNum POST SYNAPSE IS PN(pc.id:2)
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+Inhibition
+300 20314 200 1155 Inhibition
+300 14519 200 22927 
+pre_comps.size() : 10 (pc.id:1)
+300 14649 200 1165 Inhibition
+1176 Inhibition
+300 12904 200 300 14649 200 1165 Inhibition
+300 14649 200 1165 Inhibition
+300 14649 200 1165 Inhibition
+1180 Inhibition
+300 14649 200 1165 300 14519 200 1180 Inhibition
+300 14519 200 1180 Inhibition
+Inhibition
+300 300 14519 200 1180 Inhibition
+300 12904 300 14519 200 1180 Inhibition
+300 12904 200 300 12904 200 1177 Inhibition
+300 16210 200 1172 300 12904 200 1177 Inhibition
+300 16210 200 14519 200 1180 Inhibition
+300 12904 200 1177 Inhibition200 1177 Inhibition
+300 16210 200 1172 Inhibition
+1177 Inhibition
+300 16210 200 1172 Inhibition
+Inhibition
+1172 Inhibition
+
+300 16210 200 1172 Inhibition
+POST SYNAPSE IS PN(pc.id:6)
+POST SYNAPSE IS PN(pc.id:3)
+POST SYNAPSE IS PN(pc.id:5)
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+POST SYNAPSE IS PN(pc.id:7)
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+POST SYNAPSE IS PN(pc.id:0)
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+Post SectionNum 1213 
+post_comps.size() : 10 (pc.id:0)
+Connect Neuron to Neuron with GABAergic synapse
+../input/synapse_info/200syn.dat 
+../input/synapse_info/300syn.dat 
+2
+1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+../input/synapse_info/301syn.dat 
+2
+2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+Temp SynPath : 1 300 0 200 ../input/synapse_list/300_200_randomize.txt
+Temp SynPath : 1 300 2 301 ../input/synapse_list/300_301_randomize.txt
+Temp SynPath : 2 301 0 200 ../input/synapse_list/301_200_randomize.txt
+Temp SynPath : 2 301 1 300 ../input/synapse_list/301_300_randomize.txt
+SynPathList 0 ../input/synapse_list/300_200_randomize.txt 1 0 
+300 14649 200 1173 Inhibition
+300 19321 200 1164 Inhibition
+300 14519 200 1184 Inhibition
+300 20314 200 1155 Inhibition
+300 14519 200 1176 Inhibition
+300 12904 200 1180 Inhibition
+300 14649 200 1165 Inhibition
+300 14519 200 1180 Inhibition
+300 12904 200 1177 Inhibition
+300 16210 200 1172 Inhibition
+POST SYNAPSE IS PN(pc.id:4)
+Pre: 1	Post: 0	Gid_base :2000000	Gamx :0
+SynPathList 1 SynPathList 1 ../input/synapse_list/300_301_randomize.txt 1 SynPathList 1 ../input/synapse_list/300_301_randomize.txt 1 2 
+SynPathList 1 ../input/synapse_list/300_301_randomize.txt 1 2 
+SynPathList SynPathList 1 ../input/synapse_list/300_301_randomize.txt 1 2 
+SynPathList 1 ../input/synapse_list/300_301_randomize.txt 1 2 
+SynPathList 1 ../input/synapse_list/300_301_randomize.txt 1 2 
+../input/synapse_list/300_301_randomize.txt 1 2 
+2 
+300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 8239 301 11580 Inhibition
+300 15706 301 11879 Inhibition
+300 15171 301 11949 Inhibition
+300 21088 301 300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 8239 301 11580 Inhibition
+300 15706 301 11879 Inhibition
+300 15171 301 11949 Inhibition
+300 300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 8239 301 11580 Inhibition
+300 15706 301 11879 Inhibition
+300 15171 301 11949 Inhibition
+300 21088 301 11038 Inhibition300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+11038 Inhibition
+POST SYNAPSE IS LN(pc.id:0)
+21088 301 11038 Inhibition
+
+POST SYNAPSE IS LN(pc.id:2)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+POST SYNAPSE IS LN(pc.id:1)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+300 8239 301 11580 Inhibition
+300 8239 301 11580 Inhibition
+Pre SectionNum 22927 
+pre_comps.size() : 10 (pc.id:1)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+Post SectionNum 12524 
+post_comps.size() : 10 (pc.id:2)
+300 8239 301 11580 Inhibition
+300 8239 301 11580 Inhibition
+300 15706 301 11879 Inhibition
+300 300 15706 301 11879 Inhibition
+300 15171 301 300 15706 301 11879 Inhibition
+300 15706 301 11879 Inhibition
+300 15171 301 11949 Inhibition
+300 21088 301 11949 Inhibition
+300 21088 301 11038 Inhibition
+300 15171 301 11949 Inhibition
+15171 301 11949 Inhibition
+300 21088 11038 Inhibition
+300 21088 301 11038 Inhibition
+301 11038 Inhibition
+POST SYNAPSE IS LN(pc.id:6)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+POST SYNAPSE IS LN(pc.id:7)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+POST SYNAPSE IS LN(pc.id:3)
+POST SYNAPSE IS LN(pc.id:5)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+1 ../input/synapse_list/300_301_randomize.txt 1 2 
+300 21015 301 11079 Inhibition
+300 14644 301 10877 Inhibition
+300 8240 301 11534 Inhibition
+300 15191 301 11093 Inhibition
+300 8804 301 11257 Inhibition
+300 21375 301 10351 Inhibition
+300 8239 301 11580 Inhibition
+300 15706 301 11879 Inhibition
+300 15171 301 11949 Inhibition
+300 21088 301 11038 Inhibition
+POST SYNAPSE IS LN(pc.id:4)
+Pre: 1	Post: 2	Gid_base :2000020	Gamx :5
+SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 0 
+SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 0 
+SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 0 
+SynPathList SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 0 
+SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 0 
+SynPathList 2 ../input/synapse_list/301_200_randomize.txt 2 0 
+0 
+301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 10064 200 937 Inhibition
+301 11556 200 627 Inhibition
+301 10838 200 871 Inhibition
+301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 10064 200 937 Inhibition
+301 11556 200 627 Inhibition
+301 10838 200 871 Inhibition
+301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 10064 200 937 Inhibition
+301 11556 200 627 Inhibition
+301 10838 200 871 Inhibition
+301 301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 10369 200 921 Inhibition
+301 10369 200 921 Inhibition
+10369 200 921 Inhibition
+Inhibition
+POST SYNAPSE IS PN(pc.id:0)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+Post SectionNum POST SYNAPSE IS PN(pc.id:2)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+301 10064 200 937 Inhibition
+1213 
+post_comps.size() : 10 (pc.id:0)
+POST SYNAPSE IS PN(pc.id:1)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+Pre SectionNum 12524 
+pre_comps.size() : 10 (pc.id:2)
+301 10064 200 937 Inhibition
+301 10064 200 937 Inhibition
+301 10064 200 937 Inhibition
+301 11556 301 11556 200 627 Inhibition
+301 10838 200 627 Inhibition
+301 11556 200 627 Inhibition
+301 11556 200 627 Inhibition
+200 871 Inhibition
+301 10369 200 301 10838 200 871 Inhibition
+301 10369 301 10838 200 871 Inhibition
+301 10838 200 871 Inhibition
+301 921 Inhibition
+200 921 Inhibition
+301 10369 200 921 Inhibition
+10369 200 921 Inhibition
+POST SYNAPSE IS PN(pc.id:6)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+POST SYNAPSE IS PN(pc.id:7)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+POST SYNAPSE IS PN(pc.id:3)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+POST SYNAPSE IS PN(pc.id:5)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+2 ../input/synapse_list/301_200_randomize.txt 2 0 
+301 11055 200 705 Inhibition
+301 10843 200 750 Inhibition
+301 10841 200 704 Inhibition
+301 11246 200 837 Inhibition
+301 10362 200 833 Inhibition
+301 10074 200 870 Inhibition
+301 10064 200 937 Inhibition
+301 11556 200 627 Inhibition
+301 10838 200 871 Inhibition
+301 10369 200 921 Inhibition
+POST SYNAPSE IS PN(pc.id:4)
+Pre: 2	Post: 0	Gid_base :2000040	Gamx :0
+SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 1 
+SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 1 
+SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 1 
+SynPathList SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 1 
+SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 1 
+SynPathList 3 ../input/synapse_list/301_300_randomize.txt 2 1 
+1 
+301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 Inhibition
+301 10351 300 21436 Inhibition
+301 11083 300 8804 Inhibition
+301 11219 300 21088 Inhibition
+301 301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 Inhibition
+301 10351 300 21436 Inhibition
+301 11083 300 8804 Inhibition
+301 11219 300 21088 Inhibition
+301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 Inhibition
+301 10351 300 21436 Inhibition
+301 11083 300 8804 Inhibition
+301 11219 300 21088 Inhibition
+301 11093 300 301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 Inhibition
+301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 Inhibition
+11093 300 15070 Inhibition
+POST SYNAPSE IS LN(pc.id:0)
+301 11093 300 15070 Inhibition
+15070 Inhibition
+POST SYNAPSE IS LN(pc.id:2)
+300 9486 Inhibition
+Inhibition
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+POST SYNAPSE IS LN(pc.id:1)
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+Pre SectionNum 12524 
+pre_comps.size() : 10 (pc.id:2)
+301 10351 300 21436 Inhibition
+301 10351 300 21436 Inhibition
+Post SectionNum 22927 
+post_comps.size() : 10 (pc.id:1)
+301 10351 300 21436 Inhibition
+301 10351 300 21436 Inhibition
+301 11083 300 8804 Inhibition
+301 11083 300 8804 Inhibition
+301 11083 300 8804 Inhibition
+301 11083 300 8804 Inhibition
+301 11219 300 21088 Inhibition
+301 301 11219 300 21088 Inhibition
+301 11219 300 21088 Inhibition
+301 11219 300 21088 Inhibition
+11093 300 15070 Inhibition
+301 11093 300 15070 Inhibition
+301 11093 300 15070 Inhibition
+301 11093 300 15070 Inhibition
+POST SYNAPSE IS LN(pc.id:6)
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+POST SYNAPSE IS LN(pc.id:7)
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+POST SYNAPSE IS LN(pc.id:3)
+POST SYNAPSE IS LN(pc.id:5)
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+3 ../input/synapse_list/301_300_randomize.txt 2 1 
+301 10351 300 21374 Inhibition
+301 10877 300 15191 Inhibition
+301 11083 300 8242 Inhibition
+301 10380 300 21309 Inhibition
+301 11422 300 8239 Inhibition
+301 11681 300 9486 Inhibition
+301 10351 300 21436 Inhibition
+301 11083 300 8804 Inhibition
+301 11219 300 21088 Inhibition
+301 11093 300 15070 Inhibition
+POST SYNAPSE IS LN(pc.id:4)
+Pre: 2	Post: 1	Gid_base :2000060	Gamx :5
+	2.1457672e-06 
+	2.3841858e-06 
+	2.3841858e-06 
+	2.3841858e-06 
+		2.6226044e-06 
+	2.3841858e-06 
+	2.3841858e-06 
+2.6226044e-06 
+	1.9083736 
+	1.9083734 
+	1.908375 
+	0.046045065 
+		0.036204576 
+	0.037103176 
+	1.2397766e-05 
+0.030112267 
+OUTPUT DIR : ../result/0616131127/record/
+0 
+PreGABA (pc.id:0, gid:0)
+PreGABA (pc.id:1, gid:1)
+PreGABA (pc.id:2, gid:2)
+	5.8412552e-05 
+	8.5830688e-06 
+	3.3378601e-06 
+	6.6041946e-05 
+		6.4849854e-05 
+	6.3896179e-05 
+	6.6757202e-05 
+1.0728836e-05 
+	0 
+	0 
+	0 
+	0 
+		0 
+	0 
+	0 
+0 
+PRINTING[0]
+END PROGRAM[0]

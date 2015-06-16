@@ -15,9 +15,10 @@ NCELL = nPN + nLN
 // NCELL : number of whole cells
 
 TSTOP = 1500
-
-print "NCELL ", NCELL
-
+if(pc.id == 0){
+    print "NCELL ", NCELL
+    print "PC.NHOST ",pc.nhost
+}
 objref cells, nclist
 objref ranlist
 proc mknet(){
@@ -36,10 +37,12 @@ proc mkcells(){local i,ncell localobj cell, nc, nil
 	cell = new Stick()
 	cells.append(cell)
 	if(i < nPN){
+	    printf("MAKE PN[%d] i:%d\n",pc.id,i)
 	    cell.insertFukuda()
 	    cell.setType(1)
 	    cell.setExp2Syn(-75)
 	}else if((i>=nPN) && (i<nPN + nLN)){
+	    printf("MAKE LN[%d] i:%d\n",pc.id,i)
 	    //cell.insertLNlla()
 	    cell.insertLNlla3()
 	    cell.setType(4)

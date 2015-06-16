@@ -125,7 +125,7 @@ objref pre_comps,post_comps
 objref syntypes//types 1 inhibition 2 excitation, synapse type
 objref gidVec
 proc readSynapseList(){\
-    local nid, nconnect, i\
+    local nid, nconnect, i,gid_base\
     localobj synf,strobj,pre,post,nc,nil,syn, SynPathList_
 
     strdef buf, ctype
@@ -299,7 +299,7 @@ proc connectNtoN(){\
    }
 }
 
-proc connectNtoN_GABA(){\
+func connectNtoN_GABA(){\
     local i, j,gid_base\
     localobj str,nil,pre,post
 
@@ -326,7 +326,7 @@ proc connectNtoN_GABA(){\
 	readSynapseList(SynPathList.o(j),gid_base)
 	if(SynPathList.o(j).postgid == 0){//If post-synaptic neuron is PN
 	    printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
-	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,1.0,0)
+	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,0.3,0)
 	}else{
 	    printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
 	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,5.0,0)
@@ -339,5 +339,27 @@ proc connectNtoN_GABA(){\
 	    print "ERROR IN CONNECTNTON"
 	    return (-1)
 	}
-   }
+    }
+    return gid_base
+}
+
+proc connectNtoN_DUMMY(){\
+    local i, j, gid_base,pre_gid, post_gid\
+    localobj pre_dummy, post_dummy
+    gid_base = $1
+    if(pc.id==0){printf("pc.id\tpre_t\tpre_s\tpost_t\tpost_s\n")}
+    if(pns.count()==0 && lns.count()==0){
+	pre_dummy = rns.o(0).mkGABA(0,0)
+	dummylist.append(pre_dummy)
+	pre_gid = gid_base + (pc.id-NPN-NLN)%(pc.nhost-NPN-NLN)*2
+	pc.target_var(&pre_dummy.dummy,pre_gid)
+	pc.source_var(&rns.o(0).Dend[0].v(0.5),pre_gid+1)
+
+	post_dummy = rns.o(0).mkGABA(1,0)
+	dummylist.append(post_dummy)
+	post_gid = gid_base + (pc.id+1-NPN-NLN)%(pc.nhost-NPN-NLN)*2
+	pc.source_var(&rns.o(0).Dend[1].v(0.5),post_gid)
+	pc.target_var(&post_dummy.dummy,post_gid+1)
+	printf("%d\t%d\t%d\t%d\t%d\n",pc.id,pre_gid,pre_gid+1,post_gid+1,post_gid)
+    }
 }

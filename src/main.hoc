@@ -242,7 +242,10 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     connectRNtoOthers()
     //connectNtoN()
-    connectNtoN_GABA()
+    GID_BASE = connectNtoN_GABA()
+    pc.barrier()
+    if(pc.id == 0){printf("gid_base %d\n",GID_BASE)}
+    connectNtoN_DUMMY(GID_BASE)
 }
 mkNetwork()
 pc.barrier()

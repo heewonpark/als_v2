@@ -5,7 +5,7 @@ Time=`date '+%m%d%H%M%S'`
 echo "TIME : ${Time}"
 RESULT_DIR="../result/"
 RECORD_DIR="${RESULT_DIR}${Time}/record"
-OUT="{RESULT_DIR}${Time}/out"
+OUT="${RESULT_DIR}${Time}/out"
 #SPIKERECORD_DIR="${BASE_DIR}${Time}/spike"
 echo "DATA DIRECTORY : ${RECORD_DIR}"
 mkdir -p ${RECORD_DIR}
@@ -18,7 +18,7 @@ NRNOPT=\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"
 
-MPIEXEC="mpiexec -n 8"
+MPIEXEC="mpiexec -n 6"
 #MPIEXEC=""
 
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
