@@ -2,7 +2,7 @@
 #PJM --rsc-list "node=1"
 #PJM --rsc-list "elapse=00:05:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=2"
+#PJM --mpi "proc=8"
 #PJM -s
 
 # staging
@@ -26,7 +26,9 @@
 #PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
 #PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
 
-#PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/record/%j/"
+#PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record"
+#PJM --stgout "rank=* %r:./*.hoc /data/hp120263/park/al_V2/%j/src"
+
 #--#PJM --stgout "rank=* %r:./record/* /data/hp120263/park/result/%j/"
 #--#PJM --stgout "rank=* %r:./result/record/* /data/hp120263/park/result/record/%j/"
 
