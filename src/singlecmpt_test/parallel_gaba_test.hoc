@@ -176,10 +176,11 @@ proc setVoltageRecord_gaba(){local i
     vec  = new Vector()
     tvec.record(&t)
     if(gabalist.count != 0){
+	print gabalist.object(0)
 	vec.record(&gabalist.object(0).pre)
     }
 }
-setVoltageRecord_gaba()
+//setVoltageRecord_gaba()
 
 proc setSpikeRecord(){local i
     for i = 0, cells.count -1{
@@ -189,14 +190,14 @@ proc setSpikeRecord(){local i
 setSpikeRecord()
 
 pc.barrier()
-
+print "RUN"
 tstop = TSTOP
 pc.setup_transfer()
 //{pnm.set_maxstep(10)}
 {pc.set_maxstep(10)}
 stdinit()
 {pc.psolve(tstop)}
-
+print "FINISH"
 proc printSpikeRecord(){local i
     for i = 0, cells.count -1{
 	if(cells.object(i).type<4){
@@ -241,12 +242,13 @@ proc printVoltageRecord_gaba(){local i
     
     //mt.printf("%5.5f\t")
     strdef filename
-    sprint(filename,"./record/%dgabaVoltage_0.txt",pc.id) 
+    //sprint(filename,"./record/%dgabaVoltage_0.txt",pc.id) 
+    sprint(filename,"./%dgabaVoltage_0.txt",pc.id) 
     file.wopen(filename)
     mt.fprint(file,"%5.5f\t")
     file.close()
 }
-printVoltageRecord_gaba()
+//printVoltageRecord_gaba()
 
 {pc.runworker()}
 {pc.done()}

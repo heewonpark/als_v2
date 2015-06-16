@@ -40,6 +40,7 @@ public imax
 * LNlla = 4
 * LNllb = 5
 */
+
 objref mechname[10]
 objref typename[6]
 objref this
@@ -71,7 +72,8 @@ proc init(){
     Delay = 0
     
     imax =0
-
+    
+    IS_SUPERCOMPUTER = 1
     synlist = new List()
     gabalist = new List()
     biophys()
@@ -587,7 +589,12 @@ proc printVoltageRecord3(){local i
     //mt.printf("%5.5f\t")
     strdef filename
     print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    sprint(filename,"./record/%diclamp_%s%d.txt",pcid,typename[type].s ,i) 
+    if(IS_SUPERCOMPUTER==0){
+	sprint(filename,"./record/%diclamp_%s%d.txt",pcid,typename[type].s ,i) 
+    }else if(IS_SUPERCOMPUTER ==1){
+	sprint(filename,"./%diclamp_%s%d.txt",pcid,typename[type].s ,i) 
+    }
+    
     file.wopen(filename)
     mt.fprint(file,"%5.5f\t")
     file.close()
@@ -642,7 +649,11 @@ proc printSpikeRecord2(){local i, interval,tstop, istim1, istim2
     istim1 = imax
     fileSR = new File()
     strdef filename
-    sprint(filename,"./spikerecord/%dspikerecord_%s%d.dat",pcid,typename[type].s,n)
+    if(IS_SUPERCOMPUTER==0){
+	sprint(filename,"./spikerecord/%dspikerecord_%s%d.dat",pcid,typename[type].s,n)
+    }else if(IS_SUPERCOMPUTER ==1){
+	sprint(filename,"./%dspikerecord_%s%d.dat",pcid,typename[type].s,n)
+    }
     fileSR.wopen(filename)
     fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
     fileSR.printf("$ Delay(ms): %f\n",Delay)

@@ -12,23 +12,11 @@
 # CHANGE TO YOUR OWN DIR
 #PJM --stgin-basedir /home/hp120263/k01793/code/al_V2/
 
-#PJM --stgin "rank=* ./input/* %r:../input/"
-#PJM --stgin "rank=* ./input/network_info/* %r:../input/network_info/"
-#PJM --stgin "rank=* ./input/spiketiming/* %r:../input/spiketiming/"
-#PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
-#PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
-#PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
-#PJM --stgin "rank=* ./input/synapse_info/syn/* %r:../input/synapse_info/syn/"
-#PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
-#PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
-
-#PJM --stgin "rank=* ./src/* %r:./"
+#PJM --stgin "rank=* ./src/singlecmpt_test/* %r:./"
 #PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
 #PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/record/%j/"
-#--#PJM --stgout "rank=* %r:./record/* /data/hp120263/park/result/%j/"
-#--#PJM --stgout "rank=* %r:./result/record/* /data/hp120263/park/result/record/%j/"
 
 # SET UP ENVIRONMENT OF LANGUAGE 
 . /work/system/Env_base
@@ -36,7 +24,8 @@
 #--#export OMP_NUM_THREADS=8
 
 NRNIV="./special -mpi"
-HOC_NAME="./main.hoc"
+#HOC_NAME="./main.hoc"
+HOC_NAME="./parallel_gaba_test.hoc"
 #NRNOPT=""
 NRNOPT=\
 " -c STOPTIME=5"\
