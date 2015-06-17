@@ -60,7 +60,7 @@ objref PNvolt_vec
 objref LNvolt_vec
 objref PNvolt_vecs[4000]
 objref LNvolt_vecs[4000]
-objref RNvolt_vecs[6000]
+objref RNvolt_vecs[60000]
 
 objref volt_tvec
 
@@ -124,10 +124,10 @@ proc setVoltageRecord(){local i,j
     pc.barrier()
 }
 
-objref PNgaba_vecs[50]
+objref PNgaba_vecs[5000]
 objref gaba_tvec
 proc setGABArecord(){local i, j
-    for i= 0, 50-1{
+    for i= 0, 5000-1{
 	PNgaba_vecs[i] = new Vector()
     }
     gaba_tvec = new Vector()
@@ -139,10 +139,10 @@ proc setGABArecord(){local i, j
     pc.barrier()
 }
 
-objref PNdummy_vecs[50]
+objref PNdummy_vecs[5000]
 objref dummy_tvec
 proc setDummyRecord(){local i, j
-    for i= 0, 50-1{
+    for i= 0, 5000-1{
 	PNdummy_vecs[i] = new Vector()
     }
     dummy_tvec = new Vector()
@@ -153,8 +153,8 @@ proc setDummyRecord(){local i, j
     }
     pc.barrier()
 }
-
-objref PreGABA_vecs[50]
+/*
+objref PreGABA_vecs[5000]
 objref PreGABA_tvec
 PreGABA_cnt = 0
 proc setPreGABArecord(){local i,j,k localobj pre,post
@@ -177,7 +177,7 @@ proc setPreGABArecord(){local i,j,k localobj pre,post
 	}
     }
 }
-
+*/
 strdef FPRINT_DIR
 if(IS_SUPERCOMPUTER == 1){
     FPRINT_DIR = "./"

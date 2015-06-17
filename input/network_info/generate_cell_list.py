@@ -25,14 +25,16 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-NPN = 1
-NLN = 0
+#NPN = 1
+#NLN = 0
 
 NCELL = NPN + NLN
 
 #LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)
 LISTFILENAME = "./network_info_%dcells.dat"%(NCELL)
-SYNPATH_DIR  = "../synapse_info/syn/%dcells/"%(NCELL)
+SYNPATH_DIR  = "../synapse_info/%dcells/"%(NCELL)
+SYNPATH_DIR2  = "../input/synapse_info/%dcells/"%(NCELL)
+SYNLIST_DIR  = "../input/synapse_list/"
 NPNSWC = 1
 NLNSWC = 2
 
@@ -64,13 +66,18 @@ class CELL:
     def setCloneid(self,cloneid):
         self.cloneid = cloneid
 
+    def calcGid(self):
+        self.gid = self.cellid * 100000 + self.swcid * 1000 + self.cloneid
+
+    def setNid(self):
+        self.nid = self.cellid * 100 + self.swcid
+
     def writeline(self,f):
         f.write("%d %d %d %d %s %s %s\n"%(self.gid, self.cellid,self.swcid,self.cloneid,self.swcpath,self.ppath,self.synpath))
 
     def setSynpath(self):
-        self.nid = self.cellid * 100000 + self.swcid * 1000 + self.cloneid
-        self.synpath_dir = SYNPATH_DIR
-        self.synpath_fn  = "%dsyn.dat"%(self.nid)
+        self.synpath_dir = SYNPATH_DIR2
+        self.synpath_fn  = "%dsyn.dat"%(self.gid)
         self.synpath = self.synpath_dir+self.synpath_fn
 
     def writeFromRN(self,f):
@@ -99,7 +106,7 @@ def write_header(f):
 def mkCellList():
     F = open(LISTFILENAME,'w')
     write_header(F)
-    gid = 0
+    #gid = 0
 
     F.write("$ PN %d\n"%(NPN))
     j = 0
@@ -113,10 +120,13 @@ def mkCellList():
     for j in range(NPNSWC):
         for k in range(PN_default[j].max_clone):
             PN[cnt] = copy.copy(PN_default[j])
-            PN[cnt].setGid(gid)
+            #PN[cnt].setGid(gid)
             PN[cnt].setCloneid(k)
+            PN[cnt].calcGid()
+            PN[cnt].setNid()
+            PN[cnt].setSynpath()
             PN[cnt].writeline(F)
-            gid +=1
+            #gid +=1
             cnt +=1
 
     F.write("$ LN %d\n"%(NLN))
@@ -131,21 +141,25 @@ def mkCellList():
     for j in range(NLNSWC):
         for k in range(LN_default[j].max_clone):
             LN[cnt] = copy.copy(LN_default[j])
-            LN[cnt].setGid(gid)
+            #LN[cnt].setGid(gid)
             LN[cnt].setCloneid(k)
+            LN[cnt].calcGid()
+            LN[cnt].setNid()
+            LN[cnt].setSynpath()
             LN[cnt].writeline(F)
-            gid +=1
+            #gid +=1
             cnt +=1
 
 
 def write_header_syn(f):
     f.write("# This file shows the file path of synapse\n")
 
-def write_line_syn(f,precell, postcell):
-    pre_nid  = precell.cellid * 100 + precell.swcid
-    post_nid = postcell.cellid * 100 + postcell.swcid
-    synfile  = "%d_%d_randomize.txt"%(pre_nid,post_nid)
-    f.write("%d %d %d %d %s\n"%(precell.gid, pre_nid, postcell.gid, post_nid, synfile))
+def write_line_syn(f,precell, postcell, filetype):
+    pre_nid  = precell.nid
+    post_nid = postcell.nid
+    synfilename  = "%d_%d_%s.txt"%(pre_nid,post_nid,filetype)
+    synfile_path = SYNLIST_DIR + synfilename
+    f.write("%d %d %s\n"%(precell.gid, postcell.gid, synfile_path))
 
 def writeSynData(cell):
     F = open(cell.synpath,'w')
@@ -162,18 +176,17 @@ def writeSynData(cell):
             if(random.random()<0.5):
                 LNtoPN[i] = 1
                 LtoP += 1
-            
         for i in range(NLN):
             if(cell.swcid != LN[i].swcid):
                 LtoL += 1
         F.write("%d\n"%(LtoP + LtoL))
         for i in range(NPN):
             if(LNtoPN[i]==1):
-                write_line_syn(F,cell,PN[i])
+                write_line_syn(F,cell,PN[i],"manual")
             
         for i in range(NLN):
             if(cell.swcid != LN[i].swcid):
-                write_line_syn(F,cell,LN[i])
+                write_line_syn(F,cell,LN[i],"randomize")
     F.close()
 
 def mkSynData():

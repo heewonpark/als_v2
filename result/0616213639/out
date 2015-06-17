@@ -1,0 +1,18 @@
+numprocs=8
+error check
+error check
+error check
+error check
+error check
+error check
+error check
+STOPTIME : 1(ms)
+PC.NHOST 8 
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 8984 RUNNING AT antenna
+=   EXIT CODE: 255
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================

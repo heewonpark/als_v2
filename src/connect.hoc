@@ -116,11 +116,12 @@ _pre_nid  = 0
 _post_nid = 0
 _pre_comp = 0
 _post_comp = 0
+/*
 objref pre_comps_list[100], post_comps_list[100]
 for i=0,100-1{
     pre_comps_list[i]  = new List()
     post_comps_list[i] = new List()
-}
+}*/
 objref pre_comps,post_comps
 objref syntypes//types 1 inhibition 2 excitation, synapse type
 objref gidVec
@@ -182,8 +183,8 @@ proc readSynapseList(){\
 	    }
 	}
     }
-    pre_comps_list[SynPathList_.pregid].append(pre_comps)
-    post_comps_list[SynPathList_.postgid].append(post_comps)
+    //pre_comps_list[SynPathList_.pregid].append(pre_comps)
+    //post_comps_list[SynPathList_.postgid].append(post_comps)
 }
 
 objref nclist_NtoN
@@ -349,13 +350,13 @@ proc connectNtoN_DUMMY(){\
     gid_base = $1
     if(pc.id==0){printf("pc.id\tpre_t\tpre_s\tpost_t\tpost_s\n")}
     if(pns.count()==0 && lns.count()==0){
-	pre_dummy = rns.o(0).mkGABA(0,0)
+	pre_dummy = rns.o(0).mkDUMMY(0)
 	dummylist.append(pre_dummy)
 	pre_gid = gid_base + (pc.id-NPN-NLN)%(pc.nhost-NPN-NLN)*2
 	pc.target_var(&pre_dummy.dummy,pre_gid)
 	pc.source_var(&rns.o(0).Dend[0].v(0.5),pre_gid+1)
 
-	post_dummy = rns.o(0).mkGABA(1,0)
+	post_dummy = rns.o(0).mkDUMMY(1)
 	dummylist.append(post_dummy)
 	post_gid = gid_base + (pc.id+1-NPN-NLN)%(pc.nhost-NPN-NLN)*2
 	pc.source_var(&rns.o(0).Dend[1].v(0.5),post_gid)

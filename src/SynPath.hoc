@@ -5,13 +5,11 @@ public synpath, pre_nid,post_nid,pregid,postgid
 strdef synpath
 proc init(){
     pregid   = $1
-    pre_nid  = $2
     postgid  = $3
-    post_nid = $4
     synpath  = $s5
 }
 
 proc write(){
-    printf("Temp SynPath : %d %d %d %d %s\n",pregid, pre_nid, postgid, post_nid,synpath)
+    printf("Temp SynPath : %d %d %s\n",pregid, postgid, synpath)
 }
 endtemplate SynPath

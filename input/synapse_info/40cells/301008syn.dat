@@ -1,0 +1,23 @@
+# This file shows the file path of synapse
+$ fromRN
+../input/synlist/fromRN/050205_7_sn_SynapseList.dat
+$ CtoC
+18
+301008 300000 ../input/synapse_list/301_300_randomize.txt
+301008 300001 ../input/synapse_list/301_300_randomize.txt
+301008 300002 ../input/synapse_list/301_300_randomize.txt
+301008 300003 ../input/synapse_list/301_300_randomize.txt
+301008 300004 ../input/synapse_list/301_300_randomize.txt
+301008 300005 ../input/synapse_list/301_300_randomize.txt
+301008 300006 ../input/synapse_list/301_300_randomize.txt
+301008 300007 ../input/synapse_list/301_300_randomize.txt
+301008 300008 ../input/synapse_list/301_300_randomize.txt
+301008 300009 ../input/synapse_list/301_300_randomize.txt
+301008 300010 ../input/synapse_list/301_300_randomize.txt
+301008 300011 ../input/synapse_list/301_300_randomize.txt
+301008 300012 ../input/synapse_list/301_300_randomize.txt
+301008 300013 ../input/synapse_list/301_300_randomize.txt
+301008 300014 ../input/synapse_list/301_300_randomize.txt
+301008 300015 ../input/synapse_list/301_300_randomize.txt
+301008 300016 ../input/synapse_list/301_300_randomize.txt
+301008 300017 ../input/synapse_list/301_300_randomize.txt

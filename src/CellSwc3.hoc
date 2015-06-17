@@ -30,8 +30,8 @@ public Dend, SectionNum
 public connect2target
 public mkSyn,mkExp2Syn
 public mkSynapses, synapses
-public mkGABA
-public setPath, setNid, setSpikegenlist
+public mkGABA, mkDUMMY
+public setPath, setNid, setGid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp
 public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned
 public getAxon
@@ -388,7 +388,6 @@ proc setSpikegenlist(){local j, axonnum localobj tmplist
     }
 }
 
-
 strdef ppath, synpath
 proc setPath(){
     ppath   = $s1
@@ -400,6 +399,10 @@ proc setNid(){
     }else{
 	nid = cellid * 100000 + swcid*1000 + cloneid
     }
+}
+
+proc setGid(){
+    gid = cellid * 100000 + swcid*1000 + cloneid
 }
 
 proc geom() {
@@ -599,6 +602,13 @@ obfunc mkGABA(){local gmax,comp
     this.Dend[comp] gaba = new PRL_GABA(0.5)
     gaba.gmax = gmax
     return gaba
+}
+
+objref dummy
+obfunc mkDUMMY(){
+    comp = $1
+    this.Dend[comp] dummy = new DUMMY(0.5)
+    return dummy
 }
 
 public doNothing

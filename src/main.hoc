@@ -56,15 +56,15 @@ if(name_declared("SWC_FILENAME")==0) {
 	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
 }
 */
-
 RNperSYN = 5
-
 strdef info_filename
 //info_filename = "../input/network_info/network_info_3cells.dat"
-info_filename = "../input/network_info/network_info_3cells_manual.dat"
+//info_filename = "../input/network_info/network_info_3cells_manual.dat"
+info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 strdef info_filename_rn
-info_filename_rn = "../input/network_info/network_info_2000rns.dat"
+//info_filename_rn = "../input/network_info/network_info_2000rns.dat"
+info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 
 objref pc
@@ -122,8 +122,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    nc = pn.connect2target(0,nil)
 	    //pns.o(0).mkSynapses("./synlist/fromRN/050622_4_sn_SynapseList.dat")
 	    
-	    pc.set_gid2node(i,pc.id)
-	    pc.cell(i,nc)
+	    pc.set_gid2node(pn.gid,pc.id)
+	    pc.cell(pn.gid,nc)
 	    psection()
 	    
 	}else if((i%pc.nhost==pc.id)&&(i>=NPN && i<NPN+NLN)){
@@ -138,8 +138,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    //print "ln ", i, j
 	    nc = ln.connect2target(0,nil)
 	    
-	    pc.set_gid2node(i,pc.id)
-	    pc.cell(i,nc)
+	    pc.set_gid2node(ln.gid,pc.id)
+	    pc.cell(ln.gid,nc)
 	    psection()
 
 	}else if(i>=NPN+NLN){
@@ -150,7 +150,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn = new CellSwc(rn_path[j].swcpath,-1,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
-		    rn.setNid()
+		    rn.setGid()
 		    rn.insertHH_RN()
 		    //print "SectionNumber " ,rn.SectionNum
 		    
@@ -158,8 +158,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    //print "rn ", i, j, pc.id
 		    nc = rn.connect2target(0,nil)
 
-		    pc.set_gid2node(i,pc.id)
-		    pc.cell(i,nc)
+		    pc.set_gid2node(rn.gid,pc.id)
+		    pc.cell(rn.gid,nc)
 		    //psection()
 		}
 	    }else if(pc.nhost<=NPN+NLN){
@@ -169,15 +169,15 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn = new CellSwc(rn_path[j].swcpath,-1,rn_matrix.x[j][0],rn_matrix.x[j][1],rn_matrix.x[j][2])
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
-		    rn.setNid()
+		    rn.setGid()
 		    rn.insertHH_RN()
 		    //print "SectionNumber " ,rn.SectionNum
 		    rns.append(rn)
 		    //print "rn ", i, j, pc.id
 		    nc = rn.connect2target(0,nil)
 		    
-		    pc.set_gid2node(i,pc.id)
-		    pc.cell(i,nc)
+		    pc.set_gid2node(rn.gid,pc.id)
+		    pc.cell(rn.gid,nc)
 		    
 		}
 	    }else{
@@ -263,7 +263,7 @@ proc setRecorder(){
     setVoltageRecord()
     setGABArecord()
     //setDummyRecord()
-    setPreGABArecord()
+    //setPreGABArecord()
 }
 setRecorder()
 
@@ -282,7 +282,7 @@ proc setPrinter(){
     fprintGABArecord()
     //fprintDummyRecord()
     //fprintSynapseList()
-    fprintPreGABArecord()
+    //fprintPreGABArecord()
 }
 
 setPrinter()

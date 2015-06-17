@@ -36,7 +36,7 @@ ln_matrix = new Matrix()
 rn_matrix = new Matrix()
 
 {load_file("Path.hoc")}
-objref pn_path[100], ln_path[500], rn_path[2000]
+objref pn_path[100], ln_path[500], rn_path[20000]
 
 func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localobj info_fp
     strdef buf
@@ -141,8 +141,8 @@ func loadSynapseInfo(){local i,pregid,postgid,pre_nid,post_nid,ndata,mode localo
 		printf("%d\n",ndata)
 		for(i=0;i<ndata;i=i+1){
 		    syn_fp.gets(buf)
-		    sscanf(buf,"%d %d %d %d %s\n",&pregid, &pre_nid, &postgid, &post_nid,synpath)
-		    printf("%d %d %d %d %s\n",pregid, pre_nid, postgid, post_nid,synpath)
+		    sscanf(buf,"%d %d %s\n",&pregid, &postgid, synpath)
+		    printf("%d %d %s\n",pregid,postgid, synpath)
 		    synp = new SynPath(pregid, pre_nid,postgid, post_nid,synpath)
 		    //cell.SynPathList.append(synp)
 		    SynPathList.append(synp)
