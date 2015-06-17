@@ -394,11 +394,14 @@ proc setPath(){
     synpath = $s2
 }
 proc setNid(){
+    /*
     if(cellid == 1){
 	nid = cellid * 100000 + swcid
     }else{
 	nid = cellid * 100000 + swcid*1000 + cloneid
     }
+    */
+    nid = cellid * 100000 + swcid*1000 + cloneid
 }
 
 proc setGid(){

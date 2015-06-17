@@ -1,8 +1,8 @@
 #!/bin/bash -x
-#PJM --rsc-list "node=1"
-#PJM --rsc-list "elapse=00:30:00"
+#PJM --rsc-list "node=16"
+#PJM --rsc-list "elapse=04:00:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=8"
+#PJM --mpi "proc=128"
 #PJM -s
 
 # staging
@@ -18,7 +18,7 @@
 #PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
 #PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
-#PJM --stgin "rank=* ./input/synapse_info/syn/* %r:../input/synapse_info/syn/"
+#PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
 #PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 
@@ -41,7 +41,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=100"\
+" -c STOPTIME=1"\
 " -c IS_SUPERCOMPUTER=1"
 
 #LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"

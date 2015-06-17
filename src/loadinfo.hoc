@@ -37,6 +37,8 @@ rn_matrix = new Matrix()
 
 {load_file("Path.hoc")}
 objref pn_path[100], ln_path[500], rn_path[20000]
+objref GID_VEC
+GID_VEC = new Vector()
 
 func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localobj info_fp
     strdef buf
@@ -70,6 +72,8 @@ func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localob
 		    pn_matrix.x[i][2] = swcid
 		    pn_matrix.x[i][3] = cloneid
 		    pn_path[i] = new Path(swcpath, ppath, synpath)
+		    
+		    GID_VEC.append(c_gid)
 		}
 	    }else if((strcmp("LN",celltype)==0)&&(num != 0)){
 		ln_matrix.resize(num, 4)
@@ -84,6 +88,8 @@ func loadinfo(){local num_pn, num_ln, num, c_gid, cellid, swcid, cloneid localob
 		    ln_matrix.x[i][2] = swcid
 		    ln_matrix.x[i][3] = cloneid
 		    ln_path[i] = new Path(swcpath, ppath, synpath)
+
+		    GID_VEC.append(c_gid)
 		}
 	    }else if((strcmp("RN",celltype)==0)&&(num != 0)){
 		rn_matrix.resize(num, 3)
@@ -138,11 +144,11 @@ func loadSynapseInfo(){local i,pregid,postgid,pre_nid,post_nid,ndata,mode localo
 	    }else if((strcmp("CtoC",class)==0)&&(mode==2)){
 		syn_fp.gets(buf)
 		sscanf(buf, "%d\n",&ndata)
-		printf("%d\n",ndata)
+		//printf("%d\n",ndata)
 		for(i=0;i<ndata;i=i+1){
 		    syn_fp.gets(buf)
 		    sscanf(buf,"%d %d %s\n",&pregid, &postgid, synpath)
-		    printf("%d %d %s\n",pregid,postgid, synpath)
+		    //printf("%d %d %s\n",pregid,postgid, synpath)
 		    synp = new SynPath(pregid, pre_nid,postgid, post_nid,synpath)
 		    //cell.SynPathList.append(synp)
 		    SynPathList.append(synp)

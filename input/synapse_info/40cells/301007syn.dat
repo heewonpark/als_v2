@@ -1,11 +1,12 @@
 # This file shows the file path of synapse
 $ fromRN
-../input/synlist/fromRN/050205_7_sn_SynapseList.dat
+../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat
 $ CtoC
-21
-301007 200001 ../input/synapse_list/301_200_manual.txt
+22
+301007 200000 ../input/synapse_list/301_200_manual.txt
 301007 200002 ../input/synapse_list/301_200_manual.txt
 301007 200003 ../input/synapse_list/301_200_manual.txt
+301007 200004 ../input/synapse_list/301_200_manual.txt
 301007 300000 ../input/synapse_list/301_300_randomize.txt
 301007 300001 ../input/synapse_list/301_300_randomize.txt
 301007 300002 ../input/synapse_list/301_300_randomize.txt
