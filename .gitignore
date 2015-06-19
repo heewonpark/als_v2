@@ -33,7 +33,8 @@
 # recorded files
 record/
 record/**/*.txt
-
+result/**/record/*.txt
+result/
 # ignore specials
 x86_64/
 

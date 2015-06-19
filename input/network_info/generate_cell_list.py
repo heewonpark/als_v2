@@ -25,8 +25,8 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-#NPN = 1
-#NLN = 0
+NPN = 1
+NLN = 2
 
 NCELL = NPN + NLN
 
@@ -49,7 +49,8 @@ class CELL:
         self.synpath = "none"
         self.fromRN  = "none"
         self.max_clone = 0
-        self.synpath_dir = "none"
+        self.synpath_dir_w = "none"
+        self.synpath_dir_m = "none"
         self.synapth_fn  = "none"
 
     def setBase(self,cellid,swcid,swcpath, ppath, synpath,fromRN):
@@ -73,12 +74,17 @@ class CELL:
         self.nid = self.cellid * 100 + self.swcid
 
     def writeline(self,f):
-        f.write("%d %d %d %d %s %s %s\n"%(self.gid, self.cellid,self.swcid,self.cloneid,self.swcpath,self.ppath,self.synpath))
+        f.write("%d %d %d %d %s %s %s\n"%(self.gid, self.cellid,self.swcid,self.cloneid,self.swcpath,self.ppath,self.synpath_w))
 
-    def setSynpath(self):
-        self.synpath_dir = SYNPATH_DIR2
+    def setSynpath_write(self):
+        self.synpath_dir_w = SYNPATH_DIR2
         self.synpath_fn  = "%dsyn.dat"%(self.gid)
-        self.synpath = self.synpath_dir+self.synpath_fn
+        self.synpath_w = self.synpath_dir_w+self.synpath_fn
+
+    def setSynpath_make(self):
+        self.synpath_dir_m = SYNPATH_DIR
+        self.synpath_fn  = "%dsyn.dat"%(self.gid)
+        self.synpath_m = self.synpath_dir_m+self.synpath_fn
 
     def writeFromRN(self,f):
         f.write("%s\n"%(self.fromRN))
@@ -89,12 +95,12 @@ class CELL:
     
 PN_default    = [None for _ in range(NPNSWC)]
 PN_default[0] = CELL()
-PN_default[0].setBase(cellid = 2, swcid = 0, swcpath = "../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synlist/fromRN/050622_4_sn_SynapseList.dat")
+PN_default[0].setBase(cellid = 2, swcid = 0, swcpath = "../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050622_4_sn_SynapseList.dat")
 LN_default    = [None for _ in range(NLNSWC)]
 LN_default[0] = CELL()
-LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synlist/fromRN/040823_5_sn_SynapseList.dat") 
+LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat") 
 LN_default[1] = CELL()
-LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synlist/fromRN/050205_7_sn_SynapseList.dat")
+LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat")
 
 PN = [CELL() for _ in range(NPN)]
 LN = [CELL() for _ in range(NLN)]
@@ -124,7 +130,7 @@ def mkCellList():
             PN[cnt].setCloneid(k)
             PN[cnt].calcGid()
             PN[cnt].setNid()
-            PN[cnt].setSynpath()
+            PN[cnt].setSynpath_write()
             PN[cnt].writeline(F)
             #gid +=1
             cnt +=1
@@ -145,7 +151,7 @@ def mkCellList():
             LN[cnt].setCloneid(k)
             LN[cnt].calcGid()
             LN[cnt].setNid()
-            LN[cnt].setSynpath()
+            LN[cnt].setSynpath_write()
             LN[cnt].writeline(F)
             #gid +=1
             cnt +=1
@@ -162,8 +168,8 @@ def write_line_syn(f,precell, postcell, filetype):
     f.write("%d %d %s\n"%(precell.gid, postcell.gid, synfile_path))
 
 def writeSynData(cell):
-    F = open(cell.synpath,'w')
-    print cell.synpath
+    F = open(cell.synpath_m,'w')
+    print cell.synpath_m
     write_header_syn(F)
     F.write("$ fromRN\n")
     cell.writeFromRN(F)
@@ -194,10 +200,12 @@ def mkSynData():
         os.makedirs(SYNPATH_DIR)
         print "MAKE DIR(%s)\n"%(SYNPATH_DIR)
     for i in range(NPN):
-        PN[i].setSynpath()
+        PN[i].setSynpath_write()
+        PN[i].setSynpath_make()
         writeSynData(PN[i])
     for i in range(NLN):
-        LN[i].setSynpath()
+        LN[i].setSynpath_write()
+        LN[i].setSynpath_make()
         writeSynData(LN[i])
 
 def main():

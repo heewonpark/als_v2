@@ -3,10 +3,10 @@
 {load_file("CellSwc3.hoc")}
 //{load_file("CellSwc.hoc")}
 
-STOPTIME = 200
+STOPTIME = 20000
 
 objref c
-c = new CellSwc("./swc/rn0514/orn0010.swc",0,0,0,0)
+c = new CellSwc("../input/swc/rn0514/orn0010.swc",0,0,0,0)
 //c = new CellSwc("./swc/070224_SN-23-R.swc",0,0,0,0)
 c.insertHH_RN()
 /*
@@ -30,9 +30,10 @@ c.Dend[0]{
 //c.mkIclamp(0)
 
 strdef spiketiming
-sprint(spiketiming,"./spiketiming/spiketiming%d.dat",666)
-//c.setIClamp(STOPTIME,dt,spiketiming)
-c.mkIclamp(0)
+//sprint(spiketiming,"./spiketiming/spiketiming%d.dat",666)
+sprint(spiketiming,"../input/spiketiming/40stim/spiketiming%d.dat",999)
+c.setIClamp(STOPTIME,dt,spiketiming)
+//c.mkIclamp(0)
 /*
 objref st
 c.Dend[0] st = new intermitStimGaus(0.5)

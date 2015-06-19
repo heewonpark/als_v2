@@ -17,44 +17,79 @@
 //
 //************************************************
 
-objref tvec, idvec
-proc spikerecord(){local i localobj nc, nil, nclist
+strdef FPRINT_DIR
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "../result/record/"
+}else{
+    sprint(FPRINT_DIR,"../result/%010d/record/",START_TIME)
+}
+if(pc.id == 0){
+    printf("OUTPUT DIR : %s\n",FPRINT_DIR)
+}
+
+objref tvec, idvec, ncreclist
+proc spikerecord(){local i localobj nc, nil
     tvec    = new Vector()
     idvec   = new Vector()
-    nclist = new List()
-
-    for(i = 0; i<pns.count();i+=1){
+    ncreclist = new List()
+    
+    if(pns.count()!=0){
+	printf("spikerecord(%d) for PN\n",pc.id)
 	pns.o(i).Dend[21] nc = new NetCon(&v(0.5),nil)
 	nc.record(tvec,idvec,nc.srcgid)
-	nclist.append(nc)
-    }
-    for(i = 0; i<lns.count();i+=1){
+	ncreclist.append(nc)
+    }else if(lns.count()!=0){
+	printf("spikerecord(%d) for LN\n",pc.id)
 	lns.o(i).Dend[21] nc = new NetCon(&v(0.5),nil)
 	nc.record(tvec,idvec,nc.srcgid)
-	nclist.append(nc)
-    }
-    for(i = 0; i<rns.count();i+=1){
+	ncreclist.append(nc)
+    }else if(rns.count()!=0){
+   	printf("spikerecord(%d) for RN\n",pc.id)
 	rns.o(i).Dend[0] nc = new NetCon(&v(0.5),nil)
 	nc.record(tvec,idvec,nc.srcgid)
-	nclist.append(nc)
-    }
+	ncreclist.append(nc)
+    }    
 }
-/*
+
 proc spikeout(){local i, rank localobj f
     strdef fn
-    f = new File()
-
-    for rank = 0, pc.nhost-1{
-	sprint(fn,"./record/%dSpikeTiming.dat",pns.o(i).nid)
+    if(pns.count()!=0){
+	printf("spike out(%d) for PN\n",pc.id)
+	f = new File()
+	sprint(fn,"%s%dSpikeTiming.dat",FPRINT_DIR,pns.o(0).nid)
 	f.wopen(fn)
 	f.printf("\ntime\t cell\n")
 	for i = 0, tvec.size-1{
 	    f.printf("%g\t %d\n",tvec.x[i],idvec.x[i])
 	}
+	f.close()   
     }
-    
+    if(lns.count()!=0){
+	printf("spike out(%d) for LN\n",pc.id)
+	f = new File()
+	sprint(fn,"%s%dSpikeTiming.dat",FPRINT_DIR,lns.o(0).nid)
+	f.wopen(fn)
+	f.printf("\ntime\t cell\n")
+	for i = 0, tvec.size-1{
+	    f.printf("%g\t %d\n",tvec.x[i],idvec.x[i])
+	}
+	f.close()   
+    }
+    if(rns.count()!=0){
+	printf("spike out(%d) for RN\n",pc.id)
+	f = new File()
+	sprint(fn,"%s%dSpikeTiming.dat",FPRINT_DIR,rns.o(0).nid)
+	f.wopen(fn)
+	f.printf("\ntime\t cell\n")
+	for i = 0, tvec.size-1{
+	    f.printf("%g\t %d\n",tvec.x[i],idvec.x[i])
+	}
+	f.close()
+    }
 }
-*/
+
 
 objref PNvolt_vec
 objref LNvolt_vec
@@ -84,7 +119,7 @@ proc setVoltageRecord(){local i,j
 	    //PNvolt_vec.record(&projection.Dend[1211].v(0.5))
 	    PNvolt_vec.record(&pns.o(j).Dend[475].v(0.5))
 	    //printf("pns.o(%d).SynNumerList.size(): %d#\n",j,pns.o(j).SynNumberList.size())
-	    for i=0, pns.o(j).SynNumberList.size()-1{
+	    for (i=0; i<pns.o(j).SynNumberList.size();i+=100){
 		//print pns.o(j).SynNumberList.x[i]
 		PNvolt_vecs[i].record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
 	    }
@@ -103,7 +138,8 @@ proc setVoltageRecord(){local i,j
 		LNvolt_vec.record(&lns.o(j).Dend[11197].v(0.5))
 	    }
 	    //printf("lns.o(%d).SynNumerList.size(): %d#\n",j,lns.o(j).SynNumberList.size())
-	    for i=0, lns.o(j).SynNumberList.size()-1{
+	    for (i=0; i<lns.o(j).SynNumberList.size();i+=100){
+	    //for i=0, lns.o(j).SynNumberList.size()-1{
 		LNvolt_vecs[i].record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
 	    }
 	}
@@ -121,7 +157,7 @@ proc setVoltageRecord(){local i,j
 	}
 	//print "ERROR CHECK SETVOLATAGERECORD",2
     }
-    pc.barrier()
+    //pc.barrier()
 }
 
 objref PNgaba_vecs[5000]
@@ -180,17 +216,6 @@ proc setPreGABArecord(){local i,j,k localobj pre,post
     }
 }
 */
-strdef FPRINT_DIR
-if(IS_SUPERCOMPUTER == 1){
-    FPRINT_DIR = "./"
-}else if(START_TIME == 0){
-    FPRINT_DIR = "../result/record/"
-}else{
-    sprint(FPRINT_DIR,"../result/%010d/record/",START_TIME)
-}
-if(pc.id == 0){
-    printf("OUTPUT DIR : %s\n",FPRINT_DIR)
-}
 proc fprintVoltageRecord(){localobj mt, file,mt2, file2
     strdef filename
     for(j = 0; j<pns.count();j+=1){
@@ -207,10 +232,10 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 
 	    file2 = new File()
 	    mt2 = new Matrix()
-	    mt2.resize(volt_tvec.size(),pns.o(j).SynNumberList.size()+1)
+	    mt2.resize(volt_tvec.size(),pns.o(j).SynNumberList.size()/100+1)
 	    mt2.setcol(0,volt_tvec)
-	    for i=0, pns.o(j).SynNumberList.size()-1{
-		mt2.setcol(i+1,PNvolt_vecs[i])
+	    for(i=0; i<pns.o(j).SynNumberList.size();i+=100){
+		mt2.setcol(i/100+1,PNvolt_vecs[i])
 	    }
 	    sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,pns.o(j).nid)
 	    file2.wopen(filename)
@@ -232,10 +257,10 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 
 	    file2 = new File()
 	    mt2 = new Matrix()
-	    mt2.resize(volt_tvec.size(),lns.o(j).SynNumberList.size()+1)
+	    mt2.resize(volt_tvec.size(),lns.o(j).SynNumberList.size()/100+1)
 	    mt2.setcol(0,volt_tvec)
-	    for i=0, lns.o(j).SynNumberList.size()-1{
-		mt2.setcol(i+1,LNvolt_vecs[i])
+	    for(i=0; i<lns.o(j).SynNumberList.size();i+=100){
+		mt2.setcol(i/100+1,LNvolt_vecs[i])
 	    }
 	    sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,lns.o(j).nid)
 	    file2.wopen(filename)

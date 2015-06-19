@@ -1,8 +1,8 @@
-
-#!/bin/sh
-
-for ((i=0; i<900;i++))
+#! /bin/bash
+a=0
+while [ $a -ne 1000 ]
 do
-    echo "$i"
-    ipython makespike0923.py
+    echo "${a}"
+    ipython mkSpikeTrains.py
+    a=`expr $a + 1`
 done

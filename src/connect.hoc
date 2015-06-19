@@ -291,6 +291,7 @@ proc connectNtoN(){\
 	loadSynapseInfo(nil,ln_path[i].synpath,2)
     }
     for(j=0;j<SynPathList.count();j+=1){
+	print SynPathList.o(j).synpath
 	readSynapseList(SynPathList.o(j),gid_base)
 	pc.barrier()
 	makePreSynapse(SynPathList.o(j).pregid)

@@ -57,13 +57,13 @@ if(name_declared("SWC_FILENAME")==0) {
 */
 RNperSYN = 5
 strdef info_filename
-//info_filename = "../input/network_info/network_info_3cells.dat"
+info_filename = "../input/network_info/network_info_3cells.dat"
 //info_filename = "../input/network_info/network_info_3cells_manual.dat"
-info_filename = "../input/network_info/network_info_40cells.dat"
+//info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 strdef info_filename_rn
-//info_filename_rn = "../input/network_info/network_info_2000rns.dat"
-info_filename_rn = "../input/network_info/network_info_20000rns.dat"
+info_filename_rn = "../input/network_info/network_info_2000rns.dat"
+//info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 
 objref pc
@@ -150,6 +150,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 		    rn.setGid()
+		    rn.setNid()
 		    rn.insertHH_RN()
 		    //print "SectionNumber " ,rn.SectionNum
 		    
@@ -169,6 +170,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn.getAxon()
 		    rn.setPath(rn_path[j].ppath, rn_path[j].synpath)
 		    rn.setGid()
+		    rn.setNid()
 		    rn.insertHH_RN()
 		    //print "SectionNumber " ,rn.SectionNum
 		    rns.append(rn)
@@ -260,28 +262,31 @@ pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
     setVoltageRecord()
-    setGABArecord()
+    //setGABArecord()
     //setDummyRecord()
     //setPreGABArecord()
+    spikerecord()
 }
 setRecorder()
 
 pc.barrier()
 pc.setup_transfer()
 tstop = STOPTIME
+if(pc.id==0)print "START RUN"
 {pc.set_maxstep(10)}
 stdinit()
 {pc.psolve(tstop)}
-
+if(pc.id==0)print "END   RUN"
 if(pc.id == 0){
     printf("PRINTING[%d]\n",pc.id)
 }
 proc setPrinter(){
     fprintVoltageRecord()
-    fprintGABArecord()
+    //fprintGABArecord()
     //fprintDummyRecord()
     //fprintSynapseList()
     //fprintPreGABArecord()
+    spikeout()
 }
 
 setPrinter()
