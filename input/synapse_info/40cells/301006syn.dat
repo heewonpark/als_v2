@@ -4,7 +4,7 @@ $ fromRN
 $ CtoC
 21
 301006 200000 ../input/synapse_list/301_200_manual.txt
-301006 200003 ../input/synapse_list/301_200_manual.txt
+301006 200001 ../input/synapse_list/301_200_manual.txt
 301006 200004 ../input/synapse_list/301_200_manual.txt
 301006 300000 ../input/synapse_list/301_300_randomize.txt
 301006 300001 ../input/synapse_list/301_300_randomize.txt
