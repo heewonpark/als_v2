@@ -128,11 +128,6 @@ objref LNvolt_vec
 objref PNvolt_list
 objref LNvolt_list
 objref RNvolt_list
-/*
-objref PNvolt_vecs[4000]
-objref LNvolt_vecs[4000]
-objref RNvolt_vecs[60000]
-*/
 objref volt_tvec
 
 proc setVoltageRecord(){local i,j localobj volt_vec
@@ -320,7 +315,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt.resize(volt_tvec.size(),RNvolt_list.count()+1)
 	    mt.setcol(0,volt_tvec)
 	    for(i=0; i<RNvolt_list.count();i+=1){
-		mt2.setcol(i,RNvolt_list.o(i))
+		mt.setcol(i,RNvolt_list.o(i))
 	    }
 	    sprint(filename,"%s%dVolt.txt",FPRINT_DIR,rns.o(j).gid)
 	    file.wopen(filename)
