@@ -35,6 +35,7 @@ public setPath, setNid, setGid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp
 public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned
 public getAxon
+public setSpikeRecord,fprintSpikeRecord
 
 //-------------------------------------------------------
 // Public Variables
@@ -766,6 +767,36 @@ proc setIClamp(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_t
     stim_vec.play(&ic.amp, tvec, 1)
     //print "stim_vec"
     //stim_vec.printf()
+}
+
+
+objref ncSR// netcon for Spike Record
+objref tvecSR, idvecSR //tvecSR time vector for Spike Record
+proc setSpikeRecord(){local cmpt localobj nil
+    cmpt = $1
+    tvecSR = new Vector()
+    idvecSR = new Vector()
+    ncSR = connect2target(cmpt,nil)
+    //ncSR.record(tvecSR,idvecSR.srcgid)
+    ncSR.record(tvecSR)
+}
+
+objref fileSR
+proc fprintSpikeRecord(){local i, interval, tstop, delay
+    strdef filename, fprint_dir
+    fprint_dir = $s1
+    interval = $2
+    tstop = $3
+    delay = 0.0
+    fileSR = new File()
+    sprint(filename,"%s%dSpike.dat",fprint_dir,gid)
+    fileSR.wopen(filename)
+    fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+    fileSR.printf("$ Delay(ms): %f\n",delay)    
+    fileSR.printf("$ Number of data : %d\n",tvecSR.size())
+    fileSR.printf("$ TSTOP : %d\n",tstop)
+    tvecSR.printf(fileSR,"%5.5f\n")
+    fileSR.close()
 }
 
 endtemplate CellSwc

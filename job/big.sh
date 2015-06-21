@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #PJM --rsc-list "node=16"
-#PJM --rsc-list "elapse=04:00:00"
+#PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
 #PJM --mpi "proc=128"
 #PJM -s
@@ -27,6 +27,7 @@
 #PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
+#PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
 #PJM --stgout "rank=* %r:./*.hoc /data/hp120263/park/al_V2/%j/src/"
 
 #--#PJM --stgout "rank=* %r:./record/* /data/hp120263/park/result/%j/"
@@ -41,8 +42,9 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=1"\
-" -c IS_SUPERCOMPUTER=1"
+" -c STOPTIME=120"\
+" -c IS_SUPERCOMPUTER=1"\
+" -c INTERVAL=1200"
 
 #LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"
