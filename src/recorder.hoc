@@ -184,7 +184,7 @@ proc setVoltageRecord(){local i,j localobj volt_vec
 	//printf("RN record(id:%d)\n",(pc.id))
 	//printf("rns.count %d#\n",rns.count())
 	//print "ERROR CHECK SETVOLATAGERECORD",1
-	if(j==0){
+	if((j==0)&&(pc.id%8==0)){
 	    volt_vec = new Vector()
 	    //RNvolt_vecs[0].record(&rns.o(j).Dend[0].v(0.5))
 	    //RNvolt_vecs[1].record(&rns.o(j).Dend[60].v(0.5))
@@ -273,7 +273,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt2.resize(volt_tvec.size(),PNvolt_list.count()+1)
 	    mt2.setcol(0,volt_tvec)
 	    for(i=0; i<PNvolt_list.count();i+=1){
-		mt2.setcol(i,PNvolt_list.o(i))
+		mt2.setcol(i+1,PNvolt_list.o(i))
 	    }
 	    sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,pns.o(j).nid)
 	    file2.wopen(filename)
@@ -299,7 +299,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    mt2.resize(volt_tvec.size(),LNvolt_list.count()+1)
 	    mt2.setcol(0,volt_tvec)
 	    for(i=0; i<LNvolt_list.count();i+=1){
-		mt2.setcol(i,LNvolt_list.o(i))
+		mt2.setcol(i+1,LNvolt_list.o(i))
 	    }
 	    sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,lns.o(j).nid)
 	    file2.wopen(filename)
@@ -308,14 +308,14 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	}
     }
     for(j = 0; j<rns.count();j+=1){
-	if(j==0){
+	if((j==0)&&(pc.id%8==0)){
 	    mt = new Matrix()
 	    file = new File()
 	    //mt.resize(volt_tvec.size(),rns.count + 1)
 	    mt.resize(volt_tvec.size(),RNvolt_list.count()+1)
 	    mt.setcol(0,volt_tvec)
 	    for(i=0; i<RNvolt_list.count();i+=1){
-		mt.setcol(i,RNvolt_list.o(i))
+		mt.setcol(i+1,RNvolt_list.o(i))
 	    }
 	    sprint(filename,"%s%dVolt.txt",FPRINT_DIR,rns.o(j).gid)
 	    file.wopen(filename)

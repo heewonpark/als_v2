@@ -46,7 +46,11 @@ proc mkSerialStim(){local i localobj rnd
     rnd = new Random(pc.id)
     strdef spiketiming
     for(i=0; i<rns.count();i=i+1){
-	sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",int(rnd.uniform(0,999)))
+	if(STOPTIME<1200){
+	    sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",int(rnd.uniform(0,999)))
+	}else{
+	    sprint(spiketiming,"../input/spiketiming/40stim/spiketiming%d.dat",int(rnd.uniform(0,999)))
+	}
 	rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
     }
 }

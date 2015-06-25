@@ -1,10 +1,8 @@
 #!/bin/bash -x
-#--#PJM --rsc-list "node=32"
-#PJM --rsc-list "node=16"
+#PJM --rsc-list "node=32"
 #PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
-#--#PJM --mpi "proc=256"
-#PJM --mpi "proc=128"
+#PJM --mpi "proc=256"
 #PJM -s
 
 # staging
