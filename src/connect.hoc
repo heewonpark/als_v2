@@ -24,9 +24,10 @@ NUMAXONS_PER_RN = 5
 NUMSYNAPSE_PER_CELL = 400
 objref rnclist
 rnclist = new List()
-proc mkPreSynapseOnRN(){local i, gid_base localobj syn, nil, nc
+func mkPreSynapseOnRN(){local i, gid_base, gid_cnt, save_syn_gid localobj syn, nil, nc
     gid_base = $1
-    if(pc.id==0) print "(syn_gid, pc.id)"
+    save_syn_gid =0
+    //if(pc.id==0) print "(syn_gid, pc.id)"
     for i=0, rns.count()-1{
 	//print i
 	gid_cnt  = 0
@@ -39,11 +40,19 @@ proc mkPreSynapseOnRN(){local i, gid_base localobj syn, nil, nc
 	    rnclist.append(nc)
 	    //printf("(%d, %d)\t",syn_gid, pc.id)
 	    gid_cnt += 1
+	    if(syn_gid>save_syn_gid){
+		save_syn_gid = syn_gid
+	    }
 	}
     }
     printf("Max synapse gid %d\n",syn_gid)
+    return save_syn_gid
 }
+/*
+proc mkGABArecepterOnRN(){local i, gid_base localobj 
+    gid_base = $1
 
+}*/
 func calcSyngid(){local base, cnt,gid,cellcnt,wholecnt,cnt2
     base = $1
     cnt  = $2//dendrite number conuter
@@ -95,14 +104,23 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 	}
     }
 }
-
 proc connectRNtoOthers(){\
-    local gid_base
+    local gid_base, syn_gid,syn_gid_max
     gid_base = 1000000
-    mkPreSynapseOnRN(gid_base)
+    syn_gid  = mkPreSynapseOnRN(gid_base)
+    //printf("Before allreduce gid_max:%d pc.id:%d\n",syn_gid,pc.id)
+    syn_gid_max = pc.allreduce(syn_gid,2)
+    //printf("After allreduce  gid_max:%d pc.id:%d\n",syn_gid_max,pc.id)
     pc.barrier()
     mkPostSynapseOfRN(gid_base)
     pc.barrier()
+}
+
+//SLN : Spiking LN
+proc connectSLNtoRN(){local i
+    for i=0, nclist_RN.count()-1{
+	
+    }
 }
 /*
 proc setSynapseInfo(){\

@@ -11,7 +11,7 @@ public biophys, connect2target, setGABAlla,setGABAllb, setIclamp, setStim, setEx
 public setgaba, setIntermitStim, setIntermitStim1
 public insertPN, insertLNlla,insertLNllb, insertFukuda, insertPas, insertHH
 public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, insertLNlla3
-public insertLNlla4, insertLNllb2
+public insertLNlla4, insertLNllb2, insertHH_RN
 public setVoltageRecord, printVoltageRecord, printVoltageRecord2
 public synlist,gabalist
 public type, setType
@@ -317,6 +317,15 @@ proc insertPas(){
     }
 }
 
+proc insertHH_RN(){
+    forall{
+	insert hh
+	gkbar_hh = 0.001
+	gnabar_hh = 0.0001 
+    }
+}
+
+
 obfunc connect2target(){local numSynapses localobj nc,target
     target = $o1
     //numSynapses = $2
@@ -576,8 +585,10 @@ proc printVoltageRecord2(){local i
 }
 public printVoltageRecord3
 proc printVoltageRecord3(){local i
+    strdef filepath
     i = $2
     pcid = $1
+    filepath = $s3
     mt = new Matrix()
     file = new File()
     
@@ -589,12 +600,8 @@ proc printVoltageRecord3(){local i
     //mt.printf("%5.5f\t")
     strdef filename
     print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    if(IS_SUPERCOMPUTER==0){
-	sprint(filename,"./record/%diclamp_%s%d.txt",pcid,typename[type].s ,i) 
-    }else if(IS_SUPERCOMPUTER ==1){
-	sprint(filename,"./%diclamp_%s%d.txt",pcid,typename[type].s ,i) 
-    }
-    
+    sprint(filename,"%s%diclamp_%s%d.txt",filepath,pcid,typename[type].s ,i) 
+       
     file.wopen(filename)
     mt.fprint(file,"%5.5f\t")
     file.close()
@@ -648,12 +655,10 @@ proc printSpikeRecord2(){local i, interval,tstop, istim1, istim2
     istim2 = $6
     istim1 = imax
     fileSR = new File()
-    strdef filename
-    if(IS_SUPERCOMPUTER==0){
-	sprint(filename,"./spikerecord/%dspikerecord_%s%d.dat",pcid,typename[type].s,n)
-    }else if(IS_SUPERCOMPUTER ==1){
-	sprint(filename,"./%dspikerecord_%s%d.dat",pcid,typename[type].s,n)
-    }
+    strdef filename,filepath
+    filepath = $s7
+    sprint(filename,"%s%dspikerecord_%s%d.dat",filepath,pcid,typename[type].s,n)
+    
     fileSR.wopen(filename)
     fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
     fileSR.printf("$ Delay(ms): %f\n",Delay)

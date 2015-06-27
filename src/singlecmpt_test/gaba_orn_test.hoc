@@ -1,0 +1,352 @@
+{load_file("nrngui.hoc")}
+{load_file("netparmpi.hoc")}
+if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
+if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
+if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
+
+objref pnm
+//pnm = new ParallelNetManager(0)
+objref pc
+//pc = pnm.pc
+pc = new ParallelContext()
+{load_file("Stick.hoc")}
+{load_file("ranstream.hoc")}
+{load_file("../CellSwc3.hoc")}
+
+nPN = 1   // Number of BAL-PNs
+nLN = 4     // Number of LN-lla
+nRN = 1
+NCELL = nPN + nLN + nRN
+// NCELL : number of whole cells
+
+TSTOP = STOPTIME
+if(pc.id == 0){
+    print "NCELL ", NCELL
+    print "PC.NHOST ",pc.nhost
+}
+objref cells, nclist
+objref ranlist
+proc mknet(){
+    print "MAKE CELLS"
+    mkcells($1)
+    print "CONNECT CELLS"
+    prl_connect_gaba_LNtoRN()
+    connectRNtoOthers()
+}
+strdef rn_path
+rn_path = "../../input/swc/rn0514/orn0000.swc"
+objref rnl
+rnl = new List()
+proc mkcells(){local i,ncell localobj cell, nc, nil
+    ncell = $1
+    cells = new List()
+    
+    for(i=pc.id; i<ncell; i+=pc.nhost){
+	cell = new Stick()
+	if(i < nPN){
+	    printf("MAKE PN[%d] i:%d\n",pc.id,i)
+	    cell.insertFukuda()
+	    cell.setType(1)
+	    cell.setExp2Syn(-75)
+	    cells.append(cell)	    
+	    nc = cell.connect2target(nil)
+	}else if((i>=nPN) && (i<nPN + nLN)){
+	    printf("MAKE LN[%d] i:%d\n",pc.id,i)
+	    //cell.insertLNlla()
+	    cell.insertLNlla3()
+	    cell.setType(4)
+	    cells.append(cell)
+	    nc = cell.connect2target(nil)
+	}else if((i>=nPN + nLN) && (i<nPN + nLN + nRN)){
+	    printf("MAKE RN[%d] i:%d\n",pc.id,i)
+	    cell = new CellSwc(rn_path, 0,0,0,0)
+	    cell.insertHH_RN()
+	    cell.getAxon()
+	    nc = cell.connect2target(0,nil)
+	    rnl.append(cell)
+
+	}else{
+	    printf("mkcells error")
+	    quit()
+	}
+	pc.set_gid2node(i,pc.id)
+	pc.cell(i,nc)
+    }
+}
+
+objref gabalist, dummylist
+gabalist  = new List()
+dummylist = new List()
+//prl : parallel
+proc prl_connect_gaba_LNtoRN(){local i localobj gaba, c1, c2, g1, g2
+    for i=nPN, nPN+nLN-1{
+	if(pc.gid_exists(i)){
+	    print "0"
+	    c2 = pc.gid2obj(i) //pre_synapse
+	    g2 = c2.setGABA(0)
+	    dummylist.append(g2)
+	    pc.target_var(&g2.dummy,10+i*2+1)
+	    pc.source_var(&c2.soma.v(.5),10+i*2)
+	}
+	if(pc.gid_exists(5)){
+	    print "1"
+	    c1 = pc.gid2obj(5) //post_synapse
+	    printf("SectionNum %d",c1.SectionNum)
+	    printf("GABA DEND[%d]",119+i)
+	    g1 = c1.mkGABA(119+i,0.5)
+	    gabalist.append(g1)
+	    pc.target_var(&g1.pre,10+i*2)
+	    pc.source_var(&c1.Dend[0].v(.5),10+i*2+1)
+	}
+	pc.barrier()
+    }
+}
+
+
+NUMAXONS_PER_RN = 5
+objref rnclist
+rnclist = new List()
+proc mkPreSynapseOnRN(){local i, gid_cnt localobj syn, nil, nc
+    for i=0, rnl.count()-1{
+	//print i
+	gid_cnt  = 0
+	forsec rnl.object(i).axonlist{
+	    nc = new NetCon(&v(0.5),nil) 
+	    nc.threshold = 1
+	    //syn_gid = calcSyngid(gid_base, gid_cnt, i)
+	    syn_gid = 20+gid_cnt
+	    pc.set_gid2node(syn_gid,pc.id)
+	    pc.cell(syn_gid, nc)
+	    rnclist.append(nc)
+	    //printf("(%d, %d)\t",syn_gid, pc.id)
+	    gid_cnt += 1
+	}
+    }
+}
+
+objref nclist_RN
+nclist_RN = new List()
+proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
+    for i=0, nPN+nLN-1{
+	if(pc.gid_exists(i)){
+	    target = pc.gid2obj(i)
+	    syn = target.setExp2Syn(0)
+	    nc = pc.gid_connect(20+i,syn)
+	    nc.delay = 1.0
+	    if(target.type == 1){
+		nc.weight = 0.6
+	    }else{
+		nc.weight = 0.5
+	    }
+	    nclist_RN.append(nc)
+	}
+    }
+}
+proc connectRNtoOthers(){\
+    local gid_base, syn_gid,syn_gid_max
+    gid_base = 1000000
+    mkPreSynapseOnRN()
+    pc.barrier()
+    mkPostSynapseOfRN()
+    pc.barrier()
+}
+
+
+
+
+mknet(NCELL)
+
+proc mkstim(){
+    for i = 0, cells.count -1 {	if(cells.object(i).type == 1){
+	    cells.object(i).setStim(50,35000)
+	}else if(cells.object(i).type == 4){
+	    cells.object(i).setStim(50,15000)
+	}
+    }
+}
+
+
+//mkstim()
+objref r_delay1, r_delay2, r_imax1, r_imax2
+proc mkstim_random(){local i
+    r_delay1 = new Random()
+    r_delay2 = new Random()
+    r_imax1 = new Random()
+    r_imax2 = new Random()
+    
+    delay2 = 200
+
+    r_delay1.uniform(0,50)
+    r_delay2.uniform(delay2,delay2+50)
+    r_imax1.uniform(35000,35000)
+    r_imax2.uniform(15000,15000)
+
+    imax1 = 35000*1.5
+    imax2 = 15000*1.25
+    
+    Interval = 300
+    for i = 0, cells.count -1 {
+	if(cells.object(i).type == 1){
+	    cells.object(i).Delay = r_delay1.repick()
+	    //cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,35000,Interval,imax1,20,0.00)
+	}else if(cells.object(i).type == 4){
+	    //cells.object(i).setStim(r_delay.repick(),r_imax2.repick())
+	    //print "type 4 ",i
+	    cells.object(i).Delay = r_delay2.repick()
+	    cells.object(i).setIntermitStim_gaus(cells.object(i).Delay,15000,Interval,imax2,20,0.00)
+	}
+    }
+}
+//mkstim_random()
+
+proc mkstim_RN(){local i, delay, imax1, imax2, Interval
+    delay = 50
+    imax1 = 80000000
+    imax2 = 35000
+    Interval = 300
+    for i = 0, rnl.count -1{
+	//rnl.o(i).setIntermitStim_gaus(110,delay, imax1, Interval, imax2, 20,0.00)
+	rnl.o(i).setIClamp(TSTOP,dt,"../../input/spiketiming/spiketiming300.dat")
+    }
+}
+mkstim_RN()
+
+proc setVoltageRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setVoltageRecord()
+    }
+}
+setVoltageRecord()
+
+objref RNvolt_list
+objref volt_tvec
+proc setVoltageRecord_RN(){local i,j localobj volt_vec
+    volt_tvec = new Vector()
+    volt_tvec.record(&t)
+    if(rnl.count()!=0){RNvolt_list = new List()}
+
+    for(j = 0; j<rnl.count();j+=1){
+	//printf("RN record(id:%d)\n",(pc.id))
+	//printf("rns.count %d#\n",rns.count())
+	//print "ERROR CHECK SETVOLATAGERECORD",1
+	volt_vec = new Vector()
+	volt_vec.record(&rnl.o(j).Dend[120].v(0.5))
+	RNvolt_list.append(volt_vec)
+
+    }
+}
+setVoltageRecord_RN()
+
+
+objref tvec, vec
+proc setVoltageRecord_gaba(){local i
+    tvec = new Vector()
+    vec  = new Vector()
+    tvec.record(&t)
+    if(gabalist.count != 0){
+	print gabalist.object(0)
+	vec.record(&gabalist.object(0).pre)
+    }
+}
+//setVoltageRecord_gaba()
+
+proc setSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setSpikeRecord()
+    }
+}
+setSpikeRecord()
+
+pc.barrier()
+print "RUN"
+tstop = TSTOP
+pc.setup_transfer()
+//{pnm.set_maxstep(10)}
+{pc.set_maxstep(10)}
+stdinit()
+{pc.psolve(tstop)}
+print "FINISH"
+
+strdef FPRINT_DIR
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "./result/record/"
+}else{
+    sprint(FPRINT_DIR,"./result/%010d/",START_TIME)
+}
+
+print FPRINT_DIR
+proc printSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	if(cells.object(i).type<4){
+	    if(i%1==0){
+		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,0,FPRINT_DIR)
+		//		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,imax2)
+	    }
+	}else{
+	    if(i%1==0){
+		//		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,imax2)
+		cells.object(i).printSpikeRecord2(pc.id,i, Interval,TSTOP,imax1,0,FPRINT_DIR)
+	    }
+	}
+    }
+}
+
+printSpikeRecord()
+proc printVoltageRecord(){
+    for i = 0, cells.count -1{
+	if(cells.object(i).type<4){
+	    if(i%1==0){
+		cells.object(i).printVoltageRecord3(pc.id,i,FPRINT_DIR)
+	    }
+	}else{
+	    if(i%1==0){
+		cells.object(i).printVoltageRecord3(pc.id,i,FPRINT_DIR)
+	    }
+	}
+    }
+}
+printVoltageRecord()
+
+objref mt, file
+proc printVoltageRecord_gaba(){local i
+    mt = new Matrix()
+    file = new File()
+    
+    //tvec.printf()
+    mt.resize(tvec.size(),2)
+    mt.setcol(0,tvec)
+    mt.setcol(1,vec)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    //sprint(filename,"./record/%dgabaVoltage_0.txt",pc.id) 
+    sprint(filename,"%s%dgabaVoltage_0.txt",FPRINT_DIR,pc.id) 
+    file.wopen(filename)
+    mt.fprint(file,"%5.5f\t")
+    file.close()
+}
+//printVoltageRecord_gaba()
+proc fprintVoltageRecord_RN(){localobj mt, file,mt2, file2
+    strdef filename
+    for(j = 0; j<rnl.count();j+=1){
+	mt = new Matrix()
+	file = new File()
+	//mt.resize(volt_tvec.size(),rns.count + 1)
+	mt.resize(volt_tvec.size(),RNvolt_list.count()+1)
+	mt.setcol(0,volt_tvec)
+	for(i=0; i<RNvolt_list.count();i+=1){
+	    mt.setcol(i+1,RNvolt_list.o(i))
+	}
+	sprint(filename,"%s%dVolt.txt",FPRINT_DIR,pc.id)
+	file.wopen(filename)
+	mt.fprint(file,"%5.5f\t")
+	file.close()
+    }
+}
+fprintVoltageRecord_RN()
+
+{pc.runworker()}
+{pc.done()}
+quit()

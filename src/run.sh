@@ -14,7 +14,7 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=10"\
+" -c STOPTIME=300"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"
 
