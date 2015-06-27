@@ -184,13 +184,18 @@ proc setVoltageRecord(){local i,j localobj volt_vec
 	//printf("RN record(id:%d)\n",(pc.id))
 	//printf("rns.count %d#\n",rns.count())
 	//print "ERROR CHECK SETVOLATAGERECORD",1
-	if((j==0)&&(pc.id%8==0)){
-	    volt_vec = new Vector()
-	    //RNvolt_vecs[0].record(&rns.o(j).Dend[0].v(0.5))
-	    //RNvolt_vecs[1].record(&rns.o(j).Dend[60].v(0.5))
-	    //RNvolt_vecs[2].record(&rns.o(j).Dend[120].v(0.5))
-	    volt_vec.record(&rns.o(j).Dend[120].v(0.5))
-	    RNvolt_list.append(volt_vec)
+	if(IS_SUPERCOMPUTER == 1){
+	    if((j==0)&&(pc.id%8==0)){
+		volt_vec = new Vector()
+		volt_vec.record(&rns.o(j).Dend[120].v(0.5))
+		RNvolt_list.append(volt_vec)
+	    }
+	}else{
+	   if(j<5){
+		volt_vec = new Vector()
+		volt_vec.record(&rns.o(j).Dend[120].v(0.5))
+		RNvolt_list.append(volt_vec)
+	    }
 	}
 	//print "ERROR CHECK SETVOLATAGERECORD",2
     }
@@ -307,8 +312,11 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    file2.close()
 	}
     }
-    for(j = 0; j<rns.count();j+=1){
-	if((j==0)&&(pc.id%8==0)){
+    //for(j = 0; j<rns.count();j+=1){
+    printf("RN PRINT %d\n",pc.id)
+    if(rns.count()!=0){
+	if(RNvolt_list.count()>0){
+	    //	printf("RN PRINT %d",pc.id)
 	    mt = new Matrix()
 	    file = new File()
 	    //mt.resize(volt_tvec.size(),rns.count + 1)
@@ -317,7 +325,7 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    for(i=0; i<RNvolt_list.count();i+=1){
 		mt.setcol(i+1,RNvolt_list.o(i))
 	    }
-	    sprint(filename,"%s%dVolt.txt",FPRINT_DIR,rns.o(j).gid)
+	    sprint(filename,"%s%dVolt.txt",FPRINT_DIR,pc.id)
 	    file.wopen(filename)
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()

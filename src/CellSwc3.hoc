@@ -32,7 +32,7 @@ public mkSyn,mkExp2Syn
 public mkSynapses, synapses
 public mkGABA, mkDUMMY
 public setPath, setNid, setGid, setSpikegenlist
-public setIntermitStim_gaus,setIClamp, mkIclamp
+public setIntermitStim_gaus,setIClamp, mkIclamp, setIClamp_with_Latency
 public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned
 public getAxon
 public setSpikeRecord,fprintSpikeRecord
@@ -805,9 +805,12 @@ proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, st
     
     L0     = rand.normal(158,62)
     lambda = rand.lognormal(2.9,0.85)
+    lambda = exp(lambda)
     Lm     = rand.normal(67,30)
     C      = 3
     latency = Latency(C,L0,lambda,Lm)
+    latency = latency/1000.0
+    printf("Latency %f",latency) 
     //##################################################
     
     this.Dend[0] ic = new IClamp(1.0)
