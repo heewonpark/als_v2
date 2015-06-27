@@ -54,8 +54,8 @@ MPIEXEC="mpiexec -mca mpi_print_stats 1"
 
 #PROF="fapp -C -d ./prof -L1 -Hevent=Statistics"
 #PROF="fipp -C -Ihwm,call -d ./prof"
-#PROF="fipp -C -Ihwm,call -d pd"
-PROF=""
+PROF="fipp -C -Ihwm,call -d pd"
+#PROF=""
 
 echo "${PROF} ${MPIEXEC} ${LPG} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 time ${PROF} ${MPIEXEC} ${LPG} ${NRNIV} ${NRNOPT} ${HOC_NAME}
