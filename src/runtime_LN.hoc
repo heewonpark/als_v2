@@ -1,0 +1,100 @@
+{load_file("nrngui.hoc")}
+{load_file("stdlib.hoc")}
+{load_file("CellSwc3.hoc")}
+{load_file("loadinfo.hoc")}
+{load_file("areaList.hoc")}
+{load_file("exSectionList.hoc")}
+
+//{load_file("CellSwc.hoc")}
+
+STOPTIME = 500
+
+objref c
+//c = new CellSwc("./swc/rn0514/orn0010.swc",0,0,0,0)
+c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc",0,0,0,0)
+//c.insertHH()
+c.insertLNlla()
+
+//c.setIntermitStim_gaus(0,0,10000000,300,0,100,0.0)
+//c.mkIclamp(0)
+strdef spiketiming
+sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",666)
+c.setIClamp(STOPTIME,dt,spiketiming)
+
+/*
+objref st
+c.Dend[0] st = new intermitStimGaus(0.5)
+st.del    = 0
+st.Imax  = 100
+st.interval = 100
+st.tau_fall = 400
+st.Imax2    = 100
+st.nStim    = 10
+st.sigma_o  = 0.0
+*/
+
+/*
+loadSynapseInfo(c,"./info/syn/200syn.dat", 1)
+//target.mkSynapses(target.fromRNsyn)
+c.mkSynapses("./synlist/fromRN/050622_4_sn_SynapseList.dat")
+print "end load synapse info"
+*/
+
+
+objref tvec, vec[10]
+tvec = new Vector()
+for i=0,10-1{
+    vec[i]  = new Vector()
+}
+tvec.record(&t)
+vec[0].record(&c.Dend[0].v(0.5))
+vec[1].record(&c.Dend[100].v(0.5))
+vec[2].record(&c.Dend[300].v(0.5))
+vec[3].record(&c.Dend[700].v(0.5))
+vec[4].record(&c.Dend[1000].v(0.5))
+vec[5].record(&c.Dend[475].v(0.5))
+
+
+/*--- shape plot ---*/
+/*
+objref sh
+sh = new PlotShape(1)
+sh.scale(0,0)
+
+sh.size(-300, 300, -300, 300)
+*/
+//sh.size(-3000, 3000, -3000, 3000)
+//sh.show(0)
+//sh.exec_menu("Shape Plot")
+//sh.view(-100, -100,200, 200,50,50,1024,1024)
+
+//xopen("singletest.ses")
+
+tstop = STOPTIME
+start_ = startsw()
+run()
+stop_ = startsw()
+
+print "printfile"
+objref mt, file
+mt = new Matrix()
+file = new File()
+
+strdef filename
+mt.resize(tvec.size(),7)
+mt.setcol(0,tvec)
+for i=0, 6-1{
+    mt.setcol(i+1,vec[i])
+}
+sprint(filename,"./record/Voltagerecord.txt")
+file.wopen(filename)
+mt.fprint(file,"%5.5f\t")
+file.close()
+ 
+/*
+for i=0, tvec.size()-1{
+    printf("%5.5f\t%5.5f\n",tvec.x[i],vec.x[i])
+}
+*/
+printf("Run time : %d \n",stop_ - start_)
+quit()

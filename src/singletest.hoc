@@ -2,21 +2,91 @@
 {load_file("stdlib.hoc")}
 {load_file("CellSwc3.hoc")}
 {load_file("loadinfo.hoc")}
+{load_file("areaList.hoc")}
+{load_file("exSectionList.hoc")}
+// For Goto's PN model parameter
+if(name_declared("SPIKEGEN_POS")!=5){ execute("SPIKEGEN_POS=10")}
+if(name_declared("SPIKEGEN_SIZE")!=5){ execute("SPIKEGEN_SIZE=10") }
+if(name_declared("GKDRBAR")!=5){ execute("GKDRBAR=0.7") }
+if(name_declared("GNABAR")!=5){ execute("GNABAR=1.2") }
+if(name_declared("GCATBAR")!=5){ execute("GCATBAR=0.0015") }
+if(name_declared("GKCABAR")!=5){ execute("GKCABAR=0.15") }
+if(name_declared("KCA")!=5){ execute("KCA=2.4") }
+if(name_declared("KNA")!=5){ execute("KNA=3.0") }
+if(name_declared("KK")!=5){ execute("KK=KNA") }
+if(name_declared("CM")!=5){ execute("CM=1") } //
+if(name_declared("GL")!=5){ execute("GL=0.00035") } //
+if(name_declared("EL")!=5){ execute("EL=-60") } //
+if(name_declared("CAGAIN")!=5){ execute("CAGAIN=0.16")}
+
 
 //{load_file("CellSwc.hoc")}
 
-STOPTIME = 200
+STOPTIME = 10000
 
-objref c
+objref pn
 //c = new CellSwc("./swc/rn0514/orn0010.swc",0,0,0,0)
-c = new CellSwc("./swc/050622_4_sn_bestrigid0106_mkRegion.swc",0,0,0,0)
+pn = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc",0,0,0,0)
 //c.insertHH()
-forall insert hh
+proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
+    pn = $o1
+
+    pn forall {
+	uninsert pas
+	uninsert GPeA_k
+    }
+		
+    forsec pn.noaxonlist {
+	insert pas
+	e_pas = EL
+	g_pas = GL
+	cm = CM
+    }
+    forsec pn.axonlist {
+	insert GPeA_k
+	gnabar_GPeA_k = GNABAR*0.1
+	gkdrbar_GPeA_k = GKDRBAR*0.1
+	gcatbar_GPeA_k = GCATBAR*0.1
+	gkcabar_GPeA_k = GKCABAR*0.1
+	kca_GPeA_k = KCA
+	kna_GPeA_k = KNA
+	kk_GPeA_k = KNA
+	caGain_GPeA_k = CAGAIN
+	vol_GPeA_k = PI*diam*diam*L/4 * 1e-15
+	gl_GPeA_k = GL
+	el_GPeA_k = EL
+	cm = CM
+    }
+    
+    pn.spikegenlist = new SectionList()
+    axonnum = countSL(pn.axonlist)
+    tmplist = sl2list(pn.axonlist)
+    SPIKEGEN_POS = int(SPIKEGEN_POS)
+    SPIKEGEN_SIZE = int(SPIKEGEN_SIZE)
+    j = SPIKEGEN_POS
+    while(j < axonnum && j < SPIKEGEN_POS+SPIKEGEN_SIZE) {
+ 	tmplist.o(j).sec pn.spikegenlist.append()
+ 	j+=1
+    }
+    forsec pn.spikegenlist {
+	gnabar_GPeA_k = GNABAR*20
+	gkdrbar_GPeA_k = GKDRBAR*20
+	//gcatbar_GPeA_k = GCATBAR*0.1
+	//gkcabar_GPeA_k = GKCABAR*0.1
+    }
+    //stdinit() Why do i need to use this?
+}
+pn.cellbodylist = areaList(39,38,0)
+pn.dendlist = areaList(97,98,0)
+pn.axonlist = areaList(99,100,0)
+pn.setSpikegenlist(SPIKEGEN_POS, SPIKEGEN_SIZE)
+initModel_PN(pn)
+
 //c.setIntermitStim_gaus(0,0,10000000,300,0,100,0.0)
 //c.mkIclamp(0)
 strdef spiketiming
-sprint(spiketiming,"./spiketiming/spiketiming%d.dat",666)
-c.setIClamp(STOPTIME,dt,spiketiming)
+sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",666)
+pn.setIClamp(STOPTIME,dt,spiketiming)
 
 /*
 objref st
@@ -44,12 +114,12 @@ for i=0,10-1{
     vec[i]  = new Vector()
 }
 tvec.record(&t)
-vec[0].record(&c.Dend[0].v(0.5))
-vec[1].record(&c.Dend[100].v(0.5))
-vec[2].record(&c.Dend[300].v(0.5))
-vec[3].record(&c.Dend[700].v(0.5))
-vec[4].record(&c.Dend[1000].v(0.5))
-vec[5].record(&c.Dend[475].v(0.5))
+vec[0].record(&pn.Dend[0].v(0.5))
+vec[1].record(&pn.Dend[100].v(0.5))
+vec[2].record(&pn.Dend[300].v(0.5))
+vec[3].record(&pn.Dend[700].v(0.5))
+vec[4].record(&pn.Dend[1000].v(0.5))
+vec[5].record(&pn.Dend[475].v(0.5))
 
 
 /*--- shape plot ---*/
@@ -68,7 +138,9 @@ sh.size(-300, 300, -300, 300)
 //xopen("singletest.ses")
 
 tstop = STOPTIME
+start_ = startsw()
 run()
+stop_ = startsw()
 
 print "printfile"
 objref mt, file
@@ -91,11 +163,5 @@ for i=0, tvec.size()-1{
     printf("%5.5f\t%5.5f\n",tvec.x[i],vec.x[i])
 }
 */
-
-access c.Dend[110]
-c.Dend[110]  psection()
-//c.Dend[0].diam = 10
-print c.Dend[0].diam
-c.Dend[0]  psection()
-
+printf("Run time : %d \n",stop_ - start_)
 quit()

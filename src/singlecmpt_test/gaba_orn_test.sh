@@ -16,7 +16,8 @@ NRNOPT=\
 " -c START_TIME=${Time}"
 
 HOC_NAME="gaba_orn_test.hoc"
-EXEC="mpiexec -np 6 ../../specials/x86_64/special -mpi"
+#EXEC="mpiexec -np 6 ../../specials/x86_64/special -mpi"
+EXEC="../../specials/x86_64/special -mpi"
 
 echo "${EXEC} ${NRNOPT} ${HOC_NAME}"
 time ${EXEC} ${NRNOPT} ${HOC_NAME}|tee ${OUT}

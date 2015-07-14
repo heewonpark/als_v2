@@ -17,8 +17,8 @@ for(i=0;i<100;i+=1){
 */
 //cell[0] = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc")
 //cell[1] = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc")
-cell[2] = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc")
-
+//cell[2] = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc")
+cell[2] = new CellSwc("../input/swc/rn0514/orn0000.swc")
 /*--- insert mechanism ---*/
 objref shape
 shape = new Shape()

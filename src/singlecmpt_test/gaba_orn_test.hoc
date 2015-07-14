@@ -64,7 +64,7 @@ proc mkcells(){local i,ncell localobj cell, nc, nil
 	    cell.getAxon()
 	    nc = cell.connect2target(0,nil)
 	    rnl.append(cell)
-
+	    print cell.SectionNum
 	}else{
 	    printf("mkcells error")
 	    quit()
@@ -96,7 +96,7 @@ proc prl_connect_gaba_LNtoRN(){local i localobj gaba, c1, c2, g1, g2
 	    g1 = c1.mkGABA(119+i,0.5)
 	    gabalist.append(g1)
 	    pc.target_var(&g1.pre,10+i*2)
-	    pc.source_var(&c1.Dend[0].v(.5),10+i*2+1)
+	    pc.source_var(&c1.Dend[124-i].v(.5),10+i*2+1)
 	}
 	pc.barrier()
     }
@@ -220,7 +220,7 @@ setVoltageRecord()
 
 objref RNvolt_list
 objref volt_tvec
-proc setVoltageRecord_RN(){local i,j localobj volt_vec
+proc setVoltageRecord_RN(){local i,j localobj volt_vec,v2,v3,v4
     volt_tvec = new Vector()
     volt_tvec.record(&t)
     if(rnl.count()!=0){RNvolt_list = new List()}
@@ -231,8 +231,16 @@ proc setVoltageRecord_RN(){local i,j localobj volt_vec
 	//print "ERROR CHECK SETVOLATAGERECORD",1
 	volt_vec = new Vector()
 	volt_vec.record(&rnl.o(j).Dend[120].v(0.5))
+	v2 = new Vector()
+	v2.record(&rnl.o(j).Dend[0].v(0.5))
+	v3 = new Vector()
+	v3.record(&rnl.o(j).Dend[90].v(0.5))
+	v4 = new Vector()
+	v4.record(&rnl.o(j).Dend[123].v(0.5))
 	RNvolt_list.append(volt_vec)
-
+	RNvolt_list.append(v2)
+	RNvolt_list.append(v3)
+	RNvolt_list.append(v4)
     }
 }
 setVoltageRecord_RN()
