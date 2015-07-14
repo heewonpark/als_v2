@@ -94,10 +94,17 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 		//print "src_gid ", src_gid
 		nc  = pc.gid_connect(src_gid, syn)
 		nc.delay  = 1.0
-		nc.weight = 0.05
-		if(target.cellid == 3 && target.swcid == 1){
-		    //print "nc.weight change for 301"
-		    nc.weight = 0.008
+		if(target.cellid == 2){
+		    print "nc.weight for 200 ",WEIGHT_200
+		    nc.weight = WEIGHT_200
+		}else if(target.cellid == 3 && target.swcid == 1){
+		    print "nc.weight for 301 ",WEIGHT_301
+		    nc.weight = WEIGHT_301
+		}else if(target.cellid == 3 && target.swcid == 0){
+		    print "nc.weight for 300 ",WEIGHT_300
+		    nc.weight = WEIGHT_300
+		}else{
+		    print "nc.weight ** ERROR **"
 		}
 		nclist_RN.append(nc)
 	    }
@@ -116,12 +123,6 @@ proc connectRNtoOthers(){\
     pc.barrier()
 }
 
-//SLN : Spiking LN
-proc connectSLNtoRN(){local i
-    for i=0, nclist_RN.count()-1{
-	
-    }
-}
 /*
 proc setSynapseInfo(){\
     local i\
@@ -351,10 +352,10 @@ func connectNtoN_GABA(){\
 	readSynapseList(SynPathList.o(j),gid_base)
 	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
 	    //printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
-	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,0.6/NLN,0)
+	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,GMAX_LTOP/NLN,0)
 	}else{
 	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
-	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,5.0/NLN,0)
+	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,GMAX_LTOL/NLN,0)
 	}
 	
 	pc.barrier()

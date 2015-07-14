@@ -1,12 +1,8 @@
 #!/bin/bash -x
-#--#PJM --rsc-list "node=32"
 #PJM --rsc-list "node=16"
-#--PJM --rsc-list "node=1"
 #PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
-#--#PJM --mpi "proc=256"
 #PJM --mpi "proc=128"
-#--PJM --mpi "proc=1"
 #PJM -s
 
 # staging
@@ -28,8 +24,8 @@
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_devel/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_devel/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
@@ -39,13 +35,13 @@
 # SET UP ENVIRONMENT OF LANGUAGE 
 . /work/system/Env_base
 
-#export OMP_NUM_THREADS=8
+#--#export OMP_NUM_THREADS=8
 
-NRNIV="./special -mpi --version"
+NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=1"\
+" -c STOPTIME=100"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.350"\
@@ -58,11 +54,11 @@ LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"
 #MPIEXEC="mpiexec -mca mpi_print_stats 2 -mca mpi_print_stats_ranks 0"
 
-#PROF="fapp -C -d ./pd -L1 -Hevent=Statistics"
-#PROF="fipp -C -Ihwm,call -d ./prof"
-#PROF="fipp -C -Ihwm,call -d pd"
-#PROF="fipp -C -Ihwm,call -Puserfunc -i 20 -d ./pd"
-PROF=""
+PROF="fapp -C -d ./pd -L1 -Hevent=Statistics"
+#PROF="fapp -C -d ./pd -Ihwm -Hevent=Performance"
+#PROF="fapp -C -d ./pd -Ihwm -Hevent=Statistics"
+#PROF="fipp -C -Strange -Ihwm,call -d ./pd"
+#PROF=""
 
 echo "${PROF} ${MPIEXEC} ${LPG} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 time ${PROF} ${MPIEXEC} ${LPG} ${NRNIV} ${NRNOPT} ${HOC_NAME}

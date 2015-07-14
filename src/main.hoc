@@ -50,6 +50,12 @@ if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
 if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
 if(name_declared("INTERVAL")!=5){ execute("INTERVAL=1200")}
 if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
+if(name_declared("WEIGHT_200")!=5){ execute("WEIGHT_200=0.05")}
+if(name_declared("WEIGHT_300")!=5){ execute("WEIGHT_300=0.05")}
+if(name_declared("WEIGHT_301")!=5){ execute("WEIGHT_301=0.008")}
+if(name_declared("GMAX_LTOL")!=5){ execute("GMAX_LTOL=5.0")}
+if(name_declared("GMAX_LTOP")!=5){ execute("GMAX_LTOP=0.6")}
+
 
 /*
 if(name_declared("SWC_FILENAME")==0) { 
@@ -58,25 +64,26 @@ if(name_declared("SWC_FILENAME")==0) {
 */
 RNperSYN = 5
 strdef info_filename
-info_filename = "../input/network_info/network_info_3cells.dat"
-//info_filename = "../input/network_info/network_info_40cells.dat"
+//info_filename = "../input/network_info/network_info_3cells.dat"
+//info_filename = "../input/network_info/network_info_3cells_manual.dat"
+info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 //info_filename = "../input/network_info/network_info_1PN.dat"
 strdef info_filename_rn
-info_filename_rn = "../input/network_info/network_info_2000rns.dat"
+//info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
-//info_filename_rn = "../input/network_info/network_info_20000rns.dat"
+info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 
 objref pc
 pc = new ParallelContext()
 //STOPTIME = 300
-if(pc.id == 0){printf("STOPTIME : %d(ms)\n",STOPTIME)}
-
-
-if(pc.id == 0){
+if(pc.id==0){
+    printf("STOPTIME : %d(ms)\n",STOPTIME)
+    printf("WEIGHT_200 %f WEIGHT_300 %f WEIGHT_301 %f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
     print "PC.NHOST ",pc.nhost
 }
+
 objref pns,lns,rns
 
 proc mkNetwork(){
