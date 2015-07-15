@@ -18,7 +18,7 @@ public type, setType
 public setSpikeRecord, printSpikeRecord, Delay
 objref synlist,gabalist
 
-public gaba, setGABA
+public gaba, setGABA, setNET_GABA
 
 public imax
 
@@ -98,7 +98,7 @@ public gsyn,esyn
 objref gsyn
 
 obfunc setgaba(){
-    soma gsyn = new GABA(0.3) gabalist.append(gsyn)
+    soma gsyn = new GABA(0.5) gabalist.append(gsyn)
     gsyn.gmax = $1
     return gsyn
 }
@@ -330,6 +330,7 @@ obfunc connect2target(){local numSynapses localobj nc,target
     target = $o1
     //numSynapses = $2
     soma nc = new NetCon(&v(0.3),$o1)
+    nc.delay = 0
     nc.threshold = 0
     nc.weight = 10
     //print "nc.weight ",nc.weight
@@ -338,11 +339,17 @@ obfunc connect2target(){local numSynapses localobj nc,target
 
 objref ic
 public ic
-proc setIclamp(){
+obfunc setIclamp(){
     soma ic = new IClamp(0.1)
+    ic.del = $1
+    ic.dur = $2
+    ic.amp = $3
+/*
     ic.del = 1
     ic.dur = 10
     ic.amp = 5
+    */
+    return ic
 }
 
 objref st
@@ -362,6 +369,14 @@ obfunc setGABA(){local gmax
     gaba.gmax = gmax
     return gaba
 }
+
+obfunc setNET_GABA(){local gmax
+    gmax = $1
+    soma gaba = new NET_GABA(0.5)
+    gaba.gmax = gmax
+    return gaba
+}
+
 public st1
 objref st1
 obfunc setIntermitStim(){local delay, imax, interval

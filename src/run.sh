@@ -14,11 +14,12 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=300"\
+" -c STOPTIME=200"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"
 
-MPIEXEC="mpiexec -n 8"
+MPIEXEC="mpiexec -n 4"
+#MPIEXEC="mpiexec -n 8"
 #MPIEXEC=""
 
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
@@ -27,3 +28,5 @@ EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 #mpiexec -np 8 ./mod/x86_64/special -mpi main.hoc
 echo $EXEC
 time $EXEC |tee $OUT
+
+python drawGraph.py $RECORD_DIR

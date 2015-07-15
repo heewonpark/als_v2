@@ -51,7 +51,7 @@ proc mkSerialStim(){local i localobj rnd
 	}else{
 	    sprint(spiketiming,"../input/spiketiming/40stim/spiketiming%d.dat",int(rnd.uniform(0,999)))
 	}
-	//rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
-	rns.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
+	rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
+	//rns.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
     }
 }

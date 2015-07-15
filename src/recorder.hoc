@@ -202,18 +202,19 @@ proc setVoltageRecord(){local i,j localobj volt_vec
     //pc.barrier()
 }
 
-objref PNgaba_vecs[5000]
+
+objref gaba_vecs,gaba_vec
 objref gaba_tvec
 proc setGABArecord(){local i, j
     if(gabalist.count()==0){return}
-    for i= 0, 5000-1{
-	PNgaba_vecs[i] = new Vector()
-    }
+    gaba_vecs = new List()
     gaba_tvec = new Vector()
     gaba_tvec.record(&t)
     
     for(j=0; j<gabalist.count();j+=1){
-	PNgaba_vecs[j].record(&gabalist.o(j).pre)
+	gaba_vec = new Vector()
+	gaba_vec.record(&gabalist.o(j).pre)
+	gaba_vecs.append(gaba_vec)
     }
     //    pc.barrier()
 }
@@ -341,7 +342,7 @@ proc fprintGABArecord(){localobj mt, file
     mt.resize(gaba_tvec.size(),gabalist.count()+1)
     mt.setcol(0,gaba_tvec)
     for(j = 0; j<gabalist.count();j+=1){
-	mt.setcol(j+1,PNgaba_vecs[j])
+	mt.setcol(j+1,gaba_vecs.o(j))
     }
     sprint(filename,"%s%d_GABA.txt",FPRINT_DIR,pc.id)
     file.wopen(filename)

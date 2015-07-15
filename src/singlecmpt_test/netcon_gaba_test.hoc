@@ -1,0 +1,112 @@
+load_file("nrngui.hoc")
+load_file("Stick.hoc")
+
+//******************************************************
+// DECLARE CELLS
+//
+objref CELL
+CELL = new List()
+objref cell
+for i=0, 3{
+    cell = new Stick()
+    CELL.append(cell)
+}
+//******************************************************
+// SETUP CELLS PROPERTY
+//
+objref IC
+IC = new List()
+objref ic1, ic2
+CELL.o(0).insertHH()
+ic1 = CELL.o(0).setIclamp(0,10,5)
+ic2 = CELL.o(0).setIclamp(30,10,5)
+CELL.o(0).setVoltageRecord()
+
+CELL.o(1).insertHH()
+CELL.o(1).setVoltageRecord()
+IC.append(ic1)
+IC.append(ic2)
+
+//******************************************************
+// SETUP CONNECTIONS
+//
+
+objref nc
+//cell[1].setExp2Syn(-75)
+CELL.o(1).setNET_GABA(5)
+nc = CELL.o(0).connect2target(CELL.o(1).gaba)
+
+
+
+CELL.o(2).insertHH()
+CELL.o(3).insertHH()
+objref gabalist, gaba1, gaba2
+gabalist = new List()
+gaba1 = CELL.o(2).setgaba(5)
+gabalist.append(gaba1)
+setpointer gaba1.pre, CELL.o(3).soma.v(0.3)
+CELL.o(2).setVoltageRecord()
+CELL.o(3).setVoltageRecord()
+
+ic1 = CELL.o(3).setIclamp(0,10,5)
+ic2 = CELL.o(3).setIclamp(30,10,5)
+IC.append(ic1)
+IC.append(ic2)
+
+/*
+objref gabalist, gaba1, gaba2
+gabalist = new List()
+gaba1 = cell[1].setgaba(5)
+gabalist.append(gaba1)
+setpointer gaba1.pre, cell[0].soma.v(0.3)
+*/
+
+/*
+objref gabalist, gaba1, gaba2
+gabalist = new List()
+
+gaba1 = cell[0].setGABAlla(200)
+//gaba1 = cell[0].setgaba(0.7)
+gabalist.append(gaba1)
+setpointer gaba1.pre, cell[1].soma.v(0.5)
+
+gaba2 = cell[1].setGABAlla(200)
+//gaba2 = cell[1].setgaba(0.7)
+gabalist.append(gaba2)
+setpointer gaba2.pre, cell[0].soma.v(0.5)
+
+cell[0].setGABACurrentRecord()
+cell[1].setGABACurrentRecord()
+*/
+
+//******************************************************
+// RUN PROGRAM
+//
+tstop = 100
+dt = 0.025
+run()
+
+//******************************************************
+// PRINTOUT RECORD
+//
+strdef FPRINT_DIR
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "./result/record/"
+}else{
+    sprint(FPRINT_DIR,"./result/%010d/",START_TIME)
+}
+
+CELL.o(0).printVoltageRecord3(0,0,FPRINT_DIR)
+CELL.o(1).printVoltageRecord3(1,0,FPRINT_DIR)
+/*
+cell[0].printCurrentRecord(0)
+cell[1].printCurrentRecord(1)
+
+cell[0].printGABACurrentRecord(0)
+cell[1].printGABACurrentRecord(1)
+*/
+
+CELL.o(2).printVoltageRecord3(2,0,FPRINT_DIR)
+CELL.o(3).printVoltageRecord3(3,0,FPRINT_DIR)

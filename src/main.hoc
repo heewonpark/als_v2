@@ -65,7 +65,6 @@ if(name_declared("SWC_FILENAME")==0) {
 RNperSYN = 5
 strdef info_filename
 //info_filename = "../input/network_info/network_info_3cells.dat"
-//info_filename = "../input/network_info/network_info_3cells_manual.dat"
 info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 //info_filename = "../input/network_info/network_info_1PN.dat"
@@ -74,6 +73,11 @@ strdef info_filename_rn
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
 info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
+
+if(IS_SUPERCOMPUTER == 0){
+    info_filename = "../input/network_info/network_info_3cells.dat"
+    info_filename_rn = "../input/network_info/network_info_500rns.dat"
+}
 
 objref pc
 pc = new ParallelContext()
@@ -252,6 +256,8 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     connectRNtoOthers()
     //connectNtoN()
+    //connectNtoN_NET_GABA()
+    
     GID_BASE = connectNtoN_GABA()
     pc.barrier()
     if(pc.id == 0){printf("gid_base %d\n",GID_BASE)}

@@ -95,16 +95,16 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 		nc  = pc.gid_connect(src_gid, syn)
 		nc.delay  = 1.0
 		if(target.cellid == 2){
-		    print "nc.weight for 200 ",WEIGHT_200
+		    //print "nc.weight for 200 ",WEIGHT_200
 		    nc.weight = WEIGHT_200
 		}else if(target.cellid == 3 && target.swcid == 1){
-		    print "nc.weight for 301 ",WEIGHT_301
+		    //print "nc.weight for 301 ",WEIGHT_301
 		    nc.weight = WEIGHT_301
 		}else if(target.cellid == 3 && target.swcid == 0){
-		    print "nc.weight for 300 ",WEIGHT_300
+		    //print "nc.weight for 300 ",WEIGHT_300
 		    nc.weight = WEIGHT_300
 		}else{
-		    print "nc.weight ** ERROR **"
+		    //print "nc.weight ** ERROR **"
 		}
 		nclist_RN.append(nc)
 	    }
@@ -113,6 +113,7 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 }
 proc connectRNtoOthers(){\
     local gid_base, syn_gid,syn_gid_max
+    printf("connectRNtoOthers[%d]\n",pc.id)
     gid_base = 1000000
     syn_gid  = mkPreSynapseOnRN(gid_base)
     //printf("Before allreduce gid_max:%d pc.id:%d\n",syn_gid,pc.id)
@@ -251,11 +252,29 @@ proc makePostSynapse(){local i, post_cell,rev_potential, delay, weight,gid local
 	}
     }
 }
+
 objref gabalist, dummylist
 gabalist  = new List()
 dummylist = new List()
 
-proc makeGABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj pre_gaba, post_gaba, pre, post
+proc makePostSynapse_NET_GABA(){local i, post_cell, delay, weight,gmax,gid localobj post,nc,gaba
+    post_cell = $1
+    delay  = $2
+    weight = $3
+    gmax   = $4
+    if(pc.gid_exists(post_cell)){
+	post = pc.gid2obj(post_cell)
+	for i=0, post_comps.size()-1{
+	    gaba = post.mkNET_GABA(post_comps.x[i],gmax)
+	    gabalist.append(gaba)
+	    nc = pc.gid_connect(gidVec.x[i], gaba)
+	    nc.delay = delay
+	    nc.weight = weight
+	    nclist_NtoN.append(nc)
+	}
+    }
+}
+proc makePRL_GABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj pre_gaba, post_gaba, pre, post
     pre_cell  = $1
     post_cell = $2
     gid_base  = $3
@@ -268,7 +287,7 @@ proc makeGABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj
 	//print "Pre SectionNum ", pre.SectionNum
 	//printf("pre_comps.size() : %d (pc.id:%d)\n",pre_comps.size(),pc.id)
 	for i=0, pre_comps.size()-1{
-	    pre_gaba = pre.mkGABA(pre_comps.x[i],0)
+	    pre_gaba = pre.mkPRL_GABA(pre_comps.x[i],0)
 	    dummylist.append(pre_gaba)
 	    gid = gid_base+(gidVec.x[i]-gidVec.x[0])*2
 	    //print gid
@@ -281,7 +300,7 @@ proc makeGABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj
 	//print "Post SectionNum ", post.SectionNum
 	//printf("post_comps.size() : %d (pc.id:%d)\n",pre_comps.size(),pc.id)
 	for i=0, post_comps.size()-1{
-	    post_gaba = post.mkGABA(post_comps.x[i],gmax)
+	    post_gaba = post.mkPRL_GABA(post_comps.x[i],gmax)
 	    gabalist.append(post_gaba)
 	    gid = gid_base+(gidVec.x[i]-gidVec.x[0])*2
 	    //print gid
@@ -297,7 +316,7 @@ proc makeGABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj
 proc connectNtoN(){\
     local i, j,gid_base\
     localobj str,nil,pre,post
-
+    printf("connectNtoN[%d]\n",pc.id)
     strdef _syn_path
     gid_base = 2000000
 
@@ -325,13 +344,54 @@ proc connectNtoN(){\
    }
 }
 
+//----------------------------------------------------
+// Connect Neurons to Neurons
+// for example ln to ln, ln to pn
+proc connectNtoN_NET_GABA(){\
+    local i, j,gid_base\
+    localobj str,nil,pre,post
+
+    strdef _syn_path
+    gid_base = 2000000
+    printf("connectNtoN_NET_GABA[%d]\n",pc.id)
+    for(i=0;i<NPN;i=i+1){
+	//print "error pn"
+	loadSynapseInfo(nil,pn_path[i].synpath,2)
+    }
+    for(i=0;i<NLN;i=i+1){
+	//print "error ln"
+	loadSynapseInfo(nil,ln_path[i].synpath,2)
+    }
+    for(j=0;j<SynPathList.count();j+=1){
+	print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
+	readSynapseList(SynPathList.o(j),gid_base)
+	makePreSynapse(SynPathList.o(j).pregid)
+	pc.barrier()
+	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
+	    printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
+	    makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
+	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
+	}else{
+	    printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
+	    makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
+	}
+
+	if(pre_comps.size() == post_comps.size()){
+	    gid_base += pre_comps.size()
+	}else{
+	    print "ERROR IN CONNECTNTON"
+	    return (-1)
+	}
+   }
+}
+
 func connectNtoN_GABA(){\
     local i, j,gid_base\
     localobj str,nil,pre,post
 
     strdef _syn_path
     gid_base = 2000000
-    print "Connect Neuron to Neuron with GABAergic synapse"
+    print "Connect Neuron to Neuron with GABAergic synapse(PRL_GABA)"
     for(i=0;i<NPN;i=i+1){
 	//print "error pn"
 	//print pn_path[i].synpath
@@ -348,14 +408,15 @@ func connectNtoN_GABA(){\
     }
     */
     for(j=0;j<SynPathList.count();j+=1){
-	//print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
+	
+	print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
 	readSynapseList(SynPathList.o(j),gid_base)
 	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
-	    //printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
-	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,GMAX_LTOP/NLN,0)
+	    printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
+	    makePRL_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,GMAX_LTOP/NLN,0)
 	}else{
-	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
-	    makeGABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,GMAX_LTOL/NLN,0)
+	    printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
+	    makePRL_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,gid_base,GMAX_LTOL/NLN,0)
 	}
 	
 	pc.barrier()
@@ -372,6 +433,7 @@ func connectNtoN_GABA(){\
 proc connectNtoN_DUMMY(){\
     local i, j, gid_base,pre_gid, post_gid\
     localobj pre_dummy, post_dummy
+    //printf("connectNtoN_DUMMY[%d]\n",pc.id)
     gid_base = $1
     if(pc.id==0){printf("pc.id\tpre_t\tpre_s\tpost_t\tpost_s\n")}
     if(pns.count()==0 && lns.count()==0){

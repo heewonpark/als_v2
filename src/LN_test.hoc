@@ -1,0 +1,108 @@
+{load_file("nrngui.hoc")}
+{load_file("stdlib.hoc")}
+{load_file("CellSwc3.hoc")}
+{load_file("loadinfo.hoc")}
+{load_file("areaList.hoc")}
+{load_file("exSectionList.hoc")}
+// For Goto's PN model parameter
+if(name_declared("SPIKEGEN_POS")!=5){ execute("SPIKEGEN_POS=10")}
+if(name_declared("SPIKEGEN_SIZE")!=5){ execute("SPIKEGEN_SIZE=10") }
+if(name_declared("GKDRBAR")!=5){ execute("GKDRBAR=0.7") }
+if(name_declared("GNABAR")!=5){ execute("GNABAR=1.2") }
+if(name_declared("GCATBAR")!=5){ execute("GCATBAR=0.0015") }
+if(name_declared("GKCABAR")!=5){ execute("GKCABAR=0.15") }
+if(name_declared("KCA")!=5){ execute("KCA=2.4") }
+if(name_declared("KNA")!=5){ execute("KNA=3.0") }
+if(name_declared("KK")!=5){ execute("KK=KNA") }
+if(name_declared("CM")!=5){ execute("CM=1") } //
+if(name_declared("GL")!=5){ execute("GL=0.00035") } //
+if(name_declared("EL")!=5){ execute("EL=-60") } //
+if(name_declared("CAGAIN")!=5){ execute("CAGAIN=0.16")}
+if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
+if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
+if(name_declared("INTERVAL")!=5){ execute("INTERVAL=1200")}
+if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
+
+strdef FPRINT_DIR
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "../result/record/"
+}else{
+    sprint(FPRINT_DIR,"../result/%010d/record/",START_TIME)
+}
+printf("OUTPUT DIR : %s\n",FPRINT_DIR)
+
+objref c
+//c = new CellSwc("./swc/rn0514/orn0010.swc",0,0,0,0)
+
+//c.insertHH()
+
+//c.setIntermitStim_gaus(0,0,10000000,300,0,100,0.0)
+c.mkIclamp(0,5,30,20)
+strdef spiketiming
+sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",666)
+pn.setIClamp(STOPTIME,dt,spiketiming)
+
+objref vecl
+vecl = new List()
+objref tvec, vec
+tvec = new Vector()
+vec  = new Vector()
+tvec.record(&t)
+vec.record(&pn.Dend[0].v(0.5)) 
+vecl.append(vec)
+vec.record(&pn.Dend[100].v(0.5))
+vecl.append(vec)
+vec.record(&pn.Dend[300].v(0.5))
+vecl.append(vec)
+vec.record(&pn.Dend[700].v(0.5))
+vecl.append(vec)
+vec.record(&pn.Dend[1000].v(0.5))
+vecl.append(vec)
+vec.record(&pn.Dend[475].v(0.5))
+vecl.append(vec)
+
+/*--- shape plot ---*/
+/*
+objref sh
+sh = new PlotShape(1)
+sh.scale(0,0)
+
+sh.size(-300, 300, -300, 300)
+*/
+//sh.size(-3000, 3000, -3000, 3000)
+//sh.show(0)
+//sh.exec_menu("Shape Plot")
+//sh.view(-100, -100,200, 200,50,50,1024,1024)
+
+//xopen("singletest.ses")
+
+tstop = STOPTIME
+start_ = startsw()
+run()
+stop_ = startsw()
+
+print "printfile"
+objref mt, file
+mt = new Matrix()
+file = new File()
+
+strdef filename
+mt.resize(tvec.size(),7)
+mt.setcol(0,tvec)
+for i=0, 6-1{
+    mt.setcol(i+1,vecl.o(i))
+}
+sprint(filename,"$sVoltagerecord.txt",START_TIME)
+file.wopen(filename)
+mt.fprint(file,"%5.5f\t")
+file.close()
+ 
+/*
+for i=0, tvec.size()-1{
+    printf("%5.5f\t%5.5f\n",tvec.x[i],vec.x[i])
+}
+*/
+printf("Run time : %d \n",stop_ - start_)
+quit()

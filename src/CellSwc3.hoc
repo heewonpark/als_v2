@@ -30,7 +30,7 @@ public Dend, SectionNum
 public connect2target
 public mkSyn,mkExp2Syn
 public mkSynapses, synapses
-public mkGABA, mkDUMMY
+public mkPRL_GABA, mkDUMMY, mkNET_GABA
 public setPath, setNid, setGid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp, setIClamp_with_Latency
 public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned
@@ -600,10 +600,19 @@ obfunc connect2target(){local numSynapses,pre_comp localobj nc,target
 }
 
 objref gaba
-obfunc mkGABA(){local gmax,comp
+// This GABA_A synapse uses pc.transfer
+obfunc mkPRL_GABA(){local gmax,comp
     comp = $1
     gmax = $2
     this.Dend[comp] gaba = new PRL_GABA(0.5)
+    gaba.gmax = gmax
+    return gaba
+}
+// This GABA_A synapse uses NetCon to connect
+obfunc mkNET_GABA(){local gmax, comp
+    comp = $1
+    gmax = $2
+    this.Dend[comp] gaba = new NET_GABA(0.5)
     gaba.gmax = gmax
     return gaba
 }
@@ -810,7 +819,7 @@ proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, st
     C      = 3
     latency = Latency(C,L0,lambda,Lm)
     latency = latency/1000.0
-    printf("Latency %f",latency) 
+    //printf("Latency %f",latency) 
     //##################################################
     
     this.Dend[0] ic = new IClamp(1.0)
