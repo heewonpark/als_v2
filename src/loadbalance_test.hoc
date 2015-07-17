@@ -73,12 +73,12 @@ strdef info_filename_rn
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
 //info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
-
+/*
 if(IS_SUPERCOMPUTER == 0){
     info_filename = "../input/network_info/network_info_3cells.dat"
     info_filename_rn = "../input/network_info/network_info_500rns.dat"
 }
-
+*/
 objref pc
 pc = new ParallelContext()
 //STOPTIME = 300

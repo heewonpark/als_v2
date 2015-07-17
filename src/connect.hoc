@@ -192,10 +192,10 @@ proc readSynapseList(){\
 		    pre_comps.append(_pre_comp)
 		    post_comps.append(_post_comp)
 		    gidVec.append(gid_base+gid_cnt)
-		    if((_pre_nid-(_pre_nid%100))/100==3){
+		    if(int(SynPathList_.postgid/100000)==3){
 			print _pre_nid, _pre_comp, _post_nid,_post_comp,"Inhibition"
 			syntypes.append(1)
-		    }else if((_pre_nid-(_pre_nid%100))/100==2){
+		    }else if(int(SynPathList_.postgid/100000)==2){
 			print _pre_nid, _pre_comp, _post_nid,_post_comp,"Excitation"
 			syntypes.append(2)
 		    }else{

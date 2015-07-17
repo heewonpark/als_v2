@@ -11,7 +11,8 @@ echo "DATA DIRECTORY : ${RECORD_DIR}"
 mkdir -p ${RECORD_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./main.hoc"
+#HOC_NAME="./main.hoc"
+HOC_NAME="./loadbalance_test.hoc"
 
 NRNOPT=\
 " -c STOPTIME=100"\
