@@ -1,3 +1,9 @@
 # This file shows the file path of synapse
 $ fromRN
 ../input/synapse_list/fromRN/050622_4_sn_SynapseList.dat
+$ CtoC
+4
+200000 200001 ../input/synapse_list/200_200_temp_for_prof0.txt
+200000 200002 ../input/synapse_list/200_200_temp_for_prof1.txt
+200000 200003 ../input/synapse_list/200_200_temp_for_prof2.txt
+200000 200004 ../input/synapse_list/200_200_temp_for_prof3.txt

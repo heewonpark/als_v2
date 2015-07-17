@@ -1,0 +1,7 @@
+CTL 45 /volume1/home/hp120263/k01793/code/al_V2/job/ 26 /work/run_fapp.sh.2906230/
+0 stgout 0 - 0 : 1 45 /work/run_fapp.sh.2906230/.d0002906230_stdout 65 /volume1/home/hp120263/k01793/code/al_V2/job/run_fapp.sh.o2906230 stgout=update 1 [102]:#PJM --stgout "rank=0 ../.d0002906230_stdout /volume1/home/hp120263/k01793/code/al_V2/job/%n.o2906230"
+0 stgout 0 - 0 : 1 45 /work/run_fapp.sh.2906230/.d0002906230_stderr 65 /volume1/home/hp120263/k01793/code/al_V2/job/run_fapp.sh.e2906230 stgout=update 1 [102]:#PJM --stgout "rank=0 ../.d0002906230_stderr /volume1/home/hp120263/k01793/code/al_V2/job/%n.e2906230"
+0 stgout 0 - 7 : 1 34 /work/run_fapp.sh.2906230/%r/*.txt 41 /data/hp120263/park/al_V2/2906230/record/ stgout=update 0 [70]:#PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
+0 stgout 0 - 7 : 1 34 /work/run_fapp.sh.2906230/%r/*.dat 40 /data/hp120263/park/al_V2/2906230/spike/ stgout=update 0 [69]:#PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
+0 stgout 0 - 7 : 1 34 /work/run_fapp.sh.2906230/%r/*.hoc 38 /data/hp120263/park/al_V2/2906230/src/ stgout=update 0 [67]:#PJM --stgout "rank=* %r:./*.hoc /data/hp120263/park/al_V2/%j/src/"
+0 stgout 0 - 7 : 1 33 /work/run_fapp.sh.2906230/%r/pd/* 37 /data/hp120263/park/al_V2/2906230/pd/ stgout=update 0 [65]:#PJM --stgout "rank=* %r:./pd/* /data/hp120263/park/al_V2/%j/pd/"
