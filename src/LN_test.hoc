@@ -35,14 +35,19 @@ printf("OUTPUT DIR : %s\n",FPRINT_DIR)
 
 objref c
 //c = new CellSwc("./swc/rn0514/orn0010.swc",0,0,0,0)
-
+c = new CellSwc("../input/swc/reduction/040823_5_sn_bestrigid0106_mkRegion.swc",0,0,0,0)
+//c = new CellSwc("../input/swc/reduction/040823_5_sn_bestrigid0106_mkRegion-1.swc",0,0,0,0)
+//c = new CellSwc("../input/swc/reduction/040823_5_sn_bestrigid0106_mkRegion-1-2.swc",0,0,0,0)
+//c = new CellSwc("../input/swc/reduction/040823_5_sn_bestrigid0106_mkRegion-1-2-1.swc",0,0,0,0)
+//c = new CellSwc("../input/swc/reduction/040823_5_sn_bestrigid0106_mkRegion-1-2-1-2.swc",0,0,0,0)
+c.insertLNlla()
 //c.insertHH()
 
 //c.setIntermitStim_gaus(0,0,10000000,300,0,100,0.0)
 c.mkIclamp(0,5,30,20)
 strdef spiketiming
 sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",666)
-pn.setIClamp(STOPTIME,dt,spiketiming)
+//c.setIClamp(STOPTIME,dt,spiketiming)
 
 objref vecl
 vecl = new List()
@@ -50,18 +55,20 @@ objref tvec, vec
 tvec = new Vector()
 vec  = new Vector()
 tvec.record(&t)
-vec.record(&pn.Dend[0].v(0.5)) 
+vec.record(&c.Dend[0].v(0.5)) 
 vecl.append(vec)
-vec.record(&pn.Dend[100].v(0.5))
+/*
+vec.record(&c.Dend[100].v(0.5))
 vecl.append(vec)
-vec.record(&pn.Dend[300].v(0.5))
+vec.record(&c.Dend[300].v(0.5))
 vecl.append(vec)
-vec.record(&pn.Dend[700].v(0.5))
+vec.record(&c.Dend[700].v(0.5))
 vecl.append(vec)
-vec.record(&pn.Dend[1000].v(0.5))
+vec.record(&c.Dend[1000].v(0.5))
 vecl.append(vec)
-vec.record(&pn.Dend[475].v(0.5))
+vec.record(&c.Dend[475].v(0.5))
 vecl.append(vec)
+*/
 
 /*--- shape plot ---*/
 /*
@@ -91,10 +98,10 @@ file = new File()
 strdef filename
 mt.resize(tvec.size(),7)
 mt.setcol(0,tvec)
-for i=0, 6-1{
+for i=0, vecl.count()-1{
     mt.setcol(i+1,vecl.o(i))
 }
-sprint(filename,"$sVoltagerecord.txt",START_TIME)
+sprint(filename,"%sVoltagerecord.txt",FPRINT_DIR)
 file.wopen(filename)
 mt.fprint(file,"%5.5f\t")
 file.close()
@@ -104,5 +111,5 @@ for i=0, tvec.size()-1{
     printf("%5.5f\t%5.5f\n",tvec.x[i],vec.x[i])
 }
 */
-printf("Run time : %d \n",stop_ - start_)
+printf("Run time : %f \n",stop_ - start_)
 quit()
