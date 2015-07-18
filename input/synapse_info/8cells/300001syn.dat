@@ -3,7 +3,7 @@ $ fromRN
 ../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat
 $ CtoC
 4
-300001 301000 ../input/synapse_list/300_301_randomize.txt
-300001 301001 ../input/synapse_list/300_301_randomize.txt
-300001 301002 ../input/synapse_list/300_301_randomize.txt
-300001 301003 ../input/synapse_list/300_301_randomize.txt
+300001 300000 ../input/synapse_list/300_300_temp_for_prof0.txt
+300001 300002 ../input/synapse_list/300_300_temp_for_prof1.txt
+300001 300003 ../input/synapse_list/300_300_temp_for_prof2.txt
+300001 300004 ../input/synapse_list/300_300_temp_for_prof3.txt

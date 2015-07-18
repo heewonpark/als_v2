@@ -1,0 +1,9 @@
+# This file shows the file path of synapse
+$ fromRN
+../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat
+$ CtoC
+4
+301007 301004 ../input/synapse_list/301_301_temp_for_prof0.txt
+301007 301005 ../input/synapse_list/301_301_temp_for_prof1.txt
+301007 301006 ../input/synapse_list/301_301_temp_for_prof2.txt
+301007 301003 ../input/synapse_list/301_301_temp_for_prof3.txt

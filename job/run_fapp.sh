@@ -1,10 +1,10 @@
 #!/bin/bash -x
-#--#PJM --rsc-list "node=1"
-#PJM --rsc-list "node=12"
+#PJM --rsc-list "node=1"
+#--#PJM --rsc-list "node=12"
 #PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
-#--#PJM --mpi "proc=8"
-#PJM --mpi "proc=96"
+#PJM --mpi "proc=8"
+#--#PJM --mpi "proc=96"
 #PJM -s
 
 # staging
@@ -45,7 +45,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./loadbalance_test.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=500"\
+" -c STOPTIME=100"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.350"\

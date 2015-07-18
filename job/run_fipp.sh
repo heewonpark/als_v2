@@ -20,6 +20,7 @@
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
 #PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
 #PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
+#PJM --stgin "rank=* ./input/synapse_info/8cells/* %r:../input/synapse_info/8cells/"
 #PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 

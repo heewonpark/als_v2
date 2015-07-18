@@ -68,10 +68,12 @@ strdef info_filename
 //info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 //info_filename = "../input/network_info/network_info_8PNs.dat"
+//info_filename = "../input/network_info/network_info_8LN1s.dat"
+info_filename = "../input/network_info/network_info_8LN2s.dat"
 strdef info_filename_rn
 //info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
-info_filename_rn = "../input/network_info/network_info_20000rns.dat"
+//info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 /*
 if(IS_SUPERCOMPUTER == 0){
@@ -256,7 +258,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     //connectRNtoOthers()
     //connectNtoN()
-    //connectNtoN_NET_GABA()
+    connectNtoN_NET_GABA()
     /*
     GID_BASE = connectNtoN_GABA()
     pc.barrier()

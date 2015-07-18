@@ -18,14 +18,14 @@ import random
 import os
 
 for i in range(4):
-    FILENAME = "200_200_temp_for_prof%d.txt"%(i)
+    FILENAME = "301_301_temp_for_prof%d.txt"%(i)
     f = open(FILENAME, 'w')
-    f.write("$ PRE_CEL 200\n")
-    f.write("$ POST_CELL 200\n")
+    f.write("$ PRE_CEL 301\n")
+    f.write("$ POST_CELL 301\n")
     nconnect = 10
     f.write("$ NCONNECTIONS %d\n"%(nconnect))
     for j in range(nconnect):
-        a=random.randint(0,1212)
-        b=random.randint(0,1212)
+        a=random.randint(0,11000)
+        b=random.randint(0,11000)
         f.write("%d %d\n"%(a,b))
         
