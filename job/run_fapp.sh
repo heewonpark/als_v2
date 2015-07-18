@@ -1,8 +1,10 @@
 #!/bin/bash -x
-#PJM --rsc-list "node=1"
+#--#PJM --rsc-list "node=1"
+#PJM --rsc-list "node=12"
 #PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=8"
+#--#PJM --mpi "proc=8"
+#PJM --mpi "proc=96"
 #PJM -s
 
 # staging
@@ -57,7 +59,7 @@ MPIEXEC="mpiexec -mca mpi_print_stats 1"
 #MPIEXEC="mpiexec -mca mpi_print_stats 2 -mca mpi_print_stats_ranks 0"
 
 #PROF="fapp -C -d ./pd -L4 -Hevent=Statistics"
-PROF="fapp -C -d ./pd -L3 -Hevent=Statistics"
+PROF="fapp -C -d ./pd -L1 -Hevent=Statistics"
 #PROF="fapp -C -d ./pd -Ihwm -Hevent=Performance"
 #PROF="fapp -C -d ./pd -Ihwm -Hevent=Statistics"
 #PROF="fipp -C -Strange -Ihwm,call -d ./pd"

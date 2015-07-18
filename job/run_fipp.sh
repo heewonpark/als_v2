@@ -38,10 +38,11 @@
 #--#export OMP_NUM_THREADS=8
 
 NRNIV="./special -mpi"
-HOC_NAME="./main.hoc"
+#HOC_NAME="./main.hoc"
+HOC_NAME="./loadbalance_test.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=10"\
+" -c STOPTIME=20"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.350"\
