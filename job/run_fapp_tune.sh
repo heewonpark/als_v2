@@ -27,8 +27,8 @@
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_devel/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_devel/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
@@ -45,7 +45,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./loadbalance_test.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=1000"\
+" -c STOPTIME=2000"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.350"\

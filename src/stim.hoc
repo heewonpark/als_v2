@@ -18,13 +18,13 @@
 //
 //************************************************
 
-objref stlist
+//objref stlist
 proc mkIntermitStim(){local i localobj st
-    stlist = new List()
+    //stlist = new List()
     for(i=0; i<rns.count();i=i+1){
 	print "mkIntermitStim"
-	st = rns.object(i).setIntermitStim_gaus(0,0,20000,300,10000,10,0.0)
-	stlist.append(st)
+	rns.object(i).setIntermitStim_gaus(0,0,20000,300,10000,10,0.0)
+	//stlist.append(st)
     }
 }
 

@@ -456,13 +456,13 @@ proc insertLNlla(){
 	el_hh = -67
 	ena = 50
 	ek = -100
-	
+
 	insert IAHP2
 	eahp_IAHP2 = -140
 	
 	insert cad
 	ctau_cad = 0.0000125
-	
+
 	insert ICA
 	eca = 120
 	

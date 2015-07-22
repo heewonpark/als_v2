@@ -1,10 +1,8 @@
 #!/bin/bash -x
 #PJM --rsc-list "node=1"
-#--#PJM --rsc-list "node=12"
 #PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=8"
-#--#PJM --mpi "proc=96"
+#PJM --mpi "proc=1"
 #PJM -s
 
 # staging
@@ -17,7 +15,7 @@
 #PJM --stgin "rank=* ./input/* %r:../input/"
 #PJM --stgin "rank=* ./input/network_info/* %r:../input/network_info/"
 #PJM --stgin "rank=* ./input/spiketiming/* %r:../input/spiketiming/"
-#PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
+#--#PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
 #PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
@@ -27,8 +25,8 @@
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_devel/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_devel/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
@@ -58,11 +56,10 @@ LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"
 #MPIEXEC="mpiexec -mca mpi_print_stats 2 -mca mpi_print_stats_ranks 0"
 
-#PROF="fapp -C -d ./pd -L4 -Hevent=Statistics"
-PROF="fapp -C -d ./pd -L1 -Hevent=Statistics"
+#PROF="fapp -C -d ./pd -L1 -Hevent=Statistics"
 #PROF="fapp -C -d ./pd -Ihwm -Hevent=Performance"
 #PROF="fapp -C -d ./pd -Ihwm -Hevent=Statistics"
-#PROF="fipp -C -Strange -Ihwm,call -d ./pd"
+PROF="fipp -C -Srange -Ihwm,call -d ./pd"
 #PROF=""
 
 echo "${PROF} ${MPIEXEC} ${LPG} ${NRNIV} ${NRNOPT} ${HOC_NAME}"

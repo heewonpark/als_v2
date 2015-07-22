@@ -67,11 +67,11 @@ strdef info_filename
 //info_filename = "../input/network_info/network_info_3cells.dat"
 //info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
-//info_filename = "../input/network_info/network_info_8PNs.dat"
+info_filename = "../input/network_info/network_info_8PNs.dat"
 //info_filename = "../input/network_info/network_info_8LN1s.dat"
 //info_filename = "../input/network_info/network_info_8LN2s.dat"
 strdef info_filename_rn
-info_filename_rn = "../input/network_info/network_info_2000rns.dat"
+//info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
 //info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
@@ -104,8 +104,8 @@ proc mkNetwork(){
 objref CELLM
 
 proc mkCells(){localobj pn,ln,rn, nc, nil
-    //loadinfo(info_filename)
-    loadinfo(info_filename_rn)
+    loadinfo(info_filename)
+    //loadinfo(info_filename_rn)
     NCELLS = NPN + NLN + NRN
     
     CELLM = divider(pc.nhost)
@@ -146,8 +146,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
 	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    ln.setNid()
-	    ln.insertLNlla()
-	    //ln.insertHH()
+	    //ln.insertLNlla()
+	    ln.insertHH()
 	    //ln.insertHH_K()
 	    lns.append(ln)
 	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
@@ -170,8 +170,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn.setGid()
 		    rn.setNid()
 		    //rn.insertHH_RN()
-		    //rn.insertHH_K()
-		    rn.insertHH()
+		    rn.insertHH_K()
+		    //rn.insertHH()
 		    //print "SectionNumber " ,rn.SectionNum
 		    
 		    rns.append(rn)
@@ -192,8 +192,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 		    rn.setGid()
 		    rn.setNid()
 		    //rn.insertHH_RN()
-		    //rn.insertHH_K()
-		    rn.insertHH()
+		    rn.insertHH_K()
+		    //rn.insertHH()
 		    //print "SectionNumber " ,rn.SectionNum
 		    rns.append(rn)
 		    //print "rn ", i, j, pc.id
@@ -265,7 +265,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 {load_file("connect.hoc")}
 proc mkConnections(){
     //connectRNtoOthers()
-    //connectNtoN()
+    connectNtoN()
     //connectNtoN_NET_GABA()
     /*
     GID_BASE = connectNtoN_GABA()
@@ -283,8 +283,8 @@ pc.barrier()
 proc mkStimulations(){
     //mkIntermitStim()
     //mkIclamp()
-    mkSerialStim()
-    //mkIclamp_pn()
+    //mkSerialStim()
+    mkIclamp_pn()
 }
 
 if(pc.id==0)print "SET STIMULATION"
