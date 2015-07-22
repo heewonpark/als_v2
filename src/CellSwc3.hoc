@@ -33,7 +33,7 @@ public mkSynapses, synapses
 public mkPRL_GABA, mkDUMMY, mkNET_GABA
 public setPath, setNid, setGid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp, setIClamp_with_Latency
-public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned
+public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned, insertHH_K
 public getAxon
 public setSpikeRecord,fprintSpikeRecord
 
@@ -432,6 +432,13 @@ proc insertHH(){
     }
 }
 
+proc insertHH_K(){
+    forall{
+	insert hh_k
+    }
+}
+
+
 proc insertHH_RN(){
     forall{
 	insert hh
@@ -449,12 +456,16 @@ proc insertLNlla(){
 	el_hh = -67
 	ena = 50
 	ek = -100
+	
 	insert IAHP2
 	eahp_IAHP2 = -140
+	
 	insert cad
 	ctau_cad = 0.0000125
+	
 	insert ICA
 	eca = 120
+	
     }
 }
 proc insertFukuda_tunned(){
