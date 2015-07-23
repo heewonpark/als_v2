@@ -24,10 +24,11 @@
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
+
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"

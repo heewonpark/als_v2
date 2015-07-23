@@ -265,8 +265,8 @@ proc makePostSynapse_NET_GABA(){local i, post_cell, delay, weight,gmax,gid local
     if(pc.gid_exists(post_cell)){
 	post = pc.gid2obj(post_cell)
 	for i=0, post_comps.size()-1{
-	    //gaba = post.mkNET_GABAa(post_comps.x[i],gmax)
-	    gaba = post.mkNET_GABAb(post_comps.x[i],gmax)
+	    gaba = post.mkNET_GABAa(post_comps.x[i],gmax)
+	    //gaba = post.mkNET_GABAb(post_comps.x[i],gmax)
 	    gabalist.append(gaba)
 	    nc = pc.gid_connect(gidVec.x[i], gaba)
 	    nc.delay = delay
