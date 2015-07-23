@@ -1,0 +1,83 @@
+load_file("nrngui.hoc")
+load_file("Stick.hoc")
+
+//******************************************************
+// DECLARE CELLS
+//
+objref cells
+cells = new List()
+objref cell
+cell = new Stick()
+cells.append(cell)
+cell = new Stick()
+cells.append(cell)
+
+//******************************************************
+// SETUP CELLS PROPERTY
+//
+
+//cell[0].insertLNlla3()
+cells.o(0).insertType2LN()
+//cells.o(0).insertPas()
+//cell[0].insertFukuda()
+//cell[0].setStim(rnd.repick(),15000)
+//cell[0].setCurrentRecord()// for setStim
+cells.o(0).setVoltageRecord()
+cells.o(0).setIclamp(10,50,5)
+cells.o(1).insertHH()
+//cell[1].insertLNlla3()
+//cell[1].insertFukuda()
+//cell[1].setStim(rnd.repick(),15000)
+//cell[1].setCurrentRecord()// for setStim
+cells.o(1).setVoltageRecord()
+cells.o(1).setIclamp(60,50,5)
+
+//******************************************************
+// SETUP CONNECTIONS
+//
+
+objref nc
+cells.o(0).setExp2Syn(0)
+//cell[1].setExpSyn(-75)
+nc = cells.o(1).connect2target(cells.o(0).esyn)
+
+/*
+objref gabalist, gaba
+gabalist = new List()
+
+gaba = cells.o(0).setGABAb(100)
+//gaba1 = cell[0].setgaba(0.7)
+gabalist.append(gaba)
+setpointer gabalist.o(0).pre, cells.o(1).soma.v(0.5)
+*/
+//cells.o(0).setGABACurrentRecord()
+
+//******************************************************
+// RUN PROGRAM
+//
+
+tstop = 500
+dt = 0.025
+
+run()
+
+
+//******************************************************
+// PRINTOUT RECORD
+//
+strdef FPRINT_DIR
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "./result/record/"
+}else{
+    sprint(FPRINT_DIR,"./result/%010d/",START_TIME)
+}
+cells.o(0).printVoltageRecord3(0,0,FPRINT_DIR)
+cells.o(1).printVoltageRecord3(1,0,FPRINT_DIR)
+
+//cells.o(0).printCurrentRecord(0)
+//cell[1].printCurrentRecord(1)
+
+//cells.o(0).printGABACurrentRecord(0)
+//cell[1].printGABACurrentRecord(1)

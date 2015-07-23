@@ -30,7 +30,7 @@ public Dend, SectionNum
 public connect2target
 public mkSyn,mkExp2Syn
 public mkSynapses, synapses
-public mkPRL_GABA, mkDUMMY, mkNET_GABA
+public mkPRL_GABA, mkDUMMY, mkNET_GABAa, mkNET_GABAb
 public setPath, setNid, setGid, setSpikegenlist
 public setIntermitStim_gaus,setIClamp, mkIclamp, setIClamp_with_Latency
 public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned, insertHH_K
@@ -620,10 +620,18 @@ obfunc mkPRL_GABA(){local gmax,comp
     return gaba
 }
 // This GABA_A synapse uses NetCon to connect
-obfunc mkNET_GABA(){local gmax, comp
+obfunc mkNET_GABAa(){local gmax, comp
     comp = $1
     gmax = $2
-    this.Dend[comp] gaba = new NET_GABA(0.5)
+    this.Dend[comp] gaba = new NET_GABAa(0.5)
+    gaba.gmax = gmax
+    return gaba
+}
+
+obfunc mkNET_GABAb(){local gmax, comp
+    comp = $1
+    gmax = $2
+    this.Dend[comp] gaba = new NET_GABAb(0.5)
     gaba.gmax = gmax
     return gaba
 }

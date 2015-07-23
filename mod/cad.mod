@@ -64,10 +64,7 @@ ASSIGNED {
 }
 	
 BREAKPOINT {
-    SOLVE state METHOD derivimplicit
-    VERBATIM
-    //printf("cad.mod cai:%lf",cai);
-    ENDVERBATIM
+    SOLVE state METHOD derivimplicit    
 }
 
 DERIVATIVE state { 

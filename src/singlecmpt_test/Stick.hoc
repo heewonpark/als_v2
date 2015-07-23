@@ -11,14 +11,14 @@ public biophys, connect2target, setGABAlla,setGABAllb, setIclamp, setStim, setEx
 public setgaba, setIntermitStim, setIntermitStim1
 public insertPN, insertLNlla,insertLNllb, insertFukuda, insertPas, insertHH
 public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, insertLNlla3
-public insertLNlla4, insertLNllb2, insertHH_RN
+public insertLNlla4, insertLNllb2, insertHH_RN, insertType2LN
 public setVoltageRecord, printVoltageRecord, printVoltageRecord2
 public synlist,gabalist
 public type, setType
 public setSpikeRecord, printSpikeRecord, Delay
 objref synlist,gabalist
 
-public gaba, setGABA, setNET_GABA
+public gaba, setGABA, setNET_GABA, setGABAb
 
 public imax
 
@@ -116,6 +116,12 @@ obfunc setGABAllb(){
     //gsyn.gmax = 0.00004
     gsyn.gmax = $1
     //print gaba.gmax2
+    return gsyn
+}
+
+obfunc setGABAb(){
+    soma gsyn = new GABAb(0.3) gabalist.append(gsyn)
+    gsyn.gmax = $1
     return gsyn
 }
 
@@ -223,6 +229,16 @@ proc insertIAHP(){
     }
 }
 */
+
+proc insertType2LN(){
+    soma{
+	insert k_channel
+	insert IAHP2
+	insert ICA
+	insert cad
+    }
+}
+
 proc insertIAHP2(){
     mechanism_flg = 1
     soma{
@@ -330,7 +346,7 @@ obfunc connect2target(){local numSynapses localobj nc,target
     target = $o1
     //numSynapses = $2
     soma nc = new NetCon(&v(0.3),$o1)
-    nc.delay = 0
+    nc.delay = 2
     nc.threshold = 0
     nc.weight = 10
     //print "nc.weight ",nc.weight
@@ -341,14 +357,17 @@ objref ic
 public ic
 obfunc setIclamp(){
     soma ic = new IClamp(0.1)
-    ic.del = $1
-    ic.dur = $2
-    ic.amp = $3
-/*
-    ic.del = 1
-    ic.dur = 10
-    ic.amp = 5
-    */
+    if(numarg() ==3){
+	printf("setIclamp numarg()==3\n")
+	ic.del = $1
+	ic.dur = $2
+	ic.amp = $3
+    }else{
+	printf("setIclamp numarg()!=3\n")
+	ic.del = 1
+	ic.dur = 10
+	ic.amp = 5
+    }
     return ic
 }
 

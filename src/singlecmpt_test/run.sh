@@ -16,7 +16,9 @@ NRNOPT=\
 " -c START_TIME=${Time}"
 
 #HOC_NAME="gaba_orn_test.hoc"
-HOC_NAME="netcon_gaba_test.hoc"
+#HOC_NAME="netcon_gaba_test.hoc"
+#HOC_NAME="couple_gaba.hoc"
+HOC_NAME="Type2LN.hoc"
 #EXEC="mpiexec -np 6 ../../specials/x86_64/special -mpi"
 #EXEC="../../specials/x86_64/special -mpi"
 EXEC="../../specials/x86_64/special"
