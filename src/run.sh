@@ -17,7 +17,14 @@ HOC_NAME="./main.hoc"
 NRNOPT=\
 " -c STOPTIME=200"\
 " -c IS_SUPERCOMPUTER=0"\
-" -c START_TIME=${Time}"
+" -c START_TIME=${Time}"\
+" -c WEIGHT_200=0.05"\
+" -c WEIGHT_300=0.05"\
+" -c WEIGHT_301=0.008"\
+" -c GMAX_LTOL=5.0"\
+" -c GMAX_LTOP=0.6"\
+" -c GABAB_ON=0"\
+" -c GABAA_ON=1"
 
 #MPIEXEC="mpiexec -n 4"
 MPIEXEC="mpiexec -n 8"

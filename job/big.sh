@@ -52,8 +52,8 @@ NRNOPT=\
 " -c WEIGHT_301=0.002"\
 " -c GMAX_LTOL=5.0"\
 " -c GMAX_LTOP=0.9"\
-" -c GABAB_ON = 0"\
-" -c GABAA_ON = 1"
+" -c GABAB_ON=0"\
+" -c GABAA_ON=1"
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"
