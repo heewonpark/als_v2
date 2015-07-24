@@ -55,7 +55,8 @@ if(name_declared("WEIGHT_300")!=5){ execute("WEIGHT_300=0.05")}
 if(name_declared("WEIGHT_301")!=5){ execute("WEIGHT_301=0.008")}
 if(name_declared("GMAX_LTOL")!=5){ execute("GMAX_LTOL=5.0")}
 if(name_declared("GMAX_LTOP")!=5){ execute("GMAX_LTOP=0.6")}
-
+if(name_declared("GABAB_ON")!=5){ execute("GABAB_ON=0")}
+if(name_declared("GABAA_ON")!=5){ execute("GABAA_ON=0")}
 
 /*
 if(name_declared("SWC_FILENAME")==0) { 
@@ -93,9 +94,11 @@ proc ShowInitialStatus(){
 	printf("CELL LIST : %s(PNs and LNs), %s(RNs)\n",info_filename, infor_filename_rn)
 	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
 	printf("GMAX_LTOL\t%f\tGMAX_LTOP\t%f\n",GMAX_LTOL,GMAX_LTOP)
+	printf("GABAA_ON\t%f\tGABAB_ON\t%f\n",GABAA_ON, GABAB_ON)
 	printf("====================================================================================")
     }
 }
+ShowInitialStatus()
 
 objref pns,lns,rns
 
