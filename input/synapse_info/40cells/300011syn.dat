@@ -2,8 +2,9 @@
 $ fromRN
 ../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat
 $ CtoC
-21
+22
 300011 200000 ../input/synapse_list/300_200_manual.txt
+300011 200001 ../input/synapse_list/300_200_manual.txt
 300011 200002 ../input/synapse_list/300_200_manual.txt
 300011 200003 ../input/synapse_list/300_200_manual.txt
 300011 200004 ../input/synapse_list/300_200_manual.txt

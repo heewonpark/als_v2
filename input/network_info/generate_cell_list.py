@@ -179,7 +179,7 @@ def writeSynData(cell):
     if(cell.getCellid() == 3):
         F.write("$ CtoC\n")
         for i in range(NPN):
-            if(random.random()<0.8):
+            if(random.random()<=1.0):
                 LNtoPN[i] = 1
                 LtoP += 1
         for i in range(NLN):
