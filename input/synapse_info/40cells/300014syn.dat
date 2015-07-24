@@ -4,8 +4,8 @@ $ fromRN
 $ CtoC
 20
 300014 200000 ../input/synapse_list/300_200_manual.txt
-300014 200002 ../input/synapse_list/300_200_manual.txt
-300014 200004 ../input/synapse_list/300_200_manual.txt
+300014 200001 ../input/synapse_list/300_200_manual.txt
+300014 200003 ../input/synapse_list/300_200_manual.txt
 300014 301000 ../input/synapse_list/300_301_randomize.txt
 300014 301001 ../input/synapse_list/300_301_randomize.txt
 300014 301002 ../input/synapse_list/300_301_randomize.txt

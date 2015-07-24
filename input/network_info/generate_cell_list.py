@@ -25,8 +25,8 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-NPN = 8
-NLN = 0
+#NPN = 8
+#NLN = 0
 
 NCELL = NPN + NLN
 
@@ -179,7 +179,7 @@ def writeSynData(cell):
     if(cell.getCellid() == 3):
         F.write("$ CtoC\n")
         for i in range(NPN):
-            if(random.random()<0.5):
+            if(random.random()<0.8):
                 LNtoPN[i] = 1
                 LtoP += 1
         for i in range(NLN):
