@@ -64,11 +64,13 @@ if(name_declared("SWC_FILENAME")==0) {
 */
 RNperSYN = 5
 strdef info_filename
+//info_filename = ""
 //info_filename = "../input/network_info/network_info_3cells.dat"
 info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 //info_filename = "../input/network_info/network_info_1PN.dat"
 strdef info_filename_rn
+//info_filename_rn = ""
 //info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
 info_filename_rn = "../input/network_info/network_info_20000rns.dat"
@@ -82,10 +84,17 @@ if(IS_SUPERCOMPUTER == 0){
 objref pc
 pc = new ParallelContext()
 //STOPTIME = 300
-if(pc.id==0){
-    printf("STOPTIME : %d(ms)\n",STOPTIME)
-    printf("WEIGHT_200 %f WEIGHT_300 %f WEIGHT_301 %f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
-    print "PC.NHOST ",pc.nhost
+proc ShowInitialStatus(){
+    if(pc.id==0){
+	printf("====================================================================================")
+	printf("PC.NHOST : %d\n",pc.nhost)
+	printf("STOPTIME : %d(ms) IS_SUPERCOMPUTER : %d INTERVAL : %d\n",STOPTIME, IS_SUPERCOMPUTER, INTERVAL)
+	printf("NETWORK INFORMATION :\n")
+	printf("CELL LIST : %s(PNs and LNs), %s(RNs)\n",info_filename, infor_filename_rn)
+	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
+	printf("GMAX_LTOL\t%f\tGMAX_LTOP\t%f\n",GMAX_LTOL,GMAX_LTOP)
+	printf("====================================================================================")
+    }
 }
 
 objref pns,lns,rns
