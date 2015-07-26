@@ -65,6 +65,33 @@ proc mkIclamp_pn(){local i localobj ic
     }
 }
 
+proc mkIclamp_ln(){local i localobj ic
+    iclist = new List()
+    for(i=0; i<lns.count();i=i+1){
+	ic = lns.o(i).mkIclamp(0,10,10,5)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(1000,2,6,40)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(2000,10,10,80)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(3000,10,10,120)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(4000,10,10,160)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(6000,10,10,200)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(7000,10,10,250)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(8000,10,10,300)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(9000,10,10,350)
+	iclist.append(ic)
+	if(i == 0){
+	    psection()
+	}
+    }
+}
+
 proc mkSerialStim(){local i localobj rnd
     rnd = new Random(pc.id)
     strdef spiketiming
@@ -74,6 +101,15 @@ proc mkSerialStim(){local i localobj rnd
 	}else{
 	    sprint(spiketiming,"../input/spiketiming/40stim/spiketiming%d.dat",int(rnd.uniform(0,999)))
 	}
+	rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
+	//rns.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
+    }
+}
+
+proc mkSerialStim_debug(){local i localobj rnd
+    strdef spiketiming
+    for(i=0; i<rns.count();i=i+1){
+	sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",300)
 	rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
 	//rns.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
     }

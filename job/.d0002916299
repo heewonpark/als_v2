@@ -43,7 +43,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./loadbalance_test.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=1000"\
+" -c STOPTIME=500"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.350"\
@@ -53,7 +53,7 @@ NRNOPT=\
 " -c GMAX_LTOP=0.07"\
 " -c GABAB_ON=0"\
 " -c GABAA_ON=1"\
-" -c SET=3"
+" -c SET=1"
 
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"

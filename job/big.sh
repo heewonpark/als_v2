@@ -47,11 +47,11 @@ NRNOPT=\
 " -c STOPTIME=200"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
-" -c WEIGHT_200=0.350"\
+" -c WEIGHT_200=0.100"\
 " -c WEIGHT_300=0.008"\
 " -c WEIGHT_301=0.002"\
 " -c GMAX_LTOL=5.0"\
-" -c GMAX_LTOP=0.9"\
+" -c GMAX_LTOP=0.6"\
 " -c GABAB_ON=0"\
 " -c GABAA_ON=1"
 

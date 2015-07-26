@@ -55,6 +55,9 @@ if(name_declared("WEIGHT_300")!=5){ execute("WEIGHT_300=0.05")}
 if(name_declared("WEIGHT_301")!=5){ execute("WEIGHT_301=0.008")}
 if(name_declared("GMAX_LTOL")!=5){ execute("GMAX_LTOL=5.0")}
 if(name_declared("GMAX_LTOP")!=5){ execute("GMAX_LTOP=0.6")}
+if(name_declared("GABAB_ON")!=5){ execute("GABAB_ON=0")}
+if(name_declared("GABAA_ON")!=5){ execute("GABAA_ON=1")}
+if(name_declared("SET")!=5){ execute("SET=1")}
 
 
 /*
@@ -67,10 +70,17 @@ strdef info_filename
 //info_filename = "../input/network_info/network_info_3cells.dat"
 //info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
-info_filename = "../input/network_info/network_info_8PNs.dat"
-//info_filename = "../input/network_info/network_info_8LN1s.dat"
+//info_filename = "../input/network_info/network_info_8PNs.dat"
+if(SET == 1){
+    info_filename = "../input/network_info/network_info_8LN1s.dat"
+}else if(SET ==2){
+    info_filename = "../input/network_info/network_info_8LN2s.dat"
+}else if(SET ==3){
+    info_filename = "../input/network_info/network_info_8PNs.dat"
+}
 //info_filename = "../input/network_info/network_info_8LN2s.dat"
 strdef info_filename_rn
+info_filename_rn = ""
 //info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
 //info_filename_rn = "../input/network_info/network_info_20000rns.dat"
@@ -84,11 +94,20 @@ if(IS_SUPERCOMPUTER == 0){
 objref pc
 pc = new ParallelContext()
 //STOPTIME = 300
-if(pc.id==0){
-    printf("STOPTIME : %d(ms)\n",STOPTIME)
-    printf("WEIGHT_200 %f WEIGHT_300 %f WEIGHT_301 %f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
-    print "PC.NHOST ",pc.nhost
+proc ShowInitialStatus(){
+    if(pc.id==0){
+	printf("====================================================================================\n")
+	printf("PC.NHOST : %d\n",pc.nhost)
+	printf("STOPTIME : %d(ms) IS_SUPERCOMPUTER : %d INTERVAL : %d\n",STOPTIME, IS_SUPERCOMPUTER, INTERVAL)
+	printf("[NETWORK INFORMATION]\n")
+	printf("CELL LIST : %s(PNs and LNs),  %s(RNs)\n",info_filename, info_filename_rn)
+	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
+	printf("GMAX_LTOL\t%f\tGMAX_LTOP\t%f\n",GMAX_LTOL,GMAX_LTOP)
+	printf("GABAA_ON\t%f\tGABAB_ON\t%f\n",GABAA_ON, GABAB_ON)
+	printf("====================================================================================\n")
+    }
 }
+ShowInitialStatus()
 
 objref pns,lns,rns
 
@@ -127,8 +146,8 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
             pn.axonlist = areaList(99,100,0)
 	    pn.setSpikegenlist(SPIKEGEN_POS, SPIKEGEN_SIZE)
 	    pn.spikegenlist.printnames()
-	    initModel_PN(pn)
-	    //pn.insertHH()
+	    //initModel_PN(pn)
+	    pn.insertHH()
 	    //pn.insertHH_K()
 	    //pn.insertFukuda_tunned()
 
@@ -285,6 +304,7 @@ proc mkStimulations(){
     //mkIclamp()
     //mkSerialStim()
     mkIclamp_pn()
+    mkIclamp_ln()
 }
 
 if(pc.id==0)print "SET STIMULATION"

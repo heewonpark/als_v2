@@ -268,7 +268,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     connectRNtoOthers()
     //connectNtoN()
-    connectNtoN_NET_GABA()
+    //connectNtoN_NET_GABA()
     /*
     GID_BASE = connectNtoN_GABA()
     pc.barrier()
@@ -284,7 +284,8 @@ pc.barrier()
 proc mkStimulations(){
     //    mkIntermitStim()
     //mkIclamp()
-    mkSerialStim()
+    //mkSerialStim()
+    mkSerialStim_debug()
 }
 if(pc.id==0)print "SET STIMULATION"
 printf("SET STIMULATION[%d]\n",pc.id)
