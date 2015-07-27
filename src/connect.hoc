@@ -391,7 +391,7 @@ proc connectNtoN(){\
 // Connect Neurons to Neurons
 // for example ln to ln, ln to pn
 proc connectNtoN_NET_GABA(){\
-    local i, j,gid_base\
+    local i, j,gid_base, gmax\
     localobj str,nil,pre,post
 
     strdef _syn_path
@@ -409,19 +409,21 @@ proc connectNtoN_NET_GABA(){\
     for(j=0;j<SynPathList.count();j+=1){
 	//print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
 	readSynapseList(SynPathList.o(j),gid_base)
-	printf("gidVec (pc.id:%d)\n",pc.id)
-	gidVec.prinf("%f\t")
+	printf("gidVec [%d] \t",pc.id)
+	for(i=0; i<gidVec.size();i=i+1){printf("%d\t",gidVec.x[i])}
+	printf("\n")
 	makePreSynapse(SynPathList.o(j).pregid)
 	pc.barrier()
 	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
-	    //printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
-	    makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
+	    printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
+	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
+	    gmax = GMAX_LTOP/NLN
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
 	}else{
-	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
-	    makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
+	    printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
+	    gmax = GMAX_LTOL/NLN
 	}
-
+	makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,gmax)
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()
 	}else{
@@ -429,7 +431,7 @@ proc connectNtoN_NET_GABA(){\
 	    return (-1)
 	}
     }
-    printf("gabalist.count()=%d,(pc.id:%d)\n",gabalist.count())
+    printf("gabalist.count()=%d,[%d]\n",gabalist.count(),pc.id)
 }
 
 proc connectNtoN_NET_GABA2(){\

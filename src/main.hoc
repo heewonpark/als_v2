@@ -78,11 +78,12 @@ strdef info_filename_rn
 info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 
+/*
 if(IS_SUPERCOMPUTER == 0){
     info_filename = "../input/network_info/network_info_3cells.dat"
     info_filename_rn = "../input/network_info/network_info_500rns.dat"
 }
-
+*/
 objref pc
 pc = new ParallelContext()
 //STOPTIME = 300
@@ -132,12 +133,13 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pn = new CellSwc(pn_path[j].swcpath,pn_matrix.x[j][0],pn_matrix.x[j][1],pn_matrix.x[j][2],pn_matrix.x[j][3])
 	    pn.setPath(pn_path[j].ppath, pn_path[j].synpath)
 	    pn.setNid()
-
+	    
 	    pn.cellbodylist = areaList(39,38,0)
+	    //pn.cellbodylist.printnames()
 	    pn.dendlist = areaList(97,98,0)
             pn.axonlist = areaList(99,100,0)
 	    pn.setSpikegenlist(SPIKEGEN_POS, SPIKEGEN_SIZE)
-	    pn.spikegenlist.printnames()
+	    //pn.spikegenlist.printnames()
 	    initModel_PN(pn)
 	    
 	    //pn.insertFukuda_tunned()
@@ -268,8 +270,8 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 {load_file("connect.hoc")}
 proc mkConnections(){
     connectRNtoOthers()
-    //connectNtoN()
-    connectNtoN_NET_GABA()
+    connectNtoN()
+    //connectNtoN_NET_GABA()
     //connectNtoN_NET_GABA2()
     /*
     GID_BASE = connectNtoN_GABA()

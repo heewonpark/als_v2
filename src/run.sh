@@ -15,7 +15,7 @@ HOC_NAME="./main.hoc"
 #HOC_NAME="./loadbalance_test.hoc"
 
 NRNOPT=\
-" -c STOPTIME=200"\
+" -c STOPTIME=1"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c WEIGHT_200=0.05"\
