@@ -68,6 +68,7 @@ strdef info_filename
 //info_filename = ""
 //info_filename = "../input/network_info/network_info_3cells.dat"
 info_filename = "../input/network_info/network_info_40cells.dat"
+//info_filename = "../input/network_info/network_info_39cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 //info_filename = "../input/network_info/network_info_1PN.dat"
 strdef info_filename_rn
@@ -87,7 +88,7 @@ pc = new ParallelContext()
 //STOPTIME = 300
 proc ShowInitialStatus(){
     if(pc.id==0){
-	printf("====================================================================================")
+	printf("====================================================================================\n")
 	printf("PC.NHOST : %d\n",pc.nhost)
 	printf("STOPTIME : %d(ms) IS_SUPERCOMPUTER : %d INTERVAL : %d\n",STOPTIME, IS_SUPERCOMPUTER, INTERVAL)
 	printf("NETWORK INFORMATION :\n")
@@ -95,7 +96,7 @@ proc ShowInitialStatus(){
 	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
 	printf("GMAX_LTOL\t%f\tGMAX_LTOP\t%f\n",GMAX_LTOL,GMAX_LTOP)
 	printf("GABAA_ON\t%f\tGABAB_ON\t%f\n",GABAA_ON, GABAB_ON)
-	printf("====================================================================================")
+	printf("====================================================================================\n")
     }
 }
 ShowInitialStatus()
@@ -211,7 +212,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    }
 	}
     }
-    pc.multisplit()
+    //pc.multisplit()
     pc.barrier()
 }
 
@@ -268,7 +269,8 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 proc mkConnections(){
     connectRNtoOthers()
     //connectNtoN()
-    //connectNtoN_NET_GABA()
+    connectNtoN_NET_GABA()
+    //connectNtoN_NET_GABA2()
     /*
     GID_BASE = connectNtoN_GABA()
     pc.barrier()

@@ -133,14 +133,15 @@ objref volt_tvec
 proc setVoltageRecord(){local i,j localobj volt_vec
     volt_tvec = new Vector()
     volt_tvec.record(&t)
+    printf("setVoltageRecord() (pc.id:%d)\n",pc.id)
     printf("SIZE OF VECTOR : %d\n",volt_tvec.buffer_size())
     if(pns.count()!=0){PNvolt_list = new List()}
     if(lns.count()!=0){LNvolt_list = new List()}
     if(rns.count()!=0){RNvolt_list = new List()}
 
     for(j = 0; j<pns.count();j+=1){
-	printf("PN record(id:%d)\n",(pc.id))
-	printf("pns.count %d#\n",pns.count())
+	//printf("PN record(id:%d)\n",(pc.id))
+	//printf("pns.count %d#\n",pns.count())
 	print j
 	if(j == 0){
 	    PNvolt_vec = new Vector()
@@ -159,8 +160,8 @@ proc setVoltageRecord(){local i,j localobj volt_vec
     }
 
     for(j = 0; j<lns.count();j+=1){
-	printf("LN record(id:%d)\n",(pc.id))
-	printf("lns.count:%d#\n",lns.count())
+	//printf("LN record(id:%d)\n",(pc.id))
+	//printf("lns.count:%d#\n",lns.count())
 	if(j == 0){
 	    LNvolt_vec = new Vector()			    
 	    if(lns.o(j).swcid == 0){
@@ -181,8 +182,8 @@ proc setVoltageRecord(){local i,j localobj volt_vec
     }
     //printf("RN record(id:%d)\n",(pc.id))
     for(j = 0; j<rns.count();j+=1){
-	printf("RN record(id:%d)\n",(pc.id))
-	printf("rns.count %d#\n",rns.count())
+	//printf("RN record(id:%d)\n",(pc.id))
+	//printf("rns.count %d#\n",rns.count())
 	//print "ERROR CHECK SETVOLATAGERECORD",1
 	if(IS_SUPERCOMPUTER == 1){
 	    if((j==0)&&(pc.id%8==0)){

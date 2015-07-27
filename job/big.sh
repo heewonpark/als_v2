@@ -20,14 +20,15 @@
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
 #PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
 #PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
+#PJM --stgin "rank=* ./input/synapse_info/39cells/* %r:../input/synapse_info/39cells/"
 #PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
@@ -44,7 +45,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=200"\
+" -c STOPTIME=100"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.100"\

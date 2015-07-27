@@ -262,6 +262,7 @@ proc makePostSynapse_NET_GABA(){local i, post_cell, delay, weight,gmax,gid local
     delay  = $2
     weight = $3
     gmax   = $4
+    printf("makePostSynapse_NET_GABA() (pc.id:%d)\n",pc.id)
     if(pc.gid_exists(post_cell)){
 	post = pc.gid2obj(post_cell)
 	for i=0, post_comps.size()-1{
@@ -278,6 +279,44 @@ proc makePostSynapse_NET_GABA(){local i, post_cell, delay, weight,gmax,gid local
 	}
     }
 }
+
+proc makeNET_GABAsynapse(){\
+    local gid_base, gid, pre_cell, post_cell, gmax, delay\
+    localobj pre_gaba, post_gaba, pre, post, nc
+    pre_cell  = $1
+    post_cell = $2
+    delay  = $3
+    weight = $4
+    gmax   = $5
+    
+    if(pc.gid_exists(pre_cell)){
+	pre = pc.gid2obj(pre_cell)
+	for i=0, pre_comps.size()-1{
+	    nc = pre.connect2target(pre_comps.x[i],nil)
+	    pc.set_gid2node(gidVec.x[i],pc.id)
+	    pc.cell(gidVec.x[i],nc)
+	    nclist_NtoN.append(nc)
+	}
+    }
+    
+    if(pc.gid_exists(post_cell)){
+        post = pc.gid2obj(post_cell)
+        for i=0, post_comps.size()-1{
+            if(GABAA_ON == 1){
+                gaba = post.mkNET_GABAa(post_comps.x[i],gmax)
+            }else if(GABAB_ON == 1){
+                gaba = post.mkNET_GABAb(post_comps.x[i],gmax)
+            }
+            gabalist.append(gaba)
+            nc = pc.gid_connect(gidVec.x[i], gaba)
+            nc.delay = delay
+            nc.weight = weight
+            nclist_NtoN.append(nc)
+        }
+    }
+}
+
+
 proc makePRL_GABAsynapse(){local gid_base,gid,pre_cell,post_cell,gmax,delay localobj pre_gaba, post_gaba, pre, post
     pre_cell  = $1
     post_cell = $2
@@ -366,9 +405,12 @@ proc connectNtoN_NET_GABA(){\
 	//print "error ln"
 	loadSynapseInfo(nil,ln_path[i].synpath,2)
     }
+    printf("SynPathList.count() %d [%d]\n",SynPathList.count(),pc.id)
     for(j=0;j<SynPathList.count();j+=1){
 	//print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
 	readSynapseList(SynPathList.o(j),gid_base)
+	printf("gidVec (pc.id:%d)\n",pc.id)
+	gidVec.prinf("%f\t")
 	makePreSynapse(SynPathList.o(j).pregid)
 	pc.barrier()
 	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
@@ -386,7 +428,47 @@ proc connectNtoN_NET_GABA(){\
 	    print "ERROR IN CONNECTNTON"
 	    return (-1)
 	}
-   }
+    }
+    printf("gabalist.count()=%d,(pc.id:%d)\n",gabalist.count())
+}
+
+proc connectNtoN_NET_GABA2(){\
+    local i, j,gid_base\
+    localobj str,nil,pre,post
+
+    strdef _syn_path
+    gid_base = 2000000
+    printf("connectNtoN_NET_GABA[%d]\n",pc.id)
+    for(i=0;i<NPN;i=i+1){
+	//print "error pn"
+	loadSynapseInfo(nil,pn_path[i].synpath,2)
+    }
+    for(i=0;i<NLN;i=i+1){
+	//print "error ln"
+	loadSynapseInfo(nil,ln_path[i].synpath,2)
+    }
+    for(j=0;j<SynPathList.count();j+=1){
+	//print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
+	readSynapseList(SynPathList.o(j),gid_base)
+	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
+	    //printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
+	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
+	    makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
+	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
+	}else{
+	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
+	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
+	    makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
+	}
+
+	if(pre_comps.size() == post_comps.size()){
+	    gid_base += pre_comps.size()
+	}else{
+	    print "ERROR IN CONNECTNTON"
+	    return (-1)
+	}
+    }
+    printf("gabalist.count()=%d,(pc.id:%d)\n",gabalist.count())
 }
 
 func connectNtoN_GABA(){\
