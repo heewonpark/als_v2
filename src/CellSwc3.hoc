@@ -520,6 +520,14 @@ proc ReadSynlist(){local i localobj f
 }
 strdef str1
 
+iterator ltr(){local i, cnt localobj nil
+    for i = 0, $o2.count - 1{
+	$o1 = $o2.object(i)
+	
+    }
+    $o1 = nil
+}
+
 //make synapses to connect RN and other cells
 proc mkSynapses(){local i
     //$s1 = Synapse list data file name
@@ -599,14 +607,20 @@ obfunc mkExp2Syn(){local targetno
     return Syn__
 }
 
-obfunc connect2target(){local numSynapses,pre_comp localobj nc,target
-    pre_comp = $1
-    target = $o2
-    //numSynapses = $3
-    this.Dend[pre_comp] nc = new NetCon(&v(0.5),target)
+obfunc connect2target(){local pre_comp,point localobj nc,target
+    if(numarg() == 2){
+	pre_comp = $1
+	target   = $o2
+	this.Dend[pre_comp] nc = new NetCon(&v(0.5),target)
+    }else if(numarg() == 3){
+	pre_comp = $1
+	target   = $o2
+	point    = $3
+	this.Dend[pre_comp] nc = new NetCon(&v(point),target)
+    }
     nc.threshold = 1
-    //nc.weight = 10/numSynapses
     //print "nc.weight ",nc.weight
+    //this.Dend[pre_comp]{psection()}
     return nc
 }
 

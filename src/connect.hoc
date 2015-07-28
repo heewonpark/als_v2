@@ -136,6 +136,116 @@ proc setSynapseInfo(){\
     }
 }
 */
+objref NC_CMPT_VECS, NC_GID_VECS
+NC_CMPT_VECS = new List()
+NC_GID_VECS  = new List()
+
+func set_netcon_gid(){\
+    local nid, cmpt, gid, i, j\
+    localobj nc_cmpt_vec, nc_gid_vec
+    nid  = $1
+    cmpt = $2
+    gid  = $3
+
+    for i=0, NC_CMPT_VECS.count()-1{
+	if(nid == NC_CMPT_VECS.o(i).x[0]){
+	    for j=1, NC_CMPT_VECS.o(i).size()-1{
+		if(cmpt == NC_CMPT_VECS.o(i).x[j]){
+		    printf("nid and cmpt already exist\n")
+		    return -1
+		}
+	    }
+	    NC_CMPT_VECS.o(i).append(cmpt)
+	    NC_GID_VECS.o(i).append(gid)
+	    return 1
+	}
+    }
+    nc_cmpt_vec = new Vector()
+    nc_cmpt_vec.append(nid,cmpt)
+    NC_CMPT_VECS.append(nc_cmpt_vec)
+    nc_gid_vec = new Vector()
+    nc_gid_vec.append(nid,gid)
+    NC_GID_VECS.append(nc_gid_vec)
+    return 1
+}
+
+func get_netcon_gid(){\
+    local nid, cmpt, gid, i, j
+    nid  = $1
+    cmpt = $2
+    gid  = $3
+
+    for i=0, NC_CMPT_VECS.count()-1{
+	if(nid == NC_CMPT_VECS.o(i).x[0]){
+	    for j=1, NC_CMPT_VECS.o(i).size()-1{
+		if(cmpt == NC_CMPT_VECS.o(i).x[j]){
+		    gid = NC_GID_VECS.o(i).x[j]
+		    return gid
+		}
+	    }
+	}
+    }
+    return -1
+}
+
+proc print_netcon_gid(){
+    for i=0, NC_CMPT_VECS.count()-1{
+	printf("NID : %d",NC_CMPT_VECS.o(i).x[0])
+	for j=1, NC_CMPT_VECS.o(i).size()-1{
+	    printf("%d\t%d\n",NC_CMPT_VECS.o(i).x[j],NC_GID_VECS.o(i).x[j])
+	}
+    }
+}
+
+func netcon_gid_exists(){\
+    local nid, gid, i, j
+    nid  = $1
+    gid = $2
+
+    for i=0, NC_GID_VECS.count()-1{
+	if(nid == NC_GID_VECS.o(i).x[0]){
+	    for j=1, NC_GID_VECS.o(i).size()-1{
+		if(gid == NC_GID_VECS.o(i).x[j]){
+		    printf("netcon_exists(%d, %d) is TRUE\n",nid,gid)
+		    return 1
+		}
+	    }
+	}
+    }
+    return 0
+}
+
+func netcon_cmpt_exists(){\
+    local nid, cmpt, i, j
+    nid  = $1
+    cmpt = $2
+
+    for i=0, NC_CMPT_VECS.count()-1{
+	if(nid == NC_CMPT_VECS.o(i).x[0]){
+	    for j=1, NC_CMPT_VECS.o(i).size()-1{
+		if(cmpt == NC_CMPT_VECS.o(i).x[j]){
+		    printf("netcon_cmpt_exists(%d, %d) is TRUE\n",nid,cmpt)
+		    return 1
+		}
+	    }
+	}
+    }
+    return 0
+}
+
+func netcon_nid_exists(){\
+    local nid, i, j
+    nid  = $1
+    for i=0, NC_CMPT_VECS.count()-1{
+	if(nid == NC_CMPT_VECS.o(i).x[0]){
+	    printf("netcon_nid_exists(%d, %d, %d) is TRUE\n",nid)
+	    return 1
+	}
+    }
+    return 0
+}
+
+
 
 _pre_nid  = 0
 _post_nid = 0
@@ -280,28 +390,43 @@ proc makePostSynapse_NET_GABA(){local i, post_cell, delay, weight,gmax,gid local
     }
 }
 
-proc makeNET_GABAsynapse(){\
-    local gid_base, gid, pre_cell, post_cell, gmax, delay\
-    localobj pre_gaba, post_gaba, pre, post, nc
-    pre_cell  = $1
-    post_cell = $2
-    delay  = $3
-    weight = $4
-    gmax   = $5
+proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax, delay, weight, point localobj gaba, pre, post, nc, nil
+    pre_cell=$1
+    post_cell=$2
+    delay=$3
+    weight=$4
+    gmax=$5
     
+    /*
+    pre_cell  = 301000
+    post_cell = 200000
+    *//*
+    delay=1
+    weight=1
+    gmax=0.3
+    */
+    //printf("pre_cell\t%d, post_cell\t%d\n",pre_cell,post_cell)
     if(pc.gid_exists(pre_cell)){
 	pre = pc.gid2obj(pre_cell)
 	for i=0, pre_comps.size()-1{
-	    nc = pre.connect2target(pre_comps.x[i],nil)
+	    point = (pc.id)/(NLN+NPN)
+	    printf("PRE : %d, GID : %d, i : %d, point : %f [%d]\n",pre_cell,gidVec.x[i],i,point,pc.id)
+	    pre.Dend[pre_comps.x[i]] nc = new NetCon(&v(point),nil)
+	    //nc = pre.connect2target(pre_comps.x[i],nil)
+	    nc.threshold = 1
 	    pc.set_gid2node(gidVec.x[i],pc.id)
 	    pc.cell(gidVec.x[i],nc)
 	    nclist_NtoN.append(nc)
+	    pre.Dend[pre_comps.x[i]]{
+		psection()
+	    }
 	}
     }
-    
+
     if(pc.gid_exists(post_cell)){
         post = pc.gid2obj(post_cell)
         for i=0, post_comps.size()-1{
+	    printf("POST: %d, GID : %d, i : %d, [%d]\n",post_cell,gidVec.x[i],i,pc.id)
             if(GABAA_ON == 1){
                 gaba = post.mkNET_GABAa(post_comps.x[i],gmax)
             }else if(GABAB_ON == 1){
@@ -314,6 +439,109 @@ proc makeNET_GABAsynapse(){\
             nclist_NtoN.append(nc)
         }
     }
+}
+
+proc makeNET_GABAsynapse2(){local pre_cell, post_cell, gmax, delay, weight, point localobj gaba, pre, post, nc, nil, prelist
+    pre_cell=$1
+    post_cell=$2
+    cnt =$3
+    cnt2 = $4
+    cnt3 = $5
+    printf("cnt : %d ",cnt)
+    /*
+    pre_cell= 301000
+    post_cell= 200000
+    */
+    delay=1
+    weight=1
+    gmax=0.3
+    
+    
+    prelist = new List()
+    printf("pre_cell\t%d, post_cell\t%d\n",pre_cell,post_cell)
+
+    if(pc.gid_exists(post_cell)){
+        post = pc.gid2obj(post_cell)
+	printf("pc.gid_exists(%d)\n",post_cell)
+	print post
+        gaba = post.mkNET_GABAa(150,gmax)
+        gabalist.append(gaba)
+        nc = pc.gid_connect(2000000+cnt, gaba)
+        nc.delay = delay
+        nc.weight = weight
+        nclist_NtoN.append(nc)
+
+        gaba = post.mkNET_GABAa(250,gmax)
+        gabalist.append(gaba)
+        nc = pc.gid_connect(2000001+cnt, gaba)
+        nc.delay = delay
+        nc.weight = weight
+        nclist_NtoN.append(nc)
+
+        gaba = post.mkNET_GABAa(350,gmax)
+        gabalist.append(gaba)
+        nc = pc.gid_connect(2000002+cnt, gaba)
+        nc.delay = delay
+        nc.weight = weight
+        nclist_NtoN.append(nc)
+
+        gaba = post.mkNET_GABAa(450,gmax)
+        gabalist.append(gaba)
+        nc = pc.gid_connect(2000003+cnt, gaba)
+        nc.delay = delay
+        nc.weight = weight
+        nclist_NtoN.append(nc)
+
+        gaba = post.mkNET_GABAa(550,gmax)
+        gabalist.append(gaba)
+        nc = pc.gid_connect(2000004+cnt, gaba)
+        nc.delay = delay
+        nc.weight = weight
+        nclist_NtoN.append(nc)
+    }
+    
+
+    if(pc.gid_exists(pre_cell)){
+	pre = pc.gid2obj(pre_cell)
+	//point = pc.id/(NPN+NLN)
+	point = (cnt3+1)/10.0
+	printf("pc.gid_exists(%d), point : %f\n",pre_cell,point)
+	print pre
+	nc = pre.connect2target(1100+cnt2,nil,point)
+	nc.threshold = 1
+	pc.set_gid2node(2000000+cnt,pc.id)
+	pc.cell(2000000+cnt,nc)
+	nclist_NtoN.append(nc)
+
+	nc = pre.connect2target(2200+cnt2,nil,point)
+	nc.threshold = 1
+	pc.set_gid2node(2000001+cnt,pc.id)
+	pc.cell(2000001+cnt,nc)
+	nclist_NtoN.append(nc)
+
+	nc = pre.connect2target(3300+cnt2,nil,point)
+	nc.threshold = 1
+	pc.set_gid2node(2000002+cnt,pc.id)
+	pc.cell(2000002+cnt,nc)
+	nclist_NtoN.append(nc)
+
+	nc = pre.connect2target(4400+cnt2,nil,point)
+	nc.threshold = 1
+	pc.set_gid2node(2000003+cnt,pc.id)
+	pc.cell(2000003+cnt,nc)
+	nclist_NtoN.append(nc)
+
+	nc = pre.connect2target(5500+cnt2,nil,point)
+	nc.threshold = 1
+	pc.set_gid2node(2000004+cnt,pc.id)
+	pc.cell(2000004+cnt,nc)
+	nclist_NtoN.append(nc)
+	
+	prelist = nc.prelist()
+	print "prelist ",prelist
+	printf("prelist.count() :%d[%d]\n",prelist.count(),pc.id)
+    }
+
 }
 
 
@@ -431,38 +659,48 @@ proc connectNtoN_NET_GABA(){\
 	    return (-1)
 	}
     }
-    printf("gabalist.count()=%d,[%d]\n",gabalist.count(),pc.id)
+    printf("gabalist.count()=%d [%d]\n",gabalist.count(), pc.id)
 }
 
 proc connectNtoN_NET_GABA2(){\
-    local i, j,gid_base\
+    local i, j,gid_base,gmax\
     localobj str,nil,pre,post
 
     strdef _syn_path
     gid_base = 2000000
     printf("connectNtoN_NET_GABA[%d]\n",pc.id)
+    printf("NPN : %d NLN : %d\n",NPN,NLN)
     for(i=0;i<NPN;i=i+1){
+	if(pc.id == 0){printf("loadSynapseInfo PN\n")}
 	//print "error pn"
 	loadSynapseInfo(nil,pn_path[i].synpath,2)
     }
     for(i=0;i<NLN;i=i+1){
+	if(pc.id == 0){printf("loadSynapseInfo LN\n")}
 	//print "error ln"
 	loadSynapseInfo(nil,ln_path[i].synpath,2)
     }
+    printf("SynPathList.count() %d [%d]\n",SynPathList.count(),pc.id)
     for(j=0;j<SynPathList.count();j+=1){
 	//print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
 	readSynapseList(SynPathList.o(j),gid_base)
 	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
 	    //printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
-	    makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
+	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,GMAX_LTOP/NLN)
+	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
+	    
+	    gmax = GMAX_LTOP/NLN
 	}else{
 	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
-	    makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
+	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,GMAX_LTOL/NLN)
+	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
+	    
+	    gmax = GMAX_LTOL/NLN
 	}
-
+	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,gmax)
 	if(pre_comps.size() == post_comps.size()){
 	    gid_base += pre_comps.size()
 	}else{
@@ -470,7 +708,7 @@ proc connectNtoN_NET_GABA2(){\
 	    return (-1)
 	}
     }
-    printf("gabalist.count()=%d,(pc.id:%d)\n",gabalist.count())
+    printf("gabalist.count()=%d [%d]\n",gabalist.count(),pc.id)
 }
 
 func connectNtoN_GABA(){\

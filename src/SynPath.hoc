@@ -5,7 +5,9 @@ public synpath, pre_nid,post_nid,pregid,postgid
 strdef synpath
 proc init(){
     pregid   = $1
+    pre_nid  = $2
     postgid  = $3
+    post_nid = $4
     synpath  = $s5
 }
 

@@ -92,6 +92,33 @@ proc mkIclamp_ln(){local i localobj ic
     }
 }
 
+proc mkIclamp_ln2(){local i localobj ic
+    iclist = new List()
+    for(i=0; i<lns.count();i=i+1){
+	ic = lns.o(i).mkIclamp(0,10,10,0)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(1000,10,10,10)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(2000,10,10,20)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(3000,10,10,30)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(4000,10,10,40)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(6000,10,10,50)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(7000,10,10,60)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(8000,10,10,70)
+	iclist.append(ic)
+	ic = lns.o(i).mkIclamp(9000,10,10,80)
+	iclist.append(ic)
+	if(i == 0){
+	    psection()
+	}
+    }
+}
+
 proc mkSerialStim(){local i localobj rnd
     rnd = new Random(pc.id)
     strdef spiketiming
