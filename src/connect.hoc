@@ -772,14 +772,25 @@ proc connectNtoN_NET_GABA2(){\
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
 	    
-	    gmax = GMAX_LTOP/NLN
+
+            if(GABAA_ON == 1){
+		gmax = GABAA_GMAX_LTOP/NLN
+            }else if(GABAB_ON == 1){
+		gmax = GABAB_GMAX_LTOP/NLN
+            }
+
 	}else{
 	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,GMAX_LTOL/NLN)
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
 	    
-	    gmax = GMAX_LTOL/NLN
+            if(GABAA_ON == 1){
+		gmax = GABAA_GMAX_LTOL/NLN
+            }else if(GABAB_ON == 1){
+		gmax = GABAB_GMAX_LTOL/NLN
+            }
+
 	}
 	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,gmax)
 	if(pre_comps.size() == post_comps.size()){

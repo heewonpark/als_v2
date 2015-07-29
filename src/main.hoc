@@ -53,16 +53,13 @@ if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
 if(name_declared("WEIGHT_200")!=5){ execute("WEIGHT_200=0.05")}
 if(name_declared("WEIGHT_300")!=5){ execute("WEIGHT_300=0.05")}
 if(name_declared("WEIGHT_301")!=5){ execute("WEIGHT_301=0.008")}
-if(name_declared("GMAX_LTOL")!=5){ execute("GMAX_LTOL=5.0")}
-if(name_declared("GMAX_LTOP")!=5){ execute("GMAX_LTOP=0.6")}
+if(name_declared("GABAA_GMAX_LTOL")!=5){ execute("GABAA_GMAX_LTOL=5.0")}
+if(name_declared("GABAB_GMAX_LTOL")!=5){ execute("GABAB_GMAX_LTOL=5.0")}
+if(name_declared("GABAA_GMAX_LTOP")!=5){ execute("GABAA_GMAX_LTOP=0.1")}
+if(name_declared("GABAB_GMAX_LTOP")!=5){ execute("GABAB_GMAX_LTOP=0.6")}
 if(name_declared("GABAB_ON")!=5){ execute("GABAB_ON=0")}
 if(name_declared("GABAA_ON")!=5){ execute("GABAA_ON=0")}
 
-/*
-if(name_declared("SWC_FILENAME")==0) { 
-	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
-}
-*/
 RNperSYN = 5
 strdef info_filename
 //info_filename = ""
@@ -72,16 +69,16 @@ info_filename = "../input/network_info/network_info_40cells.dat"
 //info_filename = "../input/network_info/network_info_1LN.dat"
 //info_filename = "../input/network_info/network_info_1PN.dat"
 strdef info_filename_rn
-info_filename_rn = ""
+//info_filename_rn = ""
 //info_filename_rn = "../input/network_info/network_info_2000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_500rns.dat"
-//info_filename_rn = "../input/network_info/network_info_20000rns.dat"
+info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 
 
 if(IS_SUPERCOMPUTER == 0){
     info_filename = "../input/network_info/network_info_4cells.dat"
-    //info_filename_rn = "../input/network_info/network_info_500rns.dat"
+    info_filename_rn = "../input/network_info/network_info_500rns.dat"
     //info_filename_rn = ""
     info_filename_rn = "../input/network_info/network_info_1rns.dat"
 }
@@ -97,7 +94,7 @@ proc ShowInitialStatus(){
 	printf("NETWORK INFORMATION :\n")
 	printf("CELL LIST : %s(PNs and LNs), %s(RNs)\n",info_filename, info_filename_rn)
 	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
-	printf("GMAX_LTOL\t%f\tGMAX_LTOP\t%f\n",GMAX_LTOL,GMAX_LTOP)
+	printf("GABAA_GMAX_LTOL\t%f\tGABAB_GMAX_LTOL\t%f\tGABAA_GMAX_LTOP\t%f\tGABAB_GMAX_LTOP\t%f\n",GABAA_GMAX_LTOL,GABAB_GMAX_LTOL,GABAA_GMAX_LTOP,GABAB_GAMX_LTOP)
 	printf("GABAA_ON\t%f\tGABAB_ON\t%f\n",GABAA_ON, GABAB_ON)
 	printf("====================================================================================\n")
     }
@@ -271,7 +268,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 
 {load_file("connect.hoc")}
 proc mkConnections(){
-    //connectRNtoOthers()
+    connectRNtoOthers()
     //connectNtoN()
     //connectNtoN_NET_GABA()
     connectNtoN_NET_GABA2()
@@ -294,9 +291,9 @@ pc.barrier()
 proc mkStimulations(){
     //    mkIntermitStim()
     //mkIclamp()
-    //mkSerialStim()
+    mkSerialStim()
     //mkSerialStim_debug()
-    mkIclamp_ln2()
+    //mkIclamp_ln2()
 }
 if(pc.id==0)print "SET STIMULATION"
 printf("SET STIMULATION[%d]\n",pc.id)
