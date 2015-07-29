@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #PJM --rsc-list "node=16"
-#PJM --rsc-list "elapse=4:00:00"
+#PJM --rsc-list "elapse=1:00:00"
 #PJM --rsc-list "rscgrp=small"
 #PJM --mpi "proc=128"
 #PJM -s
@@ -18,11 +18,11 @@
 #PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
-#PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
+#--#PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
 #PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
-#PJM --stgin "rank=* ./input/synapse_info/39cells/* %r:../input/synapse_info/39cells/"
-#PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
+#--#PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
+#PJM --stgin "rank=* ./input/synapse_list/40cells/* %r:../input/synapse_list/40cells/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
 #PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
@@ -48,13 +48,15 @@ NRNOPT=\
 " -c STOPTIME=100"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
-" -c WEIGHT_200=0.100"\
+" -c WEIGHT_200=0.200"\
 " -c WEIGHT_300=0.008"\
 " -c WEIGHT_301=0.002"\
-" -c GMAX_LTOL=5.0"\
-" -c GMAX_LTOP=0.6"\
-" -c GABAB_ON=0"\
-" -c GABAA_ON=1"
+" -c GABAA_GMAX_LTOL=5.0"\
+" -c GABAB_GMAX_LTOL=5.0"\
+" -c GABAA_GMAX_LTOP=0.1"\
+" -c GABAB_GMAX_LTOP=0.3"\
+" -c GABAB_ON=1"\
+" -c GABAA_ON=0"
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"
