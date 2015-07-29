@@ -3,25 +3,25 @@ $ fromRN
 ../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat
 $ CtoC
 22
-300014 200000 ../input/synapse_list/300_200_manual.txt
-300014 200001 ../input/synapse_list/300_200_manual.txt
-300014 200002 ../input/synapse_list/300_200_manual.txt
-300014 200003 ../input/synapse_list/300_200_manual.txt
-300014 200004 ../input/synapse_list/300_200_manual.txt
-300014 301000 ../input/synapse_list/300_301_randomize.txt
-300014 301001 ../input/synapse_list/300_301_randomize.txt
-300014 301002 ../input/synapse_list/300_301_randomize.txt
-300014 301003 ../input/synapse_list/300_301_randomize.txt
-300014 301004 ../input/synapse_list/300_301_randomize.txt
-300014 301005 ../input/synapse_list/300_301_randomize.txt
-300014 301006 ../input/synapse_list/300_301_randomize.txt
-300014 301007 ../input/synapse_list/300_301_randomize.txt
-300014 301008 ../input/synapse_list/300_301_randomize.txt
-300014 301009 ../input/synapse_list/300_301_randomize.txt
-300014 301010 ../input/synapse_list/300_301_randomize.txt
-300014 301011 ../input/synapse_list/300_301_randomize.txt
-300014 301012 ../input/synapse_list/300_301_randomize.txt
-300014 301013 ../input/synapse_list/300_301_randomize.txt
-300014 301014 ../input/synapse_list/300_301_randomize.txt
-300014 301015 ../input/synapse_list/300_301_randomize.txt
-300014 301016 ../input/synapse_list/300_301_randomize.txt
+300014 200000 ../input/synapse_list/40cells/300014_200000_manual.txt
+300014 200001 ../input/synapse_list/40cells/300014_200001_manual.txt
+300014 200002 ../input/synapse_list/40cells/300014_200002_manual.txt
+300014 200003 ../input/synapse_list/40cells/300014_200003_manual.txt
+300014 200004 ../input/synapse_list/40cells/300014_200004_manual.txt
+300014 301000 ../input/synapse_list/40cells/300014_301000_randomize.txt
+300014 301001 ../input/synapse_list/40cells/300014_301001_randomize.txt
+300014 301002 ../input/synapse_list/40cells/300014_301002_randomize.txt
+300014 301003 ../input/synapse_list/40cells/300014_301003_randomize.txt
+300014 301004 ../input/synapse_list/40cells/300014_301004_randomize.txt
+300014 301005 ../input/synapse_list/40cells/300014_301005_randomize.txt
+300014 301006 ../input/synapse_list/40cells/300014_301006_randomize.txt
+300014 301007 ../input/synapse_list/40cells/300014_301007_randomize.txt
+300014 301008 ../input/synapse_list/40cells/300014_301008_randomize.txt
+300014 301009 ../input/synapse_list/40cells/300014_301009_randomize.txt
+300014 301010 ../input/synapse_list/40cells/300014_301010_randomize.txt
+300014 301011 ../input/synapse_list/40cells/300014_301011_randomize.txt
+300014 301012 ../input/synapse_list/40cells/300014_301012_randomize.txt
+300014 301013 ../input/synapse_list/40cells/300014_301013_randomize.txt
+300014 301014 ../input/synapse_list/40cells/300014_301014_randomize.txt
+300014 301015 ../input/synapse_list/40cells/300014_301015_randomize.txt
+300014 301016 ../input/synapse_list/40cells/300014_301016_randomize.txt

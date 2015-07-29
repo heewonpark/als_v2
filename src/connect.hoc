@@ -251,6 +251,8 @@ _pre_nid  = 0
 _post_nid = 0
 _pre_comp = 0
 _post_comp = 0
+_gid      = 0
+
 /*
 objref pre_comps_list[100], post_comps_list[100]
 for i=0,100-1{
@@ -260,6 +262,7 @@ for i=0,100-1{
 objref pre_comps,post_comps
 objref syntypes//types 1 inhibition 2 excitation, synapse type
 objref gidVec
+/*
 proc readSynapseList(){\
     local nid, nconnect, i,gid_base\
     localobj synf,strobj,pre,post,nc,nil,syn, SynPathList_
@@ -321,6 +324,69 @@ proc readSynapseList(){\
     //pre_comps_list[SynPathList_.pregid].append(pre_comps)
     //post_comps_list[SynPathList_.postgid].append(post_comps)
 }
+*/
+proc readSynapseList2(){\
+    local nid, nconnect, i,gid_base\
+    localobj synf,strobj,pre,post,nc,nil,syn, SynPathList_
+
+    strdef buf, ctype
+    strdef syn_filename
+    
+    pre_comps = new Vector()
+    post_comps = new Vector()
+    syntypes = new Vector()
+    gidVec = new Vector()
+    SynPathList_ = $o1
+    syn_filename = SynPathList_.synpath
+    gid_cnt  = 0
+    
+    synf = new File()
+    
+    if(synf.ropen(syn_filename) != 1){
+	printf("ERROR : File was not found. (%s)\n",syn_filename)
+	return(-1) 
+    }
+
+    while(synf.scanstr(buf)!=-1){
+	if(strcmp("#",buf)==0){
+	    continue
+	}else if(strcmp("$",buf)==0){
+	    synf.gets(buf)
+	    sscanf(buf,"%s %d\n",ctype,&nid)
+	    if(strcmp("PRE_CELL",ctype)==0){
+		_pre_nid  = nid
+	    }else if(strcmp("POST_CELL",ctype)==0){
+		_post_nid = nid
+	    }else if(strcmp("NCONNECTIONS",ctype)==0){
+		nconnect = nid
+		for(i=0;i<nconnect;i+=1){
+		    synf.gets(buf)
+		    sscanf(buf,"%d %d %d\n",&_pre_comp, &_post_comp, &_gid)
+		    //printf("%d %d\n",_pre_comp, _post_comp)
+		    pre_comps.append(_pre_comp)
+		    post_comps.append(_post_comp)
+		    //gidVec.append(gid_base+gid_cnt)
+		    gidVec.append(_gid)
+		    if(int(SynPathList_.postgid/100000)==3){
+			//print _pre_nid, _pre_comp, _post_nid,_post_comp,"Inhibition"
+			syntypes.append(1)
+		    }else if(int(SynPathList_.postgid/100000)==2){
+			//print _pre_nid, _pre_comp, _post_nid,_post_comp,"Excitation"
+			syntypes.append(2)
+		    }else{
+			print _pre_nid
+			print "SOMETHINGS WRONG IN READ SYNAPSE LIST"
+			return (-1)
+		    }
+		    gid_cnt += 1
+		}
+	    }
+	}
+    }
+    //pre_comps_list[SynPathList_.pregid].append(pre_comps)
+    //post_comps_list[SynPathList_.postgid].append(post_comps)
+}
+
 
 objref nclist_NtoN
 nclist_NtoN = new List()
@@ -409,16 +475,20 @@ proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax, delay, weight, point
     if(pc.gid_exists(pre_cell)){
 	pre = pc.gid2obj(pre_cell)
 	for i=0, pre_comps.size()-1{
-	    point = (pc.id)/(NLN+NPN)
-	    printf("PRE : %d, GID : %d, i : %d, point : %f [%d]\n",pre_cell,gidVec.x[i],i,point,pc.id)
-	    pre.Dend[pre_comps.x[i]] nc = new NetCon(&v(point),nil)
-	    //nc = pre.connect2target(pre_comps.x[i],nil)
-	    nc.threshold = 1
-	    pc.set_gid2node(gidVec.x[i],pc.id)
-	    pc.cell(gidVec.x[i],nc)
-	    nclist_NtoN.append(nc)
-	    pre.Dend[pre_comps.x[i]]{
-		psection()
+	    if(!pc.gid_exists(gidVec.x[i])){
+		point = (pc.id)/(NLN+NPN)
+		printf("PRE : %d, GID : %d, i : %d, point : %f [%d]\n",pre_cell,gidVec.x[i],i,point,pc.id)
+		pre.Dend[pre_comps.x[i]] nc = new NetCon(&v(point),nil)
+		//nc = pre.connect2target(pre_comps.x[i],nil)
+		nc.threshold = 1
+		pc.set_gid2node(gidVec.x[i],pc.id)
+		pc.cell(gidVec.x[i],nc)
+		nclist_NtoN.append(nc)
+		/*
+		pre.Dend[pre_comps.x[i]]{
+		    psection()
+		}
+		*/
 	    }
 	}
     }
@@ -507,39 +577,50 @@ proc makeNET_GABAsynapse2(){local pre_cell, post_cell, gmax, delay, weight, poin
 	point = (cnt3+1)/10.0
 	printf("pc.gid_exists(%d), point : %f\n",pre_cell,point)
 	print pre
-	nc = pre.connect2target(1100+cnt2,nil,point)
-	nc.threshold = 1
-	pc.set_gid2node(2000000+cnt,pc.id)
-	pc.cell(2000000+cnt,nc)
-	nclist_NtoN.append(nc)
+	if(!pc.gid_exists(2000000+cnt)){
+	    nc = pre.connect2target(1100+cnt2,nil,point)
+	    nc.threshold = 1
+	    pc.set_gid2node(2000000+cnt,pc.id)
+	    pc.cell(2000000+cnt,nc)
+	    nclist_NtoN.append(nc)
+	}
 
-	nc = pre.connect2target(2200+cnt2,nil,point)
-	nc.threshold = 1
-	pc.set_gid2node(2000001+cnt,pc.id)
-	pc.cell(2000001+cnt,nc)
-	nclist_NtoN.append(nc)
+	if(!pc.gid_exists(2000001+cnt)){
+	    nc = pre.connect2target(2200+cnt2,nil,point)
+	    nc.threshold = 1
+	    pc.set_gid2node(2000001+cnt,pc.id)
+	    pc.cell(2000001+cnt,nc)
+	    nclist_NtoN.append(nc)
+	}
 
-	nc = pre.connect2target(3300+cnt2,nil,point)
-	nc.threshold = 1
-	pc.set_gid2node(2000002+cnt,pc.id)
-	pc.cell(2000002+cnt,nc)
-	nclist_NtoN.append(nc)
+	if(!pc.gid_exists(2000002+cnt)){
+	    nc = pre.connect2target(3300+cnt2,nil,point)
+	    nc.threshold = 1
+	    pc.set_gid2node(2000002+cnt,pc.id)
+	    pc.cell(2000002+cnt,nc)
+	    nclist_NtoN.append(nc)
+	}
 
-	nc = pre.connect2target(4400+cnt2,nil,point)
-	nc.threshold = 1
-	pc.set_gid2node(2000003+cnt,pc.id)
-	pc.cell(2000003+cnt,nc)
-	nclist_NtoN.append(nc)
+	if(!pc.gid_exists(2000003+cnt)){
+	    nc = pre.connect2target(4400+cnt2,nil,point)
+	    nc.threshold = 1
+	    pc.set_gid2node(2000003+cnt,pc.id)
+	    pc.cell(2000003+cnt,nc)
+	    nclist_NtoN.append(nc)
+	}	
 
-	nc = pre.connect2target(5500+cnt2,nil,point)
-	nc.threshold = 1
-	pc.set_gid2node(2000004+cnt,pc.id)
-	pc.cell(2000004+cnt,nc)
-	nclist_NtoN.append(nc)
-	
+	if(!pc.gid_exists(2000004+cnt)){
+	    nc = pre.connect2target(5500+cnt2,nil,point)
+	    nc.threshold = 1
+	    pc.set_gid2node(2000004+cnt,pc.id)
+	    pc.cell(2000004+cnt,nc)
+	    nclist_NtoN.append(nc)
+	}
+	/*
 	prelist = nc.prelist()
 	print "prelist ",prelist
 	printf("prelist.count() :%d[%d]\n",prelist.count(),pc.id)
+	*/
     }
 
 }
@@ -683,7 +764,7 @@ proc connectNtoN_NET_GABA2(){\
     printf("SynPathList.count() %d [%d]\n",SynPathList.count(),pc.id)
     for(j=0;j<SynPathList.count();j+=1){
 	//print "SynPathList ",j,SynPathList.o(j).synpath, SynPathList.o(j).pregid, SynPathList.o(j).postgid
-	readSynapseList(SynPathList.o(j),gid_base)
+	readSynapseList2(SynPathList.o(j))
 	if(int(SynPathList.o(j).postgid/100000)==2){//If post-synaptic neuron is PN
 	    //printf("POST SYNAPSE IS PN(pc.id:%d)\n",pc.id)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOP/NLN)
@@ -702,7 +783,7 @@ proc connectNtoN_NET_GABA2(){\
 	}
 	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,gmax)
 	if(pre_comps.size() == post_comps.size()){
-	    gid_base += pre_comps.size()
+	    //gid_base += pre_comps.size()
 	}else{
 	    print "ERROR IN CONNECTNTON"
 	    return (-1)

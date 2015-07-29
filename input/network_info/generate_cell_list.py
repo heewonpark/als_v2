@@ -18,6 +18,7 @@ import copy
 import random
 import os
 
+from synapse_list_format import SYNLIST
 ###########################################
 # DEFAULT SETTING
 NSWC  = 3
@@ -25,8 +26,8 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-NPN = 2
-NLN = 2
+#NPN = 2
+#NLN = 2
 
 NCELL = NPN + NLN
 
@@ -35,6 +36,9 @@ LISTFILENAME = "./network_info_%dcells.dat"%(NCELL)
 SYNPATH_DIR  = "../synapse_info/%dcells/"%(NCELL)
 SYNPATH_DIR2  = "../input/synapse_info/%dcells/"%(NCELL)
 SYNLIST_DIR  = "../input/synapse_list/"
+SYNLIST_DIR_W  = "../input/synapse_list/%dcells/"%(NCELL)
+SYNLIST_DIR_M  = "../synapse_list/%dcells/"%(NCELL)
+
 NPNSWC = 1
 NLNSWC = 2
 
@@ -63,6 +67,9 @@ class CELL:
 
     def setGid(self,gid):
         self.gid     = gid
+
+    def getGid(self):
+        return self.gid
 
     def setCloneid(self,cloneid):
         self.cloneid = cloneid
@@ -104,6 +111,42 @@ LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn
 
 PN = [CELL() for _ in range(NPN)]
 LN = [CELL() for _ in range(NLN)]
+
+
+s200_300 = SYNLIST()
+s200_300.set_nconnections(10)
+s200_300_precmpts = [1164, 1173, 1180, 1160, 1164, 1169, 1168, 1155, 1152, 1161 ]
+s200_300_pstcmpts = [20072,14649,14519,15068,20092,16526,14097,19017,17076,19171]
+s200_300.set_precmpts(s200_300_precmpts)
+s200_300.set_pstcmpts(s200_300_pstcmpts)
+
+s300_200 = SYNLIST()
+s300_200.set_nconnections(10)
+s300_200_precmpts = [2739, 2730, 2366, 2363, 2055, 2050, 1809, 1801, 1590, 1579 ]
+s300_200_pstcmpts = [110,  107,  104,  101,  98,   97,   94,   114,  109,  102  ]
+s300_200.set_precmpts(s300_200_precmpts)
+s300_200.set_pstcmpts(s300_200_pstcmpts)
+
+s301_200 = SYNLIST()
+s301_200.set_nconnections(10)
+s301_200_precmpts = [3572, 4958, 5487, 1846, 6691, 7140, 3610, 3524, 2733, 4517 ]
+s301_200_pstcmpts = [101,  102,  94,   98,   125,  119,  114,  108,  103,  93   ]
+s301_200.set_precmpts(s301_200_precmpts)
+s301_200.set_pstcmpts(s301_200_pstcmpts)
+
+s300_301 = SYNLIST()
+s300_301.set_nconnections(10)
+s300_301_precmpts = [21015,14644, 8240,15191, 8804,21375, 8239,15706,15171,21088]
+s300_301_pstcmpts = [11079,10877,11534,11093,11257,10351,11580,11879,11949,11038]
+s300_301.set_precmpts(s300_301_precmpts)
+s300_301.set_pstcmpts(s300_301_pstcmpts)
+
+s301_300 = SYNLIST()
+s301_300.set_nconnections(10)
+s301_300_precmpts = [10351,10877,11083,10380,11422,11681,10351,11083,11219,11093]
+s301_300_pstcmpts = [21374,15191, 8242,21309, 8239, 9486,21436, 8804,21088,15070]
+s301_300.set_precmpts(s301_300_precmpts)
+s301_300.set_pstcmpts(s301_300_pstcmpts)
 
 def write_header(f):
     f.write("# gid, cellid, swcid, cloneid, SWC file path, position&rotation file, Synapse information file\n")
@@ -167,7 +210,34 @@ def write_line_syn(f,precell, postcell, filetype):
     synfile_path = SYNLIST_DIR + synfilename
     f.write("%d %d %s\n"%(precell.gid, postcell.gid, synfile_path))
 
-def writeSynData(cell):
+def write_line_syn2(f,precell, postcell, filetype, gidbase):
+    pre_gid  = precell.getGid()
+    post_gid = postcell.getGid()
+    synfilename  = "%d_%d_%s.txt"%(pre_gid,post_gid,filetype)
+    synfile_path = SYNLIST_DIR_W + synfilename
+    f.write("%d %d %s\n"%(pre_gid,post_gid,synfile_path))
+
+    if(precell.nid == 300) & (postcell.nid == 200):
+        synlist = s300_200
+    elif(precell.nid == 301) & (postcell.nid == 200):
+        synlist = s301_200
+    elif(precell.nid == 300) & (postcell.nid == 301):
+        synlist = s300_301
+    elif(precell.nid == 301) & (postcell.nid == 300):
+        synlist = s301_300
+    
+    synfile_path_m = SYNLIST_DIR_M + synfilename
+    if not os.path.exists(SYNLIST_DIR_M):
+        os.makedirs(SYNLIST_DIR_M)
+        print "MAKE DIR(%s)\n"%(SYNLIST_DIR_M)
+
+    gids = [gidbase + i for i in range(synlist.nconnections)]
+    synlist.set_pregid(pre_gid)
+    synlist.set_pstgid(post_gid)
+    synlist.set_gids(gids)
+    synlist.write_synlist(synfile_path_m)
+
+def writeSynData(cell,gidbase):
     F = open(cell.synpath_m,'w')
     print cell.synpath_m
     write_header_syn(F)
@@ -188,25 +258,31 @@ def writeSynData(cell):
         F.write("%d\n"%(LtoP + LtoL))
         for i in range(NPN):
             if(LNtoPN[i]==1):
-                write_line_syn(F,cell,PN[i],"manual")
-            
+                write_line_syn2(F,cell,PN[i],"manual",gidbase)
+        gidbase += 10    
         for i in range(NLN):
             if(cell.swcid != LN[i].swcid):
-                write_line_syn(F,cell,LN[i],"randomize")
+                write_line_syn2(F,cell,LN[i],"randomize",gidbase)
+        gidbase += 10
     F.close()
+    return gidbase
 
 def mkSynData():
     if not os.path.exists(SYNPATH_DIR):
         os.makedirs(SYNPATH_DIR)
         print "MAKE DIR(%s)\n"%(SYNPATH_DIR)
+
+    GID_BASE = 2000000
+    
     for i in range(NPN):
         PN[i].setSynpath_write()
         PN[i].setSynpath_make()
-        writeSynData(PN[i])
+        writeSynData(PN[i],0)
     for i in range(NLN):
         LN[i].setSynpath_write()
         LN[i].setSynpath_make()
-        writeSynData(LN[i])
+        GID_BASE = writeSynData(LN[i],GID_BASE)
+        
 
 def main():
     mkCellList()

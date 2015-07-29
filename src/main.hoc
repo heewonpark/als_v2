@@ -274,10 +274,10 @@ proc mkConnections(){
     //connectRNtoOthers()
     //connectNtoN()
     //connectNtoN_NET_GABA()
-    //connectNtoN_NET_GABA2()
-    makeNET_GABAsynapse2(301000,200000,0,0,0)
+    connectNtoN_NET_GABA2()
+    //makeNET_GABAsynapse2(301000,200000,0,0,0)
     //makeNET_GABAsynapse2(301000,200001,100,0,1)
-    makeNET_GABAsynapse2(0,200001,0,0,0)
+    //makeNET_GABAsynapse2(301000,200001,0,0,0)
 
     /*
     GID_BASE = connectNtoN_GABA()
