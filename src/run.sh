@@ -12,6 +12,7 @@ mkdir -p ${RECORD_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
+#HOC_NAME="./main_test.hoc"
 #HOC_NAME="./loadbalance_test.hoc"
 
 NRNOPT=\
@@ -22,7 +23,7 @@ NRNOPT=\
 " -c WEIGHT_300=0.05"\
 " -c WEIGHT_301=0.008"\
 " -c GMAX_LTOL=5.0"\
-" -c GMAX_LTOP=5.0"\
+" -c GMAX_LTOP=0.2"\
 " -c GABAB_ON=0"\
 " -c GABAA_ON=1"
 

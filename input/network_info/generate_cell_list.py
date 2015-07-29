@@ -26,18 +26,20 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-#NPN = 2
-#NLN = 2
+NPN = 1
+NLN = 2
 
 NCELL = NPN + NLN
 
 #LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)
-LISTFILENAME = "./network_info_%dcells.dat"%(NCELL)
-SYNPATH_DIR  = "../synapse_info/%dcells/"%(NCELL)
-SYNPATH_DIR2  = "../input/synapse_info/%dcells/"%(NCELL)
+NAME = "cells"
+NAME = "_1PN2LNs"
+LISTFILENAME = "./network_info_%d%s.dat"%(NCELL,NAME)
+SYNPATH_DIR  = "../synapse_info/%d%s/"%(NCELL,NAME)
+SYNPATH_DIR2  = "../input/synapse_info/%d%s/"%(NCELL,NAME)
 SYNLIST_DIR  = "../input/synapse_list/"
-SYNLIST_DIR_W  = "../input/synapse_list/%dcells/"%(NCELL)
-SYNLIST_DIR_M  = "../synapse_list/%dcells/"%(NCELL)
+SYNLIST_DIR_W  = "../input/synapse_list/%d%s/"%(NCELL,NAME)
+SYNLIST_DIR_M  = "../synapse_list/%d%s/"%(NCELL,NAME)
 
 NPNSWC = 1
 NLNSWC = 2

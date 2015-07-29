@@ -80,11 +80,10 @@ info_filename_rn = ""
 
 
 if(IS_SUPERCOMPUTER == 0){
-    //info_filename = "../input/network_info/network_info_3cells.dat"
-    info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
-    info_filename_rn = "../input/network_info/network_info_500rns.dat"
+    info_filename = "../input/network_info/network_info_4LNs.dat"
+    //info_filename_rn = "../input/network_info/network_info_500rns.dat"
     //info_filename_rn = ""
-    //info_filename_rn = "../input/network_info/network_info_1rns.dat"
+    info_filename_rn = "../input/network_info/network_info_1rns.dat"
 }
 
 objref pc
@@ -272,7 +271,7 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 
 {load_file("connect.hoc")}
 proc mkConnections(){
-    connectRNtoOthers()
+    //connectRNtoOthers()
     //connectNtoN()
     //connectNtoN_NET_GABA()
     connectNtoN_NET_GABA2()
@@ -295,9 +294,9 @@ pc.barrier()
 proc mkStimulations(){
     //    mkIntermitStim()
     //mkIclamp()
-    mkSerialStim()
+    //mkSerialStim()
     //mkSerialStim_debug()
-    //mkIclamp_ln2()
+    mkIclamp_ln2()
 }
 if(pc.id==0)print "SET STIMULATION"
 printf("SET STIMULATION[%d]\n",pc.id)
@@ -307,6 +306,7 @@ pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
     setVoltageRecord()
+    setPostSynapseVoltageRecord_t()
     //setGABArecord()
     //setDummyRecord()
     //setPreGABArecord()
@@ -334,6 +334,7 @@ proc setPrinter(){
     //fprintDummyRecord()
     //fprintSynapseList()
     //fprintPreGABArecord()
+    fprintPostSynapseVoltageRecord(FPRINT_DIR)
     spikeout()
 }
 

@@ -520,14 +520,6 @@ proc ReadSynlist(){local i localobj f
 }
 strdef str1
 
-iterator ltr(){local i, cnt localobj nil
-    for i = 0, $o2.count - 1{
-	$o1 = $o2.object(i)
-	
-    }
-    $o1 = nil
-}
-
 //make synapses to connect RN and other cells
 proc mkSynapses(){local i
     //$s1 = Synapse list data file name

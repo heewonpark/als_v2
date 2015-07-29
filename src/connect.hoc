@@ -456,6 +456,41 @@ proc makePostSynapse_NET_GABA(){local i, post_cell, delay, weight,gmax,gid local
     }
 }
 
+//Post Synapse Voltage
+objref psv_tvec
+objref psv_vecs
+psv_vecs = new List()
+proc setPostSynapseVoltageRecord(){local cmpt localobj vec, cell
+    cell = $o1
+    cmpt = $2
+    vec = new Vector()
+    vec.record(&cell.Dend[cmpt].v(0.5))
+    psv_vecs.append(vec)
+}
+
+proc setPostSynapseVoltageRecord_t(){
+    psv_tvec = new Vector()
+    psv_tvec.record(&t)
+}
+
+proc fprintPostSynapseVoltageRecord(){localobj mt, file
+    if(psv_vecs.count()==0){return}
+    strdef filename, fprint_dir
+    fprint_dir = $s1
+    mt = new Matrix()
+    file = new File()
+    mt.resize(psv_tvec.size(),psv_vecs.count()+1)
+    mt.setcol(0,psv_tvec)
+    for(j = 0; j<psv_vecs.count();j+=1){
+	mt.setcol(j+1,psv_vecs.o(j))
+    }
+    sprint(filename,"%s%d_PSV.txt",fprint_dir,pc.id)
+    file.wopen(filename)
+    mt.fprint(file,"%5.5f\t")
+    file.close()
+}
+
+
 proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax, delay, weight, point localobj gaba, pre, post, nc, nil
     pre_cell=$1
     post_cell=$2
@@ -507,7 +542,8 @@ proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax, delay, weight, point
             nc.delay = delay
             nc.weight = weight
             nclist_NtoN.append(nc)
-        }
+	    setPostSynapseVoltageRecord(post, post_comps.x[i])
+	}
     }
 }
 
@@ -744,7 +780,7 @@ proc connectNtoN_NET_GABA(){\
 }
 
 proc connectNtoN_NET_GABA2(){\
-    local i, j,gid_base,gmax\
+    local i, j,gid_base,gmax, weight\
     localobj str,nil,pre,post
 
     strdef _syn_path
@@ -773,6 +809,7 @@ proc connectNtoN_NET_GABA2(){\
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
 	    
 	    gmax = GMAX_LTOP/NLN
+	    weight = 10.0
 	}else{
 	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
@@ -780,8 +817,9 @@ proc connectNtoN_NET_GABA2(){\
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
 	    
 	    gmax = GMAX_LTOL/NLN
+	    weight = 100.0
 	}
-	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,gmax)
+	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,weight,gmax)
 	if(pre_comps.size() == post_comps.size()){
 	    //gid_base += pre_comps.size()
 	}else{
