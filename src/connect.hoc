@@ -491,12 +491,13 @@ proc fprintPostSynapseVoltageRecord(){localobj mt, file
 }
 
 
-proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax, delay, weight, point localobj gaba, pre, post, nc, nil
+proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax_a,gmax_b, delay, weight, point localobj gaba, pre, post, nc, nil
     pre_cell=$1
     post_cell=$2
     delay=$3
     weight=$4
-    gmax=$5
+    gmax_a=$5
+    gmax_b=$6
     
     /*
     pre_cell  = 301000
@@ -533,16 +534,22 @@ proc makeNET_GABAsynapse(){local pre_cell, post_cell, gmax, delay, weight, point
         for i=0, post_comps.size()-1{
 	    printf("POST: %d, GID : %d, i : %d, [%d]\n",post_cell,gidVec.x[i],i,pc.id)
             if(GABAA_ON == 1){
-                gaba = post.mkNET_GABAa(post_comps.x[i],gmax)
-            }else if(GABAB_ON == 1){
-                gaba = post.mkNET_GABAb(post_comps.x[i],gmax)
+                gaba = post.mkNET_GABAa(post_comps.x[i],gmax_a)
+		gabalist.append(gaba)
+		nc = pc.gid_connect(gidVec.x[i], gaba)
+		nc.delay = delay
+		nc.weight = weight
+		nclist_NtoN.append(nc)
             }
-            gabalist.append(gaba)
-            nc = pc.gid_connect(gidVec.x[i], gaba)
-            nc.delay = delay
-            nc.weight = weight
-            nclist_NtoN.append(nc)
-	    setPostSynapseVoltageRecord(post, post_comps.x[i])
+	    if(GABAB_ON == 1){
+                gaba = post.mkNET_GABAb(post_comps.x[i],gmax_b)
+		gabalist.append(gaba)
+		nc = pc.gid_connect(gidVec.x[i], gaba)
+		nc.delay = delay
+		nc.weight = weight
+		nclist_NtoN.append(nc)
+            }
+	    //setPostSynapseVoltageRecord(post, post_comps.x[i])
 	}
     }
 }
@@ -780,7 +787,7 @@ proc connectNtoN_NET_GABA(){\
 }
 
 proc connectNtoN_NET_GABA2(){\
-    local i, j,gid_base,gmax, weight\
+    local i, j,gid_base,gmax_a, gmax_b, weight\
     localobj str,nil,pre,post
 
     strdef _syn_path
@@ -808,37 +815,24 @@ proc connectNtoN_NET_GABA2(){\
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,5.0)
 	    
-<<<<<<< HEAD
-	    gmax = GMAX_LTOP/NLN
-	    weight = 10.0
-=======
-
             if(GABAA_ON == 1){
-		gmax = GABAA_GMAX_LTOP/NLN
-            }else if(GABAB_ON == 1){
-		gmax = GABAB_GMAX_LTOP/NLN
+		gmax_a = GABAA_GMAX_LTOP/NLN
             }
-
->>>>>>> 261e113ecfe850a2c048c773904d5545572ddb2b
+	    if(GABAB_ON == 1){
+		gmax_b = GABAB_GMAX_LTOP/NLN
+            }
 	}else{
 	    //printf("POST SYNAPSE IS LN(pc.id:%d)\n",pc.id)
 	    //makePostSynapse_NET_GABA(SynPathList.o(j).postgid,1,10,GMAX_LTOL/NLN)
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,10.0,GMAX_LTOL/NLN)
 	    //makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid)
-	    
-<<<<<<< HEAD
-	    gmax = GMAX_LTOL/NLN
-	    weight = 100.0
-=======
             if(GABAA_ON == 1){
-		gmax = GABAA_GMAX_LTOL/NLN
+		gmax_a = GABAA_GMAX_LTOL/NLN
             }else if(GABAB_ON == 1){
-		gmax = GABAB_GMAX_LTOL/NLN
+		gmax_b = GABAB_GMAX_LTOL/NLN
             }
-
->>>>>>> 261e113ecfe850a2c048c773904d5545572ddb2b
 	}
-	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,weight,gmax)
+	makeNET_GABAsynapse(SynPathList.o(j).pregid,SynPathList.o(j).postgid,1.0,weight,gmax_a,gmax_b)
 	if(pre_comps.size() == post_comps.size()){
 	    //gid_base += pre_comps.size()
 	}else{
