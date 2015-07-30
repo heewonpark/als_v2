@@ -1,4 +1,4 @@
-
+import csv
 # pst = post
 # cmpt = compartment
 
@@ -7,7 +7,9 @@ class SYNLIST:
         self.pre_gid      = -1
         self.pst_gid      = -1
         self.nconnections = -1
-        
+        self.pre_cmpts = []
+        self.pst_cmpts = []
+
     def set_nconnections(self,nconnections):
         self.nconnections = nconnections
 
@@ -55,3 +57,13 @@ class SYNLIST:
             self.ff.write("%d %d %d\n"%(self.get_precmpt(i),self.get_pstcmpt(i),self.get_gid(i)))
         self.ff.close()
     
+    def read_synlist_format(self,pregid,pstgid,filename):
+        print "read_synlist_format(%d,%d,%s)"%(pregid,pstgid,filename)
+        self.set_pregid(pregid)
+        self.set_pstgid(pstgid)
+        fh = open(filename, 'r')
+        reader = csv.reader(fh)
+        synlist = [[] for _ in range(2)]
+        for row in reader:
+            self.pre_cmpts.append(row[0])
+            self.pst_cmpts.append(row[1])

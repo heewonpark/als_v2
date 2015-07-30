@@ -20,7 +20,7 @@ import random
 
 import swc
 nrn.load_mechanisms("./mod")
-h.load_file("CellSwc_Ver2.hoc")
+h.load_file("../input/swc/CellSwc_Ver2.hoc")
 
 def CalcDistance(cmpt1, cmpt2):
     #cmpt means compartment
@@ -232,11 +232,11 @@ def main():
                 continue
             print i, j
             if(os.path.exists("synlist") == False):
-                os.mkdir("synlist")
+                os.mkdir("synlist") 
             fn = './synlist/%s_%s_dist.csv'%(cellname[i],cellname[j])
             writeDistance(cells[i],SRList[i],cells[j],SRList[j], fn)
             CSVlist.append(fn)
-        
+       
     #CSVlist =["./synlist/LN[0]_LN[1]_dist.csv","./synlist/PN[0]_LN[0]_dist.csv","./synlist/PN[0]_LN[1]_dist.csv"]
     for csv in CSVlist:
         fn = sortCsv(csv)
@@ -245,8 +245,31 @@ def main():
     for s in SortedFile:
         RandomSamplingCSV(s)
     
-main()
+#main()
 
+def main2():
+    NumCells = 2
+    cells = [None for _ in range(NumCells)]
+    SRList = [[] for _ in range(NumCells)]
+    CSVlist = []
+    SortedFile = []
+    cells[0] = h.CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc")
+    swc.findSynapseRegion(cells[0], SRList[0])
+
+    cells[1] = h.CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc")
+    swc.findSynapseRegion(cells[1], SRList[1])
+    fn = './synlist/%s_%s_dist.csv'%("302","303")
+    writeDistance(cells[0],SRList[0],cells[1],SRList[1], fn)
+    CSVlist.append(fn)
+    
+    for csv in CSVlist:
+        fn = sortCsv(csv)
+        SortedFile.append(fn)
+        
+    for s in SortedFile:
+        RandomSamplingCSV(s)
+    
+main2()
 """
 print "sorting..."
 sortCsv("./synlist/sampledist.csv")

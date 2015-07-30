@@ -1,0 +1,44 @@
+# gid, cellid, swcid, cloneid, SWC file path, position&rotation file, Synapse information file
+$ CELLS 40
+$ PN 5
+200000 2 0 0 ../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc none ../input/synapse_info/40temp/200000syn.dat
+200001 2 0 1 ../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc none ../input/synapse_info/40temp/200001syn.dat
+200002 2 0 2 ../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc none ../input/synapse_info/40temp/200002syn.dat
+200003 2 0 3 ../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc none ../input/synapse_info/40temp/200003syn.dat
+200004 2 0 4 ../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc none ../input/synapse_info/40temp/200004syn.dat
+$ LN 35
+302000 3 2 0 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302000syn.dat
+302001 3 2 1 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302001syn.dat
+302002 3 2 2 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302002syn.dat
+302003 3 2 3 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302003syn.dat
+302004 3 2 4 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302004syn.dat
+302005 3 2 5 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302005syn.dat
+302006 3 2 6 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302006syn.dat
+302007 3 2 7 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302007syn.dat
+302008 3 2 8 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302008syn.dat
+302009 3 2 9 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302009syn.dat
+302010 3 2 10 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302010syn.dat
+302011 3 2 11 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302011syn.dat
+302012 3 2 12 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302012syn.dat
+302013 3 2 13 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302013syn.dat
+302014 3 2 14 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302014syn.dat
+302015 3 2 15 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302015syn.dat
+302016 3 2 16 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302016syn.dat
+302017 3 2 17 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/302017syn.dat
+303000 3 3 0 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303000syn.dat
+303001 3 3 1 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303001syn.dat
+303002 3 3 2 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303002syn.dat
+303003 3 3 3 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303003syn.dat
+303004 3 3 4 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303004syn.dat
+303005 3 3 5 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303005syn.dat
+303006 3 3 6 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303006syn.dat
+303007 3 3 7 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303007syn.dat
+303008 3 3 8 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303008syn.dat
+303009 3 3 9 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303009syn.dat
+303010 3 3 10 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303010syn.dat
+303011 3 3 11 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303011syn.dat
+303012 3 3 12 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303012syn.dat
+303013 3 3 13 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303013syn.dat
+303014 3 3 14 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303014syn.dat
+303015 3 3 15 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303015syn.dat
+303016 3 3 16 ../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/40temp/303016syn.dat

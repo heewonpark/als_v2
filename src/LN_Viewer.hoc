@@ -5,24 +5,30 @@
 {load_file("areaList.hoc")}
 
 /*--- make cell ---*/
-objref cell[100]
-cell[0] = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//200
+objref cells
+cells = new List()
+objref c
+//c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
+c = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
+cells.append(c)
+//cell[0] = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//200
 //cell[1] = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc")//300
-cell[2] = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//301
+//cell[2] = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//301
 
 {load_file("swc_painter.hoc")}
 /*--- painting ---*/
-paint_neuron(cell[0], 4,5)
+//paint_neuron(cell[0], 4,5)
 //paint_neuron(cell[1], 4,5)//300
-paint_neuron(cell[2], 4,5)//301
+//paint_neuron(cell[2], 4,5)//301
+paint_neuron(cells.o(0),4,5)
 
 print "Post GABA from 300"
 //paint_cmpt(cell[0],readSynapseList("../input/synapse_list/300_200_randomize.txt","Post"),2)//Post GABA from 300, RED
 //paint_cmpt(cell[0],readSynapseList("../input/synapse_list/300_200_manual.txt","Post"),2)//Post GABA from 300, RED
 //paint_cmpt(cell[1],readSynapseList("../input/synapse_list/300_200_manual.txt","Pre"),2)//Post GABA from 300, RED
 print "Post GABA from 301"
-paint_cmpt(cell[0],readSynapseList("../input/synapse_list/301_200_manual.txt","Post"),3)//Post GABA from 301, BLUE
-paint_cmpt(cell[2],readSynapseList("../input/synapse_list/301_200_manual.txt","Pre"),3)//Post GABA from 301, BLUE
+//paint_cmpt(cell[0],readSynapseList("../input/synapse_list/301_200_manual.txt","Post"),3)//Post GABA from 301, BLUE
+//paint_cmpt(cell[2],readSynapseList("../input/synapse_list/301_200_manual.txt","Pre"),3)//Post GABA from 301, BLUE
 objref cmpt
 cmpt = new Vector(10)
 cmpt.x[0] = 129

@@ -1,0 +1,5 @@
+050205_7_sn_bestrigid0106_mkRegion.swc : cmp=12525 length=33861.2 [um] vol=194633.7 [um^3]
+050205_7_sn_bestrigid0106_mkRegion-1.swc : cmp=9146 length=21849.4 [um] vol=130535.6 [um^3]
+050205_7_sn_bestrigid0106_mkRegion-1-2.swc : cmp=2206 length=18862.1 [um] vol=120384.1 [um^3]
+050205_7_sn_bestrigid0106_mkRegion-1-2-1.swc : cmp=1005 length=9512.1 [um] vol=66091.4 [um^3]
+050205_7_sn_bestrigid0106_mkRegion-1-2-1-2.swc : cmp=544 length=8786.8 [um] vol=65552.2 [um^3]

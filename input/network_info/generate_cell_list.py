@@ -17,6 +17,7 @@
 import copy
 import random
 import os
+import csv
 
 from synapse_list_format import SYNLIST
 ###########################################
@@ -26,14 +27,14 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-NPN = 1
-NLN = 2
+#NPN = 1
+#NLN = 2
 
 NCELL = NPN + NLN
 
 #LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)
 NAME = "cells"
-NAME = "_1PN2LNs"
+NAME = "reduced"
 LISTFILENAME = "./network_info_%d%s.dat"%(NCELL,NAME)
 SYNPATH_DIR  = "../synapse_info/%d%s/"%(NCELL,NAME)
 SYNPATH_DIR2  = "../input/synapse_info/%d%s/"%(NCELL,NAME)
@@ -105,11 +106,16 @@ class CELL:
 PN_default    = [None for _ in range(NPNSWC)]
 PN_default[0] = CELL()
 PN_default[0].setBase(cellid = 2, swcid = 0, swcpath = "../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050622_4_sn_SynapseList.dat")
+
 LN_default    = [None for _ in range(NLNSWC)]
+#LN_default[0] = CELL()
+#LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat") 
+#LN_default[1] = CELL()
+#LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat")
 LN_default[0] = CELL()
-LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat") 
+LN_default[0].setBase(cellid = 3, swcid = 2, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc", ppath = "none", synpath = "none",fromRN ="../input/synapse_list/fromRN/040823_5_sn_reduction_SynapseList.dat")
 LN_default[1] = CELL()
-LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat")
+LN_default[1].setBase(cellid = 3, swcid = 3, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc", ppath = "none", synpath = "none",fromRN ="../input/synapse_list/fromRN/050205_7_sn_reduction_SynapseList.dat")
 
 PN = [CELL() for _ in range(NPN)]
 LN = [CELL() for _ in range(NLN)]
@@ -161,6 +167,7 @@ def mkCellList():
 
     F.write("$ PN %d\n"%(NPN))
     j = 0
+    print "PN"
     for k in range(NPN):
         PN_default[j].max_clone += 1
         print PN_default[j].max_clone
@@ -182,6 +189,7 @@ def mkCellList():
 
     F.write("$ LN %d\n"%(NLN))
     j=0
+    print "LN"
     for k in range(NLN):
         LN_default[j].max_clone += 1
         print LN_default[j].max_clone
@@ -227,6 +235,18 @@ def write_line_syn2(f,precell, postcell, filetype, gidbase):
         synlist = s300_301
     elif(precell.nid == 301) & (postcell.nid == 300):
         synlist = s301_300
+    elif(precell.nid == 302) & (postcell.nid == 303):
+        synlist = SYNLIST()
+        synlist.read_synlist_format(302,303,"../synapse_list/302_303_template.csv")
+    elif(precell.nid == 303) & (postcell.nid == 302):
+        synlist = SYNLIST()
+        synlist.read_synlist_format(303,302,"../synapse_list/303_302_template.csv")
+    elif(precell.nid == 302) & (postcell.nid == 200):
+        synlist = SYNLIST()
+        synlist.read_synlist_format(302,200,"../synapse_list/302_200_manual.csv")
+    elif(precell.nid == 303) & (postcell.nid == 200):
+        synlist = SYNLIST()
+        synlist.read_synlist_format(303,200,"../synapse_list/303_200_manual.csv")
     
     synfile_path_m = SYNLIST_DIR_M + synfilename
     if not os.path.exists(SYNLIST_DIR_M):

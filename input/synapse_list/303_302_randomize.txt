@@ -1,0 +1,13 @@
+$ PRE_CELL 303
+$ POST_CELL 302
+$ NCONNECTIONS 10
+CellSwc[1].Dend[1802],CellSwc[0].Dend[3648],56.883543
+CellSwc[1].Dend[2089],CellSwc[0].Dend[3144],63.709669
+CellSwc[1].Dend[2088],CellSwc[0].Dend[2949],15.867166
+CellSwc[1].Dend[2102],CellSwc[0].Dend[2549],43.829633
+CellSwc[1].Dend[2131],CellSwc[0].Dend[1908],46.635898
+CellSwc[1].Dend[2111],CellSwc[0].Dend[3442],55.549796
+CellSwc[1].Dend[2079],CellSwc[0].Dend[2986],60.003319
+CellSwc[1].Dend[2111],CellSwc[0].Dend[3551],53.942381
+CellSwc[1].Dend[2033],CellSwc[0].Dend[3442],30.301506
+CellSwc[1].Dend[2102],CellSwc[0].Dend[2210],33.950677
