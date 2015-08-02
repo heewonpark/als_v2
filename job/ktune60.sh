@@ -1,8 +1,8 @@
 #!/bin/bash -x
-#PJM --rsc-list "node=16"
-#PJM --rsc-list "elapse=6:00:00"
+#PJM --rsc-list "node=60"
+#PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=128"
+#PJM --mpi "proc=480"
 #PJM -s
 
 # staging
@@ -18,17 +18,15 @@
 #PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
-#--#PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
 #PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
-#--#PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 #PJM --stgin "rank=* ./input/synapse_list/40cells/* %r:../input/synapse_list/40cells/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"

@@ -1,8 +1,8 @@
 #!/bin/bash -x
-#PJM --rsc-list "node=16"
-#PJM --rsc-list "elapse=6:00:00"
+#PJM --rsc-list "node=36"
+#PJM --rsc-list "elapse=8:00:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=128"
+#PJM --mpi "proc=288"
 #PJM -s
 
 # staging
@@ -18,9 +18,7 @@
 #PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
 #PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
-#--#PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
 #PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
-#--#PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
 #PJM --stgin "rank=* ./input/synapse_list/40cells/* %r:../input/synapse_list/40cells/"
 
@@ -45,7 +43,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=24000"\
+" -c STOPTIME=12000"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.200"\

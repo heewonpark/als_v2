@@ -1,8 +1,10 @@
 #!/bin/bash -x
-#PJM --rsc-list "node=16"
+
+
+#PJM --rsc-list "node=72"
 #PJM --rsc-list "elapse=6:00:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=128"
+#PJM --mpi "proc=576"
 #PJM -s
 
 # staging
@@ -17,18 +19,16 @@
 #PJM --stgin "rank=* ./input/spiketiming/* %r:../input/spiketiming/"
 #PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/swc/* %r:../input/swc/"
-#PJM --stgin "rank=* ./input/swc/rn0514/* %r:../input/swc/rn0514/"
-#--#PJM --stgin "rank=* ./input/synapse_info/* %r:../input/synapse_info/"
-#PJM --stgin "rank=* ./input/synapse_info/40cells/* %r:../input/synapse_info/40cells/"
-#--#PJM --stgin "rank=* ./input/synapse_list/* %r:../input/synapse_list/"
+#PJM --stgin "rank=* ./input/swc/rn_7axon/* %r:../input/swc/rn_7axon/"
+#PJM --stgin "rank=* ./input/synapse_info/400cells/* %r:../input/synapse_info/400cells/"
 #PJM --stgin "rank=* ./input/synapse_list/fromRN/* %r:../input/synapse_list/fromRN/"
-#PJM --stgin "rank=* ./input/synapse_list/40cells/* %r:../input/synapse_list/40cells/"
+#PJM --stgin "rank=* ./input/synapse_list/400cells/* %r:../input/synapse_list/400cells/"
 
 #PJM --stgin "rank=* ./src/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
-#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
 
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
@@ -42,10 +42,11 @@
 
 #NRNIV="./special -mpi --version"
 NRNIV="./special -mpi"
-HOC_NAME="./main.hoc"
+#HOC_NAME="./main.hoc"
+HOC_NAME="./main_whole.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=24000"\
+" -c STOPTIME=3600"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c INTERVAL=1200"\
 " -c WEIGHT_200=0.200"\
