@@ -27,14 +27,14 @@ NPN   = 5
 NLN   = 35
 ###########################################
 
-#NPN = 1
-#NLN = 2
+NPN = 50
+NLN = 350
 
 NCELL = NPN + NLN
 
 #LISTFILENAME = "./info/network_info_%dcells.dat"%(NCELL)
 NAME = "cells"
-NAME = "reduced"
+#NAME = "PN"
 LISTFILENAME = "./network_info_%d%s.dat"%(NCELL,NAME)
 SYNPATH_DIR  = "../synapse_info/%d%s/"%(NCELL,NAME)
 SYNPATH_DIR2  = "../input/synapse_info/%d%s/"%(NCELL,NAME)

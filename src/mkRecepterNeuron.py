@@ -20,13 +20,14 @@ import os
 import math
 import random
 
+directory = "../input/swc/rn_6axon"
 NUM_RN_SWC = 100
 source = "DESIGNED BY PARK"
 scale_x = 1.0
 scale_y = 1.0
 scale_z = 1.0
 
-NUM_BRANCH = 5
+NUM_BRANCH = 6
 x_origin = 0.0
 y_origin = 0.0
 z_origin = 0.0
@@ -118,7 +119,6 @@ def writeDendrite(f,ncmt):
         f.write("%d %d %f %f %f %f %d\n"%(ncmt+i+1, t_dend, xd, yd, zd, r_dend, ncmt))
 
 def write_swcfile(counter):
-    directory = "./swc/rn0514"
     if not os.path.exists(directory):
         os.mkdir(directory)
     filename = "orn%04d.swc"%(counter)

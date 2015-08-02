@@ -65,5 +65,7 @@ class SYNLIST:
         reader = csv.reader(fh)
         synlist = [[] for _ in range(2)]
         for row in reader:
-            self.pre_cmpts.append(row[0])
-            self.pst_cmpts.append(row[1])
+            self.pre_cmpts.append(int(row[0]))
+            self.pst_cmpts.append(int(row[1]))
+        self.set_nconnections(len(self.pre_cmpts))
+        print self.nconnections

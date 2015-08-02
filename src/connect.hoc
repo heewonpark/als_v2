@@ -97,14 +97,20 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 		if(target.cellid == 2){
 		    //print "nc.weight for 200 ",WEIGHT_200
 		    nc.weight = WEIGHT_200
-		}else if(target.cellid == 3 && target.swcid == 1){
-		    //print "nc.weight for 301 ",WEIGHT_301
-		    nc.weight = WEIGHT_301
 		}else if(target.cellid == 3 && target.swcid == 0){
 		    //print "nc.weight for 300 ",WEIGHT_300
 		    nc.weight = WEIGHT_300
+		}else if(target.cellid == 3 && target.swcid == 1){
+		    //print "nc.weight for 301 ",WEIGHT_301
+		    nc.weight = WEIGHT_301
+		}else if(target.cellid == 3 && target.swcid == 2){
+		    print "nc.weight for 303 ",WEIGHT_300
+		    nc.weight = WEIGHT_300
+		}else if(target.cellid == 3 && target.swcid == 3){
+		    print "nc.weight for 302",WEIGHT_301
+		    nc.weight = WEIGHT_301
 		}else{
-		    //print "nc.weight ** ERROR **"
+		    print "nc.weight ** ERROR **"
 		}
 		nclist_RN.append(nc)
 	    }

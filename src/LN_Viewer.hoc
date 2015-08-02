@@ -9,7 +9,8 @@ objref cells
 cells = new List()
 objref c
 //c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
-c = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
+//c = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
+c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//300
 cells.append(c)
 //cell[0] = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//200
 //cell[1] = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc")//300
@@ -29,6 +30,7 @@ print "Post GABA from 300"
 print "Post GABA from 301"
 //paint_cmpt(cell[0],readSynapseList("../input/synapse_list/301_200_manual.txt","Post"),3)//Post GABA from 301, BLUE
 //paint_cmpt(cell[2],readSynapseList("../input/synapse_list/301_200_manual.txt","Pre"),3)//Post GABA from 301, BLUE
+/*
 objref cmpt
 cmpt = new Vector(10)
 cmpt.x[0] = 129
@@ -47,6 +49,13 @@ cmpt.resize(1)
 cmpt.x[0] = 475
 print "Recording Point"
 //paint_cmpt(cell[0],cmpt,6)//Recording point
+*/
+objref cmpt
+cmpt = new Vector(1)
+//cmpt.x[0] = 21706
+//cmpt.x[0] = 45
+cmpt.x[0] = 382
+paint_cmpt(cells.o(0),cmpt,6)
 
 //shape.show(0)
 //shape.exec_menu("Shape Plot")

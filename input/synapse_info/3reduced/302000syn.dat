@@ -1,0 +1,7 @@
+# This file shows the file path of synapse
+$ fromRN
+../input/synapse_list/fromRN/040823_5_sn_reduction_SynapseList.dat
+$ CtoC
+2
+302000 200000 ../input/synapse_list/3reduced/302000_200000_manual.txt
+302000 303000 ../input/synapse_list/3reduced/302000_303000_randomize.txt

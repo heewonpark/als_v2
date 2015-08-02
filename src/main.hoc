@@ -78,7 +78,9 @@ info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 
 if(IS_SUPERCOMPUTER == 0){
     //info_filename = "../input/network_info/network_info_3cells.dat"
-    info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
+    //info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
+    //info_filename = "../input/network_info/network_info_1PN.dat"
+    info_filename = "../input/network_info/network_info_3reduced.dat"
     //info_filename = "../input/network_info/network_info_4cells.dat"
     info_filename_rn = "../input/network_info/network_info_500rns.dat"
     //info_filename_rn = ""
@@ -153,7 +155,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pc.set_gid2node(pn.gid,pc.id)
 	    pc.cell(pn.gid,nc)
 	    //psection()
-	    
+	    print "SectionNum",pn.SectionNum
 	}else if((i%pc.nhost==pc.id)&&(i>=NPN && i<NPN+NLN)){
 	    j = i-NPN
 	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
@@ -169,7 +171,7 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    pc.set_gid2node(ln.gid,pc.id)
 	    pc.cell(ln.gid,nc)
 	    //psection()
-
+	    print "SectionNum",ln.SectionNum
 	}else if(i>=NPN+NLN){
 	    if(pc.nhost>NPN+NLN){
 		if((i-NLN-NPN)%(pc.nhost-NPN-NLN)==(pc.id-NPN-NLN)){
