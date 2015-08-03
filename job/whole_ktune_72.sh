@@ -1,8 +1,6 @@
 #!/bin/bash -x
-
-
 #PJM --rsc-list "node=72"
-#PJM --rsc-list "elapse=6:00:00"
+#PJM --rsc-list "elapse=24:00:00"
 #PJM --rsc-list "rscgrp=small"
 #PJM --mpi "proc=576"
 #PJM -s

@@ -108,14 +108,14 @@ PN_default[0] = CELL()
 PN_default[0].setBase(cellid = 2, swcid = 0, swcpath = "../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050622_4_sn_SynapseList.dat")
 
 LN_default    = [None for _ in range(NLNSWC)]
-#LN_default[0] = CELL()
-#LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat") 
-#LN_default[1] = CELL()
-#LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat")
 LN_default[0] = CELL()
-LN_default[0].setBase(cellid = 3, swcid = 2, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc", ppath = "none", synpath = "none",fromRN ="../input/synapse_list/fromRN/040823_5_sn_reduction_SynapseList.dat")
+LN_default[0].setBase(cellid = 3, swcid = 0, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/040823_5_sn_SynapseList.dat") 
 LN_default[1] = CELL()
-LN_default[1].setBase(cellid = 3, swcid = 3, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc", ppath = "none", synpath = "none",fromRN ="../input/synapse_list/fromRN/050205_7_sn_reduction_SynapseList.dat")
+LN_default[1].setBase(cellid = 3, swcid = 1, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion.swc", ppath = "none", synpath = "none",fromRN = "../input/synapse_list/fromRN/050205_7_sn_SynapseList.dat")
+#LN_default[0] = CELL()
+#LN_default[0].setBase(cellid = 3, swcid = 2, swcpath = "../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc", ppath = "none", synpath = "none",fromRN ="../input/synapse_list/fromRN/040823_5_sn_reduction_SynapseList.dat")
+#LN_default[1] = CELL()
+#LN_default[1].setBase(cellid = 3, swcid = 3, swcpath = "../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc", ppath = "none", synpath = "none",fromRN ="../input/synapse_list/fromRN/050205_7_sn_reduction_SynapseList.dat")
 
 PN = [CELL() for _ in range(NPN)]
 LN = [CELL() for _ in range(NLN)]
