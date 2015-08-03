@@ -220,6 +220,37 @@ proc setVoltageRecord(){local i,j localobj volt_vec
     //pc.barrier()
 }
 
+
+objref vecs_, tvec_, vecs_cmpt_
+vecs_ = new List()
+vecs_cmpt_ = new Vector()
+proc setVoltageRecord_debug(){local i,j,cmpt localobj vec_, cell
+    tvec_ = new Vector()
+    tvec_.record(&t)
+    cell = $o1
+    cmpt = $2
+    vec_ = new Vector()
+    vec_.record(&cell.Dend[cmpt].v(0.5))
+    vecs_.append(vec_)
+    vecs_cmpt_.append(cmpt)
+}
+
+proc fprintVoltageRecord_debug(){local i localobj file,mt
+    strdef filename
+    for(i=0; i<vecs_.count();i+=1){
+	mt = new Matrix()
+	file = new File()
+	sprint(filename,"%s%05dVolt.txt",FPRINT_DIR,vecs_cmpt_.x[i])
+	print filename
+	file.wopen(filename)
+	mt.resize(tvec_.size(),2)
+	mt.setcol(0,tvec_)
+	mt.setcol(1,vecs_.o(i))
+	mt.fprint(file,"%5.5f\t")
+	file.close()
+    }
+}
+
 objref gaba_vecs,gaba_vec
 objref gaba_tvec
 proc setGABArecord(){local i, j

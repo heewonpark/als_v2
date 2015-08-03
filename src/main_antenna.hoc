@@ -80,9 +80,9 @@ info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 
 if(IS_SUPERCOMPUTER == 0){
     //info_filename = "../input/network_info/network_info_3cells.dat"
-    info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
+    //info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
     //info_filename = "../input/network_info/network_info_1PN.dat"
-    //info_filename = "../input/network_info/network_info_3reduced.dat"
+    info_filename = "../input/network_info/network_info_3reduced.dat"
     //info_filename = "../input/network_info/network_info_4cells.dat"
     info_filename_rn = "../input/network_info/network_info_500rns.dat"
     //info_filename_rn = ""
@@ -94,15 +94,15 @@ pc = new ParallelContext()
 //STOPTIME = 300
 proc ShowInitialStatus(){
     if(pc.id==0){
-	printf("====================================================================================\n")
-	printf("PC.NHOST : %d\n",pc.nhost)
+	printf("===========================================================================\n")
+	printf("PC.NHOST : %d, START_TIME: %d\n",pc.nhost, START_TIME)
 	printf("STOPTIME : %d(ms) IS_SUPERCOMPUTER : %d INTERVAL : %d\n",STOPTIME, IS_SUPERCOMPUTER, INTERVAL)
 	printf("NETWORK INFORMATION :\n")
 	printf("CELL LIST : %s(PNs and LNs), %s(RNs)\n",info_filename, info_filename_rn)
 	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
 	printf("GABAA_GMAX_LTOL\t%f\tGABAB_GMAX_LTOL\t%f\tGABAA_GMAX_LTOP\t%f\tGABAB_GMAX_LTOP\t%f\n",GABAA_GMAX_LTOL,GABAB_GMAX_LTOL,GABAA_GMAX_LTOP,GABAB_GMAX_LTOP)
 	printf("GABAA_ON\t%f\tGABAB_ON\t%f\n",GABAA_ON, GABAB_ON)
-	printf("====================================================================================\n")
+	printf("===========================================================================\n")
     }
 }
 ShowInitialStatus()
@@ -308,7 +308,7 @@ printf("SET STIMULATION END[%d]\n",pc.id)
 pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
-    //setVoltageRecord()
+    setVoltageRecord()
     //setGABArecord()
     //setDummyRecord()
     //setPreGABArecord()
@@ -331,7 +331,7 @@ stdinit()
 if(pc.id==0)print "FINISHED "
 if(pc.id == 0){printf("PRINTING[%d]\n",pc.id)}
 proc setPrinter(){
-    //fprintVoltageRecord()
+    fprintVoltageRecord()
     //fprintGABArecord()
     //fprintDummyRecord()
     //fprintSynapseList()

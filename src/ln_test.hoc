@@ -80,11 +80,13 @@ info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 
 if(IS_SUPERCOMPUTER == 0){
     //info_filename = "../input/network_info/network_info_3cells.dat"
-    info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
+    //info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
+    info_filename = "../input/network_info/network_info_1LN_reduction.dat"
+    //info_filename = "../input/network_info/network_info_1LN_normal.dat"
     //info_filename = "../input/network_info/network_info_1PN.dat"
     //info_filename = "../input/network_info/network_info_3reduced.dat"
     //info_filename = "../input/network_info/network_info_4cells.dat"
-    info_filename_rn = "../input/network_info/network_info_500rns.dat"
+    //info_filename_rn = "../input/network_info/network_info_500rns.dat"
     //info_filename_rn = ""
     //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 }
@@ -122,7 +124,7 @@ objref CELLM
 
 proc mkCells(){localobj pn,ln,rn, nc, nil
     loadinfo(info_filename)
-    loadinfo(info_filename_rn)
+    //loadinfo(info_filename_rn)
     NCELLS = NPN + NLN + NRN
     
     CELLM = divider(pc.nhost)
@@ -274,10 +276,10 @@ proc initModel_PN() { local i, j, axonnum, ncells, v_init localobj tmplist, pn
 
 {load_file("connect.hoc")}
 proc mkConnections(){
-    connectRNtoOthers()
+    //connectRNtoOthers()
     //connectNtoN()
     //connectNtoN_NET_GABA()
-    connectNtoN_NET_GABA2()
+    //connectNtoN_NET_GABA2()
     //makeNET_GABAsynapse2(301000,200000,0,0,0)
     //makeNET_GABAsynapse2(301000,200001,100,0,1)
     //makeNET_GABAsynapse2(301000,200001,0,0,0)
@@ -297,9 +299,13 @@ pc.barrier()
 proc mkStimulations(){
     //    mkIntermitStim()
     //mkIclamp()
-    mkSerialStim()
+    //mkSerialStim()
     //mkSerialStim_debug()
     //mkIclamp_ln2()
+    mkIclamp_debug(lns.o(0),100,30,10,10)
+    mkIclamp_debug(lns.o(0),200,30,10,10)
+    mkIclamp_debug(lns.o(0),300,30,10,10)
+    mkIclamp_debug(lns.o(0),400,30,10,10)
 }
 if(pc.id==0)print "SET STIMULATION"
 printf("SET STIMULATION[%d]\n",pc.id)
@@ -312,6 +318,11 @@ proc setRecorder(){
     //setGABArecord()
     //setDummyRecord()
     //setPreGABArecord()
+    setVoltageRecord_debug(lns.o(0),100)
+    setVoltageRecord_debug(lns.o(0),200)
+    setVoltageRecord_debug(lns.o(0),300)
+    setVoltageRecord_debug(lns.o(0),400)
+
     spikerecord()
 }
 if(pc.id==0)print "SET RECORDER"
@@ -336,6 +347,7 @@ proc setPrinter(){
     //fprintDummyRecord()
     //fprintSynapseList()
     //fprintPreGABArecord()
+    fprintVoltageRecord_debug()
     spikeout()
 }
 

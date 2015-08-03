@@ -29,6 +29,7 @@ proc mkIntermitStim(){local i localobj st
 }
 
 objref iclist
+iclist = new List()
 proc mkIclamp(){local i localobj ic
     iclist = new List()
     for(i=0; i<rns.count();i=i+1){
@@ -120,6 +121,16 @@ proc mkIclamp_ln2(){local i localobj ic
 	    }
 	}
     }
+}
+
+proc mkIclamp_debug(){local cmpt, dur, amp, del localobj ic, cell
+    cell = $o1
+    cmpt = $2
+    dur  = $3
+    amp  = $4
+    del  = $5
+    ic = cell.mkIclamp(cmpt,dur,amp,del)
+    iclist.append(ic)
 }
 
 proc mkSerialStim(){local i localobj rnd

@@ -13,7 +13,8 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./main.hoc"
+#HOC_NAME="./main_antenna.hoc"
+HOC_NAME="./ln_test.hoc"
 #HOC_NAME="./main_test.hoc"
 #HOC_NAME="./loadbalance_test.hoc"
 
@@ -22,7 +23,7 @@ NRNOPT=\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c WEIGHT_200=0.05"\
-" -c WEIGHT_300=0.05"\
+" -c WEIGHT_300=1.0"\
 " -c WEIGHT_301=0.008"\
 " -c GABAA_GMAX_LTOL=5.0"\
 " -c GABAB_GMAX_LTOL=5.0"\
@@ -32,7 +33,8 @@ NRNOPT=\
 " -c GABAA_ON=1"
 
 #MPIEXEC="mpiexec -n 4"
-MPIEXEC="mpiexec -n 5"
+#MPIEXEC="mpiexec -n 5"
+MPIEXEC="mpiexec -n 1"
 #MPIEXEC=""
 
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"

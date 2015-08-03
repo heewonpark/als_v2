@@ -1,0 +1,5 @@
+# gid, cellid, swcid, cloneid, SWC file path, position&rotation file, Synapse information file
+$ CELLS 1
+$ PN 0
+$ LN 1
+302000 3 2 0 ../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc none ../input/synapse_info/1LN_reduction/302000syn.dat
