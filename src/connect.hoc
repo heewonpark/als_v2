@@ -104,10 +104,10 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 		    //print "nc.weight for 301 ",WEIGHT_301
 		    nc.weight = WEIGHT_301
 		}else if(target.cellid == 3 && target.swcid == 2){
-		    print "nc.weight for 303 ",WEIGHT_300
+		    print "nc.weight for 302 ",WEIGHT_300
 		    nc.weight = WEIGHT_300
 		}else if(target.cellid == 3 && target.swcid == 3){
-		    print "nc.weight for 302",WEIGHT_301
+		    print "nc.weight for 303",WEIGHT_301
 		    nc.weight = WEIGHT_301
 		}else{
 		    print "nc.weight ** ERROR **"

@@ -102,14 +102,14 @@ proc spikerecord(){local i localobj nc, nil
 	printf("spikerecord(%d) for LN\n",pc.id)
 	if(lns.o(0).swcid == 0){
 	    //lns.o(0).setSpikeRecord(21706)
-	    lns.o(0).setSpikeRecord(382)
+	    lns.o(0).setSpikeRecord(382-2)
 	}else if(lns.o(0).swcid == 1){
 	    //lns.o(0).setSpikeRecord(11197)
-	    lns.o(0).setSpikeRecord(1168)
+	    lns.o(0).setSpikeRecord(1168-2)
 	}else if(lns.o(0).swcid == 2){
-	    lns.o(0).setSpikeRecord(45)
+	    lns.o(0).setSpikeRecord(45-2)
 	}else if(lns.o(0).swcid == 3){
-	    lns.o(0).setSpikeRecord(202)
+	    lns.o(0).setSpikeRecord(202-2)
 	}
 
     }else if(rns.count()!=0){
@@ -177,14 +177,14 @@ proc setVoltageRecord(){local i,j localobj volt_vec
 	    LNvolt_vec = new Vector()			    
 	    if(lns.o(j).swcid == 0){
 		//LNvolt_vec.record(&lns.o(j).Dend[21706].v(0.5))
-		LNvolt_vec.record(&lns.o(j).Dend[382].v(0.5))
+		LNvolt_vec.record(&lns.o(j).Dend[382-2].v(0.5))
 	    }else if(lns.o(j).swcid == 1){
 		//LNvolt_vec.record(&lns.o(j).Dend[11197].v(0.5))
-		LNvolt_vec.record(&lns.o(j).Dend[1168].v(0.5))
+		LNvolt_vec.record(&lns.o(j).Dend[1168-2].v(0.5))
 	    }else if(lns.o(j).swcid == 2){
-		LNvolt_vec.record(&lns.o(j).Dend[45].v(0.5))
+		LNvolt_vec.record(&lns.o(j).Dend[45-2].v(0.5))
 	    }else if(lns.o(j).swcid == 3){
-		LNvolt_vec.record(&lns.o(j).Dend[202].v(0.5))
+		LNvolt_vec.record(&lns.o(j).Dend[202-2].v(0.5))
 	    }
 	    printf("lns.o(%d).SynNumerList.size(): %d#\n",j,lns.o(j).SynNumberList.size())
 	    for (i=0; i<lns.o(j).SynNumberList.size();i+=100){

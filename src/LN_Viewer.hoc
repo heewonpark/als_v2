@@ -8,9 +8,9 @@
 objref cells
 cells = new List()
 objref c
-//c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
+c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
 //c = new CellSwc("../input/swc/050205_7_sn_bestrigid0106_mkRegion_reduction.swc",0,0,0,0)//200
-c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//300
+//c = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//300
 cells.append(c)
 //cell[0] = new CellSwc("../input/swc/050622_4_sn_bestrigid0106_mkRegion.swc",0,0,0,0)//200
 //cell[1] = new CellSwc("../input/swc/040823_5_sn_bestrigid0106_mkRegion.swc")//300

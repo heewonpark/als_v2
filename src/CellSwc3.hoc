@@ -36,6 +36,7 @@ public setIntermitStim_gaus,setIClamp, mkIclamp, setIClamp_with_Latency
 public insertHH, insertHH_RN, insertLNlla, insertFukuda_tunned, insertHH_K
 public getAxon
 public setSpikeRecord,fprintSpikeRecord
+public setNSEG
 
 //-------------------------------------------------------
 // Public Variables
@@ -429,6 +430,12 @@ proc biophys_inhomo() {}
 proc insertHH(){
     forall{
 	insert hh
+    }
+}
+
+proc setNSEG(){
+    forall{
+	nseg = $1
     }
 }
 
