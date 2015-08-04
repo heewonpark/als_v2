@@ -140,7 +140,7 @@ objref LNvolt_list
 objref RNvolt_list
 objref volt_tvec
 
-proc setVoltageRecord(){local i,j localobj volt_vec
+proc setVoltageRecord(){local i,j, SynapsePrintOn localobj volt_vec
     volt_tvec = new Vector()
     volt_tvec.record(&t)
     printf("setVoltageRecord() (pc.id:%d)\n",pc.id)
@@ -148,7 +148,7 @@ proc setVoltageRecord(){local i,j localobj volt_vec
     if(pns.count()!=0){PNvolt_list = new List()}
     if(lns.count()!=0){LNvolt_list = new List()}
     if(rns.count()!=0){RNvolt_list = new List()}
-
+    SynapsePrintOn = $1
     for(j = 0; j<pns.count();j+=1){
 	printf("PN record(id:%d)\n",(pc.id))
 	//printf("pns.count %d#\n",pns.count())
@@ -158,13 +158,14 @@ proc setVoltageRecord(){local i,j localobj volt_vec
 	    //PNvolt_vec.record(&projection.Dend[1211].v(0.5))
 	    PNvolt_vec.record(&pns.o(j).Dend[475].v(0.5))
 	    //printf("pns.o(%d).SynNumerList.size(): %d#\n",j,pns.o(j).SynNumberList.size())
-	    
-	    for (i=0; i<pns.o(j).SynNumberList.size();i+=100){
-		//print pns.o(j).SynNumberList.x[i]
-		volt_vec = new Vector()
-		//PNvolt_vecs[i].record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
-		volt_vec.record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
-		PNvolt_list.append(volt_vec)
+	    if(SynapsePrintOn == 1){
+		for (i=0; i<pns.o(j).SynNumberList.size();i+=100){
+		    //print pns.o(j).SynNumberList.x[i]
+		    volt_vec = new Vector()
+		    //PNvolt_vecs[i].record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
+		    volt_vec.record(&pns.o(j).Dend[pns.o(j).SynNumberList.x[i]].v(0.5))
+		    PNvolt_list.append(volt_vec)
+		}
 	    }
 	}
 	//printf("PN record(id:%d)END\n",(pc.id))
@@ -187,12 +188,14 @@ proc setVoltageRecord(){local i,j localobj volt_vec
 		LNvolt_vec.record(&lns.o(j).Dend[202-2].v(0.5))
 	    }
 	    printf("lns.o(%d).SynNumerList.size(): %d#\n",j,lns.o(j).SynNumberList.size())
-	    for (i=0; i<lns.o(j).SynNumberList.size();i+=100){
-		volt_vec = new Vector()
-		//for i=0, lns.o(j).SynNumberList.size()-1{
-		//LNvolt_vecs[i].record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
-		volt_vec.record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
-		LNvolt_list.append(volt_vec)
+	    if(SynapsePrintOn == 1){
+		for (i=0; i<lns.o(j).SynNumberList.size();i+=100){
+		    volt_vec = new Vector()
+		    //for i=0, lns.o(j).SynNumberList.size()-1{
+		    //LNvolt_vecs[i].record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
+		    volt_vec.record(&lns.o(j).Dend[lns.o(j).SynNumberList.x[i]].v(0.5))
+		    LNvolt_list.append(volt_vec)
+		}
 	    }
 	}
 	//printf("LN record(id:%d)END\n",(pc.id))
@@ -307,8 +310,9 @@ proc setPreGABArecord(){local i,j,k localobj pre,post
     }
 }
 */
-proc fprintVoltageRecord(){localobj mt, file,mt2, file2
+proc fprintVoltageRecord(){local SynapsePrintOn localobj mt, file,mt2, file2
     strdef filename
+    SynapsePrintOn = $1
     for(j = 0; j<pns.count();j+=1){
 	if(j == 0){
 	    mt = new Matrix()
@@ -320,19 +324,20 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    file.wopen(filename)
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()
-
-	    file2 = new File()
-	    mt2 = new Matrix()
-	    //mt2.resize(volt_tvec.size(),pns.o(j).SynNumberList.size()/100+1)
-	    mt2.resize(volt_tvec.size(),PNvolt_list.count()+1)
-	    mt2.setcol(0,volt_tvec)
-	    for(i=0; i<PNvolt_list.count();i+=1){
-		mt2.setcol(i+1,PNvolt_list.o(i))
+	    if(SynapsePrintOn == 1){
+		file2 = new File()
+		mt2 = new Matrix()
+		//mt2.resize(volt_tvec.size(),pns.o(j).SynNumberList.size()/100+1)
+		mt2.resize(volt_tvec.size(),PNvolt_list.count()+1)
+		mt2.setcol(0,volt_tvec)
+		for(i=0; i<PNvolt_list.count();i+=1){
+		    mt2.setcol(i+1,PNvolt_list.o(i))
+		}
+		sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,pns.o(j).nid)
+		file2.wopen(filename)
+		mt2.fprint(file2,"%5.5f\t")
+		file2.close()
 	    }
-	    sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,pns.o(j).nid)
-	    file2.wopen(filename)
-	    mt2.fprint(file2,"%5.5f\t")
-	    file2.close()
 	}
     }
     for(j = 0; j<lns.count();j+=1){
@@ -346,19 +351,20 @@ proc fprintVoltageRecord(){localobj mt, file,mt2, file2
 	    file.wopen(filename)
 	    mt.fprint(file,"%5.5f\t")
 	    file.close()
-
-	    file2 = new File()
-	    mt2 = new Matrix()
-	    //mt2.resize(volt_tvec.size(),lns.o(j).SynNumberList.size()/100+1)
-	    mt2.resize(volt_tvec.size(),LNvolt_list.count()+1)
-	    mt2.setcol(0,volt_tvec)
-	    for(i=0; i<LNvolt_list.count();i+=1){
-		mt2.setcol(i+1,LNvolt_list.o(i))
+	    if(SynapsePrintOn == 1){
+		file2 = new File()
+		mt2 = new Matrix()
+		//mt2.resize(volt_tvec.size(),lns.o(j).SynNumberList.size()/100+1)
+		mt2.resize(volt_tvec.size(),LNvolt_list.count()+1)
+		mt2.setcol(0,volt_tvec)
+		for(i=0; i<LNvolt_list.count();i+=1){
+		    mt2.setcol(i+1,LNvolt_list.o(i))
+		}
+		sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,lns.o(j).nid)
+		file2.wopen(filename)
+		mt2.fprint(file2,"%5.5f\t")
+		file2.close()
 	    }
-	    sprint(filename,"%s%dVolt_FromRN.txt",FPRINT_DIR,lns.o(j).nid)
-	    file2.wopen(filename)
-	    mt2.fprint(file2,"%5.5f\t")
-	    file2.close()
 	}
     }
     //for(j = 0; j<rns.count();j+=1){
