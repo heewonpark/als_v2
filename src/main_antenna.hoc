@@ -80,13 +80,16 @@ info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 
 if(IS_SUPERCOMPUTER == 0){
     //info_filename = "../input/network_info/network_info_3cells.dat"
-    //info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
+    //info_filename = "../input/network_info/network_info_3cells_newsynapse.dat"
+    info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
     //info_filename = "../input/network_info/network_info_1PN.dat"
-    info_filename = "../input/network_info/network_info_3reduced.dat"
+    //info_filename = "../input/network_info/network_info_3reduced.dat"
     //info_filename = "../input/network_info/network_info_4cells.dat"
     info_filename_rn = "../input/network_info/network_info_500rns.dat"
     //info_filename_rn = ""
     //info_filename_rn = "../input/network_info/network_info_1rns.dat"
+    //info_filename = "../input/network_info/network_info_40cells.dat"
+    //info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 }
 
 objref pc
@@ -308,7 +311,7 @@ printf("SET STIMULATION END[%d]\n",pc.id)
 pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
-    setVoltageRecord()
+    setVoltageRecord(0)
     //setGABArecord()
     //setDummyRecord()
     //setPreGABArecord()
@@ -331,7 +334,7 @@ stdinit()
 if(pc.id==0)print "FINISHED "
 if(pc.id == 0){printf("PRINTING[%d]\n",pc.id)}
 proc setPrinter(){
-    fprintVoltageRecord()
+    fprintVoltageRecord(0)
     //fprintGABArecord()
     //fprintDummyRecord()
     //fprintSynapseList()

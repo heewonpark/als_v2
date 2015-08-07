@@ -63,6 +63,7 @@ def drawISF(filename):
             times.append(time)
     plt.plot(times,freqs)
     plt.xlabel("Spike timing[ms]",fontsize=15)
+    #plt.ylim(0,350)
     plt.ylabel("ISF[Hz]",fontsize=15)
     tmp = filename.rsplit('.',1)
     imgFilename = "%s_ISF.png"%tmp[0]

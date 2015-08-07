@@ -15,7 +15,7 @@ import scipy as sp
 import scipy.optimize
 import numpy as np
 import math
-
+import os
 
 read_num  = open("save_filenumber.dat",'r')
 num_dat   = read_num.readlines()
@@ -52,7 +52,8 @@ for i in range(5):
     #print cf2_para
     
 def double_exp(x, alpha1, beta, gamma1, alpha2, gamma2):
-    return alpha1 * sp.exp(-(x-beta)/gamma1)  +  alpha2 * sp.exp(-(x-beta)/gamma2)
+    result = alpha1 * sp.exp(-(x-beta)/gamma1)  +  alpha2 * sp.exp(-(x-beta)/gamma2)
+    return result
     
 def cum_Func1(x, alpha, beta, gamma):
     return alpha * gamma * sp.exp((x-beta)/gamma) - alpha * gamma * sp.exp((-1-beta)/gamma)
@@ -104,10 +105,6 @@ cf_para[2] = 0.0
 #print cf_para
 cumulative_area = cum_Func(x_max, cf_para)
 #print cumulative_area
-spike_t = [None for _ in range(500)]
-spike_t_now = 0.0
-spike_t[0] = 6.0
-spiketimef = open("./40stim/spiketiming"+str(file_num)+".dat",'w')
 
 fig =pylab.figure()
 xarr = sp.arange(-1.0, 50, 0.1)
@@ -124,36 +121,110 @@ pylab.grid()
 
 pylab.savefig("makespikecheck.png")
 
-cnt = 0
-for j in range(40):
+def Michaelis_Menten(c,parameter):
+    K = parameter[0]
+    Tau_max = parameter[1]
+    n = parameter[2]
+    r = Tau_max/(1+np.power(K/c,n))
+    return r
+
+def Calculate_Alpha1(c,parameter):
+    factor=parameter[3]
+    return factor * Michaelis_Menten(c,parameter[0:3])
+def Calculate_Alpha2(c,parameter):
+    factor=parameter[4]
+    return factor * Michaelis_Menten(c,parameter[0:3])
+
+def mkMultipleStims(spiketimef,nstims):
+    cnt = 0
+    for j in range(nstims):
+        spike_t = [None for _ in range(500)]
+        spike_t[0] = 6.0
+        i=0
+        while(i<150):
+            if spike_t[i]>7.2:
+                break
+
+            if i<100-1:
+                random = cumulative_area * np.random.random()
+                cf_para[2] = random
+                
+                err = scipy.optimize.fsolve(cum_Func,-1,args=cf_para)
+                #print i, random, err
+            
+                if err<-1:
+                    print "XXXXXXXXXXXXXXXXXXXXXXXXXX"
+                #print de_para
+                interval = 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                #print 1.0/interval, i
+                if((1.0/interval)<300):
+                    #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                    spike_t[i+1] = spike_t[i] + interval
+                    #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                    #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                    #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                    if(spike_t[i+1]<7.2):
+                        spike_timing = spike_t[i+1]+1.2*j
+                        spiketimef.writelines(str(float(spike_timing))+'\n')
+                        cnt +=1
+                    i+=1
+    spiketimef.writelines(str(cnt)+'\n')
+    spiketimef.close()
+
+def mkSingleStim(spiketimef):
+    cnt = 0
     spike_t = [None for _ in range(500)]
     spike_t[0] = 6.0
-    for i in range(100):
-        if spike_t[i]>7.2:
+    i=0
+    while(i<500):
+        if spike_t[i]>14.5:
             break
-
-        if i<100-1:
+            
+        if i<500-1:
             random = cumulative_area * np.random.random()
             cf_para[2] = random
             
             err = scipy.optimize.fsolve(cum_Func,-1,args=cf_para)
             #print i, random, err
-            
+        
             if err<-1:
                 print "XXXXXXXXXXXXXXXXXXXXXXXXXX"
-            spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
-            #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
-            if(spike_t[i+1]<7.2):
-                spike_timing = spike_t[i+1]+1.2*j
-                spiketimef.writelines(str(float(spike_timing))+'\n')
+            #print de_para
+            interval = 1/(double_exp(spike_t[i],*de_para)*(1+err))
+            #print 1.0/interval, i
+            if((1.0/interval)<300):
+                #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                spike_t[i+1] = spike_t[i] + interval
+                #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                spiketimef.writelines(str(float(spike_t[i+1]))+'\n')
                 cnt +=1
+                i +=1
+    spiketimef.writelines(str(cnt)+'\n')
+    spiketimef.close()
 
-spiketimef.writelines(str(cnt)+'\n')
-spiketimef.close()
-
-write_numfile = open("save_filenumber.dat",'w')
-write_numfile.write(str(file_num+1)+'\n')
-write_numfile.close()
+def mkStim(nfiles,nstims,dose):
+    print "NUM OF FILES: %d\nNUM OF STIMS: %d\nDOSE: %d"%(nfiles,nstims,dose)
+    parameter = np.loadtxt("Michaelis-Menten_Parameter_PSTH.txt",float)
+    print"[PARAMETERS FOR MICHAELIS-MENTEN]\nk = %f, Tau_max = %f, n = %f, factor1 = %.10f, factor2 = %.10f"%(parameter[0],parameter[1],parameter[2],parameter[3],parameter[4])
+    print parameter
+    de_para[0]= Calculate_Alpha1(dose,parameter)
+    de_para[3]= Calculate_Alpha2(dose,parameter)
+    print"\n[PARAMETERS FOR DOUBLE EXPONENTIAL]\nALPHA1 = %f, BETA = %f, GAMMA1 = %f, ALPHA2 = %f, GAMMA2= %f"%(de_para[0],de_para[1],de_para[2],de_para[3],de_para[4])
+    print de_para
+    DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
+    if not os.path.exists(DIR):
+        os.makedirs(DIR)
+    for i in range(nfiles):
+        fn = "%sspt%03d.dat"%(DIR,i)
+        File = open(fn,'w')
+        print fn
+        if(nstims == 1):
+            mkSingleStim(File)           
+        elif(nstims > 1):
+            mkMultipleStims(File,nstims)
+mkStim(1000,30,1000)
+#write_numfile = open("save_filenumber.dat",'w')
+#write_numfile.write(str(file_num+1)+'\n')
+#write_numfile.close()
 #pylab.show()
-
 ######

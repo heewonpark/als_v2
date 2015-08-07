@@ -45,7 +45,7 @@ func mkPreSynapseOnRN(){local i, gid_base, gid_cnt, save_syn_gid localobj syn, n
 	    }
 	}
     }
-    printf("Max synapse gid %d\n",syn_gid)
+    printf("Max synapse gid %d [%d]\n",syn_gid,pc.id)
     return save_syn_gid
 }
 /*
@@ -88,6 +88,7 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 	    loadSynapseInfo(target, target.synpath, 1)
 	    target.mkSynapses(target.fromRNsyn)
 	    //printf("loadsynapseinfo()(pc.id : %d)\n",pc.id)
+	    printf("target.synlist.count() : %d [%d]\n",target.synlist.count(),pc.id)
 	    for j=0, target.synlist.count()-1{
 		syn = target.synlist.o(j)
 		src_gid = calcSrcgid(gid_base, j, i)
@@ -107,13 +108,14 @@ proc mkPostSynapseOfRN(){local i,j,gid_base,src_gid localobj target, syn, nc
 		    print "nc.weight for 302 ",WEIGHT_300
 		    nc.weight = WEIGHT_300
 		}else if(target.cellid == 3 && target.swcid == 3){
-		    print "nc.weight for 303",WEIGHT_301
+		    print "nc.weight for 303 ",WEIGHT_301
 		    nc.weight = WEIGHT_301
 		}else{
 		    print "nc.weight ** ERROR **"
 		}
 		nclist_RN.append(nc)
 	    }
+	    printf("src_gid : %d i: %d j: %d [%d]\n",src_gid,i,j,pc.id)
 	}
     }
 }

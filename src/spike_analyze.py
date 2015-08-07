@@ -42,7 +42,7 @@ def readSpikeRecordFile(filename):
     istim1 = int(data[4].split(":")[1])
     #istim2 = int(data[5].split(":")[1])
     istim2 = float(data[5].split(":")[1])
-
+    #interval = 1200
     print "Interval : %d, Delay : %f, number of data : %d, tstop : %d"%(interval, delay, size, tstop)
     spt = [] #spike timing
     for i in range(len(data)):

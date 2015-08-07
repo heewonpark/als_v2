@@ -1,0 +1,136 @@
+numprocs=8
+MAKE LN:1[1]
+===================================================================
+START_TIME: 806203600, STOPTIME: 5000, IS_SUPERCOMPUTER: 0
+NPN: 1, NLN: 1, NRN: 100, NCELL:102
+GABAA_ON: 0, GABAB_ON: 0, NSYNAPSE: 100
+===================================================================
+mkNetwork()
+mkCells()
+MAKE PN:0[0]
+mkConnections()
+ConnectWithRN()
+ConnectNtoN_NET_GABA()
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+	0.44655895 
+	0.10965109 
+	0.1282711 
+	0.14025855 
+		0.0045404434 
+	0.23335719 
+	0.24773526 
+2.0980835e-05 
+../single-result/0806203600/record/
+../single-result/0806203600/record/
+../single-result/0806203600/record/
+../single-result/0806203600/record/
+../single-result/0806203600/record/../single-result/0806203600/record/
+../single-result/0806203600/record/
+../single-result/0806203600/record/
+
+printSpikeRecord()
+printVoltageRecord()
+flg flg 0 flg 0 default 
+default 
+0 default 
+flg flg 1 MsLN 
+3 Fukuda 
+flg flg 0 default 
+0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg flg 0 default 
+0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default flg 
+0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg flg 0 default 0 default 
+
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 

@@ -1,0 +1,54 @@
+numprocs=8
+===================================================================
+START_TIME: 806212434, STOPTIME: 5000, IS_SUPERCOMPUTER: 0
+NPN: 1, NLN: 1, NRN: 100, NCELL:102
+GABAA_ON: 0, GABAB_ON: 0, NSYNAPSE: 100
+===================================================================
+mkNetwork()
+mkCells()
+MAKE PN:0[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.065 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.055 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+mkConnections()
+ConnectWithRN()
+ConnectNtoN_NET_GABA()
+MAKE LN:1[1]
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+	0.26119804 
+	0.21486902 
+	0.10161805 
+		0.20223689 
+	0.044972658 
+	0.20284319 
+	0.26303768 
+3.1232834e-05 
+../single-result/0806212434/record/../single-result/0806212434/record/
+../single-result/0806212434/record/
+../single-result/0806212434/record/
+../single-result/0806212434/record/
+../single-result/0806212434/record/
+../single-result/0806212434/record/
+../single-result/0806212434/record/
+
+printSpikeRecord()
+printVoltageRecord()
+flg flg 0 default 
+flg 3 Fukuda 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+0 default 
+flg 0 default 
+flg 0 default 

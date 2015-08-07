@@ -1,0 +1,940 @@
+numprocs=8
+===================================================================
+START_TIME: 807150616, STOPTIME: 12010, IS_SUPERCOMPUTER: 0
+NPN: 50, NLN: 350, NRN: 2000, NCELL:2400
+GABAA_ON: 1, GABAB_ON: 1, NSYNAPSE: 100
+WEIGHT_RNtoPN: 0.100000, WEIGHT_RNtoLN: 0.020000
+GABAA_LTOP: 9.000000, GABAA_LTOL: 1.000000, GABAB_LTOP: 20.000000, GABAB_LTOL: 1.500000
+===================================================================
+MAKE PN:6[6]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}MAKE PN:7[7]
+
+MAKE PN:2[2]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+Stick[0].soma {	insert k_ion { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA {	/*location 0 attached to cell 0*/
+	/* First segment only */
+ gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06	insert morphology { diam=500}
+	insert capacitance { cm=1}
+ v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {} gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 nao=140}
+}
+ a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+ ki=54.4 ko=2.5mkNetwork()
+mkCells()
+}
+MAKE PN:0[0]
+	insert na_ion { nai=10Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE PN:5[5]
+	/*location 0 attached to cell 0*/
+ nao=140}
+}
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/* First segment only */	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:15[7]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE PN:10[2]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+Stick[0].soma { nseg=1  L=100  Ra=35.4MAKE PN:23[7]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:13[5]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE PN:31[7]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion {}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+ ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+	insert na_ion { nai=10 nao=140}
+}
+}
+	/*location 0 attached to cell 0*/
+MAKE PN:39[7]
+Stick[0].soma { nseg=1  L=100  Ra=35.4MAKE PN:21[5]
+
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA {	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1 gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70} ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion {}
+ nai=10 nao=140}
+}
+	/* First segment only */
+MAKE PN:47[7]
+MAKE PN:29[5]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA {	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+ gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+ ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+	insert morphology { diam=500MAKE PN:37[5]
+Stick[0].soma {MAKE LN:55[7]
+ nseg=1  L=100  Ra=35.4
+}	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+
+	insert capacitance {MAKE PN:45[5]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+ cm=1	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+MAKE LN:63[7]
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4MAKE LN:71[7]
+ ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+}
+MAKE LN:79[7]
+MAKE LN:53[5]
+	insert GPeA { gnabar_GPeA=0.12MAKE LN:87[7]
+ a_m_GPeA=0.048 v_m_GPeA=-31MAKE LN:95[7]
+ ena_fixed_GPeA=55 gkdrbar_GPeA=0.005MAKE LN:103[7]
+ sigma_GPeA=1 a_W_GPeA=0.06MAKE LN:61[5]
+MAKE LN:111[7]
+ v_W_GPeA=-46MAKE LN:69[5]
+ ek_fixed_GPeA=-70MAKE LN:119[7]
+ lambda_GPeA=0.05MAKE LN:77[5]
+ gl_GPeA=0.0003MAKE LN:127[7]
+ el_GPeA=-50MAKE LN:85[5]
+ kca_GPeA=2MAKE LN:135[7]
+ vol_GPeA=3.355e-11MAKE LN:93[5]
+ caGain_GPeA=0.1MAKE LN:143[7]
+ gcatbar_GPeA=0.0001MAKE LN:101[5]
+ tau_X_GPeA=50MAKE PN:8[0]
+MAKE LN:151[7]
+Stick[0].soma { a_X_GPeA=0.071 nseg=1  L=100  Ra=35.4
+MAKE LN:109[5]
+MAKE LN:159[7]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005MAKE LN:117[5]
+ sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50MAKE LN:167[7]
+ a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+MAKE LN:125[5]
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:175[7]
+ v_X_GPeA=-10MAKE LN:133[5]
+ gkcabar_GPeA=0.002MAKE LN:183[7]
+MAKE PN:16[0]
+ C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}MAKE LN:141[5]
+
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:191[7]
+MAKE LN:149[5]
+Stick[0].soma {MAKE LN:199[7]
+MAKE LN:157[5]
+ nseg=1  L=100  Ra=35.4
+MAKE PN:18[2]
+MAKE LN:207[7]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12MAKE LN:165[5]
+ a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250MAKE LN:215[7]
+ a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70MAKE LN:173[5]
+}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:181[5]
+MAKE LN:223[7]
+MAKE PN:24[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:189[5]
+MAKE LN:231[7]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50MAKE LN:197[5]
+MAKE LN:239[7]
+ a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:247[7]
+MAKE LN:205[5]
+Stick[0].soma {MAKE PN:26[2]
+MAKE LN:213[5]
+MAKE LN:255[7]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+ nseg=1  L=100  Ra=35.4	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12MAKE LN:263[7]
+ a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46MAKE LN:221[5]
+ ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+MAKE LN:271[7]
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+MAKE LN:229[5]
+}
+
+MAKE LN:279[7]
+MAKE LN:237[5]
+MAKE PN:34[2]
+Stick[0].soma {MAKE LN:287[7]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500MAKE LN:245[5]
+}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9MAKE LN:253[5]
+MAKE LN:295[7]
+ gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+ nseg=1  L=100  Ra=35.4MAKE LN:261[5]
+MAKE LN:303[7]
+
+MAKE PN:32[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:269[5]
+MAKE LN:311[7]
+	/*location 0 attached to cell 0*/
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance {MAKE LN:277[5]
+MAKE LN:319[7]
+ cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+MAKE LN:285[5]
+MAKE LN:327[7]
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10MAKE PN:14[6]
+ nao=140}
+}
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:293[5]
+MAKE LN:335[7]
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+MAKE PN:42[2]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003MAKE LN:301[5]
+MAKE LN:343[7]
+ el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001}
+}
+ tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250MAKE LN:309[5]
+MAKE LN:351[7]
+ a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:317[5]
+MAKE PN:40[0]
+MAKE LN:359[7]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/* First segment only */	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance {MAKE LN:50[2]
+MAKE LN:367[7]
+ cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005MAKE LN:325[5]
+ sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1MAKE LN:333[5]
+MAKE LN:375[7]
+ v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+
+MAKE LN:341[5]
+MAKE LN:383[7]
+	insert morphology {MAKE PN:48[0]
+MAKE LN:349[5]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:391[7]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500} diam=500
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05MAKE LN:58[2]
+MAKE LN:357[5]
+ gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50MAKE LN:399[7]
+ a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10MAKE LN:365[5]
+ nao=140}
+}
+MAKE LN:66[2]
+}
+MAKE LN:373[5]
+MAKE LN:74[2]
+MAKE LN:56[0]
+	insert capacitance { cm=1MAKE LN:82[2]
+MAKE LN:381[5]
+}
+	insert GPeA {MAKE LN:90[2]
+MAKE LN:389[5]
+ gnabar_GPeA=0.12 a_m_GPeA=0.048MAKE LN:397[5]
+MAKE LN:98[2]
+MAKE PN:4[4]
+ v_m_GPeA=-31MAKE LN:64[0]
+ ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50MAKE LN:106[2]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+ kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20	/*location 0 attached to cell 0*/
+ v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion {MAKE LN:114[2]
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+ v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9MAKE LN:122[2]
+ gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:22[6]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:130[2]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1MAKE LN:72[0]
+ v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:80[0]
+MAKE PN:30[6]
+MAKE LN:138[2]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:88[0]
+	/*location 0 attached to cell 0*/
+	/* First segment only */MAKE LN:96[0]
+
+MAKE LN:146[2]
+	insert morphology {MAKE LN:104[0]
+ diam=500MAKE LN:154[2]
+}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31MAKE LN:112[0]
+ ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20MAKE LN:120[0]
+ a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:128[0]
+MAKE PN:38[6]
+MAKE LN:162[2]
+MAKE LN:136[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:170[2]
+	/*location 0 attached to cell 0*/
+	/* First segment only */MAKE LN:178[2]
+
+MAKE LN:144[0]
+	insert morphology { diam=500MAKE LN:186[2]
+MAKE LN:152[0]
+}
+MAKE LN:160[0]
+MAKE LN:194[2]
+	insert capacitance { cm=1MAKE LN:168[0]
+MAKE LN:202[2]
+}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1MAKE LN:176[0]
+ gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:184[0]
+MAKE LN:192[0]
+MAKE PN:46[6]
+MAKE LN:210[2]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:200[0]
+	/*location 0 attached to cell 0*/
+MAKE LN:208[0]
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005MAKE LN:218[2]
+ sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+MAKE LN:226[2]
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:234[2]
+MAKE LN:216[0]
+MAKE LN:54[6]
+MAKE LN:224[0]
+MAKE LN:242[2]
+MAKE LN:232[0]
+MAKE LN:250[2]
+MAKE LN:240[0]
+MAKE LN:62[6]
+MAKE LN:258[2]
+MAKE LN:70[6]
+MAKE LN:248[0]
+MAKE LN:78[6]
+MAKE LN:266[2]
+MAKE LN:256[0]
+MAKE LN:274[2]
+MAKE LN:86[6]
+MAKE LN:282[2]
+MAKE LN:264[0]
+MAKE LN:94[6]
+MAKE LN:272[0]
+MAKE LN:290[2]
+MAKE LN:280[0]
+MAKE LN:102[6]
+MAKE LN:298[2]
+MAKE LN:288[0]
+MAKE PN:12[4]
+MAKE LN:110[6]
+MAKE LN:296[0]
+MAKE LN:306[2]
+MAKE LN:118[6]
+MAKE LN:304[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:314[2]
+	/*location 0 attached to cell 0*/
+MAKE LN:126[6]
+MAKE LN:322[2]
+	/* First segment only */MAKE LN:312[0]
+
+MAKE LN:134[6]
+MAKE LN:330[2]
+	insert morphology {MAKE LN:320[0]
+MAKE LN:338[2]
+ diam=500MAKE LN:142[6]
+}MAKE LN:328[0]
+
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12MAKE LN:346[2]
+ a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46MAKE LN:150[6]
+ ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion {MAKE LN:158[6]
+MAKE LN:354[2]
+ ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:362[2]
+MAKE LN:166[6]
+MAKE PN:20[4]
+MAKE LN:336[0]
+MAKE LN:370[2]
+MAKE LN:174[6]
+MAKE LN:344[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:378[2]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2MAKE LN:352[0]
+ vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10MAKE LN:386[2]
+ gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:360[0]
+MAKE LN:394[2]
+MAKE PN:28[4]
+MAKE LN:368[0]
+MAKE LN:182[6]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:376[0]
+	/*location 0 attached to cell 0*/
+	/* First segment only */MAKE LN:384[0]
+
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005MAKE LN:190[6]
+ sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:198[6]
+MAKE LN:206[6]
+MAKE PN:36[4]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:392[0]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+MAKE LN:214[6]
+	insert morphology { diam=500}MAKE LN:222[6]
+
+	insert capacitance {MAKE LN:230[6]
+ cm=1}
+MAKE LN:238[6]
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06MAKE LN:246[6]
+ v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:44[4]
+MAKE LN:254[6]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:262[6]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+MAKE LN:270[6]
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12MAKE LN:278[6]
+ a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:52[4]
+MAKE LN:286[6]
+MAKE LN:294[6]
+MAKE LN:302[6]
+MAKE LN:60[4]
+MAKE LN:310[6]
+MAKE LN:318[6]
+MAKE LN:68[4]
+MAKE LN:326[6]
+MAKE LN:76[4]
+MAKE LN:334[6]
+MAKE LN:84[4]
+MAKE LN:342[6]
+MAKE LN:92[4]
+MAKE LN:350[6]
+MAKE LN:100[4]
+MAKE LN:358[6]
+MAKE LN:108[4]
+MAKE LN:366[6]
+MAKE LN:116[4]
+MAKE LN:374[6]
+MAKE LN:124[4]
+MAKE LN:382[6]
+MAKE LN:132[4]
+MAKE LN:390[6]
+MAKE LN:140[4]
+MAKE LN:398[6]
+MAKE LN:148[4]
+MAKE LN:156[4]
+MAKE LN:164[4]
+MAKE LN:172[4]
+MAKE LN:180[4]
+MAKE LN:188[4]
+MAKE LN:196[4]
+MAKE LN:204[4]
+MAKE LN:212[4]
+MAKE LN:220[4]
+MAKE LN:228[4]
+MAKE LN:236[4]
+MAKE LN:244[4]
+MAKE LN:252[4]
+MAKE LN:260[4]
+MAKE LN:268[4]
+MAKE LN:276[4]
+MAKE LN:284[4]
+MAKE LN:292[4]
+MAKE LN:300[4]
+MAKE LN:308[4]
+MAKE LN:316[4]
+MAKE LN:324[4]
+MAKE LN:332[4]
+MAKE LN:340[4]
+MAKE LN:348[4]
+MAKE PN:1[1]
+MAKE LN:356[4]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+MAKE LN:364[4]
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+MAKE LN:372[4]
+	insert morphology { diam=500MAKE LN:380[4]
+}
+	insert capacitance {MAKE LN:388[4]
+ cm=1}
+MAKE LN:396[4]
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:3[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}MAKE PN:9[1]
+
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06Stick[0].soma { v_W_GPeA=-46 ek_fixed_GPeA=-70 nseg=1  L=100  Ra=35.4 lambda_GPeA=0.05 gl_GPeA=0.0003
+ el_GPeA=-50	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:17[1]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:25[1]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:33[1]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:41[1]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:49[1]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:57[1]
+MAKE LN:65[1]
+MAKE LN:73[1]
+MAKE LN:81[1]
+MAKE LN:89[1]
+MAKE LN:97[1]
+MAKE LN:105[1]
+MAKE LN:113[1]
+MAKE LN:121[1]
+MAKE LN:129[1]
+MAKE LN:137[1]
+MAKE LN:145[1]
+MAKE LN:153[1]
+MAKE LN:161[1]
+MAKE LN:169[1]
+MAKE LN:177[1]
+MAKE LN:185[1]
+MAKE LN:193[1]
+MAKE LN:201[1]
+MAKE LN:209[1]
+MAKE LN:217[1]
+MAKE LN:225[1]
+MAKE LN:233[1]
+MAKE LN:241[1]
+MAKE LN:249[1]
+MAKE LN:257[1]
+MAKE LN:265[1]
+MAKE LN:273[1]
+MAKE LN:281[1]
+MAKE LN:289[1]
+MAKE LN:297[1]
+MAKE LN:305[1]
+MAKE LN:313[1]
+MAKE LN:321[1]
+MAKE LN:329[1]
+MAKE LN:337[1]
+MAKE LN:345[1]
+MAKE LN:353[1]
+MAKE LN:361[1]
+MAKE LN:369[1]
+MAKE LN:377[1]
+MAKE LN:385[1]
+MAKE LN:393[1]
+ kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:11[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:19[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:27[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:35[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:43[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:51[3]
+MAKE LN:59[3]
+MAKE LN:67[3]
+MAKE LN:75[3]
+MAKE LN:83[3]
+MAKE LN:91[3]
+MAKE LN:99[3]
+MAKE LN:107[3]
+MAKE LN:115[3]
+MAKE LN:123[3]
+MAKE LN:131[3]
+MAKE LN:139[3]
+MAKE LN:147[3]
+MAKE LN:155[3]
+MAKE LN:163[3]
+MAKE LN:171[3]
+MAKE LN:179[3]
+MAKE LN:187[3]
+MAKE LN:195[3]
+MAKE LN:203[3]
+MAKE LN:211[3]
+MAKE LN:219[3]
+MAKE LN:227[3]
+MAKE LN:235[3]
+MAKE LN:243[3]
+MAKE LN:251[3]
+MAKE LN:259[3]
+MAKE LN:267[3]
+MAKE LN:275[3]
+MAKE LN:283[3]
+MAKE LN:291[3]
+MAKE LN:299[3]
+MAKE LN:307[3]
+MAKE LN:315[3]
+MAKE LN:323[3]
+MAKE LN:331[3]
+MAKE LN:339[3]
+MAKE LN:347[3]
+MAKE LN:355[3]
+MAKE LN:363[3]
+MAKE LN:371[3]
+MAKE LN:379[3]
+MAKE LN:387[3]
+MAKE LN:395[3]
+mkConnections()
+ConnectWithRN()
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 44[7]
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 44[2]
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 44[5]
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 44[6]
+ConnectNtoN_NET_GABA()
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 43[0]
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 44[3]
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 44[4]
+0.025714 0.057143 0.002857 0.004286
+LNs.count: 43[1]
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+			3.6992328 
+0.5509038 
+4.1504421 
+	2.5306804 
+	0.067538261 
+	4.3969779 
+	2.3711185 
+	3.5022645 

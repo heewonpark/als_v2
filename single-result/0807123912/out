@@ -1,0 +1,96 @@
+numprocs=8
+===================================================================
+START_TIME: 807123912, STOPTIME: 4000, IS_SUPERCOMPUTER: 0
+NPN: 0, NLN: 10, NRN: 200, NCELL:210
+GABAA_ON: 0, GABAB_ON: 0, NSYNAPSE: 100
+WEIGHT_RNtoPN: 0.200000, WEIGHT_RNtoLN: 0.030000
+GABAA_LTOP: 6.000000, GABAA_LTOL: 1.000000, GABAB_LTOP: 9.000000, GABAB_LTOL: 1.000000
+===================================================================
+mkNetwork()
+mkCells()
+MAKE LN:0[0]
+MAKE LN:2[2]
+MAKE LN:1[1]
+MAKE LN:4[4]
+MAKE LN:6[6]
+MAKE LN:7[7]
+MAKE LN:5[5]
+MAKE LN:8[0]
+MAKE LN:9[1]
+mkConnections()
+ConnectWithRN()
+0.600000 0.900000 0.100000 0.100000
+LNs.count: 1[2]
+0.600000 0.900000 0.100000 0.100000
+[PRE_GABA] gid: 200002, LN's gid: 2, i: 0
+0.600000 0.900000 0.100000 0.100000
+LNs.count: 1[6]
+0.600000 0.900000 0.100000 0.100000
+LNs.count: 1[7]
+[PRE_GABA] gid: 200007, LN's gid: 7, i: 0
+LNs.count: 1[4]
+[PRE_GABA] gid: 200006, LN's gid: 6, i: 0
+[PRE_GABA] gid: 200004, LN's gid: 4, i: 0
+0.600000 0.900000 0.100000 0.100000
+LNs.count: 2[1]
+0.600000 0.900000 0.100000 0.100000
+[PRE_GABA] gid: 200001, LN's gid: 1, i: 0
+LNs.count: 1[5]
+ConnectNtoN_NET_GABA()
+[PRE_GABA] gid: 200009, LN's gid: 9, i: 1
+0.600000 0.900000 0.100000 0.100000
+LNs.count: 2[0]
+[PRE_GABA] gid: 200000, LN's gid: 0, i: 0
+[PRE_GABA] gid: 200005, LN's gid: 5, i: 0
+[PRE_GABA] gid: 200008, LN's gid: 8, i: 1
+MAKE LN:3[3]
+0.600000 0.900000 0.100000 0.100000
+LNs.count: 1[3]
+[PRE_GABA] gid: 200003, LN's gid: 3, i: 0
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+		0.21697474 
+	0.38493729 
+	0.27108836 
+	0.28823614 
+	0.050525188 
+	3.1709671e-05 
+	0.48393106 
+0.29053307 
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+../single-result/0807123912/record/
+printSpikeRecord()
+printVoltageRecord()
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 

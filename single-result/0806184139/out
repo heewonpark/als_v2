@@ -1,0 +1,136 @@
+numprocs=8
+===================================================================
+START_TIME: 806184139, STOPTIME: 5000, IS_SUPERCOMPUTER: 0
+NPN: 1, NLN: 1, NRN: 100, NCELL:102
+GABAA_ON: 0, GABAB_ON: 0, NSYNAPSE: 100
+===================================================================
+MAKE LN:1[1]
+mkNetwork()
+mkCells()
+MAKE PN:0[0]
+mkConnections()
+ConnectWithRN()
+ConnectNtoN_NET_GABA()
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+		0.13769031 
+	0.15552139 
+	0.016663313 
+	2.0027161e-05 
+	0.0099463463 
+	0.24840474 
+	0.25817728 
+0.20774555 
+../single-result/0806184139/record/
+../single-result/0806184139/record/../single-result/0806184139/record/
+../single-result/0806184139/record/
+../single-result/0806184139/record/
+../single-result/0806184139/record/
+../single-result/0806184139/record/
+../single-result/0806184139/record/
+
+printSpikeRecord()
+printVoltageRecord()
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg flg 0 default 
+3 Fukuda flg 
+1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 

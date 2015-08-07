@@ -1,0 +1,136 @@
+numprocs=8
+===================================================================
+START_TIME: 806205135, STOPTIME: 5000, IS_SUPERCOMPUTER: 0
+NPN: 1, NLN: 1, NRN: 100, NCELL:102
+GABAA_ON: 0, GABAB_ON: 0, NSYNAPSE: 100
+===================================================================
+mkNetwork()
+mkCells()
+MAKE PN:0[0]
+MAKE LN:1[1]
+mkConnections()
+ConnectWithRN()
+ConnectNtoN_NET_GABA()
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+		0.19201279 
+	0.099662781 
+	0.019956589 
+	0.11242819 
+	2.0742416e-05 
+	0.30604911 
+	0.16369247 
+0.30266738 
+../single-result/0806205135/record/../single-result/0806205135/record/
+../single-result/0806205135/record/
+../single-result/0806205135/record/
+../single-result/0806205135/record/
+../single-result/0806205135/record/
+../single-result/0806205135/record/
+../single-result/0806205135/record/
+
+printSpikeRecord()
+printVoltageRecord()
+flg flg 0 default 
+flg 0 0 default 
+default 
+flg 0 default 
+flg 0 default 
+flg 3 flg 0 default 
+Fukuda 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg flg 0 default 
+0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
