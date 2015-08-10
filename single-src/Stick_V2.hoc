@@ -299,7 +299,7 @@ proc insertHH_RN(){
 obfunc connect2target(){local numSynapses localobj nc,target
     target = $o1
     //numSynapses = $2
-    soma nc = new NetCon(&v(0.3),$o1)
+    soma nc = new NetCon(&v(0.5),$o1)
     nc.delay = 2
     nc.threshold = 0
     nc.weight = 10
@@ -544,7 +544,7 @@ objref gaba
 // This GABA_A synapse uses NetCon to connect
 obfunc mkNET_GABAa(){local gmax
     gmax = $1
-    soma gaba = new NET_GABAa(0.5)
+    soma gaba = new NET_GABAa(0.3)
     gaba.gmax = gmax
     return gaba
 }

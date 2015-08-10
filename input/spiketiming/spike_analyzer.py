@@ -22,7 +22,9 @@ def load_spt_data(nfiles,nstims,dose):
     
     for i in range(nfiles):
         #DIR = "./%ddose_%dstims/"%(dose,nstims)
-        DIR = "./%ddose_%dstims_test/"%(dose,nstims)
+        #DIR = "./%ddose_%dstims_test/"%(dose,nstims)
+        #DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
+        DIR = "./1000dose_30stims_2000dose_30stims_filtering/"
         fn = "%sspt%03d.dat"%(DIR,i)
         #fn = "./1stim/spiketiming%d.dat"%(i)
         spt = np.loadtxt(fn,float)
@@ -41,8 +43,10 @@ BIN      = 0.1 # 0.1s
 def PSTH(nfiles,nstims,dose):
     if(nstims!=1):
         steps = int(nstims*INTERVAL/BIN)
+        
     elif(nstims==1):
         steps = int(8.0/BIN)
+        print "steps1",steps
     else:
         print "***ERROR IN PSTH***"
         return
@@ -55,7 +59,8 @@ def PSTH(nfiles,nstims,dose):
     spts = load_spt_data(nfiles,nstims,dose)
     for s in spts:
         # スパイクが6.0ｓから始まるので6を引く
-        if((s-6.0)>8.0):
+        if((s-6.0)>INTERVAL*nstims):
+            print "OVER",s
             continue
         #print "%f %d %f"%(s,int((s-6.0)/BIN),float(1/BIN/nfiles))
         step_freq[int((s-6.0)/BIN)]+=float(1/BIN/nfiles)
@@ -69,4 +74,4 @@ def PSTH(nfiles,nstims,dose):
     plt.savefig(save_fn)
     plt.show()
 
-PSTH(100,3,10000)
+PSTH(1000,60,10)

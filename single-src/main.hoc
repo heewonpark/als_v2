@@ -22,6 +22,10 @@ if(name_declared("GABAB_LTOP")!=5){ execute("GABAB_LTOP=1.0")}
 if(name_declared("DOSE")!=5){ execute("DOSE=1000")}
 if(name_declared("NSTIM")!=5){ execute("NSTIM=1")}
 if(name_declared("PROB_LTOP")!=5){ execute("PROB_LTOP=1.0")}
+if(name_declared("PROB_LTOL")!=5){ execute("PROB_LTOL=1.0")}
+if(name_declared("PROB_PTOL")!=5){ execute("PROB_PTOL=1.0")}
+if(name_declared("WEIGHT_PTOL")!=5){ execute("WEIGHT_PTOL=0.05")}
+if(name_declared("PTOL_ON")!=5){ execute("PTOL_ON=0")}
 if(name_declared("RND_SEED")!=5){ execute("RND_SEED=0")}
 objref pc
 pc = new ParallelContext()
@@ -56,7 +60,7 @@ if(DOSE==1000){
 	spt_file_dir ="../input/spiketiming/10000dose_30stims_filtering/"
     }
 }
-
+spt_file_dir ="../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
 if(RND_SEED==0){
     RND_SEED=0
 }else if(RND_SEED!=0){
@@ -72,7 +76,8 @@ if(pc.id==0){
     printf("GABAA_LTOP: %f, GABAA_LTOL: %f, GABAB_LTOP: %f, GABAB_LTOL: %f\n",GABAA_LTOP, GABAA_LTOL,GABAB_LTOP, GABAB_LTOL)
     printf("DOSE: %d, NSTIM: %d\n",DOSE,NSTIM)
     printf("SPIKE TIMING: %s\n",spt_file_dir)
-    printf("PROBALITY LTOP: %f, RND_SEED: %d\n",PROB_LTOP,RND_SEED)
+    printf("PROBALITY LTOP: %f,PROBALITY LTOL: %f, RND_SEED: %d\n",PROB_LTOP,PROB_LTOL,RND_SEED)
+    printf("PTOL_ON: %d, PROBALITY PTOL: %f, WEIGHT PTOL : %f\n",PTOL_ON,PROB_PTOL,WEIGHT_PTOL)
     printf("===================================================================\n")
 }
 objref cells, nclist
@@ -168,6 +173,7 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
 	    rn_nclist.append(nc)
 	}
     }
+    
     for i=0, LNs.count-1{
 	for j=0, NSYNAPSE-1{
 	    syn = LNs.o(i).setExp2Syn(0,j/NSYNAPSE)
@@ -181,19 +187,21 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
 }
 
 objref nton_nclist, nton_GABAa, nton_GABAb
-
+objref pn_nclist
 proc ConnectNtoN_NET_GABA(){\
-    local i, j, base_gid, this_gid, gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb\
-    localobj rnd, nc, nil, gaba
+    local i, j, base_gid, this_gid, gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb,src_gid\
+    localobj rnd, nc, nil, gaba,syn
     if(pc.id==0)printf("ConnectNtoN_NET_GABA()\n")
     nton_nclist   = new List()
     nton_GABAa = new List()
     nton_GABAb = new List()
+    pn_nclist  = new List()
     rnd = new Random(RND_SEED+pc.id)
     rnd.uniform(0,1)
     base_gid = 200000
 
     gmax_LtoPa = GABAA_LTOP/NLN
+    //gmax_LtoPa = GABAA_LTOP/NPN
     gmax_LtoLa = GABAA_LTOL/NLN
     gmax_LtoPb = GABAB_LTOP/NLN
     gmax_LtoLb = GABAB_LTOL/NLN
@@ -204,7 +212,16 @@ proc ConnectNtoN_NET_GABA(){\
     for i=0, LNs.count-1{
 	nc = LNs.o(i).connect2target(nil)
 	nc.threshold = 1
-	this_gid = base_gid + LNs.o(i).getGID()-NPN
+	this_gid = base_gid + LNs.o(i).getGID()
+	pc.set_gid2node(this_gid,pc.id)
+	pc.cell(this_gid,nc)
+	nton_nclist.append(nc)
+	//printf("[PRE_GABA] gid: %d, LN's gid: %d, i: %d\n",this_gid,LNs.o(i).getGID(),i) 
+    }
+    for i=0, PNs.count-1{
+	nc = PNs.o(i).connect2target(nil)
+	nc.threshold = 1
+	this_gid = base_gid + PNs.o(i).getGID()
 	pc.set_gid2node(this_gid,pc.id)
 	pc.cell(this_gid,nc)
 	nton_nclist.append(nc)
@@ -217,53 +234,70 @@ proc ConnectNtoN_NET_GABA(){\
 	for j=0, NLN-1{
 	    if(GABAA_ON == 1){
 		if(rnd.repick()<PROB_LTOP){
+		//if((PNs.o(i).getGID()+j)%2==0){
 		    gaba = PNs.o(i).mkNET_GABAa(gmax_LtoPa)
 		    nton_GABAa.append(gaba)
-		    src_gid = base_gid + j
+		    src_gid = base_gid + j + NPN
 		    nc = pc.gid_connect(src_gid,gaba)
-		    nc.delay  = 1.0
+		    //nc.delay  = 1.0
+		    nc.delay  = 0.05
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    //printf("[PST_GABAa] gid: %d, PN's gid: %d, i: %d\n",src_gid,PNs.o(i).getGID(),i) 
+		    printf("[PST_GABAa] gid: %d, PN's gid: %d, i: %d, j: %d\n",src_gid,PNs.o(i).getGID(),i,j) 
 		}
 	    }
 	    if(GABAB_ON == 1){
 		if(rnd.repick()<PROB_LTOP){
+		//if((PNs.o(i).getGID()+j)%2==0){
 		    gaba = PNs.o(i).mkNET_GABAb(gmax_LtoPb)
 		    nton_GABAb.append(gaba)
-		    src_gid = base_gid + j
+		    src_gid = base_gid + j + NPN
 		    nc = pc.gid_connect(src_gid,gaba)
 		    nc.delay  = 1.0
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    //printf("[PST_GABAb] gid: %d, PN's gid: %d, i: %d\n",src_gid,PNs.o(i).getGID(),i) 
+		    printf("[PST_GABAb] gid: %d, PN's gid: %d, i: %d, j: %d\n",src_gid,PNs.o(i).getGID(),i,j) 
 		}
 	    }
 
 	}
     }
     for i=0, LNs.count-1{
+	for j=0, NPN-1{
+	    if(PTOL_ON==1){
+		//if(rnd.repick()<PROB_PTOL){
+		if((LNs.o(i).getGID()+j)%2==0){
+		    syn = LNs.o(i).setExp2Syn(0)
+		    src_gid = base_gid+j
+		    nc = pc.gid_connect(src_gid,syn)
+		    nc.delay  = 1.0
+		    nc.weight = WEIGHT_PTOL
+		    pn_nclist.append(nc)
+		}
+	    }
+	}
 	for j=0, NLN-1{
 	    if((LNs.o(i).getGID()-NPN)==j){
 		continue
 	    }
 	    if(GABAA_ON == 1){
-		if(rnd.repick()<1.1){
+		if(rnd.repick()<=PROB_LTOL){
 		    gaba = LNs.o(i).mkNET_GABAa(gmax_LtoLa)
 		    nton_GABAa.append(gaba)
-		    src_gid = base_gid + j
+		    src_gid = base_gid + j + NPN
 		    nc = pc.gid_connect(src_gid,gaba)
-		    nc.delay  = 1.0
+		    //nc.delay  = 1.0
+		    nc.delay  = 0.05
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
 		    //printf("[PST_GABAa] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
 		}
 	    }
 	    if(GABAB_ON == 1){
-		if(rnd.repick()<1.1){
+		if(rnd.repick()<=PROB_LTOL){
 		    gaba = LNs.o(i).mkNET_GABAb(gmax_LtoLb)
 		    nton_GABAb.append(gaba)
-		    src_gid = base_gid + j
+		    src_gid = base_gid + j + NPN
 		    nc = pc.gid_connect(src_gid,gaba)
 		    nc.delay  = 1.0
 		    nc.weight = 1.0
@@ -404,7 +438,7 @@ proc setSpikeRecord(){local i
 
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
-    setVoltageRecord()
+    //setVoltageRecord()
     setSpikeRecord()
 }
 setRecord()
@@ -462,7 +496,7 @@ proc printVoltageRecord(){
 }
 proc setPrinter(){
     printSpikeRecord()
-    printVoltageRecord()
+    //printVoltageRecord()
 }
 setPrinter()
 

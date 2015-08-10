@@ -148,19 +148,21 @@ def drawPeakISFAllinOne():
     for i in range(len(wholedata)):
         for j in range(len(wholedata[i])):
             avg[j] +=wholedata[i][j]
-    print "AAAAAAAAAAAAA"
-    print avg
     for i in range(len(avg)):
         avg[i] = avg[i]/len(gides0)
-    print "AAAAAAAAAAAAA"
+    print "AVG"
     print avg
-
     #wholedata = wholedata/len(gides0)
     print "WHOLE"
     print wholedata
-    print "XXXXX"
-    x_whole = [j for j in range(len(wholedata[0]))]
-    print x
+    x_whole = [j for j in range(len(wholedata[0]))]    
+
+    csv_fn = "%sAvg_peakISF.csv"%(sys.argv[1])
+    csv_f  = open(csv_fn,'wb')
+    writer = csv.writer(csv_f)
+    for i in range(len(avg)-1):
+        writer.writerow([x_whole[i+1],avg[i+1]])
+
     plt.plot(x_whole[1:],avg[1:],color='b')
     for wd in wholedata:
         plt.plot(x_whole[1:],wd[1:],color='r')
@@ -249,6 +251,13 @@ def drawSpikeCountAllinOne():
     print "XXXXX"
     x_whole = [j for j in range(len(wholedata[0]))]
     print x_whole
+    csv_fn = "%sAvg_spikecounts.csv"%(sys.argv[1])
+    csv_f  = open(csv_fn,'wb')
+    writer = csv.writer(csv_f)
+    for i in range(len(avg)-1):
+        writer.writerow([x_whole[i+1],avg[i+1]])
+
+
     plt.plot(x_whole[1:],avg[1:],color='b')
     for wd in wholedata:
         plt.plot(x_whole[1:],wd[1:],color='r')

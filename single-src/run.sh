@@ -16,30 +16,32 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=24000"\
+" -c STOPTIME=72000"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
 " -c GABAA_ON=1"\
+" -c PTOL_ON=1"\
 " -c NSYNAPSE=100"\
 " -c NPN=5"\
 " -c NLN=35"\
 " -c NRN=200"\
-" -c WEIGHT_RNtoPN=0.10"\
-" -c WEIGHT_RNtoLN=0.023"\
-" -c GABAA_LTOP=17.5"\
-" -c GABAA_LTOL=1.8"\
-" -c GABAB_LTOP=43.0"\
-" -c GABAB_LTOL=2.2"\
-" -c DOSE=1000"\
+" -c WEIGHT_RNtoPN=0.15"\
+" -c WEIGHT_RNtoLN=0.020"\
+" -c GABAA_LTOP=1.5"\
+" -c GABAA_LTOL=0.1"\
+" -c GABAB_LTOP=20.0"\
+" -c GABAB_LTOL=0.03"\
+" -c DOSE=100"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
-" -c RND_SEED=0"
-
+" -c PROB_LTOL=1.0"\
+" -c PROB_PTOL=0.5"\
+" -c WEIGHT_PTOL=0.12"\
+" -c RND_SEED=1"
 
 
 MPIEXEC="mpiexec -n 8"
-
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 
 echo $EXEC

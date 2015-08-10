@@ -35,6 +35,7 @@ record/
 record/**/*.txt
 result/**/record/*.txt
 result/
+single-result/
 # ignore specials
 x86_64/
 
