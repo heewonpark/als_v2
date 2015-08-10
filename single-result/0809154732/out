@@ -1,0 +1,190 @@
+numprocs=8
+===================================================================
+START_TIME: 809154732, STOPTIME: 12010, IS_SUPERCOMPUTER: 0
+NPN: 5, NLN: 35, NRN: 200, NCELL:240
+GABAA_ON: 1, GABAB_ON: 1, NSYNAPSE: 100
+WEIGHT_RNtoPN: 0.100000, WEIGHT_RNtoLN: 0.020000
+GABAA_LTOP: 9.000000, GABAA_LTOL: 1.000000, GABAB_LTOP: 20.000000, GABAB_LTOL: 1.500000
+DOSE: 10, NSTIM: 30
+SPIKE TIMING: ../input/spiketiming/10dose_30stims_filtering/
+===================================================================
+MAKE LN:7[7]
+MAKE PN:3[3]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500MAKE PN:4[4]
+}MAKE PN:2[2]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+Stick[0].soma {
+ nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46	/*location 0 attached to cell 0*/
+ ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140} caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10
+}
+ gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:5[5]
+MAKE PN:1[1]
+Stick[0].soma { nseg=1  L=100  Ra=35.4mkNetwork()
+
+mkCells()
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE PN:0[0]
+Stick[0].soma { nseg=1  L=100  Ra=35.4
+	/*location 0 attached to cell 0*/
+	/* First segment only */
+	insert morphology { diam=500}
+	insert capacitance { cm=1}
+	insert GPeA { gnabar_GPeA=0.12 a_m_GPeA=0.048 v_m_GPeA=-31 ena_fixed_GPeA=55 gkdrbar_GPeA=0.005 sigma_GPeA=1 a_W_GPeA=0.06 v_W_GPeA=-46 ek_fixed_GPeA=-70 lambda_GPeA=0.05 gl_GPeA=0.0003 el_GPeA=-50 kca_GPeA=2 vol_GPeA=3.355e-11 caGain_GPeA=0.1 gcatbar_GPeA=0.0001 tau_X_GPeA=50 a_X_GPeA=0.071 v_X_GPeA=-10 gkcabar_GPeA=0.002 C_gamma_GPeA=113 tau_sk_GPeA=250 a_sk_GPeA=0.9 gA_GPeA=0.022 tau_B_GPeA=20 a_A_GPeA=0.02 a_B_GPeA=-0.1 v_A_GPeA=-20 v_B_GPeA=-70}
+	insert ca_ion {}
+	insert k_ion { ki=54.4 ko=2.5}
+	insert na_ion { nai=10 nao=140}
+}
+MAKE LN:15[7]
+MAKE LN:23[7]
+MAKE LN:31[7]
+MAKE LN:39[7]
+MAKE LN:10[2]
+MAKE LN:18[2]
+MAKE LN:26[2]
+MAKE LN:34[2]
+MAKE LN:11[3]
+MAKE LN:19[3]
+MAKE LN:27[3]
+MAKE LN:35[3]
+MAKE LN:12[4]
+MAKE LN:20[4]
+MAKE LN:28[4]
+MAKE LN:36[4]
+MAKE LN:13[5]
+MAKE LN:21[5]
+MAKE LN:29[5]
+MAKE LN:37[5]
+MAKE LN:8[0]
+MAKE LN:16[0]
+MAKE LN:24[0]
+MAKE LN:32[0]
+MAKE LN:9[1]
+MAKE LN:17[1]
+MAKE LN:25[1]
+MAKE LN:33[1]
+mkConnections()
+ConnectWithRN()
+ConnectNtoN_NET_GABA()
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 4[0]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 4[1]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 4[2]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 4[3]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 4[4]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 5[5]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 5[7]
+MAKE LN:6[6]
+MAKE LN:14[6]
+MAKE LN:22[6]
+MAKE LN:30[6]
+MAKE LN:38[6]
+0.257143 0.571429 0.028571 0.042857
+LNs.count: 5[6]
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+	0.27652073 
+	0.6248486 
+	2.5510788e-05 
+	0.56801081 
+		0.66583848 
+	0.53562474 
+	0.58690476 
+0.092650414 
+../single-result/0809154732/record/
+../single-result/0809154732/record/../single-result/0809154732/record/
+
+../single-result/0809154732/record/
+printSpikeRecord()
+printVoltageRecord()
+../single-result/0809154732/record/
+../single-result/0809154732/record/
+../single-result/0809154732/record/
+../single-result/0809154732/record/
+flg 3 Fukuda 
+flg 3 Fukuda 
+flg 3 Fukuda 
+flg 1 MsLN 
+flg 3 Fukuda 
+flg 3 Fukuda 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 

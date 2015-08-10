@@ -19,12 +19,49 @@ if(name_declared("GABAA_LTOL")!=5){ execute("GABAA_LTOL=1.0")}
 if(name_declared("GABAB_LTOL")!=5){ execute("GABAB_LTOL=1.0")}
 if(name_declared("GABAA_LTOP")!=5){ execute("GABAA_LTOP=1.0")}
 if(name_declared("GABAB_LTOP")!=5){ execute("GABAB_LTOP=1.0")}
-
+if(name_declared("DOSE")!=5){ execute("DOSE=1000")}
+if(name_declared("NSTIM")!=5){ execute("NSTIM=1")}
+if(name_declared("PROB_LTOP")!=5){ execute("PROB_LTOP=1.0")}
+if(name_declared("RND_SEED")!=5){ execute("RND_SEED=0")}
 objref pc
 pc = new ParallelContext()
 
 NCELL = NPN + NLN + NRN
 // NCELL : number of whole cells
+
+strdef spt_file_dir
+if(DOSE==1000){
+    if(NSTIM==1){
+	spt_file_dir ="../input/spiketiming/1000dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
+    }
+
+}else if(DOSE==100){
+    if(NSTIM==1){
+	spt_file_dir ="../input/spiketiming/100dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/100dose_30stims_filtering/"
+    }
+}else if(DOSE==10){
+    if(NSTIM==1){
+	//spt_file_dir ="../input/spiketiming/10dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/10dose_30stims_filtering/"
+    }
+}else if(DOSE==10000){
+    if(NSTIM==1){
+	spt_file_dir ="../input/spiketiming/10000dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/10000dose_30stims_filtering/"
+    }
+}
+
+if(RND_SEED==0){
+    RND_SEED=0
+}else if(RND_SEED!=0){
+    RND_SEED=START_TIME
+}
 
 if(pc.id==0){
     printf("===================================================================\n")
@@ -33,6 +70,9 @@ if(pc.id==0){
     printf("GABAA_ON: %d, GABAB_ON: %d, NSYNAPSE: %d\n",GABAA_ON, GABAB_ON, NSYNAPSE)
     printf("WEIGHT_RNtoPN: %f, WEIGHT_RNtoLN: %f\n",WEIGHT_RNtoPN, WEIGHT_RNtoLN)
     printf("GABAA_LTOP: %f, GABAA_LTOL: %f, GABAB_LTOP: %f, GABAB_LTOL: %f\n",GABAA_LTOP, GABAA_LTOL,GABAB_LTOP, GABAB_LTOL)
+    printf("DOSE: %d, NSTIM: %d\n",DOSE,NSTIM)
+    printf("SPIKE TIMING: %s\n",spt_file_dir)
+    printf("PROBALITY LTOP: %f, RND_SEED: %d\n",PROB_LTOP,RND_SEED)
     printf("===================================================================\n")
 }
 objref cells, nclist
@@ -64,7 +104,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	    //cell.setPN_biophys()
 	    PNs.append(cell)
 	    
-	    psection()
+	    //psection()
 	}else if((i>=NPN) && (i<NPN+NLN)){
 	    printf("MAKE LN:%d[%d]\n",i,pc.id)
 	    cell.insertLNlla()
@@ -102,7 +142,7 @@ objref rn_nclist
 proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
     if(pc.id==0)printf("ConnectWithRN()\n")
     rn_nclist = new List()
-    rnd = new Random(pc.id)
+    rnd = new Random(RND_SEED+pc.id)
     rnd.uniform(0,NRN)
     base_gid = 100000
     //--------------------------------------
@@ -120,7 +160,7 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
     // MAKE POSTSYNAPSE
     for i=0, PNs.count-1{
 	for j=0, NSYNAPSE-1{
-	    syn = PNs.o(i).setExp2Syn(0)
+	    syn = PNs.o(i).setExp2Syn(0,j/NSYNAPSE)
 	    src_gid = base_gid+int(rnd.repick())
 	    nc = pc.gid_connect(src_gid,syn)
 	    nc.delay  = 1.0
@@ -130,7 +170,7 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
     }
     for i=0, LNs.count-1{
 	for j=0, NSYNAPSE-1{
-	    syn = LNs.o(i).setExp2Syn(0)
+	    syn = LNs.o(i).setExp2Syn(0,j/NSYNAPSE)
 	    src_gid = base_gid+int(rnd.repick())
 	    nc = pc.gid_connect(src_gid,syn)
 	    nc.delay  = 1.0
@@ -149,7 +189,7 @@ proc ConnectNtoN_NET_GABA(){\
     nton_nclist   = new List()
     nton_GABAa = new List()
     nton_GABAb = new List()
-    rnd = new Random(pc.id)
+    rnd = new Random(RND_SEED+pc.id)
     rnd.uniform(0,1)
     base_gid = 200000
 
@@ -176,7 +216,7 @@ proc ConnectNtoN_NET_GABA(){\
     for i=0, PNs.count-1{
 	for j=0, NLN-1{
 	    if(GABAA_ON == 1){
-		if(rnd.repick()<1.1){
+		if(rnd.repick()<PROB_LTOP){
 		    gaba = PNs.o(i).mkNET_GABAa(gmax_LtoPa)
 		    nton_GABAa.append(gaba)
 		    src_gid = base_gid + j
@@ -188,7 +228,7 @@ proc ConnectNtoN_NET_GABA(){\
 		}
 	    }
 	    if(GABAB_ON == 1){
-		if(rnd.repick()<1.1){
+		if(rnd.repick()<PROB_LTOP){
 		    gaba = PNs.o(i).mkNET_GABAb(gmax_LtoPb)
 		    nton_GABAb.append(gaba)
 		    src_gid = base_gid + j
@@ -236,17 +276,58 @@ proc ConnectNtoN_NET_GABA(){\
 }
 mkNetwork(NCELL)
 
+objref r_delay1, r_delay2, r_imax1, r_imax2
+proc mkstim_random(){local i,imax1,imax2,Interval,delay2
+    r_delay1 = new Random()
+    r_delay2 = new Random()
+    r_imax1 = new Random()
+    r_imax2 = new Random()
+    
+    delay2 = 100
+    r_delay1.uniform(0,50)
+    r_delay2.uniform(delay2,delay2+50)
+    //r_imax1.uniform(3800,3800)
+    r_imax1.uniform(35000,35000)
+    //r_imax2.uniform(9400,9400)
+    r_imax2.uniform(15000,15000)
+    Interval = 300
+    /*
+    if(pc.id == 0){
+	imax1 = 80000
+	imax2 = 31500
+    }else if(pc.id == 1){
+	imax1 = 29000
+	imax2 = 17500
+    }else if(pc.id == 2){
+	imax1 = 18000
+	imax2 = 14350
+    }*/
+    imax1 = 80000
+    imax2 = 31500
+
+    Interval = 300
+    for i = 0, PNs.count -1 {
+	PNs.object(i).Delay = r_delay1.repick()
+	PNs.object(i).setIntermitStim_gaus(PNs.object(i).Delay,imax1,Interval,0,-1,0.00)
+    }
+    for i = 0, LNs.count -1{
+	LNs.object(i).Delay = r_delay2.repick()
+	LNs.object(i).setIntermitStim_gaus(LNs.object(i).Delay,imax2,Interval,0,-1,0.00)
+    }
+}
+
+
 proc mkSerialStim(){local i localobj rnd
-    rnd = new Random(pc.id)
+    rnd = new Random(RND_SEED+pc.id)
     strdef spiketiming
     for(i=0; i<RNs.count();i=i+1){
         //sprint(spiketiming,"../input/spiketiming/100dose_1stims/spt%03d.dat",int(rnd.uniform(0,999)))
 	//sprint(spiketiming,"../input/spiketiming/100dose_1stims_filtering/spt%03d.dat",int(rnd.uniform(0,999)))
 	//sprint(spiketiming,"../input/spiketiming/1000dose_1stims_filtering/spt%03d.dat",int(rnd.uniform(0,999)))
-	sprint(spiketiming,"../input/spiketiming/1000dose_30stims_filtering/spt%03d.dat",int(rnd.uniform(0,999)))
+	sprint(spiketiming,"%sspt%03d.dat",spt_file_dir,int(rnd.uniform(0,999)))
 	//sprint(spiketiming,"../input/spiketiming/1stim/spiketiming%d.dat",int(rnd.uniform(0,999)))
         RNs.o(i).setIClamp2(STOPTIME,dt,spiketiming)
-        //rns.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
+        //RNs.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
     }
 }
 objref ic_list
@@ -282,6 +363,7 @@ proc mkStim(){
     mkSerialStim()
     //mkIclamp_LN()
     //mkIclamp_PN()
+    //mkstim_random()
 }
 mkStim()
 
@@ -292,10 +374,14 @@ proc setVoltageRecord(){local i
 	PNs.object(i).setVoltageRecord()
     }
     for i = 0, LNs.count()-1{
-	LNs.object(i).setVoltageRecord()
+	if(pc.id%10==0){
+	    LNs.object(i).setVoltageRecord()
+	}
     }
     for i = 0, RNs.count()-1{
-	RNs.object(i).setVoltageRecord()
+	if(i%40==0){
+	    RNs.object(i).setVoltageRecord()
+	}
     }
 }
 
@@ -305,10 +391,14 @@ proc setSpikeRecord(){local i
 	PNs.object(i).setSpikeRecord()
     }
     for i = 0, LNs.count -1{
-	LNs.object(i).setSpikeRecord()
+	if(pc.id%10==0){
+	    LNs.object(i).setSpikeRecord()
+	}
     }
     for i = 0, RNs.count -1{
-	RNs.object(i).setSpikeRecord()
+	if(i%40==0){
+	    RNs.object(i).setSpikeRecord()
+	}
     }
 }
 
@@ -343,7 +433,9 @@ proc printSpikeRecord(){local i
 	PNs.object(i).printSpikeRecord(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
     }
     for i = 0, LNs.count -1{
-	LNs.object(i).printSpikeRecord(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
+	if(pc.id%10==0){
+	    LNs.object(i).printSpikeRecord(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
+	}
     }
     for i = 0, RNs.count -1{
 	if(i%40==0){
@@ -358,7 +450,9 @@ proc printVoltageRecord(){
 	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR)
     }
     for i = 0, LNs.count -1{
-	LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR)
+	if(pc.id%10==0){
+	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR)
+	}
     }
     for i = 0, RNs.count -1{
 	if(i%40==0){

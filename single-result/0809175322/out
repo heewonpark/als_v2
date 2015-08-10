@@ -1,0 +1,141 @@
+numprocs=8
+MAKE PN:2[2]
+===================================================================
+START_TIME: 809175322, STOPTIME: 12010, IS_SUPERCOMPUTER: 0
+NPN: 5, NLN: 35, NRN: 200, NCELL:240
+GABAA_ON: 1, GABAB_ON: 1, NSYNAPSE: 100
+WEIGHT_RNtoPN: 0.100000, WEIGHT_RNtoLN: 0.020000
+GABAA_LTOP: 9.000000, GABAA_LTOL: 1.800000, GABAB_LTOP: 25.000000, GABAB_LTOL: 2.200000
+DOSE: 1000, NSTIM: 30
+SPIKE TIMING: ../input/spiketiming/1000dose_30stims_filtering/
+PROBALITY LTOP: 1
+===================================================================
+MAKE LN:10[2]
+MAKE LN:18[2]
+MAKE LN:26[2]
+MAKE LN:34[2]
+MAKE LN:7[7]
+MAKE PN:3[3]
+MAKE LN:6[6]
+MAKE LN:5[5]
+mkNetwork()
+mkCells()
+MAKE PN:0[0]
+MAKE LN:11[3]
+MAKE LN:15[7]
+MAKE LN:23[7]
+MAKE LN:31[7]
+MAKE LN:14[6]
+MAKE LN:39[7]
+MAKE LN:22[6]
+MAKE LN:13[5]
+MAKE LN:19[3]
+MAKE LN:21[5]
+MAKE LN:29[5]
+MAKE LN:30[6]
+MAKE LN:27[3]
+MAKE LN:37[5]
+MAKE LN:38[6]
+MAKE LN:8[0]
+MAKE LN:35[3]
+MAKE LN:16[0]
+MAKE LN:24[0]
+MAKE LN:32[0]
+MAKE PN:4[4]
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 4[2]
+mkConnections()
+ConnectWithRN()
+MAKE LN:12[4]
+MAKE LN:20[4]
+MAKE LN:28[4]
+MAKE LN:36[4]
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 5[7]
+0.257143 0.714286 0.051429 0.062857
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 5[5]
+LNs.count: 5[6]
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 4[3]
+ConnectNtoN_NET_GABA()
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 4[0]
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 4[4]
+MAKE PN:1[1]
+MAKE LN:9[1]
+MAKE LN:17[1]
+MAKE LN:25[1]
+MAKE LN:33[1]
+0.257143 0.714286 0.051429 0.062857
+LNs.count: 4[1]
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+	0.32536888 
+		0.50594735 
+	0.50199294 
+	0.72386456 
+	0.500314 
+	0.40057635 
+	1.0420628 
+3.3855438e-05 
+../single-result/0809175322/record/
+../single-result/0809175322/record/
+../single-result/0809175322/record/
+../single-result/0809175322/record/../single-result/0809175322/record/
+../single-result/0809175322/record/
+../single-result/0809175322/record/
+
+../single-result/0809175322/record/
+printSpikeRecord()
+printVoltageRecord()
+flg 3 Fukuda 
+flg 3 Fukuda 
+flg 1 MsLN 
+flg flg 3 Fukuda 
+flg 3 1 Fukuda 
+MsLN 
+flg 3 Fukuda 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg flg 1 MsLN 1 MsLN 
+
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 
+flg 0 default 

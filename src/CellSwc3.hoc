@@ -942,6 +942,50 @@ proc setSpikeRecord(){local cmpt localobj nil
     //ncSR.record(tvecSR,idvecSR.srcgid)
     ncSR.record(tvecSR)
 }
+public setSpikeRecord_debug, fprintSpikeRecord_debug, setSpikeRecordList_debug
+
+objref tvecL, cmptL, ncL
+proc setSpikeRecordList_debug(){
+    tvecL = new List()
+    cmptL = new Vector()
+    ncL = new List()
+}
+proc setSpikeRecord_debug(){local cmpt localobj nil,tvecSR,idvecSR,ncSR
+    cmpt = $1
+    tvecSR = new Vector()
+    idvecSR = new Vector()
+    ncSR = connect2target(cmpt,nil)
+    //ncSR.record(tvecSR,idvecSR.srcgid)
+    ncSR.record(tvecSR)
+    print "setSpikeRecord_debug"
+    print ncSR
+    print tvecSR
+    print tvecL
+    print cmptL
+    print ncL
+    ncL.append(ncSR)
+    tvecL.append(tvecSR)
+    cmptL.append(cmpt)
+}
+
+proc fprintSpikeRecord_debug(){local i localobj fileSR
+    strdef filename, fprint_dir
+    fprint_dir = $s1
+    interval = $2
+    tstop = $3
+    delay = 0.0
+    for i=0, cmptL.size()-1{
+	fileSR = new File()
+	sprint(filename,"%s%dSpike%d.dat",fprint_dir,gid,cmptL.x[i])
+	fileSR.wopen(filename)
+	fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+	fileSR.printf("$ Delay(ms): %f\n",delay)    
+	fileSR.printf("$ Number of data : %d\n",tvecL.o(i).size())
+	fileSR.printf("$ TSTOP : %d\n",tstop)
+	tvecL.o(i).printf(fileSR,"%5.5f\n")
+	fileSR.close()
+    }
+}   
 
 objref fileSR
 proc fprintSpikeRecord(){local i, interval, tstop, delay

@@ -211,7 +211,9 @@ def mkStim(nfiles,nstims,dose):
     de_para[3]= Calculate_Alpha2(dose,parameter)
     print"\n[PARAMETERS FOR DOUBLE EXPONENTIAL]\nALPHA1 = %f, BETA = %f, GAMMA1 = %f, ALPHA2 = %f, GAMMA2= %f"%(de_para[0],de_para[1],de_para[2],de_para[3],de_para[4])
     print de_para
-    DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
+    #DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
+    DIR = "./"
+    
     if not os.path.exists(DIR):
         os.makedirs(DIR)
     for i in range(nfiles):
@@ -222,7 +224,7 @@ def mkStim(nfiles,nstims,dose):
             mkSingleStim(File)           
         elif(nstims > 1):
             mkMultipleStims(File,nstims)
-mkStim(1000,30,1000)
+mkStim(2,30,100)
 #write_numfile = open("save_filenumber.dat",'w')
 #write_numfile.write(str(file_num+1)+'\n')
 #write_numfile.close()

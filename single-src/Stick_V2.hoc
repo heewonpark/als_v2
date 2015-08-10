@@ -107,9 +107,13 @@ public gsyn,esyn
 objref gsyn
 
 objref esyn
-obfunc setExp2Syn(){local rev
+obfunc setExp2Syn(){local rev,pos
     rev = $1
-    soma esyn = new Exp2Syn(0.7) synlist.append(esyn)
+    pos = 0.7
+    if(numarg()==2){
+	pos = $2
+    }
+    soma esyn = new Exp2Syn(pos) synlist.append(esyn)
     esyn.e = rev
     esyn.tau1 = 1
     esyn.tau2 = 2

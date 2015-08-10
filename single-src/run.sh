@@ -16,21 +16,27 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=12010"\
+" -c STOPTIME=24000"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
 " -c GABAA_ON=1"\
 " -c NSYNAPSE=100"\
-" -c NPN=50"\
-" -c NLN=350"\
-" -c NRN=2000"\
+" -c NPN=5"\
+" -c NLN=35"\
+" -c NRN=200"\
 " -c WEIGHT_RNtoPN=0.10"\
-" -c WEIGHT_RNtoLN=0.02"\
-" -c GABAA_LTOP=9.0"\
-" -c GABAA_LTOL=1.0"\
-" -c GABAB_LTOP=20.0"\
-" -c GABAB_LTOL=1.5"
+" -c WEIGHT_RNtoLN=0.023"\
+" -c GABAA_LTOP=17.5"\
+" -c GABAA_LTOL=1.8"\
+" -c GABAB_LTOP=43.0"\
+" -c GABAB_LTOL=2.2"\
+" -c DOSE=1000"\
+" -c NSTIM=30"\
+" -c PROB_LTOP=0.5"\
+" -c RND_SEED=0"
+
+
 
 MPIEXEC="mpiexec -n 8"
 
@@ -40,4 +46,6 @@ echo $EXEC
 time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
-python ../src/drawISF.py $SPIKE_DIR
+#python ../src/drawISF.py $SPIKE_DIR
+python ../src/spike_analyze.py $SPIKE_DIR
+python ../src/whole_in_one_spike.py $SPIKE_DIR

@@ -1,0 +1,80 @@
+numprocs=8
+===================================================================
+START_TIME: 807184641, STOPTIME: 4000, IS_SUPERCOMPUTER: 0
+NPN: 0, NLN: 10, NRN: 100, NCELL:110
+GABAA_ON: 0, GABAB_ON: 0, NSYNAPSE: 100
+WEIGHT_RNtoPN: 0.100000, WEIGHT_RNtoLN: 0.020000
+GABAA_LTOP: 8.000000, GABAA_LTOL: 1.000000, GABAB_LTOP: 20.000000, GABAB_LTOL: 1.500000
+DOSE: 1000, NSTIM: 1
+SPIKE TIMING: ../input/spiketiming/1000dose_1stims_filtering/
+===================================================================
+MAKE LN:1[1]
+MAKE LN:4[4]
+MAKE LN:2[2]
+mkNetwork()
+mkCells()
+MAKE LN:0[0]
+MAKE LN:5[5]
+MAKE LN:9[1]
+MAKE LN:8[0]
+mkConnections()
+ConnectWithRN()
+0.800000 2.000000 0.100000 0.150000
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 1[4]
+LNs.count: 2[1]
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 1[2]
+MAKE LN:3[3]
+ConnectNtoN_NET_GABA()
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 1[5]
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 2[0]
+MAKE LN:7[7]
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 1[3]
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 1[7]
+MAKE LN:6[6]
+0.800000 2.000000 0.100000 0.150000
+LNs.count: 1[6]
+setRecord()
+setVoltageRecord()
+setSpikeRecord()
+	0.28741145 
+	0.25293875 
+	0.15089178 
+	0.043354988 
+	0.13275433 
+	2.6226044e-05 
+	0.24714565 
+	0.39888525 
+../single-result/0807184641/record/
+../single-result/0807184641/record/
+../single-result/0807184641/record/
+../single-result/0807184641/record/
+../single-result/0807184641/record/../single-result/0807184641/record/
+../single-result/0807184641/record/
+../single-result/0807184641/record/
+
+printSpikeRecord()
+printVoltageRecord()
+flg 1 MsLN 
+flg 1 MsLN flg 
+1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 1 MsLN 
+flg 0 default 
+flg flg 1 MsLN 
+0 default 
+flg 0 default flg 
+0 flg 0 default 
+default 
+flg 1 MsLN 
+flg 0 default 
+flg 0 default 
+flg 0 default 

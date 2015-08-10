@@ -81,8 +81,8 @@ info_filename_rn = "../input/network_info/network_info_20000rns.dat"
 if(IS_SUPERCOMPUTER == 0){
     //info_filename = "../input/network_info/network_info_3cells.dat"
     //info_filename = "../input/network_info/network_info_3_1PN2LNs.dat"
-    info_filename = "../input/network_info/network_info_1LN_reduction.dat"
-    //info_filename = "../input/network_info/network_info_1LN_normal.dat"
+    //info_filename = "../input/network_info/network_info_1LN_reduction.dat"
+    info_filename = "../input/network_info/network_info_1LN_normal.dat"
     //info_filename = "../input/network_info/network_info_1PN.dat"
     //info_filename = "../input/network_info/network_info_3reduced.dat"
     //info_filename = "../input/network_info/network_info_4cells.dat"
@@ -165,9 +165,9 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    ln = new CellSwc(ln_path[j].swcpath,ln_matrix.x[j][0],ln_matrix.x[j][1],ln_matrix.x[j][2],ln_matrix.x[j][3])
 	    ln.setPath(ln_path[j].ppath, ln_path[j].synpath)
 	    ln.setNid()
-	    //ln.insertHH()
+	    ln.insertHH()
 	    //ln.setNSEG(51)
-	    ln.insertLNlla()
+	    //ln.insertLNlla()
 	    lns.append(ln)
 	    //if(j==0) ln.mkSynapses("./synlist/fromRN/040823_5_sn_SynapseList.dat")
 	    //if(j==1) ln.mkSynapses("./synlist/fromRN/050205_7_sn_SynapseList.dat")
@@ -176,6 +176,9 @@ proc mkCells(){localobj pn,ln,rn, nc, nil
 	    
 	    pc.set_gid2node(ln.gid,pc.id)
 	    pc.cell(ln.gid,nc)
+	    forall{
+		cm= 10
+	    }
 	    psection()
 	    print "SectionNum",ln.SectionNum
 	}else if(i>=NPN+NLN){
@@ -304,6 +307,7 @@ proc mkStimulations(){
     //mkSerialStim()
     //mkSerialStim_debug()
     //mkIclamp_ln2()
+    /*
     if(pc.id == 0){
 	if(lns.o(0).gid == 302000){
 	    print "****GID ",lns.o(0).gid 
@@ -317,7 +321,10 @@ proc mkStimulations(){
 	    //mkIclamp_debug(lns.o(0),22626-2,80,2,10)
 	    //mkIclamp_debug(lns.o(0),9491-2,80,1,10)
 	}	
-    }
+    }*/
+    //mkIclamp_debug(lns.o(0),3770,5,3,10)
+    //mkIclamp_debug(lns.o(0),22926,5,3,10)
+    mkIclamp_debug(lns.o(0),22217,33,10)
     /*
     mkIclamp_debug(lns.o(0),100,30,10,10)
     mkIclamp_debug(lns.o(0),200,30,10,10)
@@ -332,10 +339,11 @@ printf("SET STIMULATION END[%d]\n",pc.id)
 pc.barrier()
 {load_file("recorder.hoc")}
 proc setRecorder(){
-    setVoltageRecord()
+    //setVoltageRecord()
     //setGABArecord()
     //setDummyRecord()
     //setPreGABArecord()
+    /*
     if(pc.id == 0){
 	if(lns.o(0).gid == 302000){
 	    print "****GID ",lns.o(0).gid 
@@ -352,14 +360,35 @@ proc setRecorder(){
 	    setVoltageRecord_debug(lns.o(0),15581-2)
 	}	
     }
-    
+    */
+    /*
+    setVoltageRecord_debug(lns.o(0),3770)
+    setVoltageRecord_debug(lns.o(0),1)
+    setVoltageRecord_debug(lns.o(0),3130)
+    */
+    setVoltageRecord_debug(lns.o(0),22217)
+    setVoltageRecord_debug(lns.o(0),22926)
+    setVoltageRecord_debug(lns.o(0),50)
+    setVoltageRecord_debug(lns.o(0),19211)
     /*
     setVoltageRecord_debug(lns.o(0),100)
     setVoltageRecord_debug(lns.o(0),200)
     setVoltageRecord_debug(lns.o(0),300)
     setVoltageRecord_debug(lns.o(0),400)
     */
-    spikerecord()
+    lns.o(0).setSpikeRecordList_debug()
+    /*
+    lns.o(0).setSpikeRecord_debug(3770)
+    lns.o(0).setSpikeRecord_debug(1)
+    lns.o(0).setSpikeRecord_debug(3130)
+    */
+
+    lns.o(0).setSpikeRecord_debug(22217)
+    lns.o(0).setSpikeRecord_debug(22926)
+    lns.o(0).setSpikeRecord_debug(50)
+    lns.o(0).setSpikeRecord_debug(19211)
+    
+//spikerecord()
 }
 if(pc.id==0)print "SET RECORDER"
 printf("SET RECORDER[%d]\n",pc.id)
@@ -378,13 +407,14 @@ stdinit()
 if(pc.id==0)print "FINISHED "
 if(pc.id == 0){printf("PRINTING[%d]\n",pc.id)}
 proc setPrinter(){
-    fprintVoltageRecord()
+    //fprintVoltageRecord()
     //fprintGABArecord()
     //fprintDummyRecord()
     //fprintSynapseList()
     //fprintPreGABArecord()
     fprintVoltageRecord_debug()
-    spikeout()
+    //spikeout()
+    lns.o(0).fprintSpikeRecord_debug(SPIKEOUT_DIR,INTERVAL,STOPTIME)	    
 }
 
 setPrinter()
