@@ -136,7 +136,7 @@ def Calculate_Alpha2(c,parameter):
     return factor * Michaelis_Menten(c,parameter[0:3])
 
 def mkMultipleStims(spiketimef,dose,nstims,dose2,nstims2,parameter):
-    print "mkMultipleStims"
+    #print "mkMultipleStims"
     cnt = 0
     de_para[0]= Calculate_Alpha1(dose,parameter)
     de_para[3]= Calculate_Alpha2(dose,parameter)
@@ -171,6 +171,12 @@ def mkMultipleStims(spiketimef,dose,nstims,dose2,nstims2,parameter):
                         spiketimef.writelines(str(float(spike_timing))+'\n')
                         cnt +=1
                     i+=1
+    if(nstims2<0):
+        print "nstims2",nstims2
+        spiketimef.writelines(str(cnt)+'\n')
+        spiketimef.close()
+        return
+                    
     de_para[0]= Calculate_Alpha1(dose2,parameter)
     de_para[3]= Calculate_Alpha2(dose2,parameter)
     for j in range(nstims2):
@@ -266,7 +272,7 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
             mkMultipleStims(File,dose,nstims,dose2,nstims2,parameter)
         File.close()
 
-mkStim(1000,30,1000,30,100)
+mkStim(2,30,2000,-1,-1)
 #write_numfile = open("save_filenumber.dat",'w')
 #write_numfile.write(str(file_num+1)+'\n')
 #write_numfile.close()

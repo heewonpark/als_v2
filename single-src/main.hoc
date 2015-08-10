@@ -41,6 +41,13 @@ if(DOSE==1000){
 	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
     }
 
+}else if(DOSE==2000){
+    if(NSTIM==1){
+	//spt_file_dir ="../input/spiketiming/2000dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/2000dose_30stims_filtering/"
+    }
+
 }else if(DOSE==100){
     if(NSTIM==1){
 	spt_file_dir ="../input/spiketiming/100dose_1stims_filtering/"
@@ -60,7 +67,8 @@ if(DOSE==1000){
 	spt_file_dir ="../input/spiketiming/10000dose_30stims_filtering/"
     }
 }
-spt_file_dir ="../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
+//spt_file_dir ="../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
+//spt_file_dir ="../input/spiketiming/1000dose_30stims_100dose_30stims_filtering/"
 if(RND_SEED==0){
     RND_SEED=0
 }else if(RND_SEED!=0){
@@ -438,7 +446,7 @@ proc setSpikeRecord(){local i
 
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
-    //setVoltageRecord()
+    setVoltageRecord()
     setSpikeRecord()
 }
 setRecord()
@@ -496,7 +504,7 @@ proc printVoltageRecord(){
 }
 proc setPrinter(){
     printSpikeRecord()
-    //printVoltageRecord()
+    printVoltageRecord()
 }
 setPrinter()
 

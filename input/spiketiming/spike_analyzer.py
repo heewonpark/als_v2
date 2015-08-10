@@ -23,8 +23,8 @@ def load_spt_data(nfiles,nstims,dose):
     for i in range(nfiles):
         #DIR = "./%ddose_%dstims/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_test/"%(dose,nstims)
-        #DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
-        DIR = "./1000dose_30stims_2000dose_30stims_filtering/"
+        DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
+        #DIR = "./1000dose_30stims_2000dose_30stims_filtering/"
         fn = "%sspt%03d.dat"%(DIR,i)
         #fn = "./1stim/spiketiming%d.dat"%(i)
         spt = np.loadtxt(fn,float)
@@ -74,4 +74,4 @@ def PSTH(nfiles,nstims,dose):
     plt.savefig(save_fn)
     plt.show()
 
-PSTH(1000,60,10)
+PSTH(1000,30,2000)
