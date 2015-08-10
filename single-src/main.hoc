@@ -416,7 +416,7 @@ proc setVoltageRecord(){local i
 	PNs.object(i).setVoltageRecord()
     }
     for i = 0, LNs.count()-1{
-	if(pc.id%10==0){
+	if(pc.id%1==0){
 	    LNs.object(i).setVoltageRecord()
 	}
     }
@@ -433,7 +433,7 @@ proc setSpikeRecord(){local i
 	PNs.object(i).setSpikeRecord()
     }
     for i = 0, LNs.count -1{
-	if(pc.id%10==0){
+	if(pc.id%1==0){
 	    LNs.object(i).setSpikeRecord()
 	}
     }
@@ -475,7 +475,7 @@ proc printSpikeRecord(){local i
 	PNs.object(i).printSpikeRecord(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
     }
     for i = 0, LNs.count -1{
-	if(pc.id%10==0){
+	if(pc.id%1==0){
 	    LNs.object(i).printSpikeRecord(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
 	}
     }
@@ -492,7 +492,7 @@ proc printVoltageRecord(){
 	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR)
     }
     for i = 0, LNs.count -1{
-	if(pc.id%10==0){
+	if(pc.id%1==0){
 	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR)
 	}
     }

@@ -148,7 +148,7 @@ def drawPeakISF(pulses,filename,show):
     plt.plot(x[1:-1], peakISF[1:-1])
     plt.ylabel("peak ISF[Hz]",fontsize=15)
     plt.xlabel("stimulus pulse number",fontsize=15)
-    plt.ylim(0,300)
+    #plt.ylim(0,300)
     imgFilename = "%s_PeakISF.png"%tmp[0]
     plt.savefig(imgFilename)
     if(show == True):

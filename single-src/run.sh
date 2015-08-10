@@ -26,8 +26,8 @@ NRNOPT=\
 " -c NPN=5"\
 " -c NLN=1"\
 " -c NRN=200"\
-" -c WEIGHT_RNtoPN=0.100"\
-" -c WEIGHT_RNtoLN=0.020"\
+" -c WEIGHT_RNtoPN=0.04"\
+" -c WEIGHT_RNtoLN=0.018"\
 " -c GABAA_LTOP=1.5"\
 " -c GABAA_LTOL=0.1"\
 " -c GABAB_LTOP=20.0"\
@@ -38,7 +38,7 @@ NRNOPT=\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
 " -c WEIGHT_PTOL=0.12"\
-" -c RND_SEED=1"
+" -c RND_SEED=0"
 
 
 MPIEXEC="mpiexec -n 8"
