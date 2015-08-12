@@ -2,7 +2,7 @@
 
 # Make directory to save data file
 Time=`date '+%m%d%H%M%S'`
-oecho "TIME : ${Time}"
+echo "TIME : ${Time}"
 RESULT_DIR="../single-result/"
 RECORD_DIR="${RESULT_DIR}${Time}/record"
 SPIKE_DIR="${RESULT_DIR}${Time}/spike"
@@ -16,28 +16,28 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=3600"\
+" -c STOPTIME=3610"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
-" -c GABAB_ON=0"\
-" -c GABAA_ON=0"\
-" -c PTOL_ON=0"\
+" -c GABAB_ON=1"\
+" -c GABAA_ON=1"\
+" -c PTOL_ON=1"\
 " -c NSYNAPSE=100"\
-" -c NPN=5"\
-" -c NLN=1"\
+" -c NPN=50"\
+" -c NLN=350"\
 " -c NRN=200"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=1.5"\
-" -c GABAA_LTOL=0.1"\
-" -c GABAB_LTOP=20.0"\
-" -c GABAB_LTOL=0.03"\
-" -c DOSE=10"\
+" -c GABAA_LTOP=0.0"\
+" -c GABAA_LTOL=0.5"\
+" -c GABAB_LTOP=12.5"\
+" -c GABAB_LTOL=0.0"\
+" -c DOSE=100"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.12"\
+" -c WEIGHT_PTOL=0.08"\
 " -c RND_SEED=0"
 
 

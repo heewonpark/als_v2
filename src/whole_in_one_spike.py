@@ -163,11 +163,11 @@ def drawPeakISFAllinOne():
     for i in range(len(avg)-1):
         writer.writerow([x_whole[i+1],avg[i+1]])
 
-    #plt.plot(x_whole[1:],avg[1:],color='b')
-    plt.plot(x_whole[1:30],avg[1:30],color='b')
-    plt.plot(x_whole[31:],avg[31:],color='g')
-    #for wd in wholedata:
-        #plt.plot(x_whole[1:],wd[1:],color='r')
+    plt.plot(x_whole[1:],avg[1:],color='b')
+    #plt.plot(x_whole[1:30],avg[1:30],color='b')
+    #plt.plot(x_whole[31:],avg[31:],color='g')
+    for wd in wholedata:
+        plt.plot(x_whole[1:],wd[1:],color='r')
     plt.ylabel("peak ISF[Hz]")
     plt.xlabel("stimulus pulse number")
     plt.title("AVERAGE OF PEAK ISF")
@@ -261,12 +261,12 @@ def drawSpikeCountAllinOne():
         writer.writerow([x_whole[i+1],avg[i+1]])
 
 
-    #plt.plot(x_whole[1:],avg[1:],color='b')
-    plt.plot(x_whole[1:30],avg[1:30],color='b')
-    plt.plot(x_whole[31:],avg[31:],color='g')
+    plt.plot(x_whole[1:],avg[1:],color='b')
+    #plt.plot(x_whole[1:30],avg[1:30],color='b')
+    #plt.plot(x_whole[31:],avg[31:],color='g')
 
-    #for wd in wholedata:
-     #   plt.plot(x_whole[1:],wd[1:],color='r')
+    for wd in wholedata:
+        plt.plot(x_whole[1:],wd[1:],color='r')
     plt.ylabel("Spike Counts[AP/stim]")
     plt.xlabel("stimulus pulse number")
     plt.title("AVERAGE OF SPIKECOUNT")

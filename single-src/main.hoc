@@ -109,7 +109,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	cell = new Stick()
 	//cells.append(cell)
 	if(i < NPN){
-	    printf("MAKE PN:%d[%d]\n",i,pc.id)
+	    //printf("MAKE PN:%d[%d]\n",i,pc.id)
 	    //cell.insertFukuda()
 	    cell.insertFukuda_tunned()
 	    cell.setGID(i)
@@ -119,7 +119,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	    
 	    //psection()
 	}else if((i>=NPN) && (i<NPN+NLN)){
-	    printf("MAKE LN:%d[%d]\n",i,pc.id)
+	    //printf("MAKE LN:%d[%d]\n",i,pc.id)
 	    cell.insertLNlla()
 	    cell.setGID(i)
 	    cell.setType(2)
@@ -140,6 +140,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	nc = cell.connect2target(nil)
 	pc.cell(i,nc)
     }
+    pc.multisplit()
 }
 
 proc mkConnections(){
@@ -241,8 +242,8 @@ proc ConnectNtoN_NET_GABA(){\
     for i=0, PNs.count-1{
 	for j=0, NLN-1{
 	    if(GABAA_ON == 1){
-		if(rnd.repick()<PROB_LTOP){
-		//if((PNs.o(i).getGID()+j)%2==0){
+		//if(rnd.repick()<PROB_LTOP){
+		if((PNs.o(i).getGID()+j)%2==0){
 		    gaba = PNs.o(i).mkNET_GABAa(gmax_LtoPa)
 		    nton_GABAa.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -255,8 +256,8 @@ proc ConnectNtoN_NET_GABA(){\
 		}
 	    }
 	    if(GABAB_ON == 1){
-		if(rnd.repick()<PROB_LTOP){
-		//if((PNs.o(i).getGID()+j)%2==0){
+		//if(rnd.repick()<PROB_LTOP){
+		if((PNs.o(i).getGID()+j)%2==0){
 		    gaba = PNs.o(i).mkNET_GABAb(gmax_LtoPb)
 		    nton_GABAb.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -281,6 +282,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 1.0
 		    nc.weight = WEIGHT_PTOL
 		    pn_nclist.append(nc)
+		    printf("[EXP2SYN] gid: %d, LN's gid: %d, i: %d, j: %d\n",src_gid,LNs.o(i).getGID(),i,j) 
 		}
 	    }
 	}
@@ -416,7 +418,7 @@ proc setVoltageRecord(){local i
 	PNs.object(i).setVoltageRecord()
     }
     for i = 0, LNs.count()-1{
-	if(pc.id%1==0){
+	if(pc.id%10==0){
 	    LNs.object(i).setVoltageRecord()
 	}
     }
@@ -433,7 +435,7 @@ proc setSpikeRecord(){local i
 	PNs.object(i).setSpikeRecord()
     }
     for i = 0, LNs.count -1{
-	if(pc.id%1==0){
+	if(pc.id%10==0){
 	    LNs.object(i).setSpikeRecord()
 	}
     }
@@ -475,7 +477,7 @@ proc printSpikeRecord(){local i
 	PNs.object(i).printSpikeRecord(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
     }
     for i = 0, LNs.count -1{
-	if(pc.id%1==0){
+	if(pc.id%10==0){
 	    LNs.object(i).printSpikeRecord(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
 	}
     }
@@ -492,7 +494,7 @@ proc printVoltageRecord(){
 	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR)
     }
     for i = 0, LNs.count -1{
-	if(pc.id%1==0){
+	if(pc.id%10==0){
 	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR)
 	}
     }
