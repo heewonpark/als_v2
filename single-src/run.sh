@@ -25,10 +25,10 @@ NRNOPT=\
 " -c NSYNAPSE=100"\
 " -c NPN=50"\
 " -c NLN=350"\
-" -c NRN=200"\
+" -c NRN=2000"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.0"\
+" -c GABAA_LTOP=0.3"\
 " -c GABAA_LTOL=0.5"\
 " -c GABAB_LTOP=12.5"\
 " -c GABAB_LTOL=0.0"\
@@ -37,7 +37,7 @@ NRNOPT=\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.08"\
+" -c WEIGHT_PTOL=0.04"\
 " -c RND_SEED=0"
 
 
