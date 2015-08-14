@@ -75,7 +75,7 @@ find_eq_para.append(cf2_para[0:5])
 def find_de1eqde3(x,find_eq_para):
     return distribution_exp1(x,*find_eq_para[0]) - distribution_exp3(x,*find_eq_para[1])
 cf1eqcf2 = scipy.optimize.fsolve(find_de1eqde3 ,-1,args=find_eq_para)
-print cf1eqcf2
+print "crossing point",cf1eqcf2
 
 C = cum_Func1(cf1eqcf2, *cf1_para)
 cf2_para.append(C)
@@ -272,7 +272,7 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
             mkMultipleStims(File,dose,nstims,dose2,nstims2,parameter)
         File.close()
 
-mkStim(2,30,2000,-1,-1)
+mkStim(1,30,2000,-1,-1)
 #write_numfile = open("save_filenumber.dat",'w')
 #write_numfile.write(str(file_num+1)+'\n')
 #write_numfile.close()

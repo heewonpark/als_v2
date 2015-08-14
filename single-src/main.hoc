@@ -194,12 +194,44 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
 	}
     }
 }
+obfunc mkRndvec(){local rnd_,vec_size,id_, vec_range, flg localobj r_, vec_
+    vec_range = $1
+    vec_size  = $2
+    id_       = $3
+    r_   = new Random(id_)
+    vec_ = new Vector()
+    r_.uniform(0,vec_range)
+    while(vec_.size<vec_size){
+	rnd_ = int(r_.repick())
+	flg = 0
+	for i=0, vec_.size()-1{
+	    if(vec_.x[i]==rnd_){
+		flg +=1 
+	    }
+	}
+	if(flg==0){
+	    vec_.append(rnd_)
+	    print rnd_
+	}
+    }
+    return vec_
+}
+func vec_exists(){local rnd_,i localobj vec_
+    vec_ = $o1
+    rnd_ = $2
+    for i=0, vec_.size()-1{
+	if(rnd_==vec_.x[i]){
+	    return 1
+	}
+    }
+    return 0
+}
 
 objref nton_nclist, nton_GABAa, nton_GABAb
 objref pn_nclist
 proc ConnectNtoN_NET_GABA(){\
     local i, j, base_gid, this_gid, gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb,src_gid\
-    localobj rnd, nc, nil, gaba,syn
+    localobj rnd, nc, nil, gaba,syn,rndvec
     if(pc.id==0)printf("ConnectNtoN_NET_GABA()\n")
     nton_nclist   = new List()
     nton_GABAa = new List()
@@ -240,10 +272,13 @@ proc ConnectNtoN_NET_GABA(){\
     //--------------------------------------
     // MAKE POSTSYNAPSE
     for i=0, PNs.count-1{
+	rndvec = mkRndvec(NLN,int(NLN/2),pc.id+i)
 	for j=0, NLN-1{
 	    if(GABAA_ON == 1){
 		//if(rnd.repick()<PROB_LTOP){
-		if((PNs.o(i).getGID()+j)%2==0){
+		//if(((PNs.o(i).getGID()+j)%2==0)||(j==0)){
+		//if((PNs.o(i).getGID()+j)%2==0){
+		if(vec_exists(rndvec,j)==1){
 		    gaba = PNs.o(i).mkNET_GABAa(gmax_LtoPa)
 		    nton_GABAa.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -257,7 +292,8 @@ proc ConnectNtoN_NET_GABA(){\
 	    }
 	    if(GABAB_ON == 1){
 		//if(rnd.repick()<PROB_LTOP){
-		if((PNs.o(i).getGID()+j)%2==0){
+		//if((PNs.o(i).getGID()+j)%2==0){
+		if(vec_exists(rndvec,j)==1){
 		    gaba = PNs.o(i).mkNET_GABAb(gmax_LtoPb)
 		    nton_GABAb.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -272,10 +308,13 @@ proc ConnectNtoN_NET_GABA(){\
 	}
     }
     for i=0, LNs.count-1{
+	rndvec = mkRndvec(NPN,int(NPN/2),pc.id+i)
 	for j=0, NPN-1{
 	    if(PTOL_ON==1){
 		//if(rnd.repick()<PROB_PTOL){
-		if((LNs.o(i).getGID()+j)%2==0){
+		//if(((LNs.o(i).getGID()+j)%2==0)||(j==0)){
+		//if((LNs.o(i).getGID()+j)%2==0){
+		if(vec_exists(rndvec,j)==1){
 		    syn = LNs.o(i).setExp2Syn(0)
 		    src_gid = base_gid+j
 		    nc = pc.gid_connect(src_gid,syn)
