@@ -59,6 +59,8 @@ if(name_declared("GABAA_GMAX_LTOP")!=5){ execute("GABAA_GMAX_LTOP=0.1")}
 if(name_declared("GABAB_GMAX_LTOP")!=5){ execute("GABAB_GMAX_LTOP=0.6")}
 if(name_declared("GABAB_ON")!=5){ execute("GABAB_ON=0")}
 if(name_declared("GABAA_ON")!=5){ execute("GABAA_ON=0")}
+if(name_declared("DOSE")!=5){ execute("DOSE=1000")}
+if(name_declared("NSTIM")!=5){ execute("NSTIM=30")}
 
 RNperSYN = 5
 strdef info_filename
@@ -89,12 +91,42 @@ if(IS_SUPERCOMPUTER == 0){
     //info_filename_rn = "../input/network_info/network_info_1rns.dat"
 }
 
+
+strdef spt_file_dir
+if(DOSE==1000){
+    if(NSTIM==1){
+	spt_file_dir ="../input/spiketiming/1000dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
+    }
+
+}else if(DOSE==100){
+    if(NSTIM==1){
+	spt_file_dir ="../input/spiketiming/100dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/100dose_30stims_filtering/"
+    }
+}else if(DOSE==10){
+    if(NSTIM==1){
+	//spt_file_dir ="../input/spiketiming/10dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/10dose_30stims_filtering/"
+    }
+}else if(DOSE==10000){
+    if(NSTIM==1){
+	spt_file_dir ="../input/spiketiming/10000dose_1stims_filtering/"
+    }else if(NSTIM>1){
+	spt_file_dir ="../input/spiketiming/10000dose_30stims_filtering/"
+    }
+}
+
+
 objref pc
 pc = new ParallelContext()
 //STOPTIME = 300
 proc ShowInitialStatus(){
     if(pc.id==0){
-	printf("====================================================================================\n")
+	printf("==================================================================================\n")
 	printf("PC.NHOST : %d\n",pc.nhost)
 	printf("STOPTIME : %d(ms) IS_SUPERCOMPUTER : %d INTERVAL : %d\n",STOPTIME, IS_SUPERCOMPUTER, INTERVAL)
 	printf("NETWORK INFORMATION :\n")
@@ -102,7 +134,9 @@ proc ShowInitialStatus(){
 	printf("WEIGHT_200\t%f\tWEIGHT_300\t%f\tWEIGHT_301\t%f\n",WEIGHT_200,WEIGHT_300,WEIGHT_301)
 	printf("GABAA_GMAX_LTOL\t%f\tGABAB_GMAX_LTOL\t%f\tGABAA_GMAX_LTOP\t%f\tGABAB_GMAX_LTOP\t%f\n",GABAA_GMAX_LTOL,GABAB_GMAX_LTOL,GABAA_GMAX_LTOP,GABAB_GMAX_LTOP)
 	printf("GABAA_ON\t%f\tGABAB_ON\t%f\n",GABAA_ON, GABAB_ON)
-	printf("====================================================================================\n")
+	printf("SPIKE TIMING: %s\n",spt_file_dir)
+	printf("DOSE: %f, NSTIM: %d\n",DOSE, NSTIM)
+	printf("==================================================================================\n")
     }
 }
 ShowInitialStatus()
@@ -297,7 +331,7 @@ pc.barrier()
 proc mkStimulations(){
     //    mkIntermitStim()
     //mkIclamp()
-    mkSerialStim()
+    mkSerialStim(spt_file_dir)
     //mkSerialStim_debug()
     //mkIclamp_ln2()
 }

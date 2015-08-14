@@ -136,12 +136,17 @@ proc mkIclamp_debug(){local cmpt, dur, amp, del localobj ic, cell
 proc mkSerialStim(){local i localobj rnd
     rnd = new Random(pc.id)
     strdef spiketiming
+    strdef dir
+    dir = $s1
     for(i=0; i<rns.count();i=i+1){
+	/*
 	if(STOPTIME<1200){
 	    sprint(spiketiming,"../input/spiketiming/spiketiming%d.dat",int(rnd.uniform(0,999)))
 	}else{
 	    sprint(spiketiming,"../input/spiketiming/40stim/spiketiming%d.dat",int(rnd.uniform(0,999)))
 	}
+	*/
+	sprint(spiketiming,"%sspt%03d.dat",dir,int(rnd.uniform(0,999)))
 	rns.o(i).setIClamp(STOPTIME,dt,spiketiming)
 	//rns.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,START_TIME+pc.nhost*i+pc.id)
     }
