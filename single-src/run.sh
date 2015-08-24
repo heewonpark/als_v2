@@ -13,10 +13,10 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./main.hoc"
+HOC_NAME="./k-main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=12010"\
+" -c STOPTIME=3610"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
@@ -28,16 +28,16 @@ NRNOPT=\
 " -c NRN=200"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.2"\
+" -c GABAA_LTOP=0.0"\
 " -c GABAA_LTOL=0.25"\
 " -c GABAB_LTOP=7.25"\
-" -c GABAB_LTOL=0.0"\
-" -c DOSE=1000"\
+" -c GABAB_LTOL=0.05"\
+" -c DOSE=1000100"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.04"\
+" -c WEIGHT_PTOL=0.0"\
 " -c RND_SEED=0"
 
 
