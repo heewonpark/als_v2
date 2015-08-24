@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #PJM --rsc-list "node=12"
-#PJM --rsc-list "elapse=1:00:00"
+#PJM --rsc-list "elapse=0:30:00"
 #PJM --rsc-list "rscgrp=small"
 #PJM --mpi "proc=96"
 #PJM -s
@@ -38,7 +38,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./k-main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=36010"\
+" -c STOPTIME=12010"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c START_TIME=0"\
 " -c GABAB_ON=1"\
@@ -50,16 +50,16 @@ NRNOPT=\
 " -c NRN=2000"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.5"\
-" -c GABAA_LTOL=0.20"\
-" -c GABAB_LTOP=13.0"\
-" -c GABAB_LTOL=0.0"\
-" -c DOSE=100"\
+" -c GABAA_LTOP=0.0"\
+" -c GABAA_LTOL=0.15"\
+" -c GABAB_LTOP=17.0"\
+" -c GABAB_LTOL=0.02"\
+" -c DOSE=1000"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.036"\
+" -c WEIGHT_PTOL=0.03"\
 " -c RND_SEED=0"
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"

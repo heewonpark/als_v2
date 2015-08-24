@@ -14,9 +14,11 @@
 
 #PJM --stgin "rank=* ./input/* %r:../input/"
 #--#PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
-#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/100dose_30stims_filtering/* %r:../input/spiketiming/100dose_30stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/10dose_30stims_filtering/* %r:../input/spiketiming/10dose_30stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/100dose_30stims_filtering/* %r:../input/spiketiming/100dose_30stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/10dose_30stims_filtering/* %r:../input/spiketiming/10dose_30stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_100dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_100dose_30stims_filtering/"
 #PJM --stgin "rank=* ./src/* %r:./"
 #PJM --stgin "rank=* ./single-src/* %r:./"
 #--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
@@ -54,7 +56,7 @@ NRNOPT=\
 " -c GABAA_LTOL=0.50"\
 " -c GABAB_LTOP=12.5"\
 " -c GABAB_LTOL=0.0"\
-" -c DOSE=1000100"\
+" -c DOSE=10002000"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
