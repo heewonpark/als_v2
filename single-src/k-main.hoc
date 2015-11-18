@@ -489,7 +489,7 @@ proc setSpikeRecord(){local i
 
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
-    //setVoltageRecord()
+    setVoltageRecord()
     setSpikeRecord()
 }
 setRecord()
@@ -547,7 +547,7 @@ proc printVoltageRecord(){
 }
 proc setPrinter(){
     printSpikeRecord()
-    //printVoltageRecord()
+    printVoltageRecord()
 }
 setPrinter()
 
