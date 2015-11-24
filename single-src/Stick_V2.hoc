@@ -14,11 +14,10 @@ public insertPN, insertLNlla,insertLNllb, insertFukuda, insertPas, insertHH
 public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, insertLNlla3
 public insertLNlla4, insertLNllb2, insertHH_RN, insertType2LN, insertFukuda_tunned
 public setVoltageRecord, printVoltageRecord, printVoltageRecord2
-public synlist,gabalist
+public synlist
 public type, setType
 public setSpikeRecord, printSpikeRecord, Delay
 public setIClamp2, setIClamp_with_Latency, setRN_biophys
-objref synlist,gabalist
 
 public gaba, setGABA, setNET_GABA, setGABAb
 public mkNET_GABAa,mkNET_GABAb,mkNET_nACh
@@ -27,6 +26,7 @@ public setGID, getGID, gid
 objref mechname[10]
 objref typename[6]
 objref this
+objref gabaa_list, gabab_list
 
 public dose
 proc init(){
@@ -59,8 +59,11 @@ proc init(){
     imax =0
     
     IS_SUPERCOMPUTER = 1
+    
+    gabaa_list = new List()
+    gabab_list = new List()
+
     synlist = new List()
-    gabalist = new List()
     biophys()
     
     dose = 0
@@ -574,12 +577,14 @@ obfunc mkNET_GABAa(){local gmax
     gmax = $1
     soma gaba = new NET_GABAa(0.3)
     gaba.gmax = gmax
+    gabaa_list.append(gaba)
     return gaba
 }
 obfunc mkNET_GABAb(){local gmax
     gmax = $1
     soma gaba = new NET_GABAb(0.5)
     gaba.gmax = gmax
+    gabab_list.append(gaba)
     return gaba
 }
 
@@ -679,13 +684,22 @@ proc setCurrentRecord(){
     veci.record(&st.i)
 }
 
-objref tvec3, vecg
+objref tvec3, gabaa_r_list, gabab_r_list
 public setGABACurrentRecord
-proc setGABACurrentRecord(){
+proc setGABACurrentRecord(){local i localobj vecg
     tvec3 = new Vector()
-    vecg = new Vector()
+    gabaa_r_list = new Vector()
     tvec3.record(&t)
-    vecg.record(&gsyn.i)
+    for i, gabaa_list.count()-1{
+	vecg = new Vector()
+	vecg.record(&gabaa_list.o(i).i)
+	gabaa_r_list.append(vecg)
+    }
+    for i, gabab_list.count()-1{
+	vecg = new Vector()
+	vecg.record(&gabab_list.o(i).i)
+	gabab_r_list.append(vecg)
+    }
 }
 
 objref tvec4, veci2
@@ -717,25 +731,42 @@ proc setCurrentRecord_exp2syn(){
 }
 
 
-objref mt3,file3
-public mt3, printGABACurrentRecord
+objref mt_g1, file_g1, mt_g2, file_g2
+public printGABACurrentRecord
 proc printGABACurrentRecord(){local i
     i = $1
-    mt3 = new Matrix()
-    file3 = new File()
-    
+    mt_g1 = new Matrix()
+    file_g1 = new File()
+
+    mt_g2 = new Matrix()
+    file_g2= new File()
+
     //tvec.printf()
-    mt3.resize(tvec3.size(),2)
-    mt3.setcol(0,tvec3)
-    mt3.setcol(1,vecg)
+    mt_g1.resize(tvec3.size(),gabaa_r_list.count()+1)
+    mt_g1.setcol(0,tvec3)
+    for i, gabaa_r_list.count()-1{	
+	mt_g1.setcol(1+i,gabaa_r_list.o(i))
+    }
+
+    mt_g2.resize(tvec3.size(),gabab_r_list.count()+1)
+    mt_g2.setcol(0,tvec3)
+    for i, gabab_r_list.count()-1{	
+	mt_g1.setcol(1+i,gabab_r_list.o(i))
+    }
+
     
     //mt.printf("%5.5f\t")
     strdef filename
     print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    sprint(filename,"./record/gabacurrent_%s%d.txt",typename[type].s ,i) 
-    file3.wopen(filename)
-    mt3.fprint(file3,"%5.5f\t")
-    file3.close()
+    sprint(filename,"./record/gabaacurrent_%s%d.txt",typename[type].s ,i) 
+    file_g1.wopen(filename)
+    mt_g1.fprint(file_g1,"%5.5f\t")
+    file_g1.close()
+
+    sprint(filename,"./record/gababcurrent_%s%d.txt",typename[type].s ,i) 
+    file_g2.wopen(filename)
+    mt_g2.fprint(file_g2,"%5.5f\t")
+    file_g2.close()
 }
 
 objref mt2,file2
@@ -746,7 +777,7 @@ proc printCurrentRecord(){local i
     file2 = new File()
     
     //tvec.printf()
-    mt2.resize(tvec2.size(),2)
+    mt2.resize(tvec2.size(),gaba_r_list.count)
     mt2.setcol(0,tvec2)
     mt2.setcol(1,veci)
     

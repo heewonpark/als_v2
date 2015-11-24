@@ -152,13 +152,15 @@ proc mkConnections(){
     ConnectNtoN_NET_GABA()
 }
 
-objref rn_nclist
+objref rn_nclist, synlist
 proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
     if(pc.id==0)printf("ConnectWithRN()\n")
     rn_nclist = new List()
     rnd = new Random(RND_SEED+pc.id)
     rnd.uniform(0,NRN)
     base_gid = 100000
+    synlist = new List()
+
     //--------------------------------------
     // MAKE PRESYNAPSE
     for i=0, RNs.count()-1{
@@ -175,6 +177,7 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
     for i=0, PNs.count-1{
 	for j=0, NSYNAPSE-1{
 	    syn = PNs.o(i).setExp2Syn(0,j/NSYNAPSE)
+	    synlist.append(syn)
 	    src_gid = base_gid+int(rnd.repick())
 	    nc = pc.gid_connect(src_gid,syn)
 	    nc.delay  = 1.0
@@ -186,6 +189,7 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
     for i=0, LNs.count-1{
 	for j=0, NSYNAPSE-1{
 	    syn = LNs.o(i).setExp2Syn(0,j/NSYNAPSE)
+	    synlist.append(syn)
 	    src_gid = base_gid+int(rnd.repick())
 	    nc = pc.gid_connect(src_gid,syn)
 	    nc.delay  = 1.0
@@ -483,6 +487,27 @@ proc setSpikeRecord(){local i
 	    RNs.object(i).setSpikeRecord()
 	}
     }
+}
+
+objref time_vec, gabaa_list, gabab_list
+proc setCurrentRecord_GABA(){local i localobj gabaa, gabab
+    time_vec = new Vector()
+    time_vec.record(&t)
+    
+    gabaa_list = new List()
+    gabab_list = new List()
+/*
+    for i=0, nton_GABAa.count -1{
+	gabaa = new Vector()
+	gabaa.record(&nton_GABAa.o(i).i)
+	gabaa_list.append(gabaa)
+    }
+    for i=0, nton_GABAb.count -1{
+	gabab = new Vector()
+	gabab.record(&nton_GABAb.o(i).i)
+	gabab_list.append(gabab)
+    }
+*/
 }
 
 proc setRecord(){
