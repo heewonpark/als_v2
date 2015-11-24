@@ -21,12 +21,14 @@ public setIClamp2, setIClamp_with_Latency, setRN_biophys
 objref synlist,gabalist
 
 public gaba, setGABA, setNET_GABA, setGABAb
-public mkNET_GABAa,mkNET_GABAb
+public mkNET_GABAa,mkNET_GABAb,mkNET_nACh
 public imax
 public setGID, getGID, gid
 objref mechname[10]
 objref typename[6]
 objref this
+
+public dose
 proc init(){
     for i=0,10-1{
 	mechname[i] = new String()
@@ -60,6 +62,8 @@ proc init(){
     synlist = new List()
     gabalist = new List()
     biophys()
+    
+    dose = 0
 }
 
 create soma
@@ -431,6 +435,11 @@ func Latency(){local latency_, L0_, Lm_, lambda_, c
 }
 
 proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_time, length, amp, L_RATIO,A_RATIO, seed, L0, Lm, lambda, C, latency  localobj rand, datafile, rnd
+
+    // ***Usage***
+    // setIclamp_with_Latency(stoptime, timestep, filename, seed, concentration)
+    //
+
     stoptime = $1
     timestep = $2
     strdef filename
@@ -450,7 +459,8 @@ proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, st
     lambda = rand.lognormal(2.9,0.85)
     lambda = exp(lambda)
     Lm     = rand.normal(67,30)
-    C      = 3
+    C      = $5
+
     latency = Latency(C,L0,lambda,Lm)
     latency = latency/1000.0
     //printf("Latency %f",latency) 
@@ -538,6 +548,25 @@ proc setStim(){local delay, imax
     soma st = new Stim(0.1)
     st.del = delay
     st.Imax = imax
+}
+
+objref nACh
+obfunc mkNET_nACh(){local gmax
+    //gmax  = 0.3
+    gmax  = 0.1
+    Erev  = 0.0
+    Cmax  = 0.5
+    Cdur  = 0.3 
+    Alpha = 10
+    Beta  = 0.2
+    soma nACh = new NET_GABAa(0.3)
+    nACh.gmax = gmax
+    nACh.Erev = Erev
+    nACh.Cmax = Cmax
+    nACh.Cdur = Cdur
+    nACh.Alpha = Alpha
+    nACh.Beta = Beta
+    return nACh
 }
 
 objref gaba
@@ -670,6 +699,24 @@ proc setCurrentRecord1(){
     veci2.record(&st1.i)
 }
 
+objref rtvec, vec_nACh
+public setCurrentRecord_nACh
+proc setCurrentRecord_nACh(){
+    rtvec = new Vector()
+    vec_nACh = new Vector()
+    rtvec.record(&t)
+    vec_nACh.record(&nACh.i)
+}
+
+objref rtvec, vec_exp2syn
+public setCurrentRecord_exp2syn
+proc setCurrentRecord_exp2syn(){
+    rtvec = new Vector()
+    vec_exp2syn = new Vector()
+    rtvec.record(&t)
+    vec_exp2syn.record(&esyn.i)
+}
+
 
 objref mt3,file3
 public mt3, printGABACurrentRecord
@@ -734,6 +781,52 @@ proc printCurrentRecord1(){local i
     file3.close()
 }
 
+objref mt4,file4
+public mt4, printCurrentRecord_nACh
+proc printCurrentRecord_nACh(){local i
+    i = $1
+    strdef filepath
+    filepath= $s2
+    mt4 = new Matrix()
+    file4 = new File()
+    
+    //tvec.printf()
+    mt4.resize(rtvec.size(),2)
+    mt4.setcol(0,rtvec)
+    mt4.setcol(1,vec_nACh)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"%sSynapticCurrent_nACh%d.txt",filepath,i) 
+    file4.wopen(filename)
+    mt4.fprint(file4,"%5.5f\t")
+    file4.close()
+}
+
+objref mt5,file5
+public mt5, printCurrentRecord_exp2syn
+proc printCurrentRecord_exp2syn(){local i
+    i = $1
+    strdef filepath
+    filepath= $s2
+    mt5 = new Matrix()
+    file5 = new File()
+    
+    //tvec.printf()
+    mt5.resize(rtvec.size(),2)
+    mt5.setcol(0,rtvec)
+    mt5.setcol(1,vec_exp2syn)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"%sSynapticCurrent_exp2syn%d.txt",filepath,i) 
+    file5.wopen(filename)
+    mt5.fprint(file5,"%5.5f\t")
+    file5.close()
+}
+
 objref mt,file
 public mt
 public printVoltageRecord
@@ -753,7 +846,7 @@ proc printVoltageRecord(){local i
     //mt.printf("%5.5f\t")
     strdef filename
     print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    sprint(filename,"%sIclamp_%s%d.txt",filepath,typename[type].s,i) 
+    sprint(filename,"%sVoltage_%s%d.txt",filepath,typename[type].s,i) 
     file.wopen(filename)
     mt.fprint(file,"%5.5f\t")
     file.close()
@@ -795,6 +888,78 @@ proc printSpikeRecord(){local i, interval,tstop, istim1, istim2
  
     sprint(filename,"%sSpikerecord_%s%d.dat",filepath,typename[type].s,n)
     
+    fileSR.wopen(filename)
+    fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+    fileSR.printf("$ Delay(ms): %f\n",Delay)
+    fileSR.printf("$ Number of data : %d\n",tvecSR.size())
+    fileSR.printf("$ TSTOP : %d\n",tstop)
+    fileSR.printf("$ PN stimulation current max : %d\n",istim1)
+    fileSR.printf("$ LN stimulation current max : %d\n",istim2)
+    tvecSR.printf(fileSR,"%5.5f\n")
+    fileSR.close()
+}
+
+public printSpikeRecord_DoseResponse
+proc printSpikeRecord_DoseResponse(){local i, interval,tstop, istim1, istim2
+    if(numarg() == 7){
+	pcid = $1
+	n = $2
+	interval = $3
+	tstop = $4
+	istim1 = $5
+	istim2 = $6
+	filepath = $s7
+    }else if(numarg() == 4){
+	pcid = $1
+	n = $2
+	interval = 1200
+	tstop = $3
+	istim1 = 0
+	istim2 = 0
+	filepath = $s4
+    }
+    istim1 = imax
+    fileSR = new File()
+    strdef filename,filepath
+ 
+    sprint(filename,"%sSpikerecord_%s_Dose%d_%d.dat",filepath,typename[type].s,dose,n)
+   
+    fileSR.wopen(filename)
+    fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+    fileSR.printf("$ Delay(ms): %f\n",Delay)
+    fileSR.printf("$ Number of data : %d\n",tvecSR.size())
+    fileSR.printf("$ TSTOP : %d\n",tstop)
+    fileSR.printf("$ PN stimulation current max : %d\n",istim1)
+    fileSR.printf("$ LN stimulation current max : %d\n",istim2)
+    tvecSR.printf(fileSR,"%5.5f\n")
+    fileSR.close()
+}
+
+public printSpikeRecord_NetStim
+proc printSpikeRecord_NetStim(){local i, interval,tstop, istim1, istim2
+    if(numarg() == 7){
+	pcid = $1
+	n = $2
+	interval = $3
+	tstop = $4
+	istim1 = $5
+	istim2 = $6
+	filepath = $s7
+    }else if(numarg() == 4){
+	pcid = $1
+	n = $2
+	interval = 1200
+	tstop = $3
+	istim1 = 0
+	istim2 = 0
+	filepath = $s4
+    }
+    istim1 = imax
+    fileSR = new File()
+    strdef filename,filepath
+ 
+    sprint(filename,"%sSpikerecord_%s_FREQ%d_%d.dat",filepath,typename[type].s,dose,n)
+   
     fileSR.wopen(filename)
     fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
     fileSR.printf("$ Delay(ms): %f\n",Delay)

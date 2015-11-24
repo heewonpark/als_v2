@@ -258,7 +258,7 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
         DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
     if(nstims2>0):
         DIR = "./%ddose_%dstims_%ddose_%dstims_filtering/"%(dose,nstims,dose2,nstims2)
-    DIR = "./"
+    #DIR = "./"
     
     if not os.path.exists(DIR):
         os.makedirs(DIR)
@@ -272,7 +272,7 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
             mkMultipleStims(File,dose,nstims,dose2,nstims2,parameter)
         File.close()
 
-mkStim(1,30,2000,-1,-1)
+mkStim(1000,1,200,-1,-1)
 #write_numfile = open("save_filenumber.dat",'w')
 #write_numfile.write(str(file_num+1)+'\n')
 #write_numfile.close()
