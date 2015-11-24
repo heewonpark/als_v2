@@ -43,9 +43,9 @@ BIN      = 0.1 # 0.1s
 def PSTH(nfiles,nstims,dose):
     if(nstims!=1):
         steps = int(nstims*INTERVAL/BIN)
-        
     elif(nstims==1):
         steps = int(8.0/BIN)
+        INTERVAL = 8.0
         print "steps1",steps
     else:
         print "***ERROR IN PSTH***"
@@ -74,4 +74,4 @@ def PSTH(nfiles,nstims,dose):
     plt.savefig(save_fn)
     plt.show()
 
-PSTH(1000,30,2000)
+PSTH(1000,1,10000)

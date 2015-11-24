@@ -119,7 +119,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	    cell.insertFukuda_tunned()
 	    cell.setGID(i)
 	    cell.setType(1)
-	    //cell.dose=DOSE_V.x[i]
+	    cell.dose=DOSE_V.x[i]
 	    //cell.setPN_biophys()
 	    PNs.append(cell)
 	    //psection()
@@ -128,7 +128,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	    cell.insertLNlla()
 	    cell.setGID(i)
 	    cell.setType(2)
-	    //cell.dose=DOSE_V.x[i]
+	    cell.dose=DOSE_V.x[i]
 	    //cell.setPN_biophys()
 	    LNs.append(cell)
 	}else if((i>=NPN+NLN) && (i<NCELL)){
@@ -153,8 +153,8 @@ proc mkConnections(){
     if(pc.id==0)printf("mkConnections()\n")
     // connect RN to LN and PN
     //ConnectWithRN()
-    ConnectWithNetStim()
-    //ConnectWithRN_nACh()
+    //ConnectWithNetStim()
+    ConnectWithRN_nACh()
     // connect LN and PN
     //ConnectNtoN_NET_GABA()
 }
@@ -193,10 +193,11 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid, pngid localobj syn, nc, nil
     // MAKE POSTSYNAPSE
     for i=0, PNs.count-1{
 	pngid = PNs.o(i).getGID()
+	syn = PNs.o(i).setExp2Syn(0,j/NSYNAPSE)
+	synlist.append(syn)
 	for j=0, NSYNAPSE-1{
-	    syn = PNs.o(i).setExp2Syn(0,j/NSYNAPSE)
-	    
-	    synlist.append(syn)
+	    //syn = PNs.o(i).setExp2Syn(0,j/NSYNAPSE)
+	    //synlist.append(syn)
 	    src_gid = base_gid+pngid*NSYNAPSE+j
 	    //print pngid, j, src_gid
 	    nc = pc.gid_connect(src_gid,syn)
@@ -206,11 +207,14 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid, pngid localobj syn, nc, nil
 	}
     }
     for i=0, LNs.count-1{
+	lngid = LNs.o(i).getGID()
+	syn = LNs.o(i).setExp2Syn(0,j/NSYNAPSE)
+	synlist.append(syn)
 	for j=0, NSYNAPSE-1{
-	    syn = LNs.o(i).setExp2Syn(0,j/NSYNAPSE)
-	    synlist.append(syn)
+	    //syn = LNs.o(i).setExp2Syn(0,j/NSYNAPSE)
+	    //synlist.append(syn)
 	    //src_gid = base_gid+int(rnd.repick())
-	    src_gid = base_gid+i*NSYNAPSE+j
+	    src_gid = base_gid+lngid*NSYNAPSE+j
 	    nc = pc.gid_connect(src_gid,syn)
 	    nc.delay  = 1.0
 	    nc.weight = WEIGHT_RNtoLN
@@ -241,6 +245,7 @@ proc ConnectWithRN_nACh(){local i, j, base_gid, this_gid, pngid localobj syn, nc
     // MAKE POSTSYNAPSE
     for i=0, PNs.count-1{
 	pngid = PNs.o(i).getGID()
+
 	for j=0, NSYNAPSE-1{
 	    syn = PNs.o(i).mkNET_nACh()
 	    synlist.append(syn)
@@ -293,6 +298,7 @@ proc ConnectWithNetStim(){local i, j, base_gid, this_gid, pngid, StimFrequency l
 	}
     }
     print "ns_list.count()  ",ns_list.count()
+
     //--------------------------------------
     // MAKE POSTSYNAPSE
     for i=0, PNs.count-1{
@@ -308,6 +314,7 @@ proc ConnectWithNetStim(){local i, j, base_gid, this_gid, pngid, StimFrequency l
 	}
     }
     print "rn_nclist.count()  ",rn_nclist.count()
+
     /*
     for i=0, LNs.count-1{
 	for j=0, NSYNAPSE-1{
@@ -556,8 +563,8 @@ proc mkSingleStim_DoseResponse(){local i,j,gid,id localobj rnd
 	sprint(spt_file_dir,"../input/spiketiming/%ddose_1stims_filtering/",d)
 	sprint(spiketiming,"%sspt%03d.dat",spt_file_dir,int(rnd.uniform(0,999)))
 	//print spiketiming," ", id, d
-        RNs.o(i).setIClamp2(STOPTIME,dt,spiketiming)
-	//RNs.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming)
+        //RNs.o(i).setIClamp2(STOPTIME,dt,spiketiming)
+	RNs.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,gid,3)
     }
 }
 
@@ -674,13 +681,13 @@ print FPRINT_DIR
 proc printSpikeRecord(){local i
     if(pc.id==0)printf("printSpikeRecord()\n")
     for i = 0, PNs.count -1{
-	//PNs.object(i).printSpikeRecord_DoseResponse(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
-	PNs.object(i).printSpikeRecord_NetStim(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
+	PNs.object(i).printSpikeRecord_DoseResponse(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
+	//PNs.object(i).printSpikeRecord_NetStim(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
     }
     for i = 0, LNs.count -1{
 	//if(pc.id%10==0){
-	//LNs.object(i).printSpikeRecord_DoseResponse(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
-	LNs.object(i).printSpikeRecord_NetStim(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
+	LNs.object(i).printSpikeRecord_DoseResponse(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
+	//LNs.object(i).printSpikeRecord_NetStim(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
 	//}
     }
     for i = 0, RNs.count -1{
@@ -706,7 +713,6 @@ proc printVoltageRecord(){
 	}
     }
 }
-
 
 proc printCurrentRecord(){local i
     if(pc.id==0)printf("setCurrentRecord()\n")

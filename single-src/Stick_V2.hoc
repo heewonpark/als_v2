@@ -552,8 +552,7 @@ proc setStim(){local delay, imax
 
 objref nACh
 obfunc mkNET_nACh(){local gmax
-    //gmax  = 0.3
-    gmax  = 0.1
+    gmax  = 0.3
     Erev  = 0.0
     Cmax  = 0.5
     Cdur  = 0.3 

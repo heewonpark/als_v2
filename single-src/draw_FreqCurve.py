@@ -25,6 +25,7 @@ from spike_data import Spike_Data
 
 data = []
 pattern = re.compile(r'Spikerecord_PN_FREQ(?P<dose>\d+)_(?P<id>\d+).dat')
+pattern2 = re.compile(r'Spikerecord_LN_FREQ(?P<dose>\d+)_(?P<id>\d+).dat')
 
 if len(sys.argv) is 1:
     print "NO FILENAME"
@@ -54,6 +55,19 @@ elif len(sys.argv) is 2:
                         print sd.peakFreq, sd.avgFreq
                         data.append([int(freq), sd.peakFreq, sd.avgFreq])
                         sd = None
+                    elif '_LN_' in full_dir:
+                        print full_dir                    
+                        result = pattern2.search(fname)
+                        freq=result.group('dose')
+                        sd = Spike_Data()
+                        sd.Read(full_dir)
+                        sd.calc_iFreq()
+                        sd.calc_avgFreq()
+                        print sd.peakFreq, sd.avgFreq
+                        data.append([int(freq), sd.peakFreq, sd.avgFreq])
+                        sd = None
+
+
     else:
         print "Wrong directory or filename"
 else:
@@ -108,5 +122,3 @@ fig2name="%s/FreqCurve_avgFreq.png"%(target_dir)
 fig2.savefig(fig2name)
 
 plt.show()
-
-

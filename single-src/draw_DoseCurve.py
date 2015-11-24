@@ -25,6 +25,8 @@ from spike_data import Spike_Data
 
 data = []
 pattern = re.compile(r'Spikerecord_PN_Dose(?P<dose>\d+)_(?P<id>\d+).dat')
+pattern2 = re.compile(r'Spikerecord_LN_Dose(?P<dose>\d+)_(?P<id>\d+).dat')
+
 if len(sys.argv) is 1:
     print "NO FILENAME"
 elif len(sys.argv) is 2:
@@ -42,6 +44,7 @@ elif len(sys.argv) is 2:
             if(os.path.isfile(full_dir)):
                 ext = os.path.splitext(full_dir)
                 if(ext[1] == '.dat'):
+                    #print "!!!!!",ext
                     if '_PN_' in full_dir:
                         print full_dir                    
                         result = pattern.search(fname)
@@ -53,6 +56,18 @@ elif len(sys.argv) is 2:
                         print sd.peakFreq, sd.avgFreq
                         data.append([int(dose), sd.peakFreq, sd.avgFreq])
                         sd = None
+                    elif '_LN_' in full_dir:
+                        print full_dir                    
+                        result = pattern2.search(fname)
+                        freq=result.group('dose')
+                        sd = Spike_Data()
+                        sd.Read(full_dir)
+                        sd.calc_iFreq()
+                        sd.calc_avgFreq()
+                        print sd.peakFreq, sd.avgFreq
+                        data.append([int(freq), sd.peakFreq, sd.avgFreq])
+                        sd = None
+
     else:
         print "Wrong directory or filename"
 else:
@@ -60,7 +75,18 @@ else:
 
 print data
 data = np.array(data)
-data.sort(axis=0)
+print len(data)
+
+for i in range(len(data)-1):
+    for j in range(i+1, len(data)):
+        #print data[i][0], data[j][0]
+        temp = np.copy(data[i])
+        #print temp
+        if(data[i][0] > data[j][0]):
+            data[i] = data[j]
+            #print temp
+            data[j] = temp
+            #print temp, data[i], data[j]
 print data
 print data.T
 transpose_data = data.T
