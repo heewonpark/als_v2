@@ -254,8 +254,10 @@ proc ConnectNtoN_NET_GABA(){\
     gmax_LtoLa = GABAA_LTOL/NLN
     gmax_LtoPb = GABAB_LTOP/NLN
     gmax_LtoLb = GABAB_LTOL/NLN
-    printf("%f %f %f %f\n", gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb)
-    printf("LNs.count: %d[%d]\n",LNs.count, pc.id)
+    if(pc.id==0){
+	printf("%f %f %f %f\n", gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb)
+	printf("LNs.count: %d[%d]\n",LNs.count, pc.id)
+    }
     //--------------------------------------
     // MAKE PRESYNAPSE
     for i=0, LNs.count-1{
@@ -295,7 +297,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 0.05
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    printf("[PST_GABAa] gid: %d, PN's gid: %d, i: %d, j: %d\n",src_gid,PNs.o(i).getGID(),i,j) 
+		    //printf("[PST_GABAa] gid: %d, PN's gid: %d, i: %d, j: %d\n",src_gid,PNs.o(i).getGID(),i,j) 
 		}
 	    }
 	    if(GABAB_ON == 1){
@@ -309,7 +311,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 1.0
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    printf("[PST_GABAb] gid: %d, PN's gid: %d, i: %d, j: %d\n",src_gid,PNs.o(i).getGID(),i,j) 
+		    //printf("[PST_GABAb] gid: %d, PN's gid: %d, i: %d, j: %d\n",src_gid,PNs.o(i).getGID(),i,j) 
 		}
 	    }
 
@@ -329,7 +331,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 1.0
 		    nc.weight = WEIGHT_PTOL
 		    pn_nclist.append(nc)
-		    printf("[EXP2SYN] gid: %d, LN's gid: %d, i: %d, j: %d\n",src_gid,LNs.o(i).getGID(),i,j) 
+		    //printf("[EXP2SYN] gid: %d, LN's gid: %d, i: %d, j: %d\n",src_gid,LNs.o(i).getGID(),i,j) 
 		}
 	    }
 	}
@@ -347,7 +349,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 0.05
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    printf("[PST_GABAa] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
+		    //printf("[PST_GABAa] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
 		}
 	    }
 	    if(GABAB_ON == 1){
@@ -359,7 +361,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 1.0
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    printf("[PST_GABAb] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
+		    //printf("[PST_GABAb] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
 		}
 	    }
 	}
@@ -511,9 +513,9 @@ proc setCurrentRecord_GABA(){local i
 
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
-    setVoltageRecord()
+    //setVoltageRecord()
     setSpikeRecord()
-    setCurrentRecord_GABA()
+    //setCurrentRecord_GABA()
 }
 
 setRecord()
@@ -590,8 +592,8 @@ proc printCurrentRecord_GABA(){local i
 
 proc setPrinter(){
     printSpikeRecord()
-    printVoltageRecord()
-    printCurrentRecord_GABA()
+    //printVoltageRecord()
+    //printCurrentRecord_GABA()
 }
 setPrinter()
 

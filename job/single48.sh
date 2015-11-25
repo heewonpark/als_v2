@@ -1,8 +1,8 @@
 #!/bin/bash -x
-#PJM --rsc-list "node=24"
+#PJM --rsc-list "node=48"
 #PJM --rsc-list "elapse=0:40:00"
 #PJM --rsc-list "rscgrp=small"
-#PJM --mpi "proc=192"
+#PJM --mpi "proc=384"
 #PJM -s
 
 # staging
@@ -50,9 +50,9 @@ NRNOPT=\
 " -c NRN=2000"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.50"\
+" -c GABAA_LTOP=0.0"\
 " -c GABAA_LTOL=0.50"\
-" -c GABAB_LTOP=12.50"\
+" -c GABAB_LTOP=12.5"\
 " -c GABAB_LTOL=0.00"\
 " -c DOSE=1000"\
 " -c NSTIM=30"\
