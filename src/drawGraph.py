@@ -22,6 +22,8 @@ def drawGraph(filename, show):
     nColumns = int(nColumns)
     print nDatas, nColumns
     vec = [[0 for i in range(nDatas)] for j in range(nColumns)]
+    svec = [0 for i in range(nDatas)]
+
     dummy = []
     for i in range(0,nDatas):
         #print i
@@ -37,13 +39,22 @@ def drawGraph(filename, show):
                 print j,"  ", i
 
     flg = pylab.figure()
+    if 'Gaba' in filename:
+        for i in range(nDatas):
+            for j in range(1,nColumns):
+                svec[i] += vec[j][i]
+        pylab.plot(vec[0], svec)
+        pylab.ylabel("Current[nA]")        
+    else:
+        pylab.ylabel("membrain potential[mV]")
+
     for j in range(1,nColumns):
         pylab.plot(vec[0], vec[j])
     #pylab.ylim(-100, 80)
 
     pylab.xlabel("time[ms]")
     #pylab.ylabel("current[nA]")
-    pylab.ylabel("membrain potential[mV]")
+
     tmp = filename.rsplit('.',1)
     imgFilename = "%s.png"%tmp[0]
     #print imgFilename, tmp

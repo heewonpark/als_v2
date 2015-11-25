@@ -13,10 +13,10 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./k-main.hoc"
+HOC_NAME="./main.hoc"
 
 NRNOPT=\
-" -c STOPTIME=3610"\
+" -c STOPTIME=500"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
@@ -28,7 +28,7 @@ NRNOPT=\
 " -c NRN=200"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.0"\
+" -c GABAA_LTOP=0.05"\
 " -c GABAA_LTOL=0.25"\
 " -c GABAB_LTOP=7.25"\
 " -c GABAB_LTOL=0.05"\
@@ -49,5 +49,5 @@ time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
 #python ../src/drawISF.py $SPIKE_DIR
-python ../src/spike_analyze.py $SPIKE_DIR
-python ../src/whole_in_one_spike.py $SPIKE_DIR
+#python ../src/spike_analyze.py $SPIKE_DIR
+#python ../src/whole_in_one_spike.py $SPIKE_DIR

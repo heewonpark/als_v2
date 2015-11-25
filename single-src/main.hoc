@@ -66,6 +66,10 @@ if(DOSE==1000){
     }else if(NSTIM>1){
 	spt_file_dir ="../input/spiketiming/10000dose_30stims_filtering/"
     }
+}else if(DOSE==10002000){
+    spt_file_dir ="../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
+}else if(DOSE==1000100){
+    spt_file_dir ="../input/spiketiming/1000dose_30stims_100dose_30stims_filtering/"
 }
 //spt_file_dir ="../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
 //spt_file_dir ="../input/spiketiming/1000dose_30stims_100dose_30stims_filtering/"
@@ -215,7 +219,7 @@ obfunc mkRndvec(){local rnd_,vec_size,id_, vec_range, flg localobj r_, vec_
 	}
 	if(flg==0){
 	    vec_.append(rnd_)
-	    print rnd_
+	    //print rnd_
 	}
     }
     return vec_
@@ -343,7 +347,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 0.05
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    //printf("[PST_GABAa] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
+		    printf("[PST_GABAa] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
 		}
 	    }
 	    if(GABAB_ON == 1){
@@ -355,7 +359,7 @@ proc ConnectNtoN_NET_GABA(){\
 		    nc.delay  = 1.0
 		    nc.weight = 1.0
 		    nton_nclist.append(nc)
-		    //printf("[PST_GABAb] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
+		    printf("[PST_GABAb] gid: %d, LN's gid: %d, i: %d\n",src_gid,LNs.o(i).getGID(),i) 
 		}
 	    }
 	}
@@ -489,32 +493,29 @@ proc setSpikeRecord(){local i
     }
 }
 
-objref time_vec, gabaa_list, gabab_list
-proc setCurrentRecord_GABA(){local i localobj gabaa, gabab
-    time_vec = new Vector()
-    time_vec.record(&t)
-    
-    gabaa_list = new List()
-    gabab_list = new List()
-/*
-    for i=0, nton_GABAa.count -1{
-	gabaa = new Vector()
-	gabaa.record(&nton_GABAa.o(i).i)
-	gabaa_list.append(gabaa)
+proc setCurrentRecord_GABA(){local i
+    if(pc.id==0)printf("setCurrentRecord_GABA()\n")
+    for i = 0, PNs.count -1{
+	printf("[PN]setCurrentRecord_GABA():%d\n",i)
+	PNs.object(i).setGABACurrentRecord()
     }
-    for i=0, nton_GABAb.count -1{
-	gabab = new Vector()
-	gabab.record(&nton_GABAb.o(i).i)
-	gabab_list.append(gabab)
+    for i = 0, LNs.count -1{
+	printf("[LN]setCurrentRecord_GABA():%d\n",i)
+	LNs.object(i).setGABACurrentRecord()
     }
-*/
+    /*
+    for i = 0, RNs.count -1{
+    }
+    */
 }
 
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
     setVoltageRecord()
     setSpikeRecord()
+    setCurrentRecord_GABA()
 }
+
 setRecord()
 //psection()
 pc.barrier()
@@ -568,9 +569,29 @@ proc printVoltageRecord(){
 	}
     }
 }
+
+proc printCurrentRecord_GABA(){local i
+    if(pc.id==0)printf("printCurrentRecord_GABA()\n")
+    for i = 0, PNs.count -1{
+	printf("[PN]printCurrentRecord_GABA():%d, %d\n",i,PNs.o(i).getGID())
+	PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR)
+    }
+    for i = 0, LNs.count -1{
+	printf("[LN]printCurrentRecord_GABA():%d, %d\n",i,LNs.o(i).getGID())
+	LNs.object(i).printGABACurrentRecord(LNs.o(i).getGID(),FPRINT_DIR)
+    }
+    /*
+    for i = 0, LNs.count -1{
+    }
+    for i = 0, RNs.count -1{
+    }
+    */
+}
+
 proc setPrinter(){
     printSpikeRecord()
     printVoltageRecord()
+    printCurrentRecord_GABA()
 }
 setPrinter()
 

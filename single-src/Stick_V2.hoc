@@ -27,6 +27,7 @@ objref mechname[10]
 objref typename[6]
 objref this
 objref gabaa_list, gabab_list
+objref synlist
 
 public dose
 proc init(){
@@ -580,6 +581,7 @@ obfunc mkNET_GABAa(){local gmax
     gabaa_list.append(gaba)
     return gaba
 }
+
 obfunc mkNET_GABAb(){local gmax
     gmax = $1
     soma gaba = new NET_GABAb(0.5)
@@ -688,14 +690,16 @@ objref tvec3, gabaa_r_list, gabab_r_list
 public setGABACurrentRecord
 proc setGABACurrentRecord(){local i localobj vecg
     tvec3 = new Vector()
-    gabaa_r_list = new Vector()
+    gabaa_r_list = new List()
+    gabab_r_list = new List()
     tvec3.record(&t)
-    for i, gabaa_list.count()-1{
+    //printf("setCurrentRecord_GABA()\n")
+    for i=0, gabaa_list.count()-1{
 	vecg = new Vector()
 	vecg.record(&gabaa_list.o(i).i)
 	gabaa_r_list.append(vecg)
     }
-    for i, gabab_list.count()-1{
+    for i=0, gabab_list.count()-1{
 	vecg = new Vector()
 	vecg.record(&gabab_list.o(i).i)
 	gabab_r_list.append(vecg)
@@ -733,42 +737,47 @@ proc setCurrentRecord_exp2syn(){
 
 objref mt_g1, file_g1, mt_g2, file_g2
 public printGABACurrentRecord
-proc printGABACurrentRecord(){local i
+proc printGABACurrentRecord(){local i,j
     i = $1
+    strdef filepath
+    filepath =$s2
     mt_g1 = new Matrix()
     file_g1 = new File()
 
     mt_g2 = new Matrix()
     file_g2= new File()
-
+    //printf("printCurrentRecord_GABA():%d\n",i)
     //tvec.printf()
     mt_g1.resize(tvec3.size(),gabaa_r_list.count()+1)
     mt_g1.setcol(0,tvec3)
-    for i, gabaa_r_list.count()-1{	
-	mt_g1.setcol(1+i,gabaa_r_list.o(i))
+    for j=0, gabaa_r_list.count()-1{	
+	printf("gabaa_r_list %d\n",j)
+	mt_g1.setcol(1+j,gabaa_r_list.o(j))
     }
 
     mt_g2.resize(tvec3.size(),gabab_r_list.count()+1)
     mt_g2.setcol(0,tvec3)
-    for i, gabab_r_list.count()-1{	
-	mt_g1.setcol(1+i,gabab_r_list.o(i))
+    for j=0, gabab_r_list.count()-1{
+	printf("gabab_r_list %d\n",j)	
+	mt_g2.setcol(1+j,gabab_r_list.o(j))
     }
-
-    
     //mt.printf("%5.5f\t")
     strdef filename
-    print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    sprint(filename,"./record/gabaacurrent_%s%d.txt",typename[type].s ,i) 
+    //print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"%sGabaaCurrent_%s%d.txt",filepath,typename[type].s ,i) 
+    //print filename
     file_g1.wopen(filename)
     mt_g1.fprint(file_g1,"%5.5f\t")
     file_g1.close()
 
-    sprint(filename,"./record/gababcurrent_%s%d.txt",typename[type].s ,i) 
+    sprint(filename,"%sGababCurrent_%s%d.txt",filepath, typename[type].s ,i) 
+    //print filename
     file_g2.wopen(filename)
     mt_g2.fprint(file_g2,"%5.5f\t")
     file_g2.close()
 }
 
+/*
 objref mt2,file2
 public mt2, printCurrentRecord
 proc printCurrentRecord(){local i
@@ -789,7 +798,7 @@ proc printCurrentRecord(){local i
     mt2.fprint(file2,"%5.5f\t")
     file2.close()
 }
-
+*/
 objref mt3,file3
 public mt3, printCurrentRecord1
 proc printCurrentRecord1(){local i
