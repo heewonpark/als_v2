@@ -214,6 +214,96 @@ def mkMultipleStims(spiketimef,dose,nstims,dose2,nstims2,parameter):
     spiketimef.writelines(str(cnt)+'\n')
     spiketimef.close()
 
+def orn_adaptation(t):
+    tau = 1
+    #return 0.5*np.exp(-t/tau)+0.5
+    return 0.3*np.exp(-t/tau)+0.7
+
+def mkMultipleStims_adaptation(spiketimef,dose,nstims,dose2,nstims2,parameter):
+    #print "mkMultipleStims"
+    cnt = 0
+    de_para[0]= Calculate_Alpha1(dose,parameter)
+    de_para[3]= Calculate_Alpha2(dose,parameter)
+    de_para0_init = de_para[0]
+    de_para3_init = de_para[3]
+
+    for j in range(nstims):
+        spike_t = [None for _ in range(500)]
+        spike_t[0] = 6.0
+        i=0
+        de_para[0] = de_para0_init * orn_adaptation(j)
+        de_para[3] = de_para3_init * orn_adaptation(j)
+        #print de_para[0], de_para[3]
+        while(i<150):
+            if spike_t[i]>7.2:
+                break
+
+            if i<100-1:
+                random = cumulative_area * np.random.random()
+                cf_para[2] = random
+                
+                err = scipy.optimize.fsolve(cum_Func,-1,args=cf_para)
+                #print i, random, err
+            
+                if err<-1:
+                    print "XXXXXXXXXXXXXXXXXXXXXXXXXX"
+                #print de_para
+                interval = 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                #print 1.0/interval, i
+                if((1.0/interval)<300):
+                    #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                    spike_t[i+1] = spike_t[i] + interval
+                    #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                    #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                    #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                    if(spike_t[i+1]<7.2):
+                        spike_timing = spike_t[i+1]+1.2*j
+                        spiketimef.writelines(str(float(spike_timing))+'\n')
+                        cnt +=1
+                    i+=1
+    if(nstims2<0):
+        print "nstims2",nstims2
+        spiketimef.writelines(str(cnt)+'\n')
+        spiketimef.close()
+        return
+                    
+    de_para[0]= Calculate_Alpha1(dose2,parameter)
+    de_para[3]= Calculate_Alpha2(dose2,parameter)
+    for j in range(nstims2):
+        spike_t = [None for _ in range(500)]
+        spike_t[0] = 6.0
+        i=0
+        while(i<150):
+            if spike_t[i]>7.2:
+                break
+
+            if i<100-1:
+                random = cumulative_area * np.random.random()
+                cf_para[2] = random
+                
+                err = scipy.optimize.fsolve(cum_Func,-1,args=cf_para)
+                #print i, random, err
+            
+                if err<-1:
+                    print "XXXXXXXXXXXXXXXXXXXXXXXXXX"
+                #print de_para
+                interval = 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                #print 1.0/interval, i
+                if((1.0/interval)<300):
+                    #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                    spike_t[i+1] = spike_t[i] + interval
+                    #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                    #spike_t[i+1] = spike_t[i] + 1/(double_exp(spike_t[i],*de_para)*(1+err))
+                    #print spike_t[i+1], double_exp(spike_t[i],*de_para),cf_para[2], err
+                    if(spike_t[i+1]<7.2):
+                        spike_timing = spike_t[i+1]+1.2*(j+nstims)
+                        spiketimef.writelines(str(float(spike_timing))+'\n')
+                        cnt +=1
+                    i+=1
+
+    spiketimef.writelines(str(cnt)+'\n')
+    spiketimef.close()
+
 def mkSingleStim(spiketimef,dose,parameter):
     de_para[0]= Calculate_Alpha1(dose,parameter)
     de_para[3]= Calculate_Alpha2(dose,parameter)
@@ -255,7 +345,7 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
     print"\n[PARAMETERS FOR DOUBLE EXPONENTIAL]\nALPHA1 = %f, BETA = %f, GAMMA1 = %f, ALPHA2 = %f, GAMMA2= %f"%(de_para[0],de_para[1],de_para[2],de_para[3],de_para[4])
     print de_para
     if(nstims2<=0):
-        DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
+        DIR = "./%ddose_%dstims_filtering_adaptation/"%(dose,nstims)
     if(nstims2>0):
         DIR = "./%ddose_%dstims_%ddose_%dstims_filtering/"%(dose,nstims,dose2,nstims2)
     #DIR = "./"
@@ -269,10 +359,11 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
         if(nstims == 1):
             mkSingleStim(File,dose,parameter)           
         elif(nstims > 1):
-            mkMultipleStims(File,dose,nstims,dose2,nstims2,parameter)
+            #mkMultipleStims(File,dose,nstims,dose2,nstims2,parameter)
+            mkMultipleStims_adaptation(File,dose,nstims,dose2,nstims2,parameter)
         File.close()
 
-mkStim(1000,1,200,-1,-1)
+mkStim(1000,30,1000,-1,-1)
 #write_numfile = open("save_filenumber.dat",'w')
 #write_numfile.write(str(file_num+1)+'\n')
 #write_numfile.close()
