@@ -28,16 +28,16 @@ NRNOPT=\
 " -c NRN=2000"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.3"\
+" -c GABAA_LTOP=0.5"\
 " -c GABAA_LTOL=0.5"\
 " -c GABAB_LTOP=12.5"\
 " -c GABAB_LTOL=0.0"\
-" -c DOSE=100"\
+" -c DOSE=1000"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.04"\
+" -c WEIGHT_PTOL=0.036"\
 " -c RND_SEED=0"
 
 

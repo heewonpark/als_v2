@@ -19,30 +19,31 @@ NRNOPT=\
 " -c STOPTIME=3000"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
-" -c GABAB_ON=0"\
-" -c GABAA_ON=0"\
-" -c PTOL_ON=0"\
+" -c GABAB_ON=1"\
+" -c GABAA_ON=1"\
+" -c PTOL_ON=1"\
 " -c NSYNAPSE=100"\
 " -c NPN=10"\
-" -c NLN=0"\
+" -c NLN=70"\
 " -c NRN=1000"\
-" -c WEIGHT_RNtoPN=0.10"\
+" -c WEIGHT_RNtoPN=0.05"\
 " -c WEIGHT_RNtoLN=0.02"\
-" -c GABAA_LTOP=0.0"\
-" -c GABAA_LTOL=0.0"\
-" -c GABAB_LTOP=0.0"\
-" -c GABAB_LTOL=0.0"\
+" -c GABAA_LTOP=5.00"\
+" -c GABAA_LTOL=0.10"\
+" -c GABAB_LTOP=0.50"\
+" -c GABAB_LTOL=0.10"\
 " -c DOSE=0"\
 " -c NSTIM=1"\
-" -c PROB_LTOP=0.0"\
-" -c PROB_LTOL=0.0"\
-" -c PROB_PTOL=0.0"\
-" -c WEIGHT_PTOL=0.0"\
+" -c PROB_LTOP=1.0"\
+" -c PROB_LTOL=1.0"\
+" -c PROB_PTOL=1.0"\
+" -c WEIGHT_PTOL=3.0"\
 " -c RND_SEED=0"
 
 MPIEXEC="mpiexec -n 8"
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 
+echo $NRNOPT
 echo $EXEC
 time $EXEC |tee $OUT
 

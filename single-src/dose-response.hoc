@@ -128,7 +128,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	    cell.insertLNlla()
 	    cell.setGID(i)
 	    cell.setType(2)
-	    cell.dose=DOSE_V.x[i]
+	    cell.dose=DOSE_V.x[i%NPN]
 	    //cell.setPN_biophys()
 	    LNs.append(cell)
 	}else if((i>=NPN+NLN) && (i<NCELL)){
@@ -152,11 +152,11 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 proc mkConnections(){
     if(pc.id==0)printf("mkConnections()\n")
     // connect RN to LN and PN
-    //ConnectWithRN()
+    ConnectWithRN()
     //ConnectWithNetStim()
-    ConnectWithRN_nACh()
+    //ConnectWithRN_nACh()
     // connect LN and PN
-    //ConnectNtoN_NET_GABA()
+    ConnectNtoN_NET_GABA()
 }
 
 proc print_CellList(){
@@ -177,6 +177,7 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid, pngid localobj syn, nc, nil
     rnd = new Random(RND_SEED+pc.id)
     rnd.uniform(0,NRN)
     base_gid = 100000
+
     //--------------------------------------
     // MAKE PRESYNAPSE
 
@@ -348,7 +349,7 @@ obfunc mkRndvec(){local rnd_,vec_size,id_, vec_range, flg localobj r_, vec_
 	}
 	if(flg==0){
 	    vec_.append(rnd_)
-	    print rnd_
+	    //print rnd_
 	}
     }
     return vec_
@@ -368,7 +369,7 @@ func vec_exists(){local rnd_,i localobj vec_
 objref nton_nclist, nton_GABAa, nton_GABAb
 objref pn_nclist
 proc ConnectNtoN_NET_GABA(){\
-    local i, j, base_gid, this_gid, gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb,src_gid\
+    local i, j, base_gid, this_gid, gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb,src_gid, pngid, lngid\
     localobj rnd, nc, nil, gaba,syn,rndvec
     if(pc.id==0)printf("ConnectNtoN_NET_GABA()\n")
     nton_nclist   = new List()
@@ -386,6 +387,7 @@ proc ConnectNtoN_NET_GABA(){\
     gmax_LtoLb = GABAB_LTOL/NLN
     printf("%f %f %f %f\n", gmax_LtoPa, gmax_LtoPb, gmax_LtoLa, gmax_LtoLb)
     printf("LNs.count: %d[%d]\n",LNs.count, pc.id)
+
     //--------------------------------------
     // MAKE PRESYNAPSE
     for i=0, LNs.count-1{
@@ -411,11 +413,13 @@ proc ConnectNtoN_NET_GABA(){\
     for i=0, PNs.count-1{
 	rndvec = mkRndvec(NLN,int(NLN/2),pc.id+i)
 	for j=0, NLN-1{
+	    pngid = PNs.o(i).getGID()
 	    if(GABAA_ON == 1){
 		//if(rnd.repick()<PROB_LTOP){
 		//if(((PNs.o(i).getGID()+j)%2==0)||(j==0)){
 		//if((PNs.o(i).getGID()+j)%2==0){
-		if(vec_exists(rndvec,j)==1){
+		//if(vec_exists(rndvec,j)==1){
+		if((j%NPN)==pngid){
 		    gaba = PNs.o(i).mkNET_GABAa(gmax_LtoPa)
 		    nton_GABAa.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -430,7 +434,8 @@ proc ConnectNtoN_NET_GABA(){\
 	    if(GABAB_ON == 1){
 		//if(rnd.repick()<PROB_LTOP){
 		//if((PNs.o(i).getGID()+j)%2==0){
-		if(vec_exists(rndvec,j)==1){
+		//if(vec_exists(rndvec,j)==1){
+		if((j%NPN)==pngid){
 		    gaba = PNs.o(i).mkNET_GABAb(gmax_LtoPb)
 		    nton_GABAb.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -444,14 +449,17 @@ proc ConnectNtoN_NET_GABA(){\
 
 	}
     }
+
     for i=0, LNs.count-1{
 	rndvec = mkRndvec(NPN,int(NPN/2),pc.id+i)
+	lngid  = LNs.o(i).getGID()
 	for j=0, NPN-1{
 	    if(PTOL_ON==1){
 		//if(rnd.repick()<PROB_PTOL){
 		//if(((LNs.o(i).getGID()+j)%2==0)||(j==0)){
 		//if((LNs.o(i).getGID()+j)%2==0){
-		if(vec_exists(rndvec,j)==1){
+		//if(vec_exists(rndvec,j)==1){
+		if((lngid-NPN)%NPN==j){
 		    syn = LNs.o(i).setExp2Syn(0)
 		    synlist.append(syn)
 		    src_gid = base_gid+j
@@ -468,7 +476,8 @@ proc ConnectNtoN_NET_GABA(){\
 		continue
 	    }
 	    if(GABAA_ON == 1){
-		if(rnd.repick()<=PROB_LTOL){
+		//if(rnd.repick()<=PROB_LTOL){
+		if((lngid-j)%NPN==0){
 		    gaba = LNs.o(i).mkNET_GABAa(gmax_LtoLa)
 		    nton_GABAa.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -481,7 +490,8 @@ proc ConnectNtoN_NET_GABA(){\
 		}
 	    }
 	    if(GABAB_ON == 1){
-		if(rnd.repick()<=PROB_LTOL){
+		//if(rnd.repick()<=PROB_LTOL){
+		if((lngid-j)%NPN==0){
 		    gaba = LNs.o(i).mkNET_GABAb(gmax_LtoLb)
 		    nton_GABAb.append(gaba)
 		    src_gid = base_gid + j + NPN
@@ -644,7 +654,7 @@ proc setSpikeRecord(){local i
 proc setCurrentRecord(){local i
     if(pc.id==0)printf("setCurrentRecord()\n")
     for i = 0, PNs.count -1{
-	PNs.object(i).setCurrentRecord_nACh()
+	//PNs.object(i).setCurrentRecord_nACh()
 	//PNs.object(i).setCurrentRecord_exp2syn()
     }
 }
@@ -653,7 +663,7 @@ proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
     setSpikeRecord()
     setVoltageRecord()
-    setCurrentRecord()
+    //setCurrentRecord()
 }
 
 setRecord()
@@ -717,14 +727,14 @@ proc printVoltageRecord(){
 proc printCurrentRecord(){local i
     if(pc.id==0)printf("setCurrentRecord()\n")
     for i = 0, PNs.count -1{
-	PNs.object(i).printCurrentRecord_nACh(PNs.o(i).getGID(),FPRINT_DIR)
-	//PNs.object(i).printCurrentRecord_exp2syn(PNs.o(i).getGID(),FPRINT_DIR)
+	//PNs.object(i).printCurrentRecord_nACh(PNs.o(i).getGID(),FPRINT_DIR)
+	PNs.object(i).printCurrentRecord_exp2syn(PNs.o(i).getGID(),FPRINT_DIR)
     }
 }
 
 proc setPrinter(){
     printSpikeRecord()
-    printCurrentRecord()
+    //printCurrentRecord()
     printVoltageRecord()
 }
 setPrinter()

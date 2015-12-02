@@ -515,7 +515,7 @@ proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
     //setVoltageRecord()
     setSpikeRecord()
-    //setCurrentRecord_GABA()
+    setCurrentRecord_GABA()
 }
 
 setRecord()
@@ -593,7 +593,7 @@ proc printCurrentRecord_GABA(){local i
 proc setPrinter(){
     printSpikeRecord()
     //printVoltageRecord()
-    //printCurrentRecord_GABA()
+    printCurrentRecord_GABA()
 }
 setPrinter()
 
