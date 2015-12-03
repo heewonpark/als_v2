@@ -217,7 +217,9 @@ def mkMultipleStims(spiketimef,dose,nstims,dose2,nstims2,parameter):
 def orn_adaptation(t):
     tau = 1
     #return 0.5*np.exp(-t/tau)+0.5
-    return 0.3*np.exp(-t/tau)+0.7
+    #return 0.3*np.exp(-t/tau)+0.7
+    #return 0.9*np.exp(-t/tau)+0.1
+    return 0.4*np.exp(-t/tau)+0.6
 
 def mkMultipleStims_adaptation(spiketimef,dose,nstims,dose2,nstims2,parameter):
     #print "mkMultipleStims"
@@ -345,7 +347,7 @@ def mkStim(nfiles,nstims,dose,nstims2,dose2):
     print"\n[PARAMETERS FOR DOUBLE EXPONENTIAL]\nALPHA1 = %f, BETA = %f, GAMMA1 = %f, ALPHA2 = %f, GAMMA2= %f"%(de_para[0],de_para[1],de_para[2],de_para[3],de_para[4])
     print de_para
     if(nstims2<=0):
-        DIR = "./%ddose_%dstims_filtering_adaptation/"%(dose,nstims)
+        DIR = "./%ddose_%dstims_filtering_adaptation3/"%(dose,nstims)
     if(nstims2>0):
         DIR = "./%ddose_%dstims_%ddose_%dstims_filtering/"%(dose,nstims,dose2,nstims2)
     #DIR = "./"
