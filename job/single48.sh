@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #PJM --rsc-list "node=48"
-#PJM --rsc-list "elapse=0:40:00"
+#PJM --rsc-list "elapse=1:00:00"
 #PJM --rsc-list "rscgrp=small"
 #PJM --mpi "proc=384"
 #PJM -s
@@ -15,6 +15,7 @@
 #PJM --stgin "rank=* ./input/* %r:../input/"
 #--#PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering_adaptation/* %r:../input/spiketiming/1000dose_30stims_filtering_adaptation/"
 #PJM --stgin "rank=* ./input/spiketiming/100dose_30stims_filtering/* %r:../input/spiketiming/100dose_30stims_filtering/"
 #PJM --stgin "rank=* ./input/spiketiming/10dose_30stims_filtering/* %r:../input/spiketiming/10dose_30stims_filtering/"
 #PJM --stgin "rank=* ./src/* %r:./"
@@ -38,7 +39,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=36010"\
+" -c STOPTIME=12010"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c START_TIME=0"\
 " -c GABAB_ON=1"\
@@ -50,17 +51,20 @@ NRNOPT=\
 " -c NRN=2000"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.0"\
+" -c GABAA_LTOP=0.50"\
 " -c GABAA_LTOL=0.50"\
 " -c GABAB_LTOP=12.5"\
 " -c GABAB_LTOL=0.00"\
-" -c DOSE=1000"\
+" -c DOSE=10"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
 " -c WEIGHT_PTOL=0.036"\
-" -c RND_SEED=0"
+" -c RND_SEED=0"\
+" -c JOBID=${PJM_JOBID}"\
+" -c VOLTAGERECORD=1"\
+" -c CURRENTRECORD=1"
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"

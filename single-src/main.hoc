@@ -27,6 +27,10 @@ if(name_declared("PROB_PTOL")!=5){ execute("PROB_PTOL=1.0")}
 if(name_declared("WEIGHT_PTOL")!=5){ execute("WEIGHT_PTOL=0.05")}
 if(name_declared("PTOL_ON")!=5){ execute("PTOL_ON=0")}
 if(name_declared("RND_SEED")!=5){ execute("RND_SEED=0")}
+if(name_declared("JOBID")!=5){ execute("JOBID=0")}
+if(name_declared("VOLTAGERECORD")!=5){ execute("VOLTAGERECORD=0")}
+if(name_declared("CURRENTRECORD")!=5){ execute("CURRENTRECORD=0")}
+
 objref pc
 pc = new ParallelContext()
 
@@ -38,9 +42,9 @@ if(DOSE==1000){
     if(NSTIM==1){
 	spt_file_dir ="../input/spiketiming/1000dose_1stims_filtering/"
     }else if(NSTIM>1){
-	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
+	//spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
+	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering_adaptation/"
     }
-
 }else if(DOSE==2000){
     if(NSTIM==1){
 	//spt_file_dir ="../input/spiketiming/2000dose_1stims_filtering/"
@@ -81,8 +85,8 @@ if(RND_SEED==0){
 
 if(pc.id==0){
     printf("===================================================================\n")
-    printf("START_TIME: %d, STOPTIME: %d, IS_SUPERCOMPUTER: %d\n",START_TIME,STOPTIME,IS_SUPERCOMPUTER) 
-    printf("NPN: %d, NLN: %d, NRN: %d, NCELL:%d\n",NPN,NLN,NRN,NCELL)
+    printf("JOBID=%d\n",JOBID)
+    printf("START_TIME: %d, STOPTIME: %d, IS_SUPERCOMPUTER: %d\n",START_TIME,STOPTIME,IS_SUPERCOMPUTER)    printf("NPN: %d, NLN: %d, NRN: %d, NCELL:%d\n",NPN,NLN,NRN,NCELL)
     printf("GABAA_ON: %d, GABAB_ON: %d, NSYNAPSE: %d\n",GABAA_ON, GABAB_ON, NSYNAPSE)
     printf("WEIGHT_RNtoPN: %f, WEIGHT_RNtoLN: %f\n",WEIGHT_RNtoPN, WEIGHT_RNtoLN)
     printf("GABAA_LTOP: %f, GABAA_LTOL: %f, GABAB_LTOP: %f, GABAB_LTOL: %f\n",GABAA_LTOP, GABAA_LTOL,GABAB_LTOP, GABAB_LTOL)
@@ -498,12 +502,14 @@ proc setSpikeRecord(){local i
 proc setCurrentRecord_GABA(){local i
     if(pc.id==0)printf("setCurrentRecord_GABA()\n")
     for i = 0, PNs.count -1{
-	printf("[PN]setCurrentRecord_GABA():%d\n",i)
+	//printf("[PN]setCurrentRecord_GABA():%d\n",i)
 	PNs.object(i).setGABACurrentRecord()
     }
     for i = 0, LNs.count -1{
-	printf("[LN]setCurrentRecord_GABA():%d\n",i)
-	LNs.object(i).setGABACurrentRecord()
+	//printf("[LN]setCurrentRecord_GABA():%d\n",i)
+	if(pc.id%10==0){
+	    LNs.object(i).setGABACurrentRecord()
+	}
     }
     /*
     for i = 0, RNs.count -1{
@@ -513,9 +519,13 @@ proc setCurrentRecord_GABA(){local i
 
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
-    //setVoltageRecord()
     setSpikeRecord()
-    setCurrentRecord_GABA()
+    if(VOLTAGERECORD!=0){
+	setVoltageRecord()
+    }
+    if(CURRENTRECORD!=0){
+	setCurrentRecord_GABA()
+    }
 }
 
 setRecord()
@@ -575,12 +585,14 @@ proc printVoltageRecord(){
 proc printCurrentRecord_GABA(){local i
     if(pc.id==0)printf("printCurrentRecord_GABA()\n")
     for i = 0, PNs.count -1{
-	printf("[PN]printCurrentRecord_GABA():%d, %d\n",i,PNs.o(i).getGID())
+	//printf("[PN]printCurrentRecord_GABA():%d, %d\n",i,PNs.o(i).getGID())
 	PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR)
     }
     for i = 0, LNs.count -1{
-	printf("[LN]printCurrentRecord_GABA():%d, %d\n",i,LNs.o(i).getGID())
-	LNs.object(i).printGABACurrentRecord(LNs.o(i).getGID(),FPRINT_DIR)
+	if(pc.id%10==0){
+	    //printf("[LN]printCurrentRecord_GABA():%d, %d\n",i,LNs.o(i).getGID())
+	    LNs.object(i).printGABACurrentRecord(LNs.o(i).getGID(),FPRINT_DIR)
+	}
     }
     /*
     for i = 0, LNs.count -1{
@@ -592,8 +604,12 @@ proc printCurrentRecord_GABA(){local i
 
 proc setPrinter(){
     printSpikeRecord()
-    //printVoltageRecord()
-    printCurrentRecord_GABA()
+    if(VOLTAGERECORD!=0){
+	printVoltageRecord()
+    }
+    if(CURRENTRECORD!=0){
+	printCurrentRecord_GABA()
+    }
 }
 setPrinter()
 
