@@ -666,30 +666,33 @@ obfunc setIntermitStim_gaus(){local delay, imax, interval, imax2, nstim,sigma_o
     return st1
 }
 
-objref vec
-public vec
+objref tvec1, vec
+public tvec1, vec
 proc setVoltageRecord(){
-    //tvec1 = new Vector()
+    tvec1 = new Vector()
     vec = new Vector()
     
-    //tvec1.record(&t)
+    tvec1.record(&t)
     vec.record(&soma.v(0.5))
 }
 
-objref veci
+objref tvec2, veci
 public setCurrentRecord
 proc setCurrentRecord(){
-    //tvec2 = new Vector()
+    tvec2 = new Vector()
     veci = new Vector()
-    //tvec2.record(&t)
+    
+    tvec2.record(&t)
     veci.record(&st.i)
 }
 
-objref gabaa_r_list, gabab_r_list
+objref tvec3, gabaa_r_list, gabab_r_list
 public setGABACurrentRecord
 proc setGABACurrentRecord(){local i localobj vecg
+    tvec3 = new Vector()
     gabaa_r_list = new List()
     gabab_r_list = new List()
+    tvec3.record(&t)
     //printf("setCurrentRecord_GABA()\n")
     for i=0, gabaa_list.count()-1{
 	vecg = new Vector()
@@ -703,43 +706,41 @@ proc setGABACurrentRecord(){local i localobj vecg
     }
 }
 
-objref veci2
+objref tvec4, veci2
 public setCurrentRecord1
 proc setCurrentRecord1(){
-    //tvec4 = new Vector()
+    tvec4 = new Vector()
     veci2 = new Vector()
     
-    //tvec4.record(&t)
+    tvec4.record(&t)
     veci2.record(&st1.i)
 }
 
-objref vec_nACh
+objref rtvec, vec_nACh
 public setCurrentRecord_nACh
 proc setCurrentRecord_nACh(){
-    //rtvec = new Vector()
+    rtvec = new Vector()
     vec_nACh = new Vector()
-    //rtvec.record(&t)
+    rtvec.record(&t)
     vec_nACh.record(&nACh.i)
 }
 
-objref vec_exp2syn
+objref rtvec, vec_exp2syn
 public setCurrentRecord_exp2syn
 proc setCurrentRecord_exp2syn(){
-    //rtvec = new Vector()
+    rtvec = new Vector()
     vec_exp2syn = new Vector()
-    //rtvec.record(&t)
+    rtvec.record(&t)
     vec_exp2syn.record(&esyn.i)
 }
 
 
 objref mt_g1, file_g1, mt_g2, file_g2
 public printGABACurrentRecord
-proc printGABACurrentRecord(){local i,j localobj tvec3
+proc printGABACurrentRecord(){local i,j
+    i = $1
     strdef filepath
-    i        =$1
     filepath =$s2
-    tvec3    =$o3
-
     mt_g1 = new Matrix()
     file_g1 = new File()
 
@@ -800,9 +801,8 @@ proc printCurrentRecord(){local i
 */
 objref mt3,file3
 public mt3, printCurrentRecord1
-proc printCurrentRecord1(){local i localobj tvec4
+proc printCurrentRecord1(){local i
     i = $1
-    tvec4 = $o2
     mt3 = new Matrix()
     file3 = new File()
     
@@ -822,11 +822,10 @@ proc printCurrentRecord1(){local i localobj tvec4
 
 objref mt4,file4
 public mt4, printCurrentRecord_nACh
-proc printCurrentRecord_nACh(){local i localobj rtvec
+proc printCurrentRecord_nACh(){local i
     i = $1
     strdef filepath
     filepath= $s2
-    rtvec = $o3
     mt4 = new Matrix()
     file4 = new File()
     
@@ -846,11 +845,10 @@ proc printCurrentRecord_nACh(){local i localobj rtvec
 
 objref mt5,file5
 public mt5, printCurrentRecord_exp2syn
-proc printCurrentRecord_exp2syn(){local i localobj rtvec
+proc printCurrentRecord_exp2syn(){local i
     i = $1
     strdef filepath
     filepath= $s2
-    rtvec = $o3
     mt5 = new Matrix()
     file5 = new File()
     
@@ -871,12 +869,11 @@ proc printCurrentRecord_exp2syn(){local i localobj rtvec
 objref mt,file
 public mt
 public printVoltageRecord
-proc printVoltageRecord(){local i localobj tvec1
+proc printVoltageRecord(){local i
     strdef filepath
     i = $2
     pcid = $1
     filepath = $s3
-    tvec1 = $o4
     mt = new Matrix()
     file = new File()
     

@@ -517,8 +517,12 @@ proc setCurrentRecord_GABA(){local i
     */
 }
 
+objref TVEC
 proc setRecord(){
     if(pc.id==0)printf("setRecord()\n")
+    TVEC = new Vector()
+    TVEC.record(&t)
+
     setSpikeRecord()
     if(VOLTAGERECORD!=0){
 	setVoltageRecord()
@@ -568,16 +572,16 @@ proc printSpikeRecord(){local i
 proc printVoltageRecord(){
     if(pc.id==0)printf("printVoltageRecord()\n")
     for i = 0, PNs.count -1{
-	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR)
+	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR,TVEC)
     }
     for i = 0, LNs.count -1{
 	if(pc.id%10==0){
-	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR)
+	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}
     }
     for i = 0, RNs.count -1{
 	if(i%40==0){
-	    RNs.object(i).printVoltageRecord(pc.id,RNs.o(i).getGID(),FPRINT_DIR)
+	    RNs.object(i).printVoltageRecord(pc.id,RNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}
     }
 }
@@ -586,12 +590,12 @@ proc printCurrentRecord_GABA(){local i
     if(pc.id==0)printf("printCurrentRecord_GABA()\n")
     for i = 0, PNs.count -1{
 	//printf("[PN]printCurrentRecord_GABA():%d, %d\n",i,PNs.o(i).getGID())
-	PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR)
+	PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR,TVEC)
     }
     for i = 0, LNs.count -1{
 	if(pc.id%10==0){
 	    //printf("[LN]printCurrentRecord_GABA():%d, %d\n",i,LNs.o(i).getGID())
-	    LNs.object(i).printGABACurrentRecord(LNs.o(i).getGID(),FPRINT_DIR)
+	    LNs.object(i).printGABACurrentRecord(LNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}
     }
     /*

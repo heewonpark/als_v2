@@ -38,7 +38,10 @@ NRNOPT=\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
 " -c WEIGHT_PTOL=0.0"\
-" -c RND_SEED=0"
+" -c RND_SEED=0"\
+" -c JOBID=0"\
+" -c VOLTAGERECORD=1"\
+" -c CURRENTRECORD=1"
 
 
 MPIEXEC="mpiexec -n 8"
