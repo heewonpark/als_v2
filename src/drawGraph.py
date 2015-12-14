@@ -39,7 +39,7 @@ def drawGraph(filename, show):
                 print j,"  ", i
 
     flg = pylab.figure()
-    if 'Gaba' in filename:
+    if 'Synaptic' in filename:
         for i in range(nDatas):
             for j in range(1,nColumns):
                 svec[i] += vec[j][i]
@@ -51,7 +51,7 @@ def drawGraph(filename, show):
     for j in range(1,nColumns):
         pylab.plot(vec[0], vec[j])
     #pylab.ylim(-100, 80)
-
+    pylab.xlim(0,500)
     pylab.xlabel("time[ms]")
     #pylab.ylabel("current[nA]")
 

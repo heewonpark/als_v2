@@ -1,0 +1,55 @@
+load_file("nrngui.hoc")
+load_file("Stick_V2.hoc")
+
+objref cell
+cell = new Stick()
+cell.insertFukuda()
+
+objref tvec
+cell.setVoltageRecord()
+tvec = new Vector()
+tvec.record(&t)
+
+objref spikevec,spikevec2
+spikevec = new Vector()
+//spikevec.append(2,4,6,7.5,9.5,11)
+spikevec.indgen(3,55,1)
+/*
+spikevec2 = new Vector()
+spikevec2.append(3,5,10,12,13,16,19,20,23,25,30)
+*/
+objref vs
+vs = new VecStim(0.5)
+vs.play(spikevec)
+/*
+objref vs2
+vs2 = new VecStim(0.5)
+vs2.play(spikevec2)
+*/
+objref ns
+ns = new NetStim(0.5)
+ns.interval = 5
+ns.number = 10
+ns.start = 3
+
+objref nACh
+nACh = cell.mkNET_nACh()
+
+objref nc
+nc = new NetCon(vs,nACh)
+nc.threshold = 0
+nc.weight   = 1
+nc.delay    = 0
+/*
+objref nc2
+nc2 = new NetCon(vs2,nACh)
+nc2.threshold = 0
+nc2.weight   = 1
+nc2.delay    = 0
+*/
+tstop = 100
+dt = 0.025
+run()
+
+cell.printVoltageRecord(0,0,"./",tvec)
+quit()

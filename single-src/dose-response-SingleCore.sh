@@ -13,34 +13,21 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./dose-response.hoc"
+HOC_NAME="./dose-response-SingleCore.hoc"
 
 NRNOPT=\
-" -c STOPTIME=3000"\
+" -c STOPTIME=2500"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
-" -c GABAB_ON=0"\
-" -c GABAA_ON=0"\
-" -c PTOL_ON=0"\
-" -c NSYNAPSE=100"\
-" -c NPN=10"\
-" -c NLN=0"\
-" -c NRN=1000"\
-" -c WEIGHT_RNtoPN=0.10"\
+" -c NCELL=1"\
+" -c NRN=1"\
+" -c CELL_bATYPE=1"\
+" -c WEIGHT_RNtoPN=0.50"\
 " -c WEIGHT_RNtoLN=0.02"\
-" -c GABAA_LTOP=5.00"\
-" -c GABAA_LTOL=0.10"\
-" -c GABAB_LTOP=0.50"\
-" -c GABAB_LTOL=0.10"\
-" -c DOSE=0"\
-" -c NSTIM=1"\
-" -c PROB_LTOP=1.0"\
-" -c PROB_LTOL=1.0"\
-" -c PROB_PTOL=1.0"\
-" -c WEIGHT_PTOL=3.0"\
+" -c PN_NACH_GMAX=0.3"\
 " -c RND_SEED=0"
 
-MPIEXEC="mpiexec -n 8"
+MPIEXEC="mpiexec -n 1"
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 
 echo $NRNOPT
@@ -48,5 +35,8 @@ echo $EXEC
 time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
+#python ../src/drawISF.py $SPIKE_DIR
+python ../src/spike_analyze.py $SPIKE_DIR
+#python ../src/whole_in_one_spike.py $SPIKE_DIR
 python ./draw_DoseCurve.py $SPIKE_DIR
 #python ./draw_FreqCurve.py $SPIKE_DIR

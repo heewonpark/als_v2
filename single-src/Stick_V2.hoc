@@ -20,14 +20,19 @@ public setSpikeRecord, printSpikeRecord, Delay
 public setIClamp2, setIClamp_with_Latency, setRN_biophys
 
 public gaba, setGABA, setNET_GABA, setGABAb
-public mkNET_GABAa,mkNET_GABAb,mkNET_nACh
+public mkNET_GABAa,mkNET_GABAb,mkNET_nACh, nACh
 public imax
 public setGID, getGID, gid
+public vs_ncs
+public nAChs
+
+objref nAChs 
 objref mechname[10]
 objref typename[6]
 objref this
 objref gabaa_list, gabab_list
 objref synlist
+objref vs_ncs
 
 public dose
 proc init(){
@@ -65,6 +70,9 @@ proc init(){
     gabab_list = new List()
 
     synlist = new List()
+    
+    vs_ncs = new List()
+    nAChs  = new List()
     biophys()
     
     dose = 0
@@ -303,7 +311,7 @@ proc insertHH_RN(){
     }
 }
 
-
+public connect2target
 obfunc connect2target(){local numSynapses localobj nc,target
     target = $o1
     //numSynapses = $2
@@ -313,6 +321,52 @@ obfunc connect2target(){local numSynapses localobj nc,target
     nc.weight = 10
     //print "nc.weight ",nc.weight
     return nc
+}
+
+public connectVecStim
+obfunc connectVecStim(){localobj synapse, vecstim, nc
+    vecstim = $o1
+    synapse = $o2
+    nc = new NetCon(vecstim, synapse)
+    nc.threshold = 0
+    nc.weight    = 1
+    nc.delay     = Delay
+    vs_ncs.append(nc)
+    return nc
+}
+
+public setNCRecord
+objref ncs_tvecs
+proc setNCRecord(){local i localobj ncs_tvec
+    ncs_tvecs= new List()
+    for i=0, vs_ncs.count()-1{
+	ncs_tvec = new Vector()
+	vs_ncs.o(i).record(ncs_tvec)
+	ncs_tvecs.append(ncs_tvec)
+    }
+}
+
+public printNCRecord
+proc printNCRecord(){local id,i,max_size localobj fobj,mt
+    strdef _FPRINT_DIR_, _FPRINT_NAME_
+    id = $1
+    _FPRINT_DIR_= $s2    
+
+    mt   = new Matrix()
+    fobj = new File()
+
+    max_size=-1
+    for i=0, ncs_tvecs.count()-1{
+	if(max_size<ncs_tvecs.o(i).size()){max_size=ncs_tvecs.o(i).size()}
+    }
+    mt.resize(max_size,ncs_tvecs.count())
+    for i=0, ncs_tvecs.count()-1{
+	mt.setcol(i,ncs_tvecs.o(i))
+    }
+    sprint(_FPRINT_NAME_,"%sNetCon_%d.txt",_FPRINT_DIR_,id) 
+    fobj.wopen(_FPRINT_NAME_)
+    mt.fprint(fobj,"%4.3f\t")
+    fobj.close()
 }
 
 objref ic
@@ -438,6 +492,7 @@ func Latency(){local latency_, L0_, Lm_, lambda_, c
     }
 }
 
+
 proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_time, length, amp, L_RATIO,A_RATIO, seed, L0, Lm, lambda, C, latency  localobj rand, datafile, rnd
 
     // ***Usage***
@@ -555,8 +610,9 @@ proc setStim(){local delay, imax
 }
 
 objref nACh
-obfunc mkNET_nACh(){local gmax
-    gmax  = 0.3
+obfunc mkNET_nACh(){local gmax,Erev,Cmax,Cdur,Alpha,Beta
+    //gmax  = 0.3
+    gmax  = $1
     Erev  = 0.0
     Cmax  = 0.5
     Cdur  = 0.3 
@@ -569,6 +625,7 @@ obfunc mkNET_nACh(){local gmax
     nACh.Cdur = Cdur
     nACh.Alpha = Alpha
     nACh.Beta = Beta
+    nAChs.append(nACh)
     return nACh
 }
 
@@ -713,22 +770,32 @@ proc setCurrentRecord1(){
     veci2.record(&st1.i)
 }
 
-objref vec_nACh
+objref nACh_records
 public setCurrentRecord_nACh
-proc setCurrentRecord_nACh(){
+proc setCurrentRecord_nACh(){local i localobj nACh_record
     //rtvec = new Vector()
-    vec_nACh = new Vector()
     //rtvec.record(&t)
-    vec_nACh.record(&nACh.i)
+    printf("setCurrentRecord_nACh()\n")
+
+    nACh_records = new List()
+    for i=0, nAChs.count()-1{
+	nACh_record = new Vector()
+	nACh_record.record(&nAChs.o(i).i_syn)
+	nACh_records.append(nACh_record)
+    }
 }
 
-objref vec_exp2syn
+objref exp2syn_records
 public setCurrentRecord_exp2syn
-proc setCurrentRecord_exp2syn(){
+proc setCurrentRecord_exp2syn(){local i localobj exp2syn_record
     //rtvec = new Vector()
-    vec_exp2syn = new Vector()
     //rtvec.record(&t)
-    vec_exp2syn.record(&esyn.i)
+    exp2syn_records = new List()
+    for i=0, synlist.count()-1{
+	exp2syn_record = new Vector()
+	exp2syn_record.record(&synlist.o(i).i)
+	exp2syn_records.append(exp2syn_record)
+    }
 }
 
 
@@ -820,52 +887,52 @@ proc printCurrentRecord1(){local i localobj tvec4
     file3.close()
 }
 
-objref mt4,file4
-public mt4, printCurrentRecord_nACh
-proc printCurrentRecord_nACh(){local i localobj rtvec
-    i = $1
-    strdef filepath
-    filepath= $s2
-    rtvec = $o3
-    mt4 = new Matrix()
-    file4 = new File()
+public printCurrentRecord_nACh
+proc printCurrentRecord_nACh(){local id,j localobj tvec,mt, fobj
+    id = $1
+    strdef _FPRINT_DIR_,_FPRINT_NAME_
+    _FPRINT_DIR_= $s2
+    tvec = $o3
+    mt = new Matrix()
+    fobj = new File()
     
     //tvec.printf()
-    mt4.resize(rtvec.size(),2)
-    mt4.setcol(0,rtvec)
-    mt4.setcol(1,vec_nACh)
+    mt.resize(tvec.size(),nACh_records.count()+1)
+    mt.setcol(0,tvec)
+    for j=0, nACh_records.count()-1{	
+	printf("nACh_records %d\n",j)
+	mt.setcol(1+j,nACh_records.o(j))
+    }
     
     //mt.printf("%5.5f\t")
-    strdef filename
     print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    sprint(filename,"%sSynapticCurrent_nACh%d.txt",filepath,i) 
-    file4.wopen(filename)
-    mt4.fprint(file4,"%5.5f\t")
-    file4.close()
+    sprint(_FPRINT_NAME_,"%sSynapticCurrent_nACh%d.txt",_FPRINT_DIR_,id) 
+    fobj.wopen(_FPRINT_NAME_)
+    mt.fprint(fobj,"%5.5f\t")
+    fobj.close()
 }
 
-objref mt5,file5
-public mt5, printCurrentRecord_exp2syn
-proc printCurrentRecord_exp2syn(){local i localobj rtvec
-    i = $1
-    strdef filepath
-    filepath= $s2
-    rtvec = $o3
-    mt5 = new Matrix()
-    file5 = new File()
+public printCurrentRecord_exp2syn
+proc printCurrentRecord_exp2syn(){local id, j localobj tvec, mt, fobj
+    id = $1
+    strdef _FPRINT_DIR_, _FPRINT_NAME_
+    _FPRINT_DIR_= $s2
+    tvec = $o3
+    mt = new Matrix()
+    fobj = new File()
     
-    //tvec.printf()
-    mt5.resize(rtvec.size(),2)
-    mt5.setcol(0,rtvec)
-    mt5.setcol(1,vec_exp2syn)
-    
-    //mt.printf("%5.5f\t")
-    strdef filename
+    mt.resize(tvec.size(),exp2syn_records.count()+1)
+    mt.setcol(0,tvec)
+    for j=0, exp2syn_records.count()-1{	
+	printf("nACh_records %d\n",j)
+	mt.setcol(1+j,exp2syn_records.o(j))
+    }
+   
     print "flg ",mechanism_flg, mechname[mechanism_flg].s
-    sprint(filename,"%sSynapticCurrent_exp2syn%d.txt",filepath,i) 
-    file5.wopen(filename)
-    mt5.fprint(file5,"%5.5f\t")
-    file5.close()
+    sprint(_FPRINT_NAME_,"%sSynapticCurrent_exp2syn%d.txt",_FPRINT_DIR_,id) 
+    fobj.wopen(_FPRINT_NAME_)
+    mt.fprint(fobj,"%5.5f\t")
+    fobj.close()
 }
 
 objref mt,file
