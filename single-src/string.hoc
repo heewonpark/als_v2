@@ -1,0 +1,5 @@
+begintemplate String
+public s
+strdef s
+proc init() { s = $s1 }
+endtemplate String

@@ -27,6 +27,7 @@ if(name_declared("PROB_PTOL")!=5){ execute("PROB_PTOL=1.0")}
 if(name_declared("WEIGHT_PTOL")!=5){ execute("WEIGHT_PTOL=0.05")}
 if(name_declared("PTOL_ON")!=5){ execute("PTOL_ON=0")}
 if(name_declared("RND_SEED")!=5){ execute("RND_SEED=0")}
+if(name_declared("PN_NACH_GMAX")!=5){ execute("PN_NACH_GMAX=0")}
 objref pc
 pc = new ParallelContext()
 
@@ -88,6 +89,7 @@ if(pc.id==0){
     printf("SPIKE TIMING: %s\n",spt_file_dir)
     printf("PROBALITY LTOP: %f,PROBALITY LTOL: %f, RND_SEED: %d\n",PROB_LTOP,PROB_LTOL,RND_SEED)
     printf("PTOL_ON: %d, PROBALITY PTOL: %f, WEIGHT PTOL : %f\n",PTOL_ON,PROB_PTOL,WEIGHT_PTOL)
+    printf("PN_NACH_GMAX: %f\n",PN_NACH_GMAX)
     printf("===================================================================\n")
 }
 objref cells, nclist
@@ -249,7 +251,7 @@ proc ConnectWithRN_nACh(){local i, j, base_gid, this_gid, pngid localobj syn, nc
 	pngid = PNs.o(i).getGID()
 
 	for j=0, NSYNAPSE-1{
-	    syn = PNs.o(i).mkNET_nACh(0.3)
+	    syn = PNs.o(i).mkNET_nACh(PN_NACH_GMAX)
 	    synlist.append(syn)
 	    src_gid = base_gid+pngid*NSYNAPSE+j
 	    //print pngid, j, src_gid
@@ -548,13 +550,20 @@ proc mkstim_random(){local i,imax1,imax2,Interval,delay2
     }
 }
 
-proc mkSingleStim_DoseResponse(){local i,j,gid,id localobj rnd
+objref latencies, doses
+proc mkSingleStim_DoseResponse(){\
+    local i,j,gid,id,dose_log,latency\
+    localobj rnd, fobj
+
     rnd = new Random(RND_SEED+pc.id)
     if(pc.id==0){
 	printf("Dose Vector:")
 	DOSE_V.printf()
 	printf("\n")
     }
+    latencies = new Vector()
+    doses     = new Vector()
+
     strdef spiketiming
     /*
     for(i=pc.id; i<NCELL; i+=pc.nhost){
@@ -575,7 +584,14 @@ proc mkSingleStim_DoseResponse(){local i,j,gid,id localobj rnd
 	sprint(spiketiming,"%sspt%03d.dat",spt_file_dir,int(rnd.uniform(0,999)))
 	//print spiketiming," ", id, d
         //RNs.o(i).setIClamp2(STOPTIME,dt,spiketiming)
-	RNs.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,gid,3)
+	
+	dose_log = log10(d)
+	//printf("Dose[log] : %f %d\n",dose_log,d)
+//	latency = RNs.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,gid,dose_log)
+	latency = RNs.o(i).setIClamp_with_Latency(STOPTIME,dt,spiketiming,gid,3)
+	latencies.append(latency)
+	doses.append(dose_log)
+	
     }
 }
 
@@ -737,10 +753,26 @@ proc printCurrentRecord(){local i
     }
 }
 
+proc printLatency(){localobj fobj, mt
+    if(pc.id==0)printf("Latency()\n")
+    mt = new Matrix()
+    fobj = new File()
+    
+    mt.resize(doses.size(),2)
+    mt.setcol(0,doses)
+    mt.setcol(1,latencies)
+    strdef _FPRINT_NAME_
+    sprint(_FPRINT_NAME_,"%sLatencies_%d.txt",SPIKEOUT_DIR,pc.id)
+    fobj.wopen(_FPRINT_NAME_)
+    mt.fprint(fobj,"%5.5f\t")
+    fobj.close()
+}
+
 proc setPrinter(){
     printSpikeRecord()
     printCurrentRecord()
     printVoltageRecord()
+    printLatency()
 }
 setPrinter()
 

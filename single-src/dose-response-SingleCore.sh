@@ -20,8 +20,8 @@ NRNOPT=\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c NCELL=1"\
-" -c NRN=1"\
-" -c CELL_bATYPE=1"\
+" -c NRN=100"\
+" -c CELL_TYPE=1"\
 " -c WEIGHT_RNtoPN=0.50"\
 " -c WEIGHT_RNtoLN=0.02"\
 " -c PN_NACH_GMAX=0.3"\
@@ -35,8 +35,10 @@ echo $EXEC
 time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
-#python ../src/drawISF.py $SPIKE_DIR
-python ../src/spike_analyze.py $SPIKE_DIR
-#python ../src/whole_in_one_spike.py $SPIKE_DIR
-python ./draw_DoseCurve.py $SPIKE_DIR
-#python ./draw_FreqCurve.py $SPIKE_DIR
+#python ./butterworth.py $RECORD_DIR
+#python ./NetCon_PSTH.py $SPIKE_DIR
+##python ../src/drawISF.py $SPIKE_DIR
+#python ../src/spike_analyze.py $SPIKE_DIR
+##python ../src/whole_in_one_spike.py $SPIKE_DIR
+#python ./draw_DoseCurve.py $SPIKE_DIR
+##python ./draw_FreqCurve.py $SPIKE_DIR

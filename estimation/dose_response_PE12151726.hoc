@@ -1,0 +1,850 @@
+{load_file("nrngui.hoc")}
+{load_file("stdlib.hoc")}
+
+{load_file("CellSwc2.hoc")}
+{load_file("areaList.hoc")}
+{load_file("exSectionList.hoc")}
+
+/*
+Dose Response Curve Parameter Estimation Program
+PE: Parameter Estimation
+*/
+
+// Modify makeCells() and initModel() 
+//=== MODEL PARAMETERS ===
+if(name_declared("SPIKEGEN_POS")!=5){ execute("SPIKEGEN_POS=10")}
+if(name_declared("SPIKEGEN_SIZE")!=5){ execute("SPIKEGEN_SIZE=10") }
+if(name_declared("GKDRBAR")!=5){ execute("GKDRBAR=0.7") }
+if(name_declared("GNABAR")!=5){ execute("GNABAR=1.2") }
+if(name_declared("CM")!=5){ execute("CM=1") }
+if(name_declared("GL")!=5){ execute("GL=0.00035") }
+if(name_declared("EL")!=5){ execute("EL=-60") }
+//========================
+
+if(name_declared("FREQ")!=5){ execute("FREQ=100") }
+if(name_declared("AMP_SIN")!=5){ execute("AMP_SIN=0.3") }
+if(name_declared("AMP_RAMP")!=5){ execute("AMP_RAMP=1.5") }
+if(name_declared("REP_STIM")!=5){ execute("REP_STIM=1") }
+if(name_declared("DEBUG_MSG")!=5){ execute("DEBUG_MSG=0") }
+if(name_declared("ESTIMATION")!=5){ execute("ESTIMATION=1") }
+if(name_declared("SIM_TARGET")!=5){ execute("SIM_TARGET=1") }
+if(name_declared("LOG_FITNESS")!=5){ execute("LOG_FITNESS=0") }
+if(name_declared("SETTINGFILE_SUF")!=5){ execute("SETTINGFILE_SUF=10") }
+if(name_declared("NUM_OF_TARGETFILE")!=5){ execute("NUM_OF_TARGETFILE=1") }
+if(name_declared("INDEX_OUTPUT")!=5){ execute("INDEX_OUTPUT=0") }
+if(name_declared("USE_TARGETPARAMS")!=5){ execute("USE_TARGETPARAMS=0") }
+if(name_declared("THRESHOLD")!=5){ execute("THRESHOLD=-20") }
+
+if(name_declared("STOPTIME")!=5) { execute("STOPTIME=0") }
+
+NCELLS = 1
+
+DIM_CMAES = -1
+NUM_OF_POP_PER_PROC = -1
+FLG_CMAES_STOP = 0
+STOPTIME_DEFAULT = 300
+TARGETSUF_DEFAULT = 10
+PARAMSUF_DEFAULT = 10
+CURRENTSUF_DEFAULT = -1
+ELECTRODESUF_DEFAULT = -1
+STIM_INITIALIZED = 0
+
+strdef FILENAME_PRINT
+FILENAME_PRINT = "voltage.dat"
+
+if(name_declared("DIR_TARGET")==0) { 
+	execute("strdef DIR_TARGET DIR_TARGET=\".\"")
+}
+if(name_declared("SWC_FILENAME")==0) { 
+	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
+}
+
+objref cells
+objref nclist
+objref g_ncstim_list
+objref g_stim_list, ncstim
+objref target_time_vec_list, target_volt_vec_list, target_stim_vec_list, target_volt_vec_for_eval_list, target_volt_vec_for_eval_list_rev
+objref ref_time_vec_list, ref_stim_vec_list
+objref g_spike_time_vec, g_spike_id_vec
+objref g_volt_time_vec, g_volt_obs_vec_list
+objref g_spike_time_vec_list, g_spike_id_vec_list
+objref g_spike_time_vec_list_target, g_spike_id_vec_list_target
+objref g_cur_stim_vec_list
+objref spikegenlist, noaxonlist, cellbodylist, axonlist, dendlist // now assume NCELLS equals 1
+// if NELLS != 1, these SectionLists must be list of SectionList
+objref stim_points, measure_points, num_stim_points, num_measure_points
+objref paramname_list
+paramname_list = new List()
+objref targetfile_suf, currentfile_suf, paramfile_suf, electrodefile_suf
+
+strdef SETTINGFILE
+
+objref pc
+pc = new ParallelContext()
+
+
+//-- make CellSwc object --
+proc makeCells(){local i, j, n, axonnum, ncells localobj cell, nc, nil, tmplist
+    ncells = $1
+    cells = new List()
+    
+    for(i=pc.id; i<ncells; i+=pc.nhost){
+	cell = new Stick()
+	//cells.append(cell)
+	if(CELL_TYPE==1){
+	    //printf("MAKE PN:%d[%d]\n",i,pc.id)
+	    cell.insertFukuda()
+	    //cell.insertFukuda_tunned()
+	    cell.setType(1)
+	    //cell.setPN_biophys()
+	    NACH_GMAX = PN_NACH_GMAX
+	}else if(CELL_TYPE==2){
+	    //printf("MAKE LN:%d[%d]\n",i,pc.id)
+	    cell.insertLNlla()
+	    cell.setType(2)
+	    NACH_GMAX = LN_NACH_GMAX
+	}else{
+	    printf("[ERROR] mkcells()[%d]",pc.id)
+	    quit()
+	}
+	cell.Delay=10.0
+	cell.setGID(i)
+	cell.dose=DOSE_V.x[i]
+	cells.append(cell)
+	pc.set_gid2node(i,pc.id)
+	nc = cell.connect2target(nil)
+	pc.cell(i,nc)
+    }
+    pc.multisplit()
+}
+
+//-- update global parameter values --
+proc updateParams() { local i, idx_start localobj param_vec
+	param_vec = $o1
+	idx_start = $2
+
+	strdef stmt
+	
+	for(i = 0; i < DIM_CMAES; i+=1) {
+		sprint(stmt, "%s = %f", paramname_list.object(i).s, param_vec.x(idx_start+i))
+		{ execute(stmt) }
+	}
+}
+
+//-- init neuron model before the simulation -- 
+proc initModel() { local i, j, axonnum, ncells, v_init localobj tmplist
+	ncells = $1
+	
+	for i=0, cells.count()-1{
+	    cell.uninsertPas()
+	    cell.uninsertHH()
+
+	    if(CELL_TYPE==1){
+		cell.uninsertFukuda()
+	    }else if(CELL_TYPE==1){
+		cell.uninsertLNlla()
+	    }
+	}
+
+	for i=0, cells.count()-1{
+	    if(CELL_TYPE==1){
+		cell.insertFukuda()
+	    }else if(CELL_TYPE==1){
+		cell.insertLNlla()
+	    }
+	}
+	stdinit()
+}
+
+//-- set the stim vector to IClamp object --
+proc setIClamp(){ local k, n localobj stim
+	k = $1 // index of target file (max: num of target files)
+	if( NUM_OF_TARGETFILE == 1 && STIM_INITIALIZED != 0 ) { return }
+	g_stim_list = new List()
+	
+	for(n = 0; n < num_stim_points.x(k); n+=1) {
+		cells.o(0).Dend[stim_points.o(k).x(n)] stim = new IClamp(0.5)
+		
+		stim.del = 0
+		stim.dur = 1e9
+		{ref_stim_vec_list.o(k).o(n).play(&stim.amp, ref_time_vec_list.o(k), 1)}
+		g_stim_list.append(stim)
+	}
+	STIM_INITIALIZED = 1
+}
+
+//-- load currentdata and make the stim vectors --
+proc setStimVec() { local amp, i, span, n, k, j, span_del, span_rep, span_sin, del, offset, measurepoints localobj stim, f, ref_stim_vec, strobj, stim_list, stim_vec_list, ref_time_vec
+	strdef tmp, filename
+	strobj = new StringFunctions()
+	ref_stim_vec_list = new List()
+	ref_time_vec_list = new List()
+	
+	for(k = 0; k < NUM_OF_TARGETFILE; k += 1) {
+		sprint(filename, "%s/currentdata%02d.txt", DIR_TARGET, currentfile_suf.x(k))
+		
+		stim_vec_list = new List()
+		
+		if(currentfile_suf.x(k) >= 0) {
+			f = new File()
+			{ f.ropen(filename) }
+			for (i=0; i<2; i=i+1) { f.gets(tmp) }
+			span = f.scanvar()
+			{ f.scanvar() }
+			measurepoints = f.scanvar()
+			
+			ref_time_vec = new Vector(span)
+			for(n=0; n<num_stim_points.x(k); n+=1) {
+				ref_stim_vec = new Vector(span)
+				stim_vec_list.append(ref_stim_vec)
+			}
+			
+			for (i=0; i<span; i=i+1) {
+				ref_time_vec.x(i) = f.scanvar()
+				for(n=0; n<num_stim_points.x(k); n+=1) {
+					stim_vec_list.o(n).x(i) = f.scanvar()
+				}
+				for(n=0; n<measurepoints; n+=1) { {f.scanvar()} }
+			}
+			
+			if(STOPTIME==0) { 
+				STOPTIME = int(span * ref_time_vec.x(1))
+			}
+			
+			f.close()
+		} else { // (if currentfile_suf.x(k) < 0)
+			if(STOPTIME==0) { execute("STOPTIME=STOPTIME_DEFAULT") }
+			span = STOPTIME/dt
+			
+			// FREQ = (-1) * currentfile_suf.x(k) // if suf < 0, FREQ of sin wave = -suf
+
+			ref_time_vec = new Vector(span)
+			for(i=0; i<span; i=i+1){ ref_time_vec.x(i) = dt*i }
+			
+			for(n=0; n<num_stim_points.x(k); n+=1) {
+				cells.o(0).Dend[stim_points.o(k).x(n)] stim = new IClamp(0.5)
+				
+				if( FREQ == 0 ) {
+					// --- under construction ---
+					// stim.del = 10
+					// stim.dur = STOPTIME - stim.del
+					// stim.amp = AMP_RAMP
+					// ref_stim_vec = new Vector()
+				} else {
+					ref_stim_vec = new Vector(span)
+					// stim.del = 0
+					// stim.dur = 1e9
+					del = 10
+					span_del = del/dt
+					span_rep = STOPTIME/REP_STIM/dt
+					span_sin = span_rep - span_del*2
+					
+					for(j=0; j<REP_STIM; j+=1) {
+						offset = j * span_rep
+						for(i=0; i<span_del; i+=1) {
+							ref_stim_vec.x(i+offset) = 0.0
+						}
+						offset += span_del
+						for(i=0; i<span_sin; i+=1) {
+							ref_stim_vec.x(i+offset) = AMP_RAMP / span_sin / 4.0 * (5*i - span_sin) + AMP_SIN * sin( 2.0 * PI * FREQ * ref_time_vec.x(i) * 0.001 )
+						}					
+						offset += span_sin
+						for(i=0; i<span_del; i+=1) {
+							ref_stim_vec.x(i+offset) = 0.0
+						}
+					}
+					// ref_stim_vec.play(&stim.amp, ref_time_vec, 1)
+				}
+				// stim_list.append(stim)
+				stim_vec_list.append(ref_stim_vec)
+			}
+		}
+		// g_stim_list.append(stim_list)
+		ref_stim_vec_list.append(stim_vec_list)
+		ref_time_vec_list.append(ref_time_vec)
+	}
+}
+
+proc readSettingFile() { local i, n localobj fobj, sf
+	strdef filename, tmp, buf
+	filename = $s1
+	sf = new StringFunctions()
+	
+	if(sf.len(filename)==0) {
+		targetfile_suf = new Vector(1, TARGETSUF_DEFAULT)
+		paramfile_suf = new Vector(1, PARAMSUF_DEFAULT)
+		currentfile_suf = new Vector(1, CURRENTSUF_DEFAULT)
+		electrodefile_suf = new Vector(1, ELECTRODESUF_DEFAULT)
+		return
+	}
+	
+	fobj = new File()
+	{fobj.ropen(filename)}
+	
+	paramfile_suf = new Vector(1)
+	while( fobj.gets(buf) != -1 ) {
+		if( sf.tail(buf, "#", tmp) == 1 ) { continue } // comments
+		n = sscanf(buf, "parameter file suffix: %d\n", &paramfile_suf.x(0))
+		if( n!= 0 ) { break }
+	}
+	
+	{ fobj.seek() }
+	while( fobj.gets(buf) != -1 ) {
+		if( sf.tail(buf, "#", tmp) == 1 ) { continue } // comments
+		n = sscanf(buf, "num of target files: %d\n", &NUM_OF_TARGETFILE)
+		if( n!= 0 ) { break }
+	}
+	
+	{ fobj.seek() }
+	targetfile_suf = new Vector(NUM_OF_TARGETFILE)
+	while( fobj.eof() == 0 ) {
+		fobj.scanstr(tmp)
+		if(strcmp(tmp, "target")==0) {
+			fobj.scanstr(tmp)
+			if(strcmp(tmp, "file")==0) {
+				fobj.scanstr(tmp)
+				if(strcmp(tmp, "suffix:")==0) {
+					for(i=0; i<NUM_OF_TARGETFILE; i+=1) {
+						targetfile_suf.x(i) = fobj.scanvar()
+					}
+					break
+				}
+			}
+		}
+		fobj.gets(tmp)
+	}
+	
+	{ fobj.seek() }
+	electrodefile_suf = new Vector(NUM_OF_TARGETFILE)
+	while( fobj.eof() == 0 ) {
+		fobj.scanstr(tmp)
+		if(strcmp(tmp, "electrode")==0) {
+			fobj.scanstr(tmp)
+			if(strcmp(tmp, "pos")==0) {
+				fobj.scanstr(tmp)
+				if(strcmp(tmp, "file")==0) {
+					fobj.scanstr(tmp)
+					if(strcmp(tmp, "suffix:")==0) {
+						for(i=0; i<NUM_OF_TARGETFILE; i+=1) {
+							electrodefile_suf.x(i) = fobj.scanvar()
+						}
+						break
+					}
+				}
+			}
+		}
+		fobj.gets(tmp)
+	}
+	
+	{ fobj.seek() }
+	currentfile_suf = new Vector(NUM_OF_TARGETFILE)
+	while( fobj.eof() == 0 ) {
+		fobj.scanstr(tmp)
+		if(strcmp(tmp, "stim")==0) {
+			fobj.scanstr(tmp)
+			if(strcmp(tmp, "ref")==0) {
+				fobj.scanstr(tmp)
+				if(strcmp(tmp, "file")==0) {
+					fobj.scanstr(tmp)
+					if(strcmp(tmp, "suffix:")==0) {
+						for(i=0; i<NUM_OF_TARGETFILE; i+=1) {
+							currentfile_suf.x(i) = fobj.scanvar()
+						}
+						break
+					}
+				}
+			}
+		}
+		fobj.gets(tmp)
+	}
+}
+
+proc _load_target_spike_timing() { local k, i, len localobj spike_time_vec_list, spike_time_vec, vec1, vec2, tmpvec
+	g_spike_time_vec_list_target = new List()
+	for(k=0; k<NUM_OF_TARGETFILE; k+=1) {
+		spike_time_vec_list = new List()
+		for(i=0; i<num_measure_points.x(k); i+=1) {
+			spike_time_vec = new Vector()
+			vec1 = new Vector()
+			vec2 = new Vector()
+			tmpvec = new Vector()
+			vec1 = target_volt_vec_list.o(k).o(i).sub(THRESHOLD)
+			tmpvec.copy(vec1)
+			vec1.abs().div(tmpvec)
+			vec2.copy(vec1)
+			vec2.insrt(0,-1)
+			len = vec2.size()
+			vec2.remove(len-1)
+			vec1.sub(vec2)
+			vec1.indvwhere(">", 0)
+			vec1.mul(dt)
+			spike_time_vec_list.append(vec1)
+		}
+		g_spike_time_vec_list_target.append(spike_time_vec_list)
+	}
+}
+
+
+proc loadTargetData() { local i, j, k, span localobj f, tmpvec, stim_vec_list, volt_vec_list, timevec, volt_vec_list_eval, tmpvec2, volt_vec_list_eval_rev
+	strdef tmp, filename
+	
+	target_time_vec_list = new List()
+	target_stim_vec_list = new List()
+	target_volt_vec_list = new List()	
+	target_volt_vec_for_eval_list = new List()
+	target_volt_vec_for_eval_list_rev = new List()
+
+	for(k=0; k<NUM_OF_TARGETFILE; k+=1) {
+		sprint(filename, "%s/targetdata%02d.txt", DIR_TARGET, targetfile_suf.x(k))
+		
+		f = new File()
+		{ f.ropen(filename) }
+		for (i=0; i<2; i=i+1) { f.gets(tmp) }
+		span = f.scanvar()
+		{ f.gets(tmp) }
+		
+		timevec = new Vector(span)
+		stim_vec_list = new List()
+		for(i=0; i<num_stim_points.x(k); i+=1) {
+			tmpvec = new Vector(span)
+			stim_vec_list.append(tmpvec)
+		}
+		volt_vec_list = new List()
+		for(i=0; i<num_measure_points.x(k); i+=1) {
+			tmpvec = new Vector(span)
+			volt_vec_list.append(tmpvec)
+		}
+		
+		for (i=0; i<span; i=i+1) {
+			timevec.x(i) = f.scanvar()
+			for(j=0; j<num_stim_points.x(k); j+=1) {
+				stim_vec_list.o(j).x(i) = f.scanvar()
+			}
+			for(j=0; j<num_measure_points.x(k); j+=1) {
+				volt_vec_list.o(j).x(i) = f.scanvar()
+			}
+		}
+		
+		volt_vec_list_eval = new List()
+		volt_vec_list_eval_rev = new List()
+		for(j=0; j<num_measure_points.x(k); j+=1) {
+			tmpvec = new Vector(span)
+			tmpvec2 = new Vector(span)
+			tmpvec.copy(volt_vec_list.o(j))
+			tmpvec2.copy(volt_vec_list.o(j))
+			tmpvec2.reverse()
+			for(i = 1; i < span; i+=1) { 
+				tmpvec.x(i) += tmpvec.x(i-1) 
+				tmpvec2.x(i) += tmpvec2.x(i-1) 
+			}
+			volt_vec_list_eval.append(tmpvec)
+			volt_vec_list_eval_rev.append(tmpvec2)
+		}
+		f.close()
+		
+		target_time_vec_list.append(timevec)
+		target_stim_vec_list.append(stim_vec_list)
+		target_volt_vec_list.append(volt_vec_list)
+		target_volt_vec_for_eval_list.append(volt_vec_list_eval)
+		target_volt_vec_for_eval_list_rev.append(volt_vec_list_eval_rev)
+	}
+
+	_load_target_spike_timing()
+}
+
+//-- read parameter range file --
+obfunc readParamFile() { local dim, flg, val localobj f, paramname, sf, vec
+	strdef filename, line, tmp
+	sprint(filename, "%s/params%02d.txt", DIR_TARGET, paramfile_suf.x(0))
+
+	vec = new Vector()	
+	f = new File()
+	{ f.ropen(filename) }
+	
+	sf = new StringFunctions()
+	dim = 0
+	while( f.gets(line) != -1 ) {
+		if( sf.tail(line, "#", tmp) == 1 ) { continue } // comments
+		{sscanf(line, "%s\t%*lf\t%*lf\t%lf\n", tmp, &val)}
+		paramname = new String(tmp)
+		paramname_list.append(paramname)
+		vec.append(val)
+		dim += 1
+	}
+	
+	DIM_CMAES = dim
+	return vec
+}
+
+proc setElectrodePoints() { local i, k localobj fobj, strobj, strtmp, vec_stim_points, vec_measure_points
+	strdef filename
+	strobj = new StringFunctions()
+	strtmp = new String()
+	num_stim_points = new Vector(NUM_OF_TARGETFILE)
+	num_measure_points = new Vector(NUM_OF_TARGETFILE)
+	stim_points = new List()	
+	measure_points = new List()
+	
+	for(k=0; k<NUM_OF_TARGETFILE; k+=1) {
+		if(electrodefile_suf.x(k)==-1) {
+			num_stim_points.x(k) = 1
+			num_measure_points.x(k) = 1
+			vec_stim_points = new Vector(num_stim_points.x(k), 361)
+			vec_measure_points = new Vector(num_measure_points.x(k), 361)
+		} else {
+			sprint(filename, "%s/pos%02d.txt", DIR_TARGET, electrodefile_suf.x(k))
+			fobj = new File()
+			{ fobj.ropen(filename) }
+			{ fobj.gets(strtmp.s) }
+			{ sscanf(strtmp.s, "@ NUM_STIM_POINTS: %d, NUM_MEASURE_POINTS: %d[^\n]+\n", \
+			&num_stim_points.x(k), &num_measure_points.x(k)) }
+			
+			vec_stim_points = new Vector(num_stim_points.x(k))
+			for(i = 0; i < num_stim_points.x(k); i+=1) {
+				vec_stim_points.x(i) = fobj.scanvar()
+			}
+			vec_measure_points = new Vector(num_measure_points.x(k))
+			for(i = 0; i < num_measure_points.x(k); i+=1) {
+				vec_measure_points.x(i) = fobj.scanvar()
+			}
+			fobj.close()
+			stim_points.append(vec_stim_points)
+			measure_points.append(vec_measure_points)
+		}	
+	}
+}
+
+proc setSpikeRecord() { local i, j, k_nc, i_nc, len_k, len_i, flg_setvec localobj nc, nil, spike_time_vec, spike_id_vec, spike_time_vec_list, spike_id_vec_list, ncstim_list
+    g_spike_time_vec_list = new List()
+    g_spike_id_vec_list = new List()
+    g_ncstim_list = new List()    
+	
+	j=pc.id+NCELLS
+	for(k = 0; k < NUM_OF_TARGETFILE; k += 1) {
+		spike_time_vec_list = new List()		
+		spike_id_vec_list = new List()	
+		ncstim_list = new List()
+		for(i = 0; i < num_measure_points.x(k); i+=1) {
+			spike_time_vec = new Vector()
+			spike_id_vec = new Vector()	
+			nc = cells.object(0).makeNetCon(measure_points.o(k).x(i), nil, THRESHOLD, 0, 1.0)
+			pc.set_gid2node(j, pc.id)
+			pc.cell(j, nc)
+			len_k = g_ncstim_list.count()
+			flg_setvec = 0
+			for(k_nc=0; k_nc<len_k; k_nc+=1) {
+				len_i = g_ncstim_list.o(k_nc).count()
+				for(i_nc=0; i_nc<len_i; i_nc+=1) {
+					if(g_ncstim_list.o(k_nc).o(i_nc) == nc) {
+						spike_time_vec = g_spike_time_vec_list.o(k_nc).o(i_nc)
+						spike_id_vec = g_spike_id_vec_list.o(k_nc).o(i_nc)
+						flg_setvec=1
+						break
+					}
+				}
+				if(flg_setvec==1) { break }
+			}					
+			if(flg_setvec==0) {
+				nc.record(spike_time_vec, spike_id_vec, nc.srcgid)
+			}
+
+			ncstim_list.append(nc)
+			spike_time_vec_list.append(spike_time_vec)
+			spike_id_vec_list.append(spike_id_vec)
+			j += pc.nhost()
+		}    
+		g_spike_time_vec_list.append(spike_time_vec_list)
+		g_spike_id_vec_list.append(spike_id_vec_list)
+		g_ncstim_list.append(ncstim_list)
+	}
+}
+
+proc setVoltageRecord() { local i, k localobj volt_obs_vec, volt_obs_vec_list
+	g_volt_time_vec = new Vector()
+	g_volt_time_vec.record(&t)
+
+    g_volt_obs_vec_list = new List()
+	for(k = 0; k < NUM_OF_TARGETFILE; k += 1) {
+		volt_obs_vec_list = new List()		
+		for(i = 0; i < num_measure_points.x(k); i+=1) {
+			volt_obs_vec = new Vector()
+			volt_obs_vec.record( &cells.o(0).Dend[measure_points.o(k).x(i)].v(0.5) )
+			volt_obs_vec_list.append(volt_obs_vec)
+		}
+		g_volt_obs_vec_list.append(volt_obs_vec_list)
+	}
+}
+
+proc setCurrentRecord() { local i, k localobj cur_stim_vec, cur_stim_vec_list
+    g_cur_stim_vec_list = new List()
+	for(k = 0; k < NUM_OF_TARGETFILE; k += 1) {
+		cur_stim_vec_list = new List()
+		for(i = 0; i < num_stim_points.x(k); i+=1) {
+			cur_stim_vec = new Vector()
+			cur_stim_vec.record(&g_stim_list.o(i).i)
+			cur_stim_vec_list.append(cur_stim_vec)
+		}
+		g_cur_stim_vec_list.append(cur_stim_vec_list)
+	}
+}
+
+// --- print simulation output ---
+proc printVoltage(){ local i, flg_fileout, k localobj fobj, mt, fname
+	flg_fileout = $1
+	k = $2 // idx of the target file
+	
+    mt = new Matrix()
+    mt.resize(g_volt_time_vec.size(), 1 + num_stim_points.x(k) + num_measure_points.x(k))
+    mt.setcol(0, g_volt_time_vec)              // time [ms]
+	for(i = 0; i < num_stim_points.x(k); i+=1) {    // stim current [nA]
+		mt.setcol(1+i, g_cur_stim_vec_list.o(k).o(i))
+	}
+	for(i = 0; i < num_measure_points.x(k); i+=1) { // membrane potential [mV]
+		mt.setcol(1+num_stim_points.x(k)+i, g_volt_obs_vec_list.o(k).o(i))
+	}
+
+	if(flg_fileout==1) { // to file
+		fobj = new File()
+		fobj.wopen(FILENAME_PRINT)
+		fobj.printf("# multi-compartmental model\n")
+		fobj.printf("#  t [msec]\tIClamp [nA] (at ")
+		for(i = 0; i < num_stim_points.x(k); i+=1) {
+			fobj.printf("%d, ", stim_points.o(k).x(i))
+		}
+		fobj.printf(")\tVobs [mV] (at ")
+		for(i = 0; i < num_measure_points.x(k); i+=1) {
+			fobj.printf("%d, ", measure_points.o(k).x(i))
+		}
+		fobj.printf(")\n")
+		fobj.printf("%d %d %d\n", mt.nrow(), num_stim_points.x(k), num_measure_points.x(k))
+		mt.fprint(0, fobj, "%0.5f ")
+		fobj.close()
+	} else { // to stdout
+		printf("# multi-compartmental model\n")
+		printf("#  t [msec]\tIClamp [nA] (at ")
+		for(i = 0; i < num_stim_points.x(k); i+=1) {
+			printf("%d, ", stim_points.o(k).x(i))
+		}
+		printf(")\tVobs [mV] (at ")
+		for(i = 0; i < num_measure_points.x(k); i+=1) {
+			printf("%d, ", measure_points.o(k).x(i))
+		}
+		printf(")\n")
+		printf("%d %d %d\n", mt.nrow(), num_stim_points.x(k), num_measure_points.x(k))
+		mt.printf("%0.5f ")
+	}
+}
+
+proc writeSpike(){ localobj fobj, mt
+	// under construction
+}
+
+proc printSpike() { local i, rank
+	// under construction
+}
+
+// --- fitness function ---
+func evalFitness() { local s, n, i, len, k, scale localobj vec_sim, sig, vec_target_rev
+	k = $1 // idx of the target file
+	len = g_volt_time_vec.size()
+	
+	scale = 1.0 / len / (len-1) * 2.0 / dt // compensation coefficient for length of simulation
+
+	s = 0.0
+	for(n = 0; n < num_measure_points.x(k); n+=1) {
+		vec_sim = new Vector(len)
+		vec_sim.copy(g_volt_obs_vec_list.o(k).o(n))
+		
+		if( SIM_TARGET == 1 ) {
+			sig = new Vector(len)
+			sig.copy(g_volt_obs_vec_list.o(k).o(n))
+			sig.abs().div(vec_sim)
+			vec_sim.x(0) = int(vec_sim.x(0) * 1e5 + sig.x(0)*0.5) * 1e-5
+		}
+		
+		for(i = 1; i < len; i+=1) {
+			if( SIM_TARGET == 1 && (sig.x(i) == 1 || sig.x(i) == -1) ) {
+				vec_sim.x(i) = int(vec_sim.x(i) * 1e5 + sig.x(i)*0.5) * 1e-5
+			}
+			vec_sim.x(i) += vec_sim.x(i-1)
+		}
+		s += vec_sim.sub(target_volt_vec_for_eval_list.o(k).o(n)).abs().sum() / num_measure_points.x(k) * 0.5 
+
+		// reverse
+		vec_sim.copy(g_volt_obs_vec_list.o(k).o(n))
+		vec_sim.reverse()
+		
+		if( SIM_TARGET == 1 ) {
+			sig.reverse()
+			vec_sim.x(0) = int(vec_sim.x(0) * 1e5 + sig.x(0)*0.5) * 1e-5
+		}
+		
+		for(i = 1; i < len; i+=1) {
+			if( SIM_TARGET == 1 && (sig.x(i) == 1 || sig.x(i) == -1) ) {
+				vec_sim.x(i) = int(vec_sim.x(i) * 1e5 + sig.x(i)*0.5) * 1e-5
+			}
+			vec_sim.x(i) += vec_sim.x(i-1)
+		}
+		s += vec_sim.sub(target_volt_vec_for_eval_list_rev.o(k).o(n)).abs().sum() / num_measure_points.x(k) * 0.5
+	}
+	return s * scale / NUM_OF_TARGETFILE
+}
+
+// --- receive CMA-ES info from master ---
+proc receiveInfo() { local root localobj vec
+	// [num_of_pop_per_process, targetNum, paramfile_suf]
+	root = 0
+	vec = new Vector()
+	pc.broadcast(vec, root)
+
+	NUM_OF_POP_PER_PROC = int(vec.x(0))
+	SETTINGFILE_SUF = int(vec.x(1))
+	// TARGETFILE_SUF = int(vec.x(1))
+	// PARAMFILE_SUF = int(vec.x(2))
+	// CURRENTFILE_SUF = int(vec.x(3))
+	// ELECTRODEFILE_SUF = int(vec.x(4))
+}
+
+// --- exec simulation (for debug) ---
+proc simulation() { localobj vec
+    start_time = pc.time
+	
+	sprint(SETTINGFILE, "%s/settings%02d.txt", DIR_TARGET, SETTINGFILE_SUF)
+	readSettingFile(SETTINGFILE)
+	
+	if(USE_TARGETPARAMS==1) {
+		vec = readParamFile()
+		updateParams(vec, 0)
+	}
+
+	setElectrodePoints()
+
+    makeCells(NCELLS)
+
+	initModel(NCELLS)
+	
+	setStimVec()
+	setIClamp(INDEX_OUTPUT)
+	
+	setSpikeRecord()
+    setVoltageRecord()
+    setCurrentRecord()
+    tstop = STOPTIME
+    pc.set_maxstep(10)
+    stdinit()
+    
+    pc.barrier()
+    modelfin_time = pc.time
+    start_waittime = pc.wait_time
+    
+    //forall{ psection() }
+    //topology()
+    
+    pc.psolve(tstop)
+
+    pc.barrier()
+	stop_time = pc.time
+    if(pc.id ==0 && DEBUG_MSG==1){
+		printf("[Process=%d, Thread=%d]\n", pc.nhost, pc.nthread)
+        printf(" * NCELL=%d, NSTEP=%d (STOPTIME=%f / dt=%f)\n", NCELLS, STOPTIME/dt, STOPTIME, dt)
+		printf(" * step : %f sec, wait : %f sec, send : %f sec\n", pc.step_time(), pc.wait_time()-start_waittime, pc.send_time)
+		printf(" * modeling time : %f sec\n", modelfin_time - start_time)
+        printf(" * core time : %f sec\n", stop_time-modelfin_time)
+	
+    }
+        
+    //printSpike()
+    //writeRecord()
+    //writeVoltage()
+	if(pc.id==0) {
+		printVoltage(0, INDEX_OUTPUT)
+	}
+	// printVoltage(0)
+}
+
+// === MAIN FUNCTION ===
+proc main() { local i, k, root, fitness, tempfit localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec
+	
+	{pc.set_parent_comm()}
+
+	receiveInfo()
+	sprint(SETTINGFILE, "%s/settings%02d.txt", DIR_TARGET, SETTINGFILE_SUF)
+	readSettingFile(SETTINGFILE)
+	setElectrodePoints()
+	loadTargetData()
+	vec = readParamFile()
+	if(USE_TARGETPARAMS==1) {
+		updateParams(vec, 0)
+	}
+
+	{pc.set_world_comm()}
+	makeCells(NCELLS)
+	initModel(NCELLS)
+	setStimVec()
+	setIClamp(0)
+	setSpikeRecord()
+	setVoltageRecord()
+	setCurrentRecord()
+	tstop = STOPTIME
+	pc.set_maxstep(10)
+	stdinit()
+	
+	root = 0
+	nullvec = new Vector()
+	tempvec = new Vector()
+	
+	{pc.set_parent_comm()}
+	pc.barrier()
+	while(1) {
+		{pc.set_parent_comm()}
+		
+		rcv_pop_vec = new Vector()
+		send_fit_vec = new Vector(NUM_OF_POP_PER_PROC)
+
+		pc.scatter_d(nullvec, rcv_pop_vec, DIM_CMAES*NUM_OF_POP_PER_PROC, root)
+		
+		{pc.set_world_comm()}
+		for(i = 0; i < NUM_OF_POP_PER_PROC; i+=1) {
+			fitness = 0.0
+			updateParams(rcv_pop_vec, i*DIM_CMAES)
+			for(k = 0; k < NUM_OF_TARGETFILE; k+=1) {
+				setIClamp(k)
+				initModel(NCELLS)
+				
+				pc.psolve(tstop)
+				
+				tempfit = evalFitness(k)
+				if( LOG_FITNESS == 1 ) {
+					if( tempfit == 0 ) { 
+						tempfit = -1e100 
+					} else { 
+						tempfit = log10(tempfit)
+					}
+				}
+				fitness += tempfit
+			}
+			send_fit_vec.x(i) = fitness
+		}
+
+		{pc.set_parent_comm()}
+		pc.gather_d(send_fit_vec, nullvec, NUM_OF_POP_PER_PROC, root)
+		
+		// check whether terminal criterion of CMA-ES holds
+		pc.broadcast(tempvec, root)
+		FLG_CMAES_STOP = int(tempvec.x(0))
+		if( FLG_CMAES_STOP!=0 ) { break }
+	}	
+}
+
+
+// ======
+if(ESTIMATION == 1) {
+	main()
+} else {
+	simulation()
+}
+{ pc.set_world_comm() }
+{ pc.barrier() }
+{ pc.runworker() }
+{ pc.done() }
+{ quit() }

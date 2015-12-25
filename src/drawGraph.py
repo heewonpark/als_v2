@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib import pylab
 import sys
 import os.path
+import numpy as np
 
 def drawGraph(filename, show):
     datafile = open(filename,'r')
@@ -38,6 +39,9 @@ def drawGraph(filename, show):
             except IndexError:
                 print j,"  ", i
 
+    tmp = filename.rsplit('.',1)
+    imgFilename = "%s.png"%tmp[0]
+
     flg = pylab.figure()
     if 'Synaptic' in filename:
         for i in range(nDatas):
@@ -45,6 +49,8 @@ def drawGraph(filename, show):
                 svec[i] += vec[j][i]
         pylab.plot(vec[0], svec)
         pylab.ylabel("Current[nA]")        
+        _SAVETXT_NAME_ = "%s_Sum.dat"%(tmp[0])
+        np.savetxt(_SAVETXT_NAME_, svec, fmt="%.5f")
     else:
         pylab.ylabel("membrain potential[mV]")
 
@@ -54,10 +60,9 @@ def drawGraph(filename, show):
     pylab.xlim(0,500)
     pylab.xlabel("time[ms]")
     #pylab.ylabel("current[nA]")
-
-    tmp = filename.rsplit('.',1)
-    imgFilename = "%s.png"%tmp[0]
+    
     #print imgFilename, tmp
+    pylab.title(imgFilename)
     pylab.savefig(imgFilename)
     if(show==True):
         pylab.show()

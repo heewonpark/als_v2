@@ -38,6 +38,7 @@ NRNOPT=\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=1.0"\
 " -c WEIGHT_PTOL=3.0"\
+" -c PN_NACH_GMAX=0.10"\
 " -c RND_SEED=0"
 
 MPIEXEC="mpiexec -n 8"
@@ -50,3 +51,4 @@ time $EXEC |tee $OUT
 python ../src/drawGraph.py $RECORD_DIR
 python ./draw_DoseCurve.py $SPIKE_DIR
 #python ./draw_FreqCurve.py $SPIKE_DIR
+python ./draw_LatencyGraph.py $SPIKE_DIR

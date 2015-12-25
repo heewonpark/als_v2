@@ -47,6 +47,7 @@ proc mkNetwork(){
 objref DOSE_V
 DOSE_V = new Vector()
 DOSE_V.append(10,20,50,100,200,500,1000,2000,5000,10000)
+//DOSE_V.append(0.1,1,10)
 
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
@@ -59,8 +60,18 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	//cells.append(cell)
 	if(CELL_TYPE==1){
 	    //printf("MAKE PN:%d[%d]\n",i,pc.id)
-	    cell.insertFukuda()
+	    cell.insertFukuda(i)
+	    //cell.insertMsPN(i)
+	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
+	    /*
+	    cell.soma{
+		gkcabar_GPeA = 0
+		//gnabar_GPeA = 0
+		//gkdrbar_GPeA= 0
+	    }
+	    */
+	    //cell.soma.gkcabar_GPeA = 0
 	    cell.setType(1)
 	    //cell.setPN_biophys()
 	    NACH_GMAX = PN_NACH_GMAX
@@ -80,6 +91,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	pc.set_gid2node(i,pc.id)
 	nc = cell.connect2target(nil)
 	pc.cell(i,nc)
+	psection()
     }
     pc.multisplit()
 }
@@ -114,9 +126,52 @@ proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
 	dose = cells.o(j).dose
 	for(i=0; i<NRN; i=i+1){
 	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
+	    
 	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
 	    
 	    spvec = readSpikeTiming(_SPT_NAME_)
+	    /*
+	    //spvec = new Vector()
+	    //spvec.append(1,5,10)
+	    gid = cells.o(j).getGID()
+	    //if(gid==0){spvec.indgen(5+i/10.0,500,10.0/(gid+1.0))}	    
+	    spvec.indgen(5+i/10.0,500,10.0/(gid+1.0))
+	    */
+
+	    //if(i==0)spvec.printf()
+	    vs    = setVecStim(spvec)
+	    pst_synapse = cells.o(j).mkNET_nACh(NACH_GMAX)
+	    nc = cells.o(j).connectVecStim(vs,pst_synapse)
+	    spvecs.append(spvec)
+	    vses.append(vs)
+	    ncs.append(nc)
+	    pst_synapses.append(pst_synapse)
+	}
+    }
+}
+proc mkArtificial_RN_yuqiao(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
+    strdef _SPT_DIR_,_SPT_NAME_
+    spvecs = new List()
+    vses   = new List()
+    ncs    = new List()
+    pst_synapses = new List()
+    
+    if(pc.id==0){printf("mkArtificial_RN()\n")}
+
+    for(j=0; j<cells.count(); j=j+1){
+	dose = cells.o(j).dose
+	for(i=0; i<NRN; i=i+1){
+	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
+	    
+	    if(dose==0.1){
+		sprint(_SPT_DIR_,"../input/spiketiming/0.1dose_1stims_yuqiao/")
+	    }else{
+		sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_yuqiao/",dose)
+	    }
+	    
+	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
+	    
+	    spvec = readSpikeTiming_yuqiao(_SPT_NAME_)
 	    /*
 	    //spvec = new Vector()
 	    //spvec.append(1,5,10)
@@ -174,18 +229,19 @@ proc mkArtificial_RN_Single_Post_Syanpse(){local i, j, dose, gid localobj spvec,
 }
 
 proc mkStim(){
-    //mkArtificial_RN()
-    mkArtificial_RN_Single_Post_Syanpse()
+    mkArtificial_RN()
+    //mkArtificial_RN_yuqiao()
+    //mkArtificial_RN_Single_Post_Syanpse()
 }
 mkStim()
-
+/*
 proc setVoltageRecord(){local i
     if(pc.id==0)printf("setVoltageRecord()\n")
     for i = 0, cells.count()-1{
 	cells.object(i).setVoltageRecord()
     }
 }
-
+*/
 proc setSpikeRecord(){local i
     if(pc.id==0)printf("setSpikeRecord()\n")
     for i = 0, cells.count -1{
@@ -205,23 +261,68 @@ proc setCurrentRecord(){local i
     for i = 0, cells.count -1{
 	//PNs.object(i).setCurrentRecord_exp2syn()
 	cells.object(i).setCurrentRecord_nACh()
+	//cells.object(i).setCurrentRecord_iSK()
     }
 }
 
+objref records, rec_names, rec_ids, rec_types
+proc Recorder(){localobj name, rec,type
+    name = new String($s2)
+    type = new String($s3)
+    rec = new Vector()
+    rec.record(&$&1)
+    records.append(rec)
+    rec_names.append(name)
+    rec_types.append(type)
+    rec_ids.append($4)
+}
+
+proc mkRecorder(){local i
+   if(pc.id==0)printf("mkRecorder()\n")
+   records = new List()
+   rec_names = new List()
+   rec_types = new List()
+   rec_ids = new Vector()
+
+   for i = 0, cells.count -1{
+       Recorder(&cells.o(i).soma.v(0.5),"PN","Voltage",cells.o(i).getGID())
+       /*
+       // for MsPN
+       Recorder(&cells.o(i).soma.CaM_MsPN(0.5),"CaM","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.q_inf_MsPN(0.5),"q_inf","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ica_MsPN(0.5),"ica","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.isk_MsPN(0.5),"isk","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ina_MsPN(0.5),"ina","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ik_MsPN(0.5),"ik","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.iA_MsPN(0.5),"iA","Current",cells.o(i).getGID())
+       */
+       
+       // for GPeA
+       Recorder(&cells.o(i).soma.q_inf_GPeA(0.5),"q_inf","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ica_GPeA(0.5),"ica","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ikAHP_GPeA(0.5),"isk","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ina_GPeA(0.5),"ina","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ik_GPeA(0.5),"ik","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.iA_GPeA(0.5),"iA","Current",cells.o(i).getGID())
+   }
+}
+
 objref tvec
-proc setRecord(){
+proc setRecord(){localobj sref
     if(pc.id==0)printf("setRecord()\n")
     tvec = new Vector()
     tvec.record(&t)
     setSpikeRecord()
-    setVoltageRecord()
+    //    setVoltageRecord()
     setCurrentRecord()
     setNCRecord()
+    //cells.o(0).soma sref = new SectionRef()
+    mkRecorder()
 }
 
 setRecord()
 
-psection()
+//psection()
 pc.barrier()
 tstop = STOPTIME
 {pc.set_maxstep(10)}
@@ -261,6 +362,7 @@ proc printCurrentRecord(){local i
     if(pc.id==0)printf("setCurrentRecord()\n")
     for i = 0, cells.count -1{
 	cells.object(i).printCurrentRecord_nACh(cells.o(i).getGID(),FPRINT_DIR,tvec)
+	//cells.object(i).printCurrentRecord_iSK(cells.o(i).getGID(),FPRINT_DIR,tvec)
 	//cells.object(i).printCurrentRecord_exp2syn(cells.o(i).getGID(),FPRINT_DIR,tvec)
     }
 }
@@ -272,14 +374,45 @@ proc printNCRecord(){local i, j
     }
 }
 
+proc mkPrinter(){local id,i localobj tvec,mt, fobj
+    strdef _FPRINT_DIR_,_FPRINT_NAME_
+    _FPRINT_DIR_= $s1
+    tvec = $o2
+    for i=0,records.count-1{
+	mt = new Matrix()
+	fobj = new File()
+	
+	//tvec.printf()
+	mt.resize(tvec.size(),2)
+	mt.setcol(0,tvec)
+	mt.setcol(1,records.o(i))
+	
+	//mt.printf("%5.5f\t")
+	sprint(_FPRINT_NAME_,"%s%s_%s_%d.txt",_FPRINT_DIR_,rec_types.o(i).s,rec_names.o(i).s,rec_ids.x[i]) 
+	fobj.wopen(_FPRINT_NAME_)
+	mt.fprint(fobj,"%5.5f\t")
+	fobj.close()
+    }
+}
 
 proc setPrinter(){
     printSpikeRecord()
     printCurrentRecord()
-    printVoltageRecord()
+    //printVoltageRecord()
     printNCRecord()
+    mkPrinter(FPRINT_DIR,tvec)
 }
+
+proc CalcPeakISF(){local i, peak
+    if(pc.id==0)printf("setCurrentRecord()\n")
+    for i = 0, cells.count -1{
+	peak = cells.o(i).CalcPeakISF(cells.o(i).tvecSR)
+	printf("[%d] Cells.o[%d] : %f\n",pc.id, i, peak)
+    }
+}
+
 setPrinter()
+CalcPeakISF()
 
 {pc.runworker()}
 {pc.done()}

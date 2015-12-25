@@ -1,4 +1,5 @@
 {load_file("stdlib.hoc")}
+//{load_file("string.hoc")}
 //***************************************
 // 2015.05.20 setExpSyn added
 
@@ -13,6 +14,10 @@ public setgaba, setIntermitStim, setIntermitStim1
 public insertPN, insertLNlla,insertLNllb, insertFukuda, insertPas, insertHH
 public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, insertLNlla3
 public insertLNlla4, insertLNllb2, insertHH_RN, insertType2LN, insertFukuda_tunned
+public insertMsPN, insertMsPN_NoCad
+
+public uninsertPas, uninsertHH, uninsertLNlla, uninsertFukuda
+
 public setVoltageRecord, printVoltageRecord, printVoltageRecord2
 public synlist
 public type, setType
@@ -33,6 +38,9 @@ objref this
 objref gabaa_list, gabab_list
 objref synlist
 objref vs_ncs
+
+public records, rec_names
+objref records, rec_names
 
 public dose
 proc init(){
@@ -73,6 +81,10 @@ proc init(){
     
     vs_ncs = new List()
     nAChs  = new List()
+    
+    records = new List()
+    rec_names = new List()
+
     biophys()
     
     dose = 0
@@ -145,6 +157,7 @@ obfunc setExpSyn(){local rev
     return esyn
 }
 
+
 proc insertLNlla(){
     mechanism_flg = 1
     soma{
@@ -166,6 +179,28 @@ proc insertLNlla(){
 	eca = 120
     }
 }
+
+proc uninsertPas(){
+    forall{
+	uninsert pas
+    }
+}
+
+proc uninsertHH(){
+    forall{
+	uninsert hh
+    }
+}
+
+proc uninsertLNlla(){
+    forall{
+	uninsert hh
+	uninsert IAHP2
+	uninsert cad
+	uninsert ICA
+    }
+}
+
 proc insertHH_RN(){
     soma{
 	insert hh
@@ -265,6 +300,7 @@ proc insertPN(){
 }
 */
 proc insertFukuda(){
+    if($1==0){printf("insertFukuda()\n")}
     mechanism_flg = 3
     forall{
 	insert GPeA
@@ -274,6 +310,40 @@ proc insertFukuda(){
 	el_GPeA = -50
     }
 }
+
+proc insertMsPN(){
+    if($1==0){printf("insertMsPN()\n")}
+    mechanism_flg = 3
+    forall{
+	insert MsPN
+	ena_MsPN = 55
+	ek_MsPN = -70
+	eca_MsPN = 124
+	el_MsPN = -50
+	insert cadyn
+    }
+}
+
+proc insertMsPN_NoCad(){
+    if($1==0){printf("insertMsPN_NoCad()\n")}
+    mechanism_flg = 3
+    forall{
+	insert MsPN
+	ena_MsPN = 55
+	ek_MsPN = -70
+	eca_MsPN = 124
+	el_MsPN = -50
+	//insert ca_dyn
+    }
+}
+
+proc uninsertFukuda(){
+    forall{
+	uninsert GPeA
+    }
+}
+
+
 proc insertFukuda_tunned(){
     mechanism_flg = 3
     forall{
@@ -481,19 +551,23 @@ func Latency(){local latency_, L0_, Lm_, lambda_, c
     Lm_     = $4
 
     latency_ = L0_ - lambda_ * c
+    
+    /*
     if(latency_<0){
 	return 0
     }
-
+    */
     if(latency_>Lm_){
 	return latency_
+    }else if(Lm_<0){
+	return 0
     }else{
 	return Lm_
     }
 }
 
 
-proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_time, length, amp, L_RATIO,A_RATIO, seed, L0, Lm, lambda, C, latency  localobj rand, datafile, rnd
+func setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_time, length, amp, L_RATIO,A_RATIO, seed, L0, Lm, lambda, C, latency  localobj rand, datafile, rnd
 
     // ***Usage***
     // setIclamp_with_Latency(stoptime, timestep, filename, seed, concentration)
@@ -522,7 +596,7 @@ proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, st
 
     latency = Latency(C,L0,lambda,Lm)
     latency = latency/1000.0
-    //printf("Latency %f",latency) 
+    //printf("Latency : %f, C : %f\n",latency,C) 
     //##################################################
     
     soma ic = new IClamp(1.0)
@@ -553,6 +627,7 @@ proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, st
     num_spike = spiketiming.size()
         
     //print filename
+    //spiketim
     //spiketiming.printf("%5.8f\n")
     datafile.close()
     j=0
@@ -598,6 +673,7 @@ proc setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, st
     stim_vec.play(&ic.amp, tvec, 1)
     //print "stim_vec"
     //stim_vec.printf()
+    return latency
 }
 
 objref st
@@ -742,6 +818,7 @@ proc setCurrentRecord(){
     veci.record(&st.i)
 }
 
+
 objref gabaa_r_list, gabab_r_list
 public setGABACurrentRecord
 proc setGABACurrentRecord(){local i localobj vecg
@@ -780,10 +857,97 @@ proc setCurrentRecord_nACh(){local i localobj nACh_record
     nACh_records = new List()
     for i=0, nAChs.count()-1{
 	nACh_record = new Vector()
-	nACh_record.record(&nAChs.o(i).i_syn)
+	nACh_record.record(&nAChs.o(i).i)
 	nACh_records.append(nACh_record)
     }
 }
+
+objref iSK_record
+public setCurrentRecord_iSK
+proc setCurrentRecord_iSK(){
+    printf("setCurrentRecord_iSK()\n")
+    
+    iSK_record = new Vector()
+    //iSK_record.record(&soma.ik(0.5))
+    //iSK_record.record(&soma.ca_ca_dyn(0.5))
+    iSK_record.record(&soma.CaM_MsPN(0.5))
+}
+/*
+public mkRecorder
+proc mkRecorder(){local err localobj rec, str,nACh_record
+    strdef cmd
+    rec = new Vector()
+    
+    //cmd = $s1
+    //str = new String($s1)
+
+    //sprint(cmd,"rec.record(&soma.%s(0.5))",$s1)
+    //err = execute1(cmd)
+    //print "err ",err
+    
+    //rec.record(&soma.v(0.5))
+    //execute("rec.record(&soma.v(0.5))")
+    //err = execute1("rec.record(&soma.v(0.5))")
+    records.append(rec)
+    rec_names.append(str)
+    
+    printf("setCurrentRecord_nACh()\n")
+
+    //records = new List()
+    for i=0, nAChs.count()-1{
+	vec = new Vector()
+	vec.record(&nAChs.o(i).i)
+    }
+    records.append(vec)
+    
+}
+*/
+/*
+public mkPrinter
+proc mkPrinter(){local id,i localobj tvec,mt, fobj
+    id = $1
+    strdef _FPRINT_DIR_,_FPRINT_NAME_
+    _FPRINT_DIR_= $s2
+    tvec = $o3
+    
+    for i=0,records.count-1{
+	mt = new Matrix()
+	fobj = new File()
+	
+	//tvec.printf()
+	mt.resize(tvec.size(),2)
+	mt.setcol(0,tvec)
+	mt.setcol(1,records.o(i))
+	
+	//mt.printf("%5.5f\t")
+	sprint(_FPRINT_NAME_,"%sRecord_%s%d.txt",_FPRINT_DIR_,rec_names.o(i).s,id) 
+	fobj.wopen(_FPRINT_NAME_)
+	mt.fprint(fobj,"%5.5f\t")
+	fobj.close()
+    }
+}
+*/
+public printCurrentRecord_iSK
+proc printCurrentRecord_iSK(){local id,j localobj tvec,mt, fobj
+    id = $1
+    strdef _FPRINT_DIR_,_FPRINT_NAME_
+    _FPRINT_DIR_= $s2
+    tvec = $o3
+    mt = new Matrix()
+    fobj = new File()
+    
+    //tvec.printf()
+    mt.resize(tvec.size(),2)
+    mt.setcol(0,tvec)
+    mt.setcol(1,iSK_record)
+    
+    //mt.printf("%5.5f\t")
+    sprint(_FPRINT_NAME_,"%sSynapticCurrent_iSK%d.txt",_FPRINT_DIR_,id) 
+    fobj.wopen(_FPRINT_NAME_)
+    mt.fprint(fobj,"%5.5f\t")
+    fobj.close()
+}
+
 
 objref exp2syn_records
 public setCurrentRecord_exp2syn
@@ -900,7 +1064,7 @@ proc printCurrentRecord_nACh(){local id,j localobj tvec,mt, fobj
     mt.resize(tvec.size(),nACh_records.count()+1)
     mt.setcol(0,tvec)
     for j=0, nACh_records.count()-1{	
-	printf("nACh_records %d\n",j)
+	//printf("nACh_records %d\n",j)
 	mt.setcol(1+j,nACh_records.o(j))
     }
     
@@ -963,6 +1127,7 @@ proc printVoltageRecord(){local i localobj tvec1
 
 objref ncSR// netcon for Spike Record
 //objrf tvecSR, idvecSR //tvecSR time vector for Spike Record
+public tvecSR
 objref tvecSR
 proc setSpikeRecord(){localobj nil
     tvecSR = new Vector()
@@ -1011,6 +1176,7 @@ proc printSpikeRecord(){local i, interval,tstop, istim1, istim2
 
 public printSpikeRecord_DoseResponse
 proc printSpikeRecord_DoseResponse(){local i, interval,tstop, istim1, istim2
+    strdef filename,filepath
     if(numarg() == 7){
 	pcid = $1
 	n = $2
@@ -1030,7 +1196,6 @@ proc printSpikeRecord_DoseResponse(){local i, interval,tstop, istim1, istim2
     }
     istim1 = imax
     fileSR = new File()
-    strdef filename,filepath
  
     sprint(filename,"%sSpikerecord_%s_Dose%d_%d.dat",filepath,typename[type].s,dose,n)
    
@@ -1043,6 +1208,26 @@ proc printSpikeRecord_DoseResponse(){local i, interval,tstop, istim1, istim2
     fileSR.printf("$ LN stimulation current max : %d\n",istim2)
     tvecSR.printf(fileSR,"%5.5f\n")
     fileSR.close()
+}
+
+public CalcPeakISF
+func CalcPeakISF(){local i, tmp localobj spt
+    spt = $o1
+    PeakISF = -1
+    //spt.printf("%f\t")
+    //printf("\n")
+    for i=0, spt.size()-1{
+	if(i>0){
+	    interval = spt.x[i]-spt.x[i-1]
+	    ISF = 1000.0/interval
+	    //print ISF
+	    if(ISF>PeakISF){
+		PeakISF = ISF
+		//printf("PeakISF : %f\n",PeakISF)
+	    }
+	}
+    }
+    return PeakISF
 }
 
 public printSpikeRecord_NetStim

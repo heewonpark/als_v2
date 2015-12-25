@@ -4,7 +4,7 @@ TITLE  Belmabrouk et al. 2011
 : Na+, K, Ca_T, Leakage, Ca diffusion, SK, and A(K)
 : 
 
-
+: Remove icaT (Park 2015.12.23)
 
 NEURON {
     SUFFIX GPeA
@@ -16,7 +16,7 @@ NEURON {
     RANGE gnabar, ena, m_inf, a_m, v_m, ena_fixed       : fast sodium
     RANGE gkdrbar, ek, W_inf,tau_W, ikD, lambda, sigma, a_W, v_W, ek_fixed               : delayed K rectifier
     RANGE gl, el, ilk                                    : leak
-    RANGE gcatbar, eca, icaT, X, X_inf, tau_X, a_X, v_X : T-type ca current
+    RANGE gcatbar, eca, X, X_inf, tau_X, a_X, v_X : T-type ca current
     RANGE gkcabar, ek, ikAHP, Csk, q_inf, C_gamma, tau_sk, a_sk                      : ca dependent SK current
     RANGE kca, vol, caGain                               : ca dynamics
     RANGE A_inf, B, B_inf, tau_B, gA, a_A, a_B, v_A, v_B :A(K) leak current
@@ -88,7 +88,7 @@ ASSIGNED {
     ikD	(mA/cm2)   
     ikAHP	(mA/cm2)  
     ica	(mA/cm2) 
-    icaT	(mA/cm2) 
+    :icaT	(mA/cm2) 
     ilk	(mA/cm2)
     iA      (mA/cm2)
     

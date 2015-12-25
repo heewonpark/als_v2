@@ -69,7 +69,7 @@ INDEPENDENT {t FROM 0 TO 1 WITH 1 (ms)}
 NEURON {
 	POINT_PROCESS NET_GABAa
 	:POINTER pre
-	RANGE C, R, R0, R1, g, gmax, lastrelease, TimeCount, Erev, Alpha, Beta, Cdur, Cmax, i_syn
+	RANGE C, R, R0, R1, g, gmax, lastrelease, TimeCount, Erev, Alpha, Beta, Cdur, Cmax
 	NONSPECIFIC_CURRENT i
 	:GLOBAL Cmax, Cdur, Alpha, Beta, Erev, Prethresh, Deadtime, Rinf, Rtau
 	GLOBAL Prethresh, Deadtime, Rinf, Rtau
@@ -110,7 +110,6 @@ ASSIGNED {
 	
 	flg
 	
-	i_syn
     }
     :VERBATIM
     :int counter = 0;
@@ -135,8 +134,7 @@ BREAKPOINT {
 
 	SOLVE release
 	g = gmax * R
-	i_syn = g*(v - Erev)
-	i = i_syn
+	i = g*(v - Erev)
 }
 
 PROCEDURE release() {

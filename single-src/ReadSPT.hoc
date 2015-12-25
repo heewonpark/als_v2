@@ -7,7 +7,7 @@ obfunc readSpikeTiming(){local var localobj fobj, spvec
     */
     strdef _readfile_
     _readfile_ = $s1
-    print _readfile_
+    //print _readfile_
 
     spvec = new Vector()
 
@@ -16,6 +16,29 @@ obfunc readSpikeTiming(){local var localobj fobj, spvec
     while(!fobj.eof()){
 	var = fobj.scanvar()
 	spvec.append((var-6.0)*1000.0)
+    }
+
+    spvec.remove(spvec.size()-1) //Last value of spike timing file is number of data
+    //spvec.printf()
+    fobj.close()
+    return spvec
+}
+
+obfunc readSpikeTiming_yuqiao(){local var localobj fobj, spvec
+    /*
+    spvec : spike timing vector
+    */
+    strdef _readfile_
+    _readfile_ = $s1
+    //print _readfile_
+
+    spvec = new Vector()
+
+    fobj = new File()
+    fobj.ropen(_readfile_)
+    while(!fobj.eof()){
+	var = fobj.scanvar()
+	spvec.append((var)*1000.0)
     }
 
     spvec.remove(spvec.size()-1) //Last value of spike timing file is number of data
