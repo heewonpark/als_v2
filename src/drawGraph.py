@@ -57,7 +57,7 @@ def drawGraph(filename, show):
     for j in range(1,nColumns):
         pylab.plot(vec[0], vec[j])
     #pylab.ylim(-100, 80)
-    pylab.xlim(0,500)
+    #pylab.xlim(0,500)
     pylab.xlabel("time[ms]")
     #pylab.ylabel("current[nA]")
     

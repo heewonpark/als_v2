@@ -79,6 +79,10 @@ BREAKPOINT {
 }
 
 FUNCTION stim1(t){
+    :VERBATIM
+    :printf("area :%f \n",area);
+    :ENDVERBATIM
+
     a = 10^-8 * area
     stim1 = Imax*(1-exp(-(t)/tau_rise)) * a
 }

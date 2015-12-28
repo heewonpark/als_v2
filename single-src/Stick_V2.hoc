@@ -14,7 +14,7 @@ public setgaba, setIntermitStim, setIntermitStim1
 public insertPN, insertLNlla,insertLNllb, insertFukuda, insertPas, insertHH
 public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, insertLNlla3
 public insertLNlla4, insertLNllb2, insertHH_RN, insertType2LN, insertFukuda_tunned
-public insertMsPN, insertMsPN_NoCad
+public insertMsPN, insertMsPN_NoCad, insertMsPN_cad
 
 public uninsertPas, uninsertHH, uninsertLNlla, uninsertFukuda
 
@@ -130,7 +130,10 @@ func getGID(){
 proc setType(){
     type = $1
 }
-
+public getAREA
+func getAREA(){
+    return area(0.5)
+}
 public gsyn,esyn
 objref gsyn
 
@@ -287,18 +290,7 @@ proc insertLNllb2(){
 
     }
 }
-/*
-proc insertPN(){
-    mechanism_flg = 2
-    forall{
-	insert MsPN
-	ena_MsPN = 55
-	ek_MsPN = -70
-	eca_MsPN = 124
-	el_MsPN = -50
-    }
-}
-*/
+
 proc insertFukuda(){
     if($1==0){printf("insertFukuda()\n")}
     mechanism_flg = 3
@@ -324,6 +316,18 @@ proc insertMsPN(){
     }
 }
 
+proc insertMsPN_cad(){
+    if($1==0){printf("insertMsPN_cad()\n")}
+    mechanism_flg = 3
+    forall{
+	insert MsPN_cad
+	ena_MsPN_cad = 55
+	ek_MsPN_cad = -70
+	eca_MsPN_cad = 124
+	el_MsPN_cad = -50
+    }
+}
+
 proc insertMsPN_NoCad(){
     if($1==0){printf("insertMsPN_NoCad()\n")}
     mechanism_flg = 3
@@ -343,8 +347,8 @@ proc uninsertFukuda(){
     }
 }
 
-
 proc insertFukuda_tunned(){
+    if($1==0){printf("insertFukuda_tunned()\n")}
     mechanism_flg = 3
     forall{
 	insert GPeA
@@ -360,6 +364,7 @@ proc insertFukuda_tunned(){
 }
 
 proc insertHH(){
+    if($1==0){printf("insertHH()\n")}
     mechanism_flg = 4
     forall{
 	insert hh
@@ -444,12 +449,12 @@ public ic
 obfunc setIclamp(){
     soma ic = new IClamp(0.4)
     if(numarg() ==3){
-	printf("setIclamp numarg()==3\n")
+	//printf("setIclamp numarg()==3\n")
 	ic.del = $1
 	ic.dur = $2
 	ic.amp = $3
     }else{
-	printf("setIclamp numarg()!=3\n")
+	//printf("setIclamp numarg()!=3\n")
 	ic.del = 1
 	ic.dur = 10
 	ic.amp = 5
@@ -818,7 +823,6 @@ proc setCurrentRecord(){
     veci.record(&st.i)
 }
 
-
 objref gabaa_r_list, gabab_r_list
 public setGABACurrentRecord
 proc setGABACurrentRecord(){local i localobj vecg
@@ -861,93 +865,6 @@ proc setCurrentRecord_nACh(){local i localobj nACh_record
 	nACh_records.append(nACh_record)
     }
 }
-
-objref iSK_record
-public setCurrentRecord_iSK
-proc setCurrentRecord_iSK(){
-    printf("setCurrentRecord_iSK()\n")
-    
-    iSK_record = new Vector()
-    //iSK_record.record(&soma.ik(0.5))
-    //iSK_record.record(&soma.ca_ca_dyn(0.5))
-    iSK_record.record(&soma.CaM_MsPN(0.5))
-}
-/*
-public mkRecorder
-proc mkRecorder(){local err localobj rec, str,nACh_record
-    strdef cmd
-    rec = new Vector()
-    
-    //cmd = $s1
-    //str = new String($s1)
-
-    //sprint(cmd,"rec.record(&soma.%s(0.5))",$s1)
-    //err = execute1(cmd)
-    //print "err ",err
-    
-    //rec.record(&soma.v(0.5))
-    //execute("rec.record(&soma.v(0.5))")
-    //err = execute1("rec.record(&soma.v(0.5))")
-    records.append(rec)
-    rec_names.append(str)
-    
-    printf("setCurrentRecord_nACh()\n")
-
-    //records = new List()
-    for i=0, nAChs.count()-1{
-	vec = new Vector()
-	vec.record(&nAChs.o(i).i)
-    }
-    records.append(vec)
-    
-}
-*/
-/*
-public mkPrinter
-proc mkPrinter(){local id,i localobj tvec,mt, fobj
-    id = $1
-    strdef _FPRINT_DIR_,_FPRINT_NAME_
-    _FPRINT_DIR_= $s2
-    tvec = $o3
-    
-    for i=0,records.count-1{
-	mt = new Matrix()
-	fobj = new File()
-	
-	//tvec.printf()
-	mt.resize(tvec.size(),2)
-	mt.setcol(0,tvec)
-	mt.setcol(1,records.o(i))
-	
-	//mt.printf("%5.5f\t")
-	sprint(_FPRINT_NAME_,"%sRecord_%s%d.txt",_FPRINT_DIR_,rec_names.o(i).s,id) 
-	fobj.wopen(_FPRINT_NAME_)
-	mt.fprint(fobj,"%5.5f\t")
-	fobj.close()
-    }
-}
-*/
-public printCurrentRecord_iSK
-proc printCurrentRecord_iSK(){local id,j localobj tvec,mt, fobj
-    id = $1
-    strdef _FPRINT_DIR_,_FPRINT_NAME_
-    _FPRINT_DIR_= $s2
-    tvec = $o3
-    mt = new Matrix()
-    fobj = new File()
-    
-    //tvec.printf()
-    mt.resize(tvec.size(),2)
-    mt.setcol(0,tvec)
-    mt.setcol(1,iSK_record)
-    
-    //mt.printf("%5.5f\t")
-    sprint(_FPRINT_NAME_,"%sSynapticCurrent_iSK%d.txt",_FPRINT_DIR_,id) 
-    fobj.wopen(_FPRINT_NAME_)
-    mt.fprint(fobj,"%5.5f\t")
-    fobj.close()
-}
-
 
 objref exp2syn_records
 public setCurrentRecord_exp2syn
@@ -1118,12 +1035,13 @@ proc printVoltageRecord(){local i localobj tvec1
     
     //mt.printf("%5.5f\t")
     strdef filename
-    print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    //print "flg ",mechanism_flg, mechname[mechanism_flg].s
     sprint(filename,"%sVoltage_%s%d.txt",filepath,typename[type].s,i) 
     file.wopen(filename)
     mt.fprint(file,"%5.5f\t")
     file.close()
 }
+
 
 objref ncSR// netcon for Spike Record
 //objrf tvecSR, idvecSR //tvecSR time vector for Spike Record
@@ -1170,6 +1088,40 @@ proc printSpikeRecord(){local i, interval,tstop, istim1, istim2
     fileSR.printf("$ TSTOP : %d\n",tstop)
     fileSR.printf("$ PN stimulation current max : %d\n",istim1)
     fileSR.printf("$ LN stimulation current max : %d\n",istim2)
+    tvecSR.printf(fileSR,"%5.5f\n")
+    fileSR.close()
+}
+
+public printSpikeRecord2
+proc printSpikeRecord2(){local gid, interval,tstop, istim1, istim2
+    if(numarg() == 6){
+	gid = $1
+	interval = $2
+	tstop = $3
+	istim1 = $4
+	istim2 = $5
+	filepath = $s6
+    }else if(numarg() == 4){
+	pcid = $1
+	n = $2
+	interval = 1200
+	tstop = $3
+	istim1 = 0
+	istim2 = 0
+	filepath = $s4
+    }
+    fileSR = new File()
+    strdef filename,filepath
+ 
+    sprint(filename,"%sSpikerecord_%s%d.dat",filepath,typename[type].s,gid)
+    
+    fileSR.wopen(filename)
+    fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
+    fileSR.printf("$ Delay(ms): %f\n",Delay)
+    fileSR.printf("$ Number of data : %d\n",tvecSR.size())
+    fileSR.printf("$ TSTOP : %d\n",tstop)
+    fileSR.printf("$ PN stimulation current max : %f\n",istim1)
+    fileSR.printf("$ LN stimulation current max : %f\n",istim2)
     tvecSR.printf(fileSR,"%5.5f\n")
     fileSR.close()
 }

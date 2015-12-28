@@ -1,0 +1,173 @@
+{load_file("nrngui.hoc")}
+
+
+//************************************************
+if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
+if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
+if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
+
+//************************************************
+// FOR dose-response-CurrentStim.hoc
+if(name_declared("NCELL")!=5){ execute("NCELL=500")}
+
+objref pc
+pc = new ParallelContext()
+{load_file("Stick_V2.hoc")}
+{load_file("ranstream.hoc")}
+
+
+if(pc.id==0){
+    printf("********************************************************\n")
+    printf("dose-response-CurrentStim.hoc [%d]\n",START_TIME)
+    printf("NCELL: %3d\n",NCELL)
+    printf("********************************************************\n")
+}
+
+proc mknet(){
+    mkcells($1)
+}
+objref cells
+proc mkcells(){local i, ncell localobj cell,nc,nil
+    if(pc.id==0){printf("mkcells()\n")}
+    ncell = $1
+    cells = new List()
+    for(i=pc.id;i<ncell;i+=pc.nhost){
+	cell = new Stick()
+	cells.append(cell)
+	
+	//Fukuda model
+	//cell.insertFukuda(i)
+	cell.insertMsPN(i)
+	cell.soma{
+	//    S_sk_MsPN = 50
+	}
+	//cell.insertFukuda_tunned(i)
+	//cell.insertHH(i)
+	cell.setType(1)
+	
+	/*
+	//MsLN
+	cell.insertLNlla3()
+	cell.setType(4)
+	*/
+	/*
+	//Hodgkin-Huxley model
+	cell.insertHH()
+	*/
+	cell.setGID(i)
+	pc.set_gid2node(i,pc.id)
+	nc = cell.connect2target(nil)
+	pc.cell(i,nc)
+    }
+}
+
+mknet(NCELL)
+proc mkStim(){local i, ncell
+    if(pc.id==0){printf("mkStim()\n")}
+    MAX = 3000
+    //MAX = 10
+    Interval = 300
+    for i = 0, cells.count -1 {
+	cells.object(i).imax = MAX * (pc.nhost*i + pc.id + 1) / NCELL * 80
+	//print cells.object(i).imax
+	//cells.object(i).setIntermitStim_gaus(30,cells.object(i).imax,Interval,0,-1,0.00)
+	cells.object(i).setIntermitStim_gaus(30,cells.object(i).imax,Interval,0,1,0.00)
+	//cells.object(i).setIntermitStim(30,cells.object(i).imax,Interval)
+	//cells.o(i).setIclamp(50,200,cells.o(i).imax)
+    }
+}
+
+mkStim()
+
+objref tvec
+tvec = new Vector()
+tvec.record(&t)
+
+objref records, rec_names, rec_ids, rec_types
+proc Recorder(){localobj name, rec,type
+    name = new String($s2)
+    type = new String($s3)
+    rec = new Vector()
+    rec.record(&$&1)
+    records.append(rec)
+    rec_names.append(name)
+    rec_types.append(type)
+    rec_ids.append($4)
+}
+
+proc setSpikeRecord(){local i
+    for i = 0, cells.count -1{
+	cells.object(i).setSpikeRecord()
+    }
+}
+setSpikeRecord()
+
+proc mkRecorder(){local i
+   if(pc.id==0)printf("mkRecorder()\n")
+   records = new List()
+   rec_names = new List()
+   rec_types = new List()
+   rec_ids = new Vector()
+
+   for i = 0, cells.count -1{
+       Recorder(&cells.o(i).soma.v(0.5),"PN","Voltage",cells.o(i).getGID())
+       //Recorder(&cells.o(i).ic.i,"PN","iclamp",cells.o(i).getGID())
+       Recorder(&cells.o(i).st1.i,"PN","Stim",cells.o(i).getGID())
+   }
+}
+mkRecorder()
+
+if(pc.id==0){psection()}
+//printf("AREA:%f\n",area(0.5))
+pc.barrier()
+tstop = STOPTIME
+{pc.set_maxstep(10)}
+stdinit()
+{pc.psolve(tstop)}
+
+strdef FPRINT_DIR
+strdef SPIKEOUT_DIR
+
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "../single-result/record/"
+    SPIKEOUT_DIR = "../single-result/spike/"
+}else{
+    sprint(FPRINT_DIR,"../single-result/%010d/record/",START_TIME)
+    sprint(SPIKEOUT_DIR,"../single-result/%010d/spike/",START_TIME)
+}
+
+proc printSpikeRecord(){local i, Imax
+    for i = 0, cells.count -1{
+	I_max = cells.o(i).imax*(10^-8)*cells.o(i).getAREA()
+	cells.object(i).printSpikeRecord2(cells.o(i).getGID(),Interval,STOPTIME,I_max,0,SPIKEOUT_DIR)
+    }
+}
+proc mkPrinter(){local id,i localobj tvec,mt, fobj
+    strdef _FPRINT_DIR_,_FPRINT_NAME_
+    _FPRINT_DIR_= $s1
+    tvec = $o2
+    for i=0,records.count-1{
+	mt = new Matrix()
+	fobj = new File()
+	
+	//tvec.printf()
+	mt.resize(tvec.size(),2)
+	mt.setcol(0,tvec)
+	mt.setcol(1,records.o(i))
+	
+	//mt.printf("%5.5f\t")
+	//print rec_types.o(i).s, rec_names.o(i).s, rec_ids.x[i]
+	sprint(_FPRINT_NAME_,"%s%s_%s_%d.txt",_FPRINT_DIR_,rec_types.o(i).s,rec_names.o(i).s,rec_ids.x[i]) 
+	fobj.wopen(_FPRINT_NAME_)
+	mt.fprint(fobj,"%5.5f\t")
+	fobj.close()
+    }
+}
+mkPrinter(FPRINT_DIR,tvec)
+printSpikeRecord()
+
+{pc.runworker()}
+{pc.done()}
+quit()

@@ -4,12 +4,8 @@ TITLE  Belmabrouk et al. 2011
 
 : modified 2015.12.24 by Heewon Park.
 
-: ***** MEMO *****
-: log in NMODL means natural logarithm (log_e)
-: ****************
-
 NEURON {
-    SUFFIX MsPN
+    SUFFIX MsPN_cad
     NONSPECIFIC_CURRENT il
     USEION ca READ cai, cao WRITE ica
     USEION k WRITE ik
@@ -19,11 +15,9 @@ NEURON {
     RANGE gkdrbar, ek, W_inf, tau_W, ikD, lambda, sigma, a_W, v_W, ek_fixed   : delayed K rectifier
     RANGE gl, el                                                              : leak
     RANGE gcatbar, eca, X, X_inf, tau_X, a_X, v_X                             : T-type ca current
-    RANGE gskbar, ek, isk, q_inf, C_gamma, tau_sk, a_sk, Csk, S_sk            : ca dependent SK current
+    RANGE gskbar, ek, isk, q_inf, C_gamma, tau_sk, a_sk, Csk                  : ca dependent SK current
     RANGE A_inf, B, B_inf, tau_B, gAbar, a_A, a_B, v_A, v_B	              : A(K) current
     RANGE CaM :Cai for Measurement
-    
-    RANGE l001, l01, l10, l100, l1000, l10000
 }
 
 
@@ -70,9 +64,9 @@ PARAMETER {
     : sk current (Ca dependent K current)
     gskbar   = 2e-3 (S/cm2) :1e-3 (S/cm2) 
     C_gamma = 113e-6(mM)
-    :C_gamma = 113(nM)
+    :C_gamma = 113(nM) :!!! Should be modified to mM
     tau_sk = 250 (ms)
-    S_sk   = 0.000050
+    a_sk = 0.9 (1)
     
     : A(K)
     gAbar = 22e-3 (S/cm2)
@@ -125,6 +119,7 @@ STATE {
     X
     B
     :Csk (nM) <1e-10>
+    Csk (mM) <1e-10>
 }
 
 
@@ -150,10 +145,9 @@ DERIVATIVE states {
     X' = (X_inf - X)/tau_X
     :(Ica mA/cm2)*(area um2)*(1e-8 cm2/um2)*(1e-3 A/mA)*(1/(2*F) mol/C)*(1e-3 sec/msec)*(1e3 mMol/mol)(1/volume 1/L)=(mM/msec)
     :cai' = caGain*(-ica*area*1e-11/(2*FARADAY*vol) - kca*cai)
-    :Csk' = -a_sk*ica-(Csk-C_gamma)/tau_sk
+    Csk' = -a_sk*ica-(Csk-C_gamma)/tau_sk
     B' = (B_inf - B)/tau_B
     CaM = cai
-
 }
 
 UNITSOFF
@@ -165,7 +159,7 @@ INITIAL {
     B = B_inf
 
     :Csk = C_gamma +0.00001:when init is strange, here and lambda may have to be modified
-    :Csk = C_gamma
+    Csk = C_gamma
 }
 
 PROCEDURE evaluate_fct(v(mV)) {     
@@ -175,13 +169,11 @@ PROCEDURE evaluate_fct(v(mV)) {
     X_inf = 1/(1+exp(-2*a_X*(v-v_X)))
     
     :if((Csk - C_gamma)<0.00001){
-	:Csk = C_gamma + 0.00001 :avoid that the argument in the log function is below 0
-    :    }
+	:	Csk = C_gamma + 0.00001 :avoid that the argument in the log function is below 0
+    :}
     :q_inf = 1/(1+exp(-1.120-2.508*log((Csk-C_gamma)/50)))
-    :q_inf = 1/(1+exp(-1.120-2.508*llog((Csk-C_gamma)/50)))
+    q_inf = 1/(1+exp(-1.120-2.508*llog((Csk-C_gamma)/0.000050)))
     :q_inf = 1/(1+exp(-1.120-2.508 * llog((cai-C_gamma)/0.000050)))
-    :q_inf = 1/(1+exp(-1.120-2.508 * llog((cai-C_gamma)/50)))
-    q_inf = 1/(1+exp(-1.120-2.508 * llog((cai-C_gamma)/S_sk)))
     A_inf = 1/(1+exp(-2*a_A*(v-v_A)))
     B_inf = 1/(1+exp(-2*a_B*(v-v_B)))
 }

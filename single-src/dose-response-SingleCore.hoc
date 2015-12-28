@@ -60,17 +60,19 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	//cells.append(cell)
 	if(CELL_TYPE==1){
 	    //printf("MAKE PN:%d[%d]\n",i,pc.id)
-	    cell.insertFukuda(i)
-	    //cell.insertMsPN(i)
+	    //cell.insertFukuda(i)
+	    cell.insertMsPN(i)
+	    //cell.insertMsPN_cad(i)
 	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
-	    /*
+
 	    cell.soma{
-		gkcabar_GPeA = 0
+		//gkcabar_GPeA = 0
 		//gnabar_GPeA = 0
 		//gkdrbar_GPeA= 0
+		S_sk_MsPN = 50
 	    }
-	    */
+
 	    //cell.soma.gkcabar_GPeA = 0
 	    cell.setType(1)
 	    //cell.setPN_biophys()
@@ -234,14 +236,7 @@ proc mkStim(){
     //mkArtificial_RN_Single_Post_Syanpse()
 }
 mkStim()
-/*
-proc setVoltageRecord(){local i
-    if(pc.id==0)printf("setVoltageRecord()\n")
-    for i = 0, cells.count()-1{
-	cells.object(i).setVoltageRecord()
-    }
-}
-*/
+
 proc setSpikeRecord(){local i
     if(pc.id==0)printf("setSpikeRecord()\n")
     for i = 0, cells.count -1{
@@ -286,24 +281,42 @@ proc mkRecorder(){local i
 
    for i = 0, cells.count -1{
        Recorder(&cells.o(i).soma.v(0.5),"PN","Voltage",cells.o(i).getGID())
-       /*
+
        // for MsPN
        Recorder(&cells.o(i).soma.CaM_MsPN(0.5),"CaM","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.Csk_MsPN(0.5),"Csk","Record",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.q_inf_MsPN(0.5),"q_inf","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.ena_MsPN(0.5),"ena","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.ek_MsPN(0.5),"ek","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.eca_MsPN(0.5),"eca","Record",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ica_MsPN(0.5),"ica","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.isk_MsPN(0.5),"isk","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ina_MsPN(0.5),"ina","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ik_MsPN(0.5),"ik","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.iA_MsPN(0.5),"iA","Current",cells.o(i).getGID())
+
+       /*
+       // for MsPN_cad
+       Recorder(&cells.o(i).soma.CaM_MsPN_cad(0.5),"CaM","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.Csk_MsPN_cad(0.5),"Csk","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.q_inf_MsPN_cad(0.5),"q_inf","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.ena_MsPN_cad(0.5),"ena","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.ek_MsPN_cad(0.5),"ek","Record",cells.o(i).getGID())
+       //Recorder(&cells.o(i).soma.eca_MsPN_cad(0.5),"eca","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.ica_MsPN_cad(0.5),"ica","Current",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.isk_MsPN_cad(0.5),"isk","Current",cells.o(i).getGID())
        */
        
+       /*
        // for GPeA
        Recorder(&cells.o(i).soma.q_inf_GPeA(0.5),"q_inf","Record",cells.o(i).getGID())
+       Recorder(&cells.o(i).soma.Csk_GPeA(0.5),"Csk","Record",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ica_GPeA(0.5),"ica","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ikAHP_GPeA(0.5),"isk","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ina_GPeA(0.5),"ina","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.ik_GPeA(0.5),"ik","Current",cells.o(i).getGID())
        Recorder(&cells.o(i).soma.iA_GPeA(0.5),"iA","Current",cells.o(i).getGID())
+       */
    }
 }
 
@@ -348,13 +361,6 @@ proc printSpikeRecord(){local i
     for i = 0, cells.count -1{
 	cells.object(i).printSpikeRecord_DoseResponse(pc.id,cells.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
 	//PNs.object(i).printSpikeRecord_NetStim(pc.id,PNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
-    }
-}
-
-proc printVoltageRecord(){
-    if(pc.id==0)printf("printVoltageRecord()\n")
-    for i = 0, cells.count -1{
-	cells.object(i).printVoltageRecord(pc.id,cells.o(i).getGID(),FPRINT_DIR,tvec)
     }
 }
 
