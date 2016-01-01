@@ -100,11 +100,3 @@ DERIVATIVE state {
 	ca' = drive_channel + (cainf-ca)/taur
 	cai = ca
 }
-
-
-
-
-
-
-
-

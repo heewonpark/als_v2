@@ -9,9 +9,12 @@
 #PJM --stg-transfiles all
 #PJM --mpi "use-rankdir"
 
+#-------------------------------------------------------------------------------------
 # CHANGE TO YOUR OWN DIR
 #PJM --stgin-basedir /home/hp120263/k01793/code/al_V2/
 
+#-------------------------------------------------------------------------------------
+# STAGE IN ANTENNAL LOBE SIMULATION PROGRAM
 #PJM --stgin "rank=* ./input/* %r:../input/"
 #--#PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
 #PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_filtering/"
@@ -20,11 +23,19 @@
 #PJM --stgin "rank=* ./input/spiketiming/10dose_30stims_filtering/* %r:../input/spiketiming/10dose_30stims_filtering/"
 #PJM --stgin "rank=* ./src/* %r:./"
 #PJM --stgin "rank=* ./single-src/* %r:./"
+
+#-------------------------------------------------------------------------------------
+# STAGE IN NEURON_KPLUS SIMULATOR
 #--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
 #--#PJM --stgin "rank=* ../../github/neuron_kplus/specials/sparc64/special %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
-#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/stgin/* %r:./"
+#--#PJM --stgin "rank=* ../../github/neuron_kplus_tune/specials/sparc64/special %r:./"
 
+#PJM --stgin "rank=* ../../github/neuron_kplus73/stgin/* %r:./"
+#PJM --stgin "rank=* ../../github/neuron_kplus73/specials/sparc64/special %r:./"
+
+#-------------------------------------------------------------------------------------
+# STAGE OUT TO DATA DIRECTORY
 #PJM --stgout "rank=* %r:./*.txt /data/hp120263/park/al_V2/%j/record/"
 #PJM --stgout "rank=* %r:./*.dat /data/hp120263/park/al_V2/%j/spike/"
 #PJM --stgout "rank=* %r:./pd/* /data/hp120263/park/al_V2/%j/pd/"

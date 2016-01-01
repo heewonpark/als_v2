@@ -1,0 +1,6 @@
+### file settings of the estimation algorithm ###
+parameter file suffix: 10
+num of target files: 1
+target file suffix: 14
+electrode pos file suffix: 10
+stim ref file suffix: 14

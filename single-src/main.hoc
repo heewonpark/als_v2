@@ -118,8 +118,8 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 	//cells.append(cell)
 	if(i < NPN){
 	    //printf("MAKE PN:%d[%d]\n",i,pc.id)
-	    //cell.insertFukuda()
-	    cell.insertFukuda_tunned()
+	    //cell.insertFukuda(i)
+	    cell.insertFukuda_tunned(i)
 	    cell.setGID(i)
 	    cell.setType(1)
 	    //cell.setPN_biophys()
