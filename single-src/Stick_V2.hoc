@@ -316,6 +316,15 @@ proc insertMsPN(){
     }
 }
 
+proc uninsertMsPN(){
+    if($1==0){printf("uninsertMsPN()\n")}
+    mechanism_flg = 3
+    forall{
+	uninsert MsPN
+	uninsert cadyn
+    }
+}
+
 proc insertMsPN_cad(){
     if($1==0){printf("insertMsPN_cad()\n")}
     mechanism_flg = 3
@@ -406,7 +415,7 @@ obfunc connectVecStim(){localobj synapse, vecstim, nc
     nc.threshold = 0
     nc.weight    = 1
     nc.delay     = Delay
-    vs_ncs.append(nc)
+    //vs_ncs.append(nc)
     return nc
 }
 
@@ -706,7 +715,7 @@ obfunc mkNET_nACh(){local gmax,Erev,Cmax,Cdur,Alpha,Beta
     nACh.Cdur = Cdur
     nACh.Alpha = Alpha
     nACh.Beta = Beta
-    nAChs.append(nACh)
+    //nAChs.append(nACh)
     return nACh
 }
 

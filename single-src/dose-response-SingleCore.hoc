@@ -55,7 +55,8 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	printf("mkCells()\n")
     }
     cells = new List()
-    for(i=pc.id; i<NCELL; i+=pc.nhost){
+    //for(i=pc.id; i<NCELL; i+=pc.nhost){
+    for(i=pc.id; i<pc.id+NCELL; i+=pc.nhost){
 	cell = new Stick()
 	//cells.append(cell)
 	if(CELL_TYPE==1){
@@ -88,12 +89,12 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	}
 	cell.Delay=10.0
 	cell.setGID(i)
-	cell.dose=DOSE_V.x[i]
+	//cell.dose=DOSE_V.x[i]
 	cells.append(cell)
 	pc.set_gid2node(i,pc.id)
 	nc = cell.connect2target(nil)
 	pc.cell(i,nc)
-	psection()
+	//psection()
     }
     pc.multisplit()
 }
@@ -413,7 +414,7 @@ proc CalcPeakISF(){local i, peak
     if(pc.id==0)printf("setCurrentRecord()\n")
     for i = 0, cells.count -1{
 	peak = cells.o(i).CalcPeakISF(cells.o(i).tvecSR)
-	printf("[%d] Cells.o[%d] : %f\n",pc.id, i, peak)
+	//printf("[%d] Cells.o[%d] : %f\n",pc.id, i, peak)
     }
 }
 

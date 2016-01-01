@@ -19,8 +19,8 @@ NEURON {
     RANGE gkdrbar, ek, W_inf, tau_W, ikD, lambda, sigma, a_W, v_W, ek_fixed   : delayed K rectifier
     RANGE gl, el                                                              : leak
     RANGE gcatbar, eca, X, X_inf, tau_X, a_X, v_X                             : T-type ca current
-    RANGE gskbar, ek, isk, q_inf, C_gamma, tau_sk, a_sk, Csk, S_sk            : ca dependent SK current
-    RANGE A_inf, B, B_inf, tau_B, gAbar, a_A, a_B, v_A, v_B	              : A(K) current
+    RANGE gskbar, isk, q_inf, C_gamma, tau_sk, a_sk, Csk, S_sk		      : ca dependent SK current
+    RANGE gAbar, A_inf, B, B_inf, tau_B, a_A, a_B, v_A, v_B	              : A(K) current
     RANGE CaM :Cai for Measurement
     
     RANGE l001, l01, l10, l100, l1000, l10000
