@@ -24,7 +24,6 @@ if(name_declared("GABAR")!=5){ execute("GABAR=0.022") }
 if(name_declared("SSK")!=5){ execute("SSK=0.000050") }
 
 //========================
-
 if(name_declared("FREQ")!=5){ execute("FREQ=100") }
 if(name_declared("AMP_SIN")!=5){ execute("AMP_SIN=0.3") }
 if(name_declared("AMP_RAMP")!=5){ execute("AMP_RAMP=1.5") }
