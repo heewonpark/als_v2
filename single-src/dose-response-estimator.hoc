@@ -175,7 +175,7 @@ obfunc setVecStim(){localobj vs, spvec
 }
 
 objref spvecs, vses, ncs, pst_synapses
-proc mkArtificial_RN(){local i, j, dose, gid, dose localobj spvec, vs, nc, pst_synapse
+proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
     strdef _SPT_DIR_,_SPT_NAME_
     spvecs = new List()
     vses   = new List()
@@ -247,13 +247,13 @@ proc setSpikeRecord(){local i
     //}
 }
 
-proc CalcPeakISF(){local i, peak
+func CalcPeakISF(){local i, peak
     /*
     for i = 0, cells.count -1{
 	peak = cells.o(i).CalcPeakISF(cells.o(i).tvecSR)
 	//printf("[%d] Cells.o[%d] : %f\n",pc.id, i, peak)
     }*/
-    cells.o(0).CalcPeakISF(cells.o(0).tvecSR)
+    return cells.o(0).CalcPeakISF(cells.o(0).tvecSR)
 }
 
 // --- fitness function ---
@@ -347,7 +347,7 @@ proc simulation() { localobj vec
 */
 
 // === MAIN FUNCTION ===
-proc main() { local i, k, root, fitness, tempfit localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec, Simul_value
+proc main() { local i, k, root, fitness, tempfit, peak localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec, Simul_value
     {pc.set_parent_comm()}
     
     receiveInfo()
@@ -400,7 +400,8 @@ proc main() { local i, k, root, fitness, tempfit localobj rcv_pop_vec, send_fit_
 		initModel(NCELLS)
 		mkArtificial_RN(DOSE_V.x[k])
 		pc.psolve(tstop)
-		Simul_value.append(CalcPeakISF())
+		peak = CalcPeakISF()
+		Simul_value.append(peak)
 		//tempfit = evalFitness(k)
 		/*
 		if( LOG_FITNESS == 1 ) {
