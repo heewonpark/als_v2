@@ -23,6 +23,8 @@ if(name_declared("GSKBAR")!=5){ execute("GSKBAR=0.002") }
 if(name_declared("GABAR")!=5){ execute("GABAR=0.022") }
 if(name_declared("SSK")!=5){ execute("SSK=0.000050") }
 
+if(name_declared("PN_NACH_GMAX")!=5){ execute("PN_NACH_GMAX=0.3")}
+if(name_declared("LN_NACH_GMAX")!=5){ execute("LN_NACH_GMAX=0.3")}
 //========================
 if(name_declared("FREQ")!=5){ execute("FREQ=100") }
 if(name_declared("AMP_SIN")!=5){ execute("AMP_SIN=0.3") }
@@ -38,6 +40,7 @@ if(name_declared("INDEX_OUTPUT")!=5){ execute("INDEX_OUTPUT=0") }
 if(name_declared("USE_TARGETPARAMS")!=5){ execute("USE_TARGETPARAMS=0") }
 if(name_declared("THRESHOLD")!=5){ execute("THRESHOLD=-20") }
 
+if(name_declared("CELL_TYPE")!=5){ execute("CELL_TYPE=1") }
 if(name_declared("STOPTIME")!=5) { execute("STOPTIME=0") }
 if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
 NCELLS = 1
@@ -120,7 +123,6 @@ proc mkCells(){local i, j, n, axonnum, ncells localobj cell, nc, nil, tmplist
 	}
 	cell.Delay=10.0
 	cell.setGID(i)
-	cell.dose=DOSE_V.x[i]
 	cells.append(cell)
 	pc.set_gid2node(i,pc.id)
 	nc = cell.connect2target(nil)
@@ -206,7 +208,8 @@ proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
 //-- read parameter range file --
 obfunc readParamFile() { local dim, flg, val localobj f, paramname, sf, vec
 	strdef filename, line, tmp
-	sprint(filename, "%s/params%02d.txt", DIR_TARGET, paramfile_suf.x(0))
+	//sprint(filename, "%s/params%02d.txt", DIR_TARGET, paramfile_suf.x(0))
+	sprint(filename, "%s/params10.txt", DIR_TARGET)
 
 	vec = new Vector()	
 	f = new File()

@@ -16,6 +16,7 @@ if(name_declared("CELL_TYPE")!=5){ execute("CELL_TYPE=1")}
 if(name_declared("NCELL")!=5){ execute("NCELL=1")}
 if(name_declared("NRN")!=5){ execute("NRN=100")}
 if(name_declared("PN_NACH_GMAX")!=5){ execute("PN_NACH_GMAX=100")}
+if(name_declared("LN_NACH_GMAX")!=5){ execute("LN_NACH_GMAX=100")}
 
 objref pc
 pc = new ParallelContext()

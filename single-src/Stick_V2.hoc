@@ -16,7 +16,7 @@ public insertMsLN, insertIAHP, insertICA,insertIAHP2, insertCAD, insertLNlla2, i
 public insertLNlla4, insertLNllb2, insertHH_RN, insertType2LN, insertFukuda_tunned
 public insertMsPN, insertMsPN_NoCad, insertMsPN_cad
 
-public uninsertPas, uninsertHH, uninsertLNlla, uninsertFukuda
+public uninsertPas, uninsertHH, uninsertLNlla, uninsertFukuda, uninsertMsPN
 
 public setVoltageRecord, printVoltageRecord, printVoltageRecord2
 public synlist
