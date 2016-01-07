@@ -50,6 +50,16 @@ DOSE_V = new Vector()
 DOSE_V.append(10,20,50,100,200,500,1000,2000,5000,10000)
 //DOSE_V.append(0.1,1,10)
 
+//*****************************
+//Estimation Result JOB:4971691
+GKDRBAR = 0.006848
+GNABAR  = 0.107059
+GCATBAR = 0.001530
+GSKBAR  = 0.321658
+GABAR   = 0.000001
+SSK     = 0.727851
+GL      = 0.000988
+
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
     if(pc.id==0){
@@ -69,10 +79,13 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	    //cell.insertFukuda_tunned()
 
 	    cell.soma{
-		//gkcabar_GPeA = 0
-		//gnabar_GPeA = 0
-		//gkdrbar_GPeA= 0
-		S_sk_MsPN = 50
+		gnabar_MsPN  = GNABAR
+		gkdrbar_MsPN = GKDRBAR
+		gl_MsPN      = GL
+		gcatbar_MsPN = GCATBAR
+		gskbar_MsPN  = GSKBAR
+		gAbar_MsPN   = GABAR
+		S_sk_MsPN    = SSK
 	    }
 
 	    //cell.soma.gkcabar_GPeA = 0
