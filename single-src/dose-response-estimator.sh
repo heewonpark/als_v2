@@ -12,8 +12,8 @@ echo "DATA DIRECTORY : ${RECORD_DIR}"
 mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
-NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./dose-response-SingleCore.hoc"
+NRNIV="/work/github/neuron_kplus/specials/x86_64/special -mpi"
+HOC_NAME="./dose-response-estimator-lo.hoc"
 
 NRNOPT=\
 " -c STOPTIME=2500"\
@@ -34,11 +34,11 @@ echo $NRNOPT
 echo $EXEC
 time $EXEC |tee $OUT
 
-python ../src/drawGraph.py $RECORD_DIR
-python ./butterworth.py $RECORD_DIR
-python ./NetCon_PSTH.py $SPIKE_DIR
-#python ../src/drawISF.py $SPIKE_DIR
-python ../src/spike_analyze.py $SPIKE_DIR
-#python ../src/whole_in_one_spike.py $SPIKE_DIR
-python ./draw_DoseCurve.py $SPIKE_DIR
-#python ./draw_FreqCurve.py $SPIKE_DIR
+#python ../src/drawGraph.py $RECORD_DIR
+#python ./butterworth.py $RECORD_DIR
+#python ./NetCon_PSTH.py $SPIKE_DIR
+##python ../src/drawISF.py $SPIKE_DIR
+#python ../src/spike_analyze.py $SPIKE_DIR
+##python ../src/whole_in_one_spike.py $SPIKE_DIR
+#python ./draw_DoseCurve.py $SPIKE_DIR
+##python ./draw_FreqCurve.py $SPIKE_DIR

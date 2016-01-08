@@ -67,7 +67,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
     }
     cells = new List()
     //for(i=pc.id; i<NCELL; i+=pc.nhost){
-    for(i=pc.id; i<NCELL; i+=pc.nhost){
+    for(i=pc.id; i<pc.id+NCELL; i+=pc.nhost){
 	cell = new Stick()
 	//cells.append(cell)
 	if(CELL_TYPE==1){
@@ -103,8 +103,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	}
 	cell.Delay=10.0
 	cell.setGID(i)
-	
-	cell.dose=DOSE_V.x[i]
+	//cell.dose=DOSE_V.x[i]
 	cells.append(cell)
 	pc.set_gid2node(i,pc.id)
 	nc = cell.connect2target(nil)
@@ -351,7 +350,7 @@ proc setRecord(){localobj sref
 
 setRecord()
 
-psection()
+//psection()
 pc.barrier()
 tstop = STOPTIME
 {pc.set_maxstep(10)}

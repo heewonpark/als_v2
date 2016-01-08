@@ -431,7 +431,7 @@ proc setNCRecord(){local i localobj ncs_tvec
 }
 
 public printNCRecord
-proc printNCRecord(){local id,i,max_size localobj fobj,mt
+proc printNCRecord(){local id,i,size_row, size_col localobj fobj,mt
     strdef _FPRINT_DIR_, _FPRINT_NAME_
     id = $1
     _FPRINT_DIR_= $s2    
@@ -439,11 +439,16 @@ proc printNCRecord(){local id,i,max_size localobj fobj,mt
     mt   = new Matrix()
     fobj = new File()
 
-    max_size=-1
+    size_row=1
     for i=0, ncs_tvecs.count()-1{
-	if(max_size<ncs_tvecs.o(i).size()){max_size=ncs_tvecs.o(i).size()}
+	if(size_row<ncs_tvecs.o(i).size()){size_row=ncs_tvecs.o(i).size()}
     }
-    mt.resize(max_size,ncs_tvecs.count())
+    if(ncs_tvecs.count()==0){
+	size_col = 1
+    }else{
+	size_col = ncs_tvecs.count()
+    }
+    mt.resize(size_row,size_col)
     for i=0, ncs_tvecs.count()-1{
 	mt.setcol(i,ncs_tvecs.o(i))
     }

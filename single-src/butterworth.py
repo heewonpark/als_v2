@@ -86,7 +86,8 @@ if len(sys.argv) is 1:
     print "NO FILENAME"
 elif len(sys.argv) is 2:
     if(os.path.isfile(sys.argv[1])):
-        drawGraph(sys.argv[1],1)
+        #drawGraph(sys.argv[1],1)
+        print "Input argument was Filename, Do Nothing"
     elif(os.path.isdir(sys.argv[1])):
         print "%s is directory"%sys.argv[1]
         target_dir = os.path.normpath(sys.argv[1])
