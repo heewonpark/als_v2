@@ -597,7 +597,9 @@ func Latency(){local latency_, L0_, Lm_, lambda_, c
     }
 }
 
-func setLatency(){local seed, C
+func setLatency(){\
+    local seed, C, L0, lambda, Lm, latency\
+    localobj rand
     //##################################################
     // FOR LATENCY
     seed   = $1

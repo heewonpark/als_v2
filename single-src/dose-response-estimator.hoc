@@ -91,34 +91,36 @@ strdef SETTINGFILE
 
 objref pc
 pc = new ParallelContext()
-
 objref DOSE_V, PEAKISF_V, NSTIMS_V, DURATION_V
-DOSE_V = new Vector()
-PEAKISF_V = new Vector()
-NSTIMS_V  = new Vector()
-DURATION_V = new Vector()
-
-//DOSE_V.append(10,20,50,100,200,500,1000,2000,5000,10000)
-//DOSE_V.append(1,10,100,1000,5000)
-//PEAKISF_V.append(25,80,170,260,270)
-
-//*********************************
-// Before PTX (Stimulus duration : 1s)
-DOSE_V.append(10,100,1000,5000)
-PEAKISF_V.append(80,170,260,270)
-
-//*********************************
-// After PTX (Stimulus duration : 1s)
-DOSE_V.append(10,100,1000,5000)
-PEAKISF_V.append(50,150,240,250)
-NSTIMS_V.append(10,20,45,50)
-DURATION_V.append(400,350,900,1300)
-
+proc setTarget(){
+    if(pc.id==0){printf("+ setTarget()\n")}
+    DOSE_V = new Vector()
+    PEAKISF_V = new Vector()
+    NSTIMS_V  = new Vector()
+    DURATION_V = new Vector()
+    //DOSE_V.append(10,20,50,100,200,500,1000,2000,5000,10000)
+    //DOSE_V.append(1,10,100,1000,5000)
+    //PEAKISF_V.append(25,80,170,260,270)
+    
+    DOSE_V.append(10,100,1000,5000)
+    //*********************************
+    // Before PTX (Stimulus duration : 1s)
+    /*
+    PEAKISF_V.append(80,170,260,270)
+    */
+    
+    //*********************************
+    // After PTX (Stimulus duration : 1s)
+    PEAKISF_V.append(50,150,240,250)
+    NSTIMS_V.append(10,20,45,50)
+    DURATION_V.append(400,350,900,1300)
+}
+setTarget()
 //-- make CellSwc object --
 proc mkCells(){local i, j, n, axonnum, ncells localobj cell, nc, nil, tmplist
+
     ncells = $1
     cells = new List()
-    
     for(i=pc.id; i<pc.id+ncells; i+=pc.nhost){
 	cell = new Stick()
 	if(CELL_TYPE==1){
@@ -205,11 +207,17 @@ proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
     //if(pc.id==0){printf("mkArtificial_RN()\n")}
     //print getcwd()
     //for(j=0; j<cells.count(); j=j+1){
+    if(IS_SUPERCOMPUTER == 1){
+	sprint(_SPT_DIR_,"./input/spiketiming/%ddose_1stims_filtering/",dose)   
+    }else if(IS_SUPERCOMPUTER == 0){
+	sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)    
+    }else{
+	printf("*** IS_SUPERCOMPUTER : %d [Value Error] ***\n",IS_SUPTERCOMPUTER)
+	return 
+    }
+    
     for(i=0; i<NRN; i=i+1){
-	//sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
-	sprint(_SPT_DIR_,"./input/spiketiming/%ddose_1stims_filtering/",dose)
 	sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
-
 	spvec = readSpikeTiming(_SPT_NAME_)
 	vs    = setVecStim(spvec)
 	//pst_synapse = cells.o(j).mkNET_nACh(NACH_GMAX)
@@ -226,27 +234,27 @@ proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
 
 //-- read parameter range file --
 obfunc readParamFile() { local dim, flg, val localobj f, paramname, sf, vec
-	strdef filename, line, tmp
-	//sprint(filename, "%s/params%02d.txt", DIR_TARGET, paramfile_suf.x(0))
-	sprint(filename, "%s/params10.txt", DIR_TARGET)
-
-	vec = new Vector()	
-	f = new File()
-	{ f.ropen(filename) }
-	
-	sf = new StringFunctions()
-	dim = 0
-	while( f.gets(line) != -1 ) {
-		if( sf.tail(line, "#", tmp) == 1 ) { continue } // comments
-		{sscanf(line, "%s\t%*lf\t%*lf\t%lf\n", tmp, &val)}
-		paramname = new String(tmp)
-		paramname_list.append(paramname)
-		vec.append(val)
-		dim += 1
-	}
-	
-	DIM_CMAES = dim
-	return vec
+    strdef filename, line, tmp
+    //sprint(filename, "%s/params%02d.txt", DIR_TARGET, paramfile_suf.x(0))
+    sprint(filename, "%s/params10.txt", DIR_TARGET)
+    
+    vec = new Vector()	
+    f = new File()
+    { f.ropen(filename) }
+    
+    sf = new StringFunctions()
+    dim = 0
+    while( f.gets(line) != -1 ) {
+	if( sf.tail(line, "#", tmp) == 1 ) { continue } // comments
+	{sscanf(line, "%s\t%*lf\t%*lf\t%lf\n", tmp, &val)}
+	paramname = new String(tmp)
+	paramname_list.append(paramname)
+	vec.append(val)
+	dim += 1
+    }
+    
+    DIM_CMAES = dim
+    return vec
 }
 
 //-- update global parameter values --
@@ -378,8 +386,100 @@ proc simulation() { localobj vec
 */
 
 // === MAIN FUNCTION ===
-proc main() {\\
-    local i, k, root, fitness, tempfit, peak, nspikes, dur\\
+// For local machine simulation
+proc main_local() {\
+    local i, k, root, fitness, tempfit, peak, nspikes, dur\
+    localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec, Simul_peak, Simul_spikes, Simul_dur
+    {pc.set_parent_comm()}
+    {pc.set_world_comm()}
+
+    if(pc.id==0){printf("+ mkCells()\n")}
+    mkCells(NCELLS)
+    initModel(NCELLS)
+
+    spvecs = new List()
+    vses   = new List()
+    nclist = new List()
+    pst_synapses = new List()
+    if(pc.id==0){printf("+ mkArtificial_RN()\n")}
+    mkArtificial_RN(10)
+    //setStimVec()
+    //setIClamp(0)
+    //setSpikeRecord()
+    //setVoltageRecord()
+    //setCurrentRecord()
+
+    if(pc.id==0){printf("+ setSpikeRecord()\n")}
+    setSpikeRecord()
+
+    tstop = STOPTIME
+    pc.set_maxstep(10)
+    stdinit()
+    
+    root = 0
+    nullvec = new Vector()
+    tempvec = new Vector()
+    
+    {pc.set_parent_comm()}
+    pc.barrier()
+    while(1) {
+	if(pc.id==0){printf("++ WHILE LOOP\n")}
+	{pc.set_parent_comm()}
+	rcv_pop_vec = new Vector()
+	NUM_OF_POP_PER_PROC =1
+	send_fit_vec = new Vector(NUM_OF_POP_PER_PROC)
+	
+	pc.scatter_d(nullvec, rcv_pop_vec, DIM_CMAES*NUM_OF_POP_PER_PROC, root)
+	
+	{pc.set_world_comm()}
+	for(i = 0; i < NUM_OF_POP_PER_PROC; i+=1) {
+	    if(pc.id==0){printf("+++ RUN FOR EACH CELL[%d]\n",i)}
+	    fitness = 0.0
+	    updateParams(rcv_pop_vec, i*DIM_CMAES)
+
+	    Simul_peak   = new Vector()
+	    Simul_spikes = new Vector()
+	    Simul_dur    = new Vector()
+	    for(k = 0; k < DOSE_V.size(); k+=1) {
+		if(pc.id==0){printf("++++ RUN FOR EACH DOSE[%d]\n",k)}
+		initModel(NCELLS)
+		//print DOSE_V.x[k]
+		mkArtificial_RN(DOSE_V.x[k])
+		//printf("pc.psolve(%d)\n",tstop)
+		pc.set_maxstep(10)
+		stdinit()
+		pc.psolve(100)
+		peak    = CalcPeakISF()
+		nspikes = getNumSpikes()
+		dur     = getResponseDuration()
+		Simul_peak.append(peak)
+		Simul_spikes.append(nspikes)
+		Simul_dur.append(dur)
+	    }
+	    printf("LeastSquares()\n")
+	    print Simul_spikes.size(), PEAKISF_V.size()
+	    printf("send_fit_vex.x(%d)\n",i)
+	    fitness += LeastSquares(Simul_peak, PEAKISF_V)
+	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
+	    fitness += LeastSquares(Simul_dur, DURATION_V)
+	    send_fit_vec.x(i) = fitness*10.0
+	    printf("fitness :%f\n",send_fit_vec.x(i))
+	}
+	{pc.set_parent_comm()}
+	pc.gather_d(send_fit_vec, nullvec, NUM_OF_POP_PER_PROC, root)
+	
+	// check whether terminal criterion of CMA-ES holds
+	pc.broadcast(tempvec, root)
+	//FLG_CMAES_STOP = int(tempvec.x(0))
+	FLG_CMAES_STOP = 1
+	if( FLG_CMAES_STOP!=0 ) { break }
+    }	
+}
+
+// === MAIN FUNCTION ===
+// For Supercomputer CMA-ES estimation
+proc main() {\
+    local i, k, root, fitness, tempfit, peak, nspikes, dur\
     localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec, Simul_peak, Simul_spikes, Simul_dur
     {pc.set_parent_comm()}
     
@@ -478,6 +578,7 @@ proc main() {\\
 if(ESTIMATION == 1) {
     main()
 } else {
+    main_local()
     //simulation()
 }
 { pc.set_world_comm() }

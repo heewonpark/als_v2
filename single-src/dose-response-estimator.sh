@@ -13,7 +13,7 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="/work/github/neuron_kplus/specials/x86_64/special -mpi"
-HOC_NAME="./dose-response-estimator-lo.hoc"
+HOC_NAME="./dose-response-estimator.hoc"
 
 NRNOPT=\
 " -c STOPTIME=2500"\
@@ -25,9 +25,10 @@ NRNOPT=\
 " -c WEIGHT_RNtoPN=0.50"\
 " -c WEIGHT_RNtoLN=0.02"\
 " -c PN_NACH_GMAX=0.3"\
-" -c RND_SEED=0"
-
-MPIEXEC="mpiexec -n 8"
+" -c RND_SEED=0"\
+" -c ESTIMATION=0" #ESTIMATION 1 for CMA-ES on Super Computer 
+#MPIEXEC="mpiexec -n 8"
+MPIEXEC=""
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 
 echo $NRNOPT
