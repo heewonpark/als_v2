@@ -92,14 +92,27 @@ strdef SETTINGFILE
 objref pc
 pc = new ParallelContext()
 
-objref DOSE_V, PEAKISF_V
+objref DOSE_V, PEAKISF_V, NSTIMS_V, DURATION_V
 DOSE_V = new Vector()
 PEAKISF_V = new Vector()
+NSTIMS_V  = new Vector()
+DURATION_V = new Vector()
+
 //DOSE_V.append(10,20,50,100,200,500,1000,2000,5000,10000)
 //DOSE_V.append(1,10,100,1000,5000)
-DOSE_V.append(10,100,1000,5000)
 //PEAKISF_V.append(25,80,170,260,270)
+
+//*********************************
+// Before PTX (Stimulus duration : 1s)
+DOSE_V.append(10,100,1000,5000)
 PEAKISF_V.append(80,170,260,270)
+
+//*********************************
+// After PTX (Stimulus duration : 1s)
+DOSE_V.append(10,100,1000,5000)
+PEAKISF_V.append(50,150,240,250)
+NSTIMS_V.append(10,20,45,50)
+DURATION_V.append(400,350,900,1300)
 
 //-- make CellSwc object --
 proc mkCells(){local i, j, n, axonnum, ncells localobj cell, nc, nil, tmplist
@@ -266,11 +279,19 @@ func CalcPeakISF(){local i, peak
     return cells.o(0).CalcPeakISF(cells.o(0).tvecSR)
 }
 
+func getNumSpikes(){
+    return cells.o(0).getNSpikes(cells.o(0).tvecSR)
+}
+
+func getResponseDuration(){
+    return cells.o(0).getResDur(cells.o(0).tvecSR)
+}
+
 // --- fitness function ---
 func LeastSquares(){local i, sum, pow localobj real_value, simul_value
     simul_value = $o1
     real_value = $o2
-    sum = 0
+    sum = 0.0
     /*
     for i=0, real_value.size(){
 	sum += (simul_value.x[i] - real_value.x[i])^2
@@ -357,7 +378,9 @@ proc simulation() { localobj vec
 */
 
 // === MAIN FUNCTION ===
-proc main() { local i, k, root, fitness, tempfit, peak localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec, Simul_value
+proc main() {\\
+    local i, k, root, fitness, tempfit, peak, nspikes, dur\\
+    localobj rcv_pop_vec, send_fit_vec, nullvec, tempvec, vec, Simul_peak, Simul_spikes, Simul_dur
     {pc.set_parent_comm()}
     
     receiveInfo()
@@ -410,15 +433,21 @@ proc main() { local i, k, root, fitness, tempfit, peak localobj rcv_pop_vec, sen
 	    fitness = 0.0
 	    updateParams(rcv_pop_vec, i*DIM_CMAES)
 	    //for(k = 0; k < NUM_OF_TARGETFILE; k+=1) {
-	    Simul_value = new Vector()
+	    Simul_peak   = new Vector()
+	    Simul_spikes = new Vector()
+	    Simul_dur    = new Vector()
 	    for(k = 0; k < DOSE_V.size(); k+=1) {
 		initModel(NCELLS)
 		mkArtificial_RN(DOSE_V.x[k])
 		pc.set_maxstep(10)
 		stdinit()
 		pc.psolve(tstop)
-		peak = CalcPeakISF()
-		Simul_value.append(peak)
+		peak    = CalcPeakISF()
+		nspikes = getNumSpikes()
+		dur     = getResponseDuration()
+		Simul_peak.append(peak)
+		Simul_spikes.append(nspikes)
+		Simul_dur.append(dur)
 		//tempfit = evalFitness(k)
 		/*
 		if( LOG_FITNESS == 1 ) {
@@ -430,8 +459,10 @@ proc main() { local i, k, root, fitness, tempfit, peak localobj rcv_pop_vec, sen
 		}*/
 		//fitness += tempfit
 	    }
-	    send_fit_vec.x(i) = LeastSquares(Simul_value, PEAKISF_V)
-	    //send_fit_vec.x(i) = fitness
+	    fitness += LeastSquares(Simul_peak, PEAKISF_V)
+	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
+	    fitness += LeastSquares(Simul_dur, DURATION_V)
+	    send_fit_vec.x(i) = fitness*10.0
 	}
 	{pc.set_parent_comm()}
 	pc.gather_d(send_fit_vec, nullvec, NUM_OF_POP_PER_PROC, root)

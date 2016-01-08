@@ -408,13 +408,25 @@ obfunc connect2target(){local numSynapses localobj nc,target
 }
 
 public connectVecStim
-obfunc connectVecStim(){localobj synapse, vecstim, nc
+obfunc connectVecStim(){local latency, id, i, seed, N, c localobj synapse, vecstim, nc
     vecstim = $o1
     synapse = $o2
+    
     nc = new NetCon(vecstim, synapse)
     nc.threshold = 0
     nc.weight    = 1
-    nc.delay     = Delay
+    if(numarg()==6){
+	dose = $3
+	id   = $4
+	i    = $5
+	N    = $6
+	c    = log10(dose)
+	seed = id*N + i
+	latency = setLatency(seed,c)
+    }else{
+	latency = 0
+    }
+    nc.delay = Delay + latency
     //vs_ncs.append(nc)
     return nc
 }
@@ -585,6 +597,23 @@ func Latency(){local latency_, L0_, Lm_, lambda_, c
     }
 }
 
+func setLatency(){local seed, C
+    //##################################################
+    // FOR LATENCY
+    seed   = $1
+    rand   = new Random(seed)
+    
+    L0     = rand.normal(158,62)
+    lambda = rand.lognormal(2.9,0.85)
+    lambda = exp(lambda)
+    Lm     = rand.normal(67,30)
+    C      = $2 //Concentration
+
+    latency = Latency(C,L0,lambda,Lm)
+    latency = latency/1000.0
+    printf("Latency : %f, C : %f, Seed : %d\n",latency,C,seed) 
+    return latency
+}
 
 func setIClamp_with_Latency(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_time, length, amp, L_RATIO,A_RATIO, seed, L0, Lm, lambda, C, latency  localobj rand, datafile, rnd
 
@@ -1194,6 +1223,20 @@ func CalcPeakISF(){local i, tmp localobj spt
 	}
     }
     return PeakISF
+}
+
+public getNSpikes
+func getNSpikes(){localobj spt
+    // Get Number of Spikes
+    spt = $o1
+    return spt.size()
+}
+
+public getResDur
+func getResDur(){localobj spt
+    // Get Response Duration
+    spt = $o1
+    return spt.x[spt.size()-1]
 }
 
 public printSpikeRecord_NetStim
