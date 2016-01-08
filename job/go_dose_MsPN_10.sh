@@ -45,6 +45,9 @@ HOCFILE="./dose-response-estimator.hoc"
 #NRNIV="./nrniv"
 NRNIV="./special"
 NRNOPT="{}"
+NRNOPT=\
+
+
 SETTINGFILE_SUFFIX=10
 WEIGHT_FIT=1
 INITFILE="./cmaes_initials.par"
@@ -57,4 +60,5 @@ MPIEXEC="mpiexec"
 # PROF="fipp -C -Ihwm,call -d ./prof -i10 -Srange"
 PROF=""
 
+#eval time ${PROF} ${MPIEXEC} ${EXECFILE} ${GENE_NUM} ${MAXITER} ${MAXEVAL} ${SETTINGFILE_SUFFIX} ${NUM_NRN_PROC} ${HOCFILE} ${NRNIV} "${NRNOPT}" ${WEIGHT_FIT} ${MU} ${INITFILE}
 time ${PROF} ${MPIEXEC} ${EXECFILE} ${GENE_NUM} ${MAXITER} ${MAXEVAL} ${SETTINGFILE_SUFFIX} ${NUM_NRN_PROC} ${HOCFILE} ${NRNIV} ${NRNOPT} ${WEIGHT_FIT} ${MU} ${INITFILE}

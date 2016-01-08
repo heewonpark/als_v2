@@ -41,8 +41,8 @@ if(name_declared("USE_TARGETPARAMS")!=5){ execute("USE_TARGETPARAMS=0") }
 if(name_declared("THRESHOLD")!=5){ execute("THRESHOLD=-20") }
 
 if(name_declared("CELL_TYPE")!=5){ execute("CELL_TYPE=1") }
-if(name_declared("STOPTIME")!=5) { execute("STOPTIME=300") }
-if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
+if(name_declared("STOPTIME")!=5) { execute("STOPTIME=3000") }
+if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=1")}
 if(name_declared("RND_SEED")!=5){ execute("RND_SEED=0")}
 if(name_declared("NRN")!=5){ execute("NRN=100")}
 if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
@@ -108,7 +108,7 @@ proc setTarget(){
     /*
     PEAKISF_V.append(80,170,260,270)
     */
-    
+
     //*********************************
     // After PTX (Stimulus duration : 1s)
     PEAKISF_V.append(50,150,240,250)

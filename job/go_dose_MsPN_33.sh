@@ -4,7 +4,7 @@
 #PJM --rsc-list "node=33"
 #PJM --mpi "shape=1"
 #PJM --mpi "proc=8"
-#PJM --rsc-list "elapse=3:00:00"
+#PJM --rsc-list "elapse=8:00:00"
 
 #PJM --stg-transfiles all
 #PJM --mpi "use-rankdir"

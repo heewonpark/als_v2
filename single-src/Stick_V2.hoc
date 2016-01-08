@@ -1238,7 +1238,11 @@ public getResDur
 func getResDur(){localobj spt
     // Get Response Duration
     spt = $o1
-    return spt.x[spt.size()-1]
+    if(spt.size()==0){
+	return 0
+    }else{
+	return spt.x[spt.size()-1]
+    }
 }
 
 public printSpikeRecord_NetStim
