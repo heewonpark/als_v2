@@ -1,7 +1,7 @@
 #!/bin/bash -x
 #
 #PJM --rsc-list "rscgrp=small"
-#PJM --rsc-list "node=33"
+#PJM --rsc-list "node=129"
 #PJM --mpi "shape=1"
 #PJM --mpi "proc=8"
 #PJM --rsc-list "elapse=12:00:00"
@@ -36,11 +36,11 @@ export FLIB_CNTL_BARRIER_ERR=FALSE
 #export OMP_NUM_THREADS=16
 
 EXECFILE="./estimation_main"
-GENE_NUM="256"
+GENE_NUM="1024"
 MU="-1" # -1 defaults (1/2 of GENE_NUM)
-MAXITER="200"
+MAXITER="300"
 MAXEVAL="-1"
-NUM_NRN_PROC="256"
+NUM_NRN_PROC="1024"
 HOCFILE="./dose-response-estimator.hoc"
 #NRNIV="./nrniv"
 NRNIV="./special"

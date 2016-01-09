@@ -223,7 +223,7 @@ proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
 	//pst_synapse = cells.o(j).mkNET_nACh(NACH_GMAX)
 	pst_synapse = cells.o(0).mkNET_nACh(NACH_GMAX)
 	//nc = cells.o(j).connectVecStim(vs,pst_synapse)
-	nc = cells.o(0).connectVecStim(vs,pst_synapse)
+	nc = cells.o(0).connectVecStim(vs,pst_synapse,dose,pc.id,i,NRN)
 	spvecs.append(spvec)
 	vses.append(vs)
 	nclist.append(nc)
@@ -559,7 +559,7 @@ proc main() {\
 		}*/
 		//fitness += tempfit
 	    }
-	    fitness += LeastSquares(Simul_peak, PEAKISF_V)
+	    fitness += LeastSquares(Simul_peak, PEAKISF_V)*2
 	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
 	    fitness += LeastSquares(Simul_dur, DURATION_V)
 	    send_fit_vec.x(i) = fitness*10.0

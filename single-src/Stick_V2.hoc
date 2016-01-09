@@ -612,8 +612,7 @@ func setLatency(){\
     C      = $2 //Concentration
 
     latency = Latency(C,L0,lambda,Lm)
-    latency = latency/1000.0
-    printf("Latency : %f, C : %f, Seed : %d\n",latency,C,seed) 
+    //printf("Latency : %f, C : %f, Seed : %d\n",latency,C,seed) 
     return latency
 }
 
