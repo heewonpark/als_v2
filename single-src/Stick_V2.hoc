@@ -1265,7 +1265,7 @@ func getResDur(){localobj spt
     if(spt.size()==0){
 	return 0
     }else{
-	return spt.x[spt.size()-1]
+	return spt.x[spt.size()-1]-spt.x[0]
     }
 }
 
