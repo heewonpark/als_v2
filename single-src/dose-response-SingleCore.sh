@@ -36,7 +36,7 @@ time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
 python ./butterworth.py $RECORD_DIR
-python ./NetCon_PSTH.py $SPIKE_DIR
+#python ./NetCon_PSTH.py $SPIKE_DIR
 ##python ../src/drawISF.py $SPIKE_DIR
 python ../src/spike_analyze.py $SPIKE_DIR
 ##python ../src/whole_in_one_spike.py $SPIKE_DIR

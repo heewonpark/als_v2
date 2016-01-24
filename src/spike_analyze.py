@@ -26,7 +26,7 @@ import matplotlib
 matplotlib.rc('xtick',labelsize = 15)
 matplotlib.rc('ytick',labelsize = 15)
 
-
+print "::::: spike_analyze.py :::::"
 interval = -1
 delay = -1
 size = -1

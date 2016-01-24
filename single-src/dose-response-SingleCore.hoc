@@ -64,7 +64,7 @@ GL      = 0.000988
 
 //*****************************
 //Estimation Result JOB:4977927
-
+/*
 GKDRBAR = 0.070705
 GNABAR  = 2.772919
 GCATBAR = 0.000357
@@ -72,7 +72,31 @@ GSKBAR  = 0.016127
 GABAR   = 0.265289
 SSK     = 0.984506
 GL      = 0.000041
+*/
 
+//*****************************
+//Estimation Result JOB:4978194
+//estimationMsPN129.sh
+/*
+GKDRBAR= 0.009149
+GNABAR = 0.156315
+GCATBAR= 0.000338
+GSKBAR = 0.034495
+GABAR  = 0.252102
+SSK    = 0.966972
+GL     = 0.000000
+*/
+
+//*****************************
+//Estimation Result JOB:4978192
+// Latecy function used.
+GKDRBAR=0.009439
+GNABAR =0.179608
+GCATBAR=0.000170
+GSKBAR =0.236232
+GABAR  =0.252766
+SSK    =0.799873
+GL     =0.000011
 
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
@@ -91,7 +115,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	    //cell.insertMsPN_cad(i)
 	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
-
+	    
 	    cell.soma{
 		gnabar_MsPN  = GNABAR
 		gkdrbar_MsPN = GKDRBAR
@@ -101,7 +125,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 		gAbar_MsPN   = GABAR
 		S_sk_MsPN    = SSK
 	    }
-
+	    
 	    //cell.soma.gkcabar_GPeA = 0
 	    cell.setType(1)
 	    //cell.setPN_biophys()
@@ -158,10 +182,12 @@ proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
 	dose = cells.o(j).dose
 	for(i=0; i<NRN; i=i+1){
 	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
+	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_poisson/",dose)
 	    
 	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
 	    
 	    spvec = readSpikeTiming(_SPT_NAME_)
+	    
 	    /*
 	    //spvec = new Vector()
 	    //spvec.append(1,5,10)
@@ -181,6 +207,46 @@ proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
 	}
     }
 }
+
+proc mkArtificial_RN_poisson(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
+    strdef _SPT_DIR_,_SPT_NAME_
+    spvecs = new List()
+    vses   = new List()
+    ncs    = new List()
+    pst_synapses = new List()
+    
+    if(pc.id==0){printf("mkArtificial_RN()\n")}
+
+    for(j=0; j<cells.count(); j=j+1){
+	dose = cells.o(j).dose
+	for(i=0; i<NRN; i=i+1){
+	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
+	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_poisson/",dose)
+	    
+	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
+	    
+	    //spvec = readSpikeTiming(_SPT_NAME_)
+	    spvec = readSpikeTiming_poisson(_SPT_NAME_)
+	    /*
+	    //spvec = new Vector()
+	    //spvec.append(1,5,10)
+	    gid = cells.o(j).getGID()
+	    //if(gid==0){spvec.indgen(5+i/10.0,500,10.0/(gid+1.0))}	    
+	    spvec.indgen(5+i/10.0,500,10.0/(gid+1.0))
+	    */
+
+	    //if(i==0)spvec.printf()
+	    vs    = setVecStim(spvec)
+	    pst_synapse = cells.o(j).mkNET_nACh(NACH_GMAX)
+	    nc = cells.o(j).connectVecStim(vs,pst_synapse)
+	    spvecs.append(spvec)
+	    vses.append(vs)
+	    //ncs.append(nc)
+	    //pst_synapses.append(pst_synapse)
+	}
+    }
+}
+
 proc mkArtificial_RN_yuqiao(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
     strdef _SPT_DIR_,_SPT_NAME_
     spvecs = new List()
@@ -223,7 +289,6 @@ proc mkArtificial_RN_yuqiao(){local i, j, dose, gid localobj spvec, vs, nc, pst_
 	}
     }
 }
-
 proc mkArtificial_RN_Single_Post_Syanpse(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
     strdef _SPT_DIR_,_SPT_NAME_
     spvecs = new List()
@@ -239,7 +304,6 @@ proc mkArtificial_RN_Single_Post_Syanpse(){local i, j, dose, gid localobj spvec,
 	for(i=0; i<NRN; i=i+1){
 	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
 	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
-	    
 	    //spvec = readSpikeTiming(_SPT_NAME_)
 	    
 	    spvec = new Vector()
@@ -262,6 +326,7 @@ proc mkArtificial_RN_Single_Post_Syanpse(){local i, j, dose, gid localobj spvec,
 
 proc mkStim(){
     mkArtificial_RN()
+    //mkArtificial_RN_poisson()
     //mkArtificial_RN_yuqiao()
     //mkArtificial_RN_Single_Post_Syanpse()
 }
@@ -365,7 +430,7 @@ proc setRecord(){localobj sref
 
 setRecord()
 
-//psection()
+if(pc.id==0){psection()}
 pc.barrier()
 tstop = STOPTIME
 {pc.set_maxstep(10)}

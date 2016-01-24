@@ -17,6 +17,7 @@
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
+from SpikeFuncs import *
 
 def double_exp(x, alpha1, beta, gamma1, alpha2, gamma2):
     result = alpha1 * sp.exp(-(x-beta)/gamma1)  +  alpha2 * sp.exp(-(x-beta)/gamma2)
@@ -68,7 +69,7 @@ def load_spt_data(nfiles,nstims,dose):
     
     for i in range(nfiles):
         #DIR = "./%ddose_%dstims/"%(dose,nstims)
-        DIR = "./%ddose_%dstims_NoFilter/"%(dose,nstims)
+        DIR = "./%ddose_%dstims_poisson/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_test/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_filtering_adaptation2/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
@@ -76,18 +77,21 @@ def load_spt_data(nfiles,nstims,dose):
         fn = "%sspt%03d.dat"%(DIR,i)
         #fn = "./1stim/spiketiming%d.dat"%(i)
         spt = np.loadtxt(fn,float)
-        if(i==0):
-            spts = spt[:-1]
-        else:
-            spts = np.append(spts,spt[:-1])
-        
+        #print i
+        try:
+            if(i==0):
+                spts = spt[:-1]
+            else:
+                spts = np.append(spts,spt[:-1])
+        except TypeError:
+            print "No spikes", spt
         #print"LOAD FILE : %s"%(fn)
         #print spt
         #print spts
     return spts
 
 INTERVAL = 1.2 # 1.2s
-BIN      = 0.1 # 0.1s
+BIN      = 0.05 # 0.1s
 print INTERVAL, BIN
 
 def PSTH(nfiles,nstims,dose):
@@ -96,7 +100,7 @@ def PSTH(nfiles,nstims,dose):
 
     print "NUM OF FILES: %d\nNUM OF STIMS: %d\nDOSE: %d"%(nfiles,nstims,dose)
     parameter = np.loadtxt("Michaelis-Menten_Parameter_PSTH.txt",float)
-    print"[PARAMETERS FOR MICHAELIS-MENTEN]\nk = %f, Tau_max = %f, n = %f, factor1 = %.10f, factor2 = %.10f"%(parameter[0],parameter[1],parameter[2],parameter[3],parameter[4])
+    print"[PARAMETERSFOR MICHAELIS-MENTEN]\nk = %f, Tau_max = %f, n = %f, factor1 = %.10f, factor2 = %.10f"%(parameter[0],parameter[1],parameter[2],parameter[3],parameter[4])
     print parameter
     print"\n[PARAMETERS FOR DOUBLE EXPONENTIAL]\nALPHA1 = %f, BETA = %f, GAMMA1 = %f, ALPHA2 = %f, GAMMA2= %f"%(de_para[0],de_para[1],de_para[2],de_para[3],de_para[4])
     print de_para
@@ -137,7 +141,7 @@ def PSTH(nfiles,nstims,dose):
     #plt.rcParams['xtics.major.size'] = 10 #x軸目盛りの長さ
     #plt.rcParams['xtics.major.width'] = 1.5 #x軸目盛りの太さ
     plt.plot(X,double_exp(X,*de_para),'r-',linewidth=3.0,label=r'$F(c,t)$')
-    plt.bar(step_time,step_freq,width=0.1,color='#3b3b3b',label='PSTH')
+    plt.bar(step_time,step_freq,width=BIN,color='#3b3b3b',label='PSTH')
     plt.xlabel('Time[s]',fontsize=25)
     plt.ylabel('Frequency[Hz]',fontsize=25)
     plt.title('PSTH')
@@ -146,4 +150,57 @@ def PSTH(nfiles,nstims,dose):
     plt.savefig(save_fn)
     plt.show()
 
-PSTH(1000,1,100)
+#PSTH(1000,1,100)
+
+def PSTH_poisson(nfiles,nstims,dose):
+    global INTERVAL, BIN
+    print INTERVAL, BIN
+
+    if(nstims!=1):
+        steps = int(nstims*INTERVAL/BIN)
+    elif(nstims==1):
+        steps = int(8.0/BIN)
+        INTERVAL = 8.0
+        print "steps1",steps
+    else:
+        print "***ERROR IN PSTH***"
+        return
+
+    print steps
+    step_freq = [0 for i in range(steps+1)]
+    step_time = [0 for i in range(steps+1)]
+    for i in range(steps+1):
+        step_time[i] = i*BIN
+    spts = load_spt_data(nfiles,nstims,dose)
+    for s in spts:
+        # スパイクが6.0ｓから始まるので6を引く
+        if((s)>INTERVAL*nstims):
+            #print "OVER",s
+            continue
+        #print "%f %d %f"%(s,int((s-6.0)/BIN),float(1/BIN/nfiles))
+        step_freq[int((s)/BIN)]+=float(1/BIN/nfiles)
+
+    X = np.linspace(0,8,100)
+    fig = plt.figure(figsize=(10,8),dpi=400)
+    #plt.rcParams['font.family'] = 'Times New Roman' #全体のフォントを設定
+    plt.rcParams['font.size'] = 20 #フォントサイズを設定
+    #plt.rcParams['axes.linewidth'] = 1.5 #軸の太さを設定。目盛りは変わらない
+    #plt.rcParams['xtics.major.size'] = 10 #x軸目盛りの長さ
+    #plt.rcParams['xtics.major.width'] = 1.5 #x軸目盛りの太さ
+    time=np.arange(0,5000,1)
+    print time
+    tau = getTau(dose)
+    freq = [frequency(t,dose,tau) for t in time]
+    time = time/1000.0
+    print time
+    plt.plot(time, freq)
+    plt.bar(step_time,step_freq,width=BIN,color='#3b3b3b',label='PSTH')
+    plt.xlabel('Time[s]',fontsize=25)
+    plt.ylabel('Frequency[Hz]',fontsize=25)
+    plt.title('PSTH')
+    plt.legend(fontsize=20)
+    save_fn = "%ddose_%dstims_PSTH_poisson.png"%(dose,nstims)
+    plt.savefig(save_fn)
+    plt.show()
+
+PSTH_poisson(1000,1,10)

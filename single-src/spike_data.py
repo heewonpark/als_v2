@@ -52,7 +52,7 @@ class Spike_Data:
             print record
 
     def calc_peakFreq(self):
-        peak = -100
+        peak = -1
         for ifreq in self.if_list:
             if(ifreq>peak):
                 peak=ifreq

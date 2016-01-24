@@ -23,6 +23,7 @@ import re
 
 from spike_data import Spike_Data
 
+print "::::: draw_DoseCurve.py :::::"
 data = []
 pattern = re.compile(r'Spikerecord_PN_Dose(?P<dose>\d+)_(?P<id>\d+).dat')
 pattern2 = re.compile(r'Spikerecord_LN_Dose(?P<dose>\d+)_(?P<id>\d+).dat')
@@ -49,12 +50,15 @@ elif len(sys.argv) is 2:
                         print full_dir                    
                         result = pattern.search(fname)
                         dose=result.group('dose')
+                        if(dose=='0'):
+                            dose = 0.1
                         sd = Spike_Data()
                         sd.Read(full_dir)
                         sd.calc_iFreq()
                         sd.calc_avgFreq()
                         print sd.peakFreq, sd.avgFreq
-                        data.append([int(dose), sd.peakFreq, sd.avgFreq])
+                        data.append([float(dose), sd.peakFreq, sd.avgFreq])
+                        #data.append([int(dose), sd.peakFreq, sd.avgFreq])
                         sd = None
                     elif '_LN##_' in full_dir:
                         print full_dir                    
@@ -98,15 +102,21 @@ for d in data:
 
 fig1 = plt.figure()
 plt.plot(transpose_data[0],transpose_data[1])
+print transpose_data[0], transpose_data[1]
 maximum = np.amax(transpose_data[1])
 pos_max = np.where(maximum==transpose_data[1])
 minimum = np.amin(transpose_data[1])
 pos_min = np.where(minimum==transpose_data[1])
-plt.text(transpose_data[0][pos_max],maximum+15,"MAX:%.3f"%maximum,fontsize=15)
-plt.text(transpose_data[0][pos_min],minimum-20,"MAX:%.3f"%minimum,fontsize=15)
+print "\n"
+#print maximum
+#print pos_max
+#print minimum
+#print pos_min
+plt.text(transpose_data[0][pos_max[0][0]],maximum+15,"MAX:%.3f"%maximum,fontsize=15)
+plt.text(transpose_data[0][pos_min[0][0]],minimum-20,"MAX:%.3f"%minimum,fontsize=15)
 plt.text(1,350-20,"  DIFF : %.3f[Hz]"%(maximum-minimum),fontsize=15)
 #plt.xlim(0.01,100000)
-plt.xlim(1,100000)
+plt.xlim(0.1,100000)
 plt.ylim(0,350)
 plt.xscale('log')
 plt.title('Peak Frequency')
@@ -120,7 +130,7 @@ maximum = np.amax(transpose_data[2])
 pos_max = np.where(maximum==transpose_data[2])
 minimum = np.amin(transpose_data[2])
 pos_min = np.where(minimum==transpose_data[2])
-print maximum, pos_max, minimum, pos_min
+#print maximum, pos_max, minimum, pos_min
 plt.text(transpose_data[0][pos_max[0][0]],maximum+15,"MAX:%.3f"%maximum,fontsize=15)
 plt.text(transpose_data[0][pos_min[0][0]],minimum-20,"MAX:%.3f"%minimum,fontsize=15)
 plt.text(1,350-20,"  DIFF : %.3f[Hz]"%(maximum-minimum),fontsize=15)
@@ -134,5 +144,3 @@ fig2name="%s/DoseCurve_avgFreq.png"%(target_dir)
 fig2.savefig(fig2name)
 
 plt.show()
-
-

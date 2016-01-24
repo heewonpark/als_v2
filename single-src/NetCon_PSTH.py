@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import sys
 import os.path
 
+print "::::: NetCon_PSTH.py :::::"
 BIN      = 10.0 # ms
 
 def PSTH(_FILENAME_):
