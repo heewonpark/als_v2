@@ -52,6 +52,7 @@ DOSE_V.append(10,20,50,100,200,500,1000,2000,5000,10000)
 
 //*****************************
 //Estimation Result JOB:4971691
+/*
 GKDRBAR = 0.006848
 GNABAR  = 0.107059
 GCATBAR = 0.001530
@@ -59,6 +60,19 @@ GSKBAR  = 0.321658
 GABAR   = 0.000001
 SSK     = 0.727851
 GL      = 0.000988
+*/
+
+//*****************************
+//Estimation Result JOB:4977927
+
+GKDRBAR = 0.070705
+GNABAR  = 2.772919
+GCATBAR = 0.000357
+GSKBAR  = 0.016127
+GABAR   = 0.265289
+SSK     = 0.984506
+GL      = 0.000041
+
 
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
@@ -162,8 +176,8 @@ proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
 	    nc = cells.o(j).connectVecStim(vs,pst_synapse)
 	    spvecs.append(spvec)
 	    vses.append(vs)
-	    ncs.append(nc)
-	    pst_synapses.append(pst_synapse)
+	    //ncs.append(nc)
+	    //pst_synapses.append(pst_synapse)
 	}
     }
 }
@@ -351,7 +365,7 @@ proc setRecord(){localobj sref
 
 setRecord()
 
-psection()
+//psection()
 pc.barrier()
 tstop = STOPTIME
 {pc.set_maxstep(10)}

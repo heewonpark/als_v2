@@ -427,7 +427,7 @@ obfunc connectVecStim(){local latency, id, i, seed, N, c localobj synapse, vecst
 	latency = 0
     }
     nc.delay = Delay + latency
-    //vs_ncs.append(nc)
+    vs_ncs.append(nc)
     return nc
 }
 
@@ -573,6 +573,31 @@ proc setIClamp2(){local stoptime, timestep, i, j, num_spike, flg, stim_on,start_
     stim_vec.play(&ic.amp, tvec, 1)
     //print "stim_vec"
     //stim_vec.printf()
+}
+objref mt_stim
+public mt_stim
+public printStim_Vec
+proc printStim_Vec(){local i localobj tvec1,file
+    strdef filepath
+    i = $2
+    pcid = $1
+    filepath = $s3
+    tvec1 = $o4
+    mt_stim = new Matrix()
+    file = new File()
+    
+    //tvec.printf()
+    mt_stim.resize(tvec1.size(),2)
+    mt_stim.setcol(0,tvec1)
+    mt_stim.setcol(1,stim_vec)
+    
+    //mt.printf("%5.5f\t")
+    strdef filename
+    //print "flg ",mechanism_flg, mechname[mechanism_flg].s
+    sprint(filename,"%sStimVec_%s%d.txt",filepath,typename[type].s,i) 
+    file.wopen(filename)
+    mt_stim.fprint(file,"%5.5f\t")
+    file.close()
 }
 
 func Latency(){local latency_, L0_, Lm_, lambda_, c
@@ -750,7 +775,7 @@ obfunc mkNET_nACh(){local gmax,Erev,Cmax,Cdur,Alpha,Beta
     nACh.Cdur = Cdur
     nACh.Alpha = Alpha
     nACh.Beta = Beta
-    //nAChs.append(nACh)
+    nAChs.append(nACh)
     return nACh
 }
 

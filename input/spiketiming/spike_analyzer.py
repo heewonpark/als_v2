@@ -23,7 +23,8 @@ def load_spt_data(nfiles,nstims,dose):
     for i in range(nfiles):
         #DIR = "./%ddose_%dstims/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_test/"%(dose,nstims)
-        DIR = "./%ddose_%dstims_filtering_adaptation2/"%(dose,nstims)
+        #DIR = "./%ddose_%dstims_filtering_adaptation2/"%(dose,nstims)
+        DIR = "./%ddose_%dstims_NoFilter/"%(dose,nstims)
         #DIR = "./1000dose_30stims_2000dose_30stims_filtering/"
         fn = "%sspt%03d.dat"%(DIR,i)
         #fn = "./1stim/spiketiming%d.dat"%(i)
@@ -74,8 +75,8 @@ def PSTH(nfiles,nstims,dose):
     plt.xlabel('Time[s]')
     plt.ylabel('Frequency[Hz]')
     plt.title('PSTH')
-    save_fn = "%ddose_%dstims_PSTH_adaptation2.png"%(dose,nstims)
+    save_fn = "%ddose_%dstims_PSTH_NoFilter.png"%(dose,nstims)
     plt.savefig(save_fn)
     plt.show()
 
-PSTH(1000,30,1000)
+PSTH(1000,1,10000)

@@ -1,0 +1,46 @@
+{load_file("nrngui.hoc")}
+{load_file("Stick_V2.hoc")}
+{load_file("ranstream.hoc")}
+
+if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
+if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
+if(name_declared("INTERVAL")!=5){ execute("INTERVAL=1200")}
+if(name_declared("START_TIME")!=5){ execute("START_TIME=0")}
+objref cell
+cell = new Stick()
+cell.setRN_biophys()
+cell.insertHH_RN()
+//cell.insertHH(0)
+
+strdef FileName
+//FileName = "./spt001.dat"
+FileName = "./rn_spt300Hz.dat"
+//cell.setIclamp(10,100,5)
+cell.setIClamp2(STOPTIME,dt,FileName)
+cell.setVoltageRecord()
+objref tvec 
+tvec = new Vector()
+tvec.record(&t)
+
+tstop = STOPTIME
+
+print FileName
+psection()
+run()
+
+
+strdef FPRINT_DIR
+strdef SPIKEOUT_DIR
+if(IS_SUPERCOMPUTER == 1){
+    FPRINT_DIR = "./"
+}else if(START_TIME == 0){
+    FPRINT_DIR = "../single-result/record/"
+    SPIKEOUT_DIR = "../single-result/spike/"
+}else{
+    sprint(FPRINT_DIR,"../single-result/%010d/record/",START_TIME)
+    sprint(SPIKEOUT_DIR,"../single-result/%010d/spike/",START_TIME)
+}
+cell.printStim_Vec(0,0,FPRINT_DIR,tvec)
+cell.printVoltageRecord(0,0,FPRINT_DIR,tvec)
+
+quit()
