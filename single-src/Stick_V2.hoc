@@ -407,6 +407,30 @@ obfunc connect2target(){local numSynapses localobj nc,target
     return nc
 }
 
+public connectVecStim_estimator
+obfunc connectVecStim_estimator(){local latency, id, i, seed, N, c localobj synapse, vecstim, nc
+    vecstim = $o1
+    synapse = $o2
+    
+    nc = new NetCon(vecstim, synapse)
+    nc.threshold = 0
+    nc.weight    = 1
+    if(numarg()==6){
+	dose = $3
+	id   = $4
+	i    = $5
+	N    = $6
+	c    = log10(dose)
+	seed = id*N + i
+	latency = setLatency(seed,c)
+    }else{
+	latency = 0
+    }
+    nc.delay = Delay + latency
+    //vs_ncs.append(nc)
+    return nc
+}
+
 public connectVecStim
 obfunc connectVecStim(){local latency, id, i, seed, N, c localobj synapse, vecstim, nc
     vecstim = $o1

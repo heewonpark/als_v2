@@ -1,10 +1,10 @@
 #!/bin/bash -x
 #
 #PJM --rsc-list "rscgrp=small"
-#PJM --rsc-list "node=2"
+#PJM --rsc-list "node=33"
 #PJM --mpi "shape=1"
 #PJM --mpi "proc=8"
-#PJM --rsc-list "elapse=0:10:00"
+#PJM --rsc-list "elapse=00:20:00"
 
 #PJM --stg-transfiles all
 #PJM --mpi "use-rankdir"
@@ -16,15 +16,11 @@
 #PJM --stgin "rank=0 ./single-src/* %r:../"
 #PJM --stgin "rank=0 ./src/* %r:../"
 
-#--#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
-
-#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_poisson/* %r:../input/spiketiming/5000dose_1stims_poisson/"
-#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_poisson/* %r:../input/spiketiming/1000dose_1stims_poisson/"
-#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_poisson/* %r:../input/spiketiming/100dose_1stims_poisson/"
-#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_poisson/* %r:../input/spiketiming/10dose_1stims_poisson/"
+#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering_adaptation/"
+#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
 
 #PJM --stgin "rank=0 /home/hp120263/k01793/github/neuron_kplus72/specials/sparc64/special %r:../"
 #--PJM --stgin "rank=0 /home/e16003/neuron_kplus/specials/sparc64/special %r:../"
@@ -40,12 +36,13 @@ export FLIB_CNTL_BARRIER_ERR=FALSE
 #export OMP_NUM_THREADS=16
 
 EXECFILE="./estimation_main"
-GENE_NUM="8"
+GENE_NUM="256"
 MU="-1" # -1 defaults (1/2 of GENE_NUM)
-MAXITER="5"
+MAXITER="200"
 MAXEVAL="-1"
-NUM_NRN_PROC="8"
-HOCFILE="./dose-response-estimator.hoc"
+NUM_NRN_PROC="256"
+#HOCFILE="./dose-response-estimator0125.hoc"
+HOCFILE="./dose-response-estimator0109commit.hoc"
 #NRNIV="./nrniv"
 NRNIV="./special"
 NRNOPT="{}"
@@ -61,5 +58,4 @@ MPIEXEC="mpiexec"
 # PROF="fipp -C -Ihwm,call -d ./prof -i10 -Srange"
 PROF=""
 
-#eval time ${PROF} ${MPIEXEC} ${EXECFILE} ${GENE_NUM} ${MAXITER} ${MAXEVAL} ${SETTINGFILE_SUFFIX} ${NUM_NRN_PROC} ${HOCFILE} ${NRNIV} "${NRNOPT}" ${WEIGHT_FIT} ${MU} ${INITFILE}
 time ${PROF} ${MPIEXEC} ${EXECFILE} ${GENE_NUM} ${MAXITER} ${MAXEVAL} ${SETTINGFILE_SUFFIX} ${NUM_NRN_PROC} ${HOCFILE} ${NRNIV} ${NRNOPT} ${WEIGHT_FIT} ${MU} ${INITFILE}

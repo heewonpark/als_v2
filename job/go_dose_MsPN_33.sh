@@ -16,11 +16,15 @@
 #PJM --stgin "rank=0 ./single-src/* %r:../"
 #PJM --stgin "rank=0 ./src/* %r:../"
 
-#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering_adaptation/"
-#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
+
+#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_poisson/* %r:../input/spiketiming/5000dose_1stims_poisson/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_poisson/* %r:../input/spiketiming/1000dose_1stims_poisson/"
+#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_poisson/* %r:../input/spiketiming/100dose_1stims_poisson/"
+#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_poisson/* %r:../input/spiketiming/10dose_1stims_poisson/"
 
 #PJM --stgin "rank=0 /home/hp120263/k01793/github/neuron_kplus72/specials/sparc64/special %r:../"
 #--PJM --stgin "rank=0 /home/e16003/neuron_kplus/specials/sparc64/special %r:../"

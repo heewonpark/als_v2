@@ -59,10 +59,6 @@ CURRENTSUF_DEFAULT = -1
 ELECTRODESUF_DEFAULT = -1
 STIM_INITIALIZED = 0
 
-//---------------------------------------
-// SET GLOBAL PARAMETERS
-STOPTIME = 5000
-
 strdef FILENAME_PRINT
 FILENAME_PRINT = "voltage.dat"
 
@@ -228,42 +224,6 @@ proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
 	pst_synapse = cells.o(0).mkNET_nACh(NACH_GMAX)
 	//nc = cells.o(j).connectVecStim(vs,pst_synapse)
 	nc = cells.o(0).connectVecStim(vs,pst_synapse,dose,pc.id,i,NRN)
-	spvecs.append(spvec)
-	vses.append(vs)
-	nclist.append(nc)
-	pst_synapses.append(pst_synapse)
-    }
-    //}
-}
-
-proc mkArtificial_RN_poisson(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
-    strdef _SPT_DIR_,_SPT_NAME_
-    nclist.remove_all()
-    spvecs.remove_all()
-    vses.remove_all()
-    pst_synapses.remove_all()
-    
-    dose = $1
-    //if(pc.id==0){printf("mkArtificial_RN()\n")}
-    //print getcwd()
-    //for(j=0; j<cells.count(); j=j+1){
-    if(IS_SUPERCOMPUTER == 1){
-	sprint(_SPT_DIR_,"./input/spiketiming/%ddose_1stims_poisson/",dose)   
-    }else if(IS_SUPERCOMPUTER == 0){
-	sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_poisson/",dose)    
-    }else{
-	printf("*** IS_SUPERCOMPUTER : %d [Value Error] ***\n",IS_SUPTERCOMPUTER)
-	return 
-    }
-    
-    for(i=0; i<NRN; i=i+1){
-	sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
-	spvec = readSpikeTiming_poisson(_SPT_NAME_)
-	vs    = setVecStim(spvec)
-	//pst_synapse = cells.o(j).mkNET_nACh(NACH_GMAX)
-	pst_synapse = cells.o(0).mkNET_nACh(NACH_GMAX)
-
-	nc = cells.o(0).connectVecStim_estimator(vs,pst_synapse)// No Latency
 	spvecs.append(spvec)
 	vses.append(vs)
 	nclist.append(nc)
@@ -532,9 +492,8 @@ proc main() {\
     if(USE_TARGETPARAMS==1) {
 	updateParams(vec, 0)
     }
-    print "+set_world_comm()"
+    
     {pc.set_world_comm()}
-    print "+mkCells()"
     mkCells(NCELLS)
     initModel(NCELLS)
         
@@ -542,8 +501,7 @@ proc main() {\
     vses	= new List()
     nclist	= new List()
     pst_synapses= new List()
-    //mkArtificial_RN(10)
-    mkArtificial_RN_poisson(10)
+    mkArtificial_RN(10)
     //setStimVec()
     //setIClamp(0)
     //setSpikeRecord()
@@ -551,7 +509,7 @@ proc main() {\
     //setCurrentRecord()
 
     setSpikeRecord()
-    print "+set_maxstep()"
+
     tstop = STOPTIME
     pc.set_maxstep(10)
     stdinit()
@@ -563,7 +521,6 @@ proc main() {\
     {pc.set_parent_comm()}
     pc.barrier()
     while(1) {
-	if(pc.id==0){printf("++ WHILE LOOP\n")}
 	{pc.set_parent_comm()}
 	
 	rcv_pop_vec = new Vector()
@@ -573,7 +530,6 @@ proc main() {\
 	{pc.set_world_comm()}
 
 	for(i = 0; i < NUM_OF_POP_PER_PROC; i+=1) {
-	    //if(pc.id==0){printf("+++ RUN FOR EACH CELL[%d]\n",i)}
 	    fitness = 0.0
 	    updateParams(rcv_pop_vec, i*DIM_CMAES)
 	    //for(k = 0; k < NUM_OF_TARGETFILE; k+=1) {
@@ -581,15 +537,10 @@ proc main() {\
 	    Simul_spikes = new Vector()
 	    Simul_dur    = new Vector()
 	    for(k = 0; k < DOSE_V.size(); k+=1) {
-		//if(pc.id==0){printf("++++RUN FOR EACH DOSE[%d]\n",k)}
-		mkArtificial_RN_poisson(DOSE_V.x[k])		
 		initModel(NCELLS)
-		//mkArtificial_RN(DOSE_V.x[k])
-		
+		mkArtificial_RN(DOSE_V.x[k])
 		pc.set_maxstep(10)
-		//if(pc.id==0){printf("++++stdinit()\n")}
 		stdinit()
-		//if(pc.id==0){printf("++++pc.psolve(%d)\n",tstop)}
 		pc.psolve(tstop)
 		peak    = CalcPeakISF()
 		nspikes = getNumSpikes()
@@ -611,7 +562,7 @@ proc main() {\
 	    fitness += LeastSquares(Simul_peak, PEAKISF_V)*2
 	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
 	    fitness += LeastSquares(Simul_dur, DURATION_V)
-	    send_fit_vec.x(i) = fitness*100.0
+	    send_fit_vec.x(i) = fitness*10.0
 	}
 	{pc.set_parent_comm()}
 	pc.gather_d(send_fit_vec, nullvec, NUM_OF_POP_PER_PROC, root)

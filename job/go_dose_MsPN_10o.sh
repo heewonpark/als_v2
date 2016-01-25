@@ -10,16 +10,18 @@
 #PJM --mpi "use-rankdir"
 
 #PJM --stgin-basedir /home/hp120263/k01793/code/al_V2/
-#PJM --stgin "rank=* /home/hp120263/k01793/github/estimator_park/estimation/bin/estimation_main %r:./"
-#PJM --stgin "rank=* /home/hp120263/k01793/github/estimator_park/estimation/src/*.par %r:./"
+#-#PJM --stgin "rank=* /home/hp120263/k01793/github/estimator_park/estimation/bin/estimation_main %r:./"
+#PJM --stgin "rank=* /home/hp120263/k01793/github/goto_estimator/estimation/bin/estimation_main %r:./"
+#-#PJM --stgin "rank=* /home/hp120263/k01793/github/estimator_park/estimation/src/*.par %r:./"
+#PJM --stgin "rank=* /home/hp120263/k01793/github/goto_estimator/estimation/src/*.par %r:./"
 #PJM --stgin "rank=* ./input/estimation_data/* %r:./"
 #PJM --stgin "rank=0 ./single-src/* %r:../"
 #PJM --stgin "rank=0 ./src/* %r:../"
 
-#--#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
+##PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
+##PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
+##PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
+##PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
 
 #PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_poisson/* %r:../input/spiketiming/5000dose_1stims_poisson/"
 #PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_poisson/* %r:../input/spiketiming/1000dose_1stims_poisson/"
@@ -45,6 +47,8 @@ MU="-1" # -1 defaults (1/2 of GENE_NUM)
 MAXITER="5"
 MAXEVAL="-1"
 NUM_NRN_PROC="8"
+#HOCFILE="./dose-response-estimator0110.hoc"
+#HOCFILE="./dose-response-estimator0109commit.hoc"
 HOCFILE="./dose-response-estimator.hoc"
 #NRNIV="./nrniv"
 NRNIV="./special"
