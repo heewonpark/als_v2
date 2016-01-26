@@ -1,0 +1,1984 @@
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 655788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656778764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656778764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656778764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656798764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656768764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656778764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656788764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:03:13 2016
+
+ N 7
+ initialX 7
+   5.35    4.66    4.04    4.07     6.4
+   3.84    5.31 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656778764
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656758064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656708064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656758064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656758064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 655748064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656748064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656728064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656738064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
+
+# Read from  at Mon Jan 25 20:10:00 2016
+
+ N 7
+ initialX 7
+   4.78    5.13    4.73     5.2    6.99
+   3.32    5.04 
+ initialStandardDeviations 7
+    2.5     2.5     2.5     2.5     2.5
+    2.5     2.5 
+ seed 656718064
+ stopMaxFunEvals 51200
+ stopMaxIter 200
+ stopFitness
+ stopTolFun 1e-12
+ stopTolFunHist 1e-13
+ stopTolX 0
+ stopTolUpXFactor 1000
+ lambda 256
+ mu 1
+ weights   log
+ cs 0.272727
+ damps 1.23773
+ ccumcov 0.363636
+ mucov 1
+ ccov 0.0282491
+ diagonalCovarianceMatrix 0
+ updatecov 0.505705
+ maxTimeFractionForEigendecompostion 0.2
+ resume                                                        _no_
+
