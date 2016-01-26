@@ -181,7 +181,7 @@ def PSTH_poisson(nfiles,nstims,dose):
         step_freq[int((s)/BIN)]+=float(1/BIN/nfiles)
 
     X = np.linspace(0,8,100)
-    fig = plt.figure(figsize=(10,8),dpi=400)
+    fig = plt.figure(figsize=(10,8),dpi=200)
     #plt.rcParams['font.family'] = 'Times New Roman' #全体のフォントを設定
     plt.rcParams['font.size'] = 20 #フォントサイズを設定
     #plt.rcParams['axes.linewidth'] = 1.5 #軸の太さを設定。目盛りは変わらない
@@ -203,4 +203,4 @@ def PSTH_poisson(nfiles,nstims,dose):
     plt.savefig(save_fn)
     plt.show()
 
-PSTH_poisson(1000,1,10)
+PSTH_poisson(1000,30,2000)

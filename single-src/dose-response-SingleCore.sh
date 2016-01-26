@@ -20,11 +20,11 @@ NRNOPT=\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c NCELL=10"\
-" -c NRN=350"\
+" -c NRN=100"\
 " -c CELL_TYPE=1"\
 " -c WEIGHT_RNtoPN=0.50"\
 " -c WEIGHT_RNtoLN=0.02"\
-" -c PN_NACH_GMAX=0.39"\
+" -c PN_NACH_GMAX=0.3"\
 " -c RND_SEED=0"
 
 MPIEXEC="mpiexec -n 8"

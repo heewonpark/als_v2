@@ -81,7 +81,7 @@ def mean_frequency_response_curve():
     plt.savefig("mean-frequency-response_small.png")
     plt.show()
 
-mean_frequency_response_curve()
+#mean_frequency_response_curve()
 def uniform():
     return np.random.rand()
 
@@ -110,6 +110,32 @@ def poisson_model(_FILE_NAME_,dose):
         if(uniform()<=frequency(t,dose,tau)*dt/1000.0):
             nspike.append(t)
             spt.append(t/1000.0)
+    np.savetxt(_FILE_NAME_,spt,footer="%d"%len(spt),fmt='%f',comments='')
+
+def poisson_model_multi(_FILE_NAME_,dose,nstim):
+    dt = 0.025
+    T_max = 1200
+    T=frange(0, T_max, dt)
+    T = np.array(T)
+
+    Vorn=[]
+    isf =[]
+    T_isf=[]
+    t_tmp=False
+    t_isf =0.0
+    
+    psth   = []
+    t_psth = []
+    nspike=[]
+    spt = []
+    flg = 0
+    tau = getTau(dose)
+    for n in range(nstim):
+        for t in T:
+            if(uniform()<=frequency(t,dose,tau)*dt/1000.0):
+                tt = t + n*T_max
+                nspike.append(tt)
+                spt.append(tt/1000.0)
     np.savetxt(_FILE_NAME_,spt,footer="%d"%len(spt),fmt='%f',comments='')
 #poisson_model()
 

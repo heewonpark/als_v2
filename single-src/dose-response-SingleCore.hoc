@@ -36,7 +36,6 @@ if(pc.id==0){
     printf("********************************************************\n")
 }
 
-
 objref cells, nclist
 
 proc mkNetwork(){
@@ -127,6 +126,27 @@ SSK    =0.888541
 GL     =0.000013
 */
 
+//*****************************
+//Estimation Result JOB:5021196
+//go_dose_MsPN_17
+GKDRBAR=0.067551
+GNABAR =2.006556
+GCATBAR=0.000023
+GSKBAR =0.050448
+GABAR  =0.053777
+SSK    =0.958038
+GL     =0.000030
+
+
+if(pc.id==0){
+    printf("********************************************************\n")
+    printf("* PARAMETERS\n")
+    printf("* GKDRBAR=%d\tGNABAR=%d\tGCATBAR=%d\tGSKBAR=%d\n",GKDRBAR,GNABAR,GCATBAR,GSKBAR)
+    printf("* GABAR=%d\tSSK=%d\tGL=%d\n",GABAR,SSK,GL)
+    printf("********************************************************\n")
+}
+
+
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
     if(pc.id==0){
@@ -145,7 +165,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
 	    
-	    /*
+
 	    cell.soma{
 		gnabar_MsPN  = GNABAR
 		gkdrbar_MsPN = GKDRBAR
@@ -155,7 +175,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 		gAbar_MsPN   = GABAR
 		S_sk_MsPN    = SSK
 	    }
-	    */
+
 	    //cell.soma.gkcabar_GPeA = 0
 	    cell.setType(1)
 	    //cell.setPN_biophys()
