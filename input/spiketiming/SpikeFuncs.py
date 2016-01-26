@@ -47,6 +47,25 @@ def frequency(t, dose, tau):
         freq = exp_single(t, peak_freq,peak_time,tau_fall)
     return freq
 
+
+def orn_adaptation(n):
+    tau = 1
+    #return 0.5*np.exp(-t/tau)+0.5
+    #return 0.3*np.exp(-t/tau)+0.7
+    #return 0.9*np.exp(-t/tau)+0.1
+    return 0.5*np.exp(-n/tau)+0.5
+
+def frequency_adaption(t, dose, tau, N):
+    peak_freq = Michaelis_Menten(dose)*orn_adaptation(N)
+    peak_time = 250 # ms 
+    if(t<=peak_time):
+        tau_rise = tau[0]
+        freq = exp_single(t, peak_freq,peak_time,tau_rise)
+    elif(t>peak_time):
+        tau_fall = tau[1]
+        freq = exp_single(t, peak_freq,peak_time,tau_fall)
+    return freq
+
 def mean_frequency_response_curve():
     time=np.arange(0,1000,1)
 
@@ -133,6 +152,32 @@ def poisson_model_multi(_FILE_NAME_,dose,nstim):
     for n in range(nstim):
         for t in T:
             if(uniform()<=frequency(t,dose,tau)*dt/1000.0):
+                tt = t + n*T_max
+                nspike.append(tt)
+                spt.append(tt/1000.0)
+    np.savetxt(_FILE_NAME_,spt,footer="%d"%len(spt),fmt='%f',comments='')
+
+def poisson_model_multi_adaption(_FILE_NAME_,dose,nstim):
+    dt = 0.025
+    T_max = 1200
+    T=frange(0, T_max, dt)
+    T = np.array(T)
+
+    Vorn=[]
+    isf =[]
+    T_isf=[]
+    t_tmp=False
+    t_isf =0.0
+    
+    psth   = []
+    t_psth = []
+    nspike=[]
+    spt = []
+    flg = 0
+    tau = getTau(dose)
+    for n in range(nstim):
+        for t in T:
+            if(uniform()<=frequency_adaption(t,dose,tau,n)*dt/1000.0):
                 tt = t + n*T_max
                 nspike.append(tt)
                 spt.append(tt/1000.0)
