@@ -69,7 +69,8 @@ def load_spt_data(nfiles,nstims,dose):
     
     for i in range(nfiles):
         #DIR = "./%ddose_%dstims/"%(dose,nstims)
-        DIR = "./%ddose_%dstims_poisson/"%(dose,nstims)
+        #DIR = "./%ddose_%dstims_poisson/"%(dose,nstims)
+        DIR = "./%ddose_%dstims_poisson_adaption/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_test/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_filtering_adaptation2/"%(dose,nstims)
         #DIR = "./%ddose_%dstims_filtering/"%(dose,nstims)
@@ -199,8 +200,9 @@ def PSTH_poisson(nfiles,nstims,dose):
     plt.ylabel('Frequency[Hz]',fontsize=25)
     plt.title('PSTH')
     plt.legend(fontsize=20)
-    save_fn = "%ddose_%dstims_PSTH_poisson.png"%(dose,nstims)
+    #save_fn = "%ddose_%dstims_PSTH_poisson.png"%(dose,nstims)
+    save_fn = "%ddose_%dstims_PSTH_poisson_adaptation.png"%(dose,nstims)
     plt.savefig(save_fn)
     plt.show()
 
-PSTH_poisson(1000,30,2000)
+PSTH_poisson(1000,30,1000)
