@@ -60,7 +60,7 @@ elif len(sys.argv) is 2:
                         data.append([float(dose), sd.peakFreq, sd.avgFreq])
                         #data.append([int(dose), sd.peakFreq, sd.avgFreq])
                         sd = None
-                    elif '_LN##_' in full_dir:
+                    elif '_LN_' in full_dir:
                         print full_dir                    
                         result = pattern2.search(fname)
                         freq=result.group('dose')

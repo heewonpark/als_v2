@@ -16,15 +16,16 @@ NRNIV="../specials/x86_64/special -mpi"
 HOC_NAME="./dose-response-SingleCore.hoc"
 
 NRNOPT=\
-" -c STOPTIME=2500"\
+" -c STOPTIME=1000"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c NCELL=10"\
-" -c NRN=100"\
-" -c CELL_TYPE=1"\
+" -c NRN=350"\
+" -c CELL_TYPE=2"\
 " -c WEIGHT_RNtoPN=0.50"\
 " -c WEIGHT_RNtoLN=0.02"\
 " -c PN_NACH_GMAX=0.3"\
+" -c LN_NACH_GMAX=0.10"\
 " -c RND_SEED=0"
 
 MPIEXEC="mpiexec -n 8"

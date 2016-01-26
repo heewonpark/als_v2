@@ -13,35 +13,37 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./main.hoc"
+HOC_NAME="./main-local.hoc"
+
 
 NRNOPT=\
-" -c STOPTIME=500"\
+" -c STOPTIME=6000"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
 " -c GABAA_ON=1"\
 " -c PTOL_ON=1"\
-" -c NSYNAPSE=100"\
+" -c NSYNAPSE=350"\
 " -c NPN=10"\
 " -c NLN=70"\
-" -c NRN=200"\
-" -c WEIGHT_RNtoPN=0.04"\
-" -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.05"\
-" -c GABAA_LTOL=0.25"\
-" -c GABAB_LTOP=7.25"\
-" -c GABAB_LTOL=0.05"\
-" -c DOSE=1000100"\
+" -c NRN=0"\
+" -c GABAA_LTOP=18.0"\
+" -c GABAA_LTOL=0.0"\
+" -c GABAB_LTOP=22.0"\
+" -c GABAB_LTOL=0.7"\
+" -c PN_NACH_GMAX=0.38"\
+" -c LN_NACH_GMAX=0.10"\
+" -c PtoL_NACH_GMAX=0.1"\
+" -c DOSE=1000"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.0"\
 " -c RND_SEED=0"\
 " -c JOBID=0"\
+" -c RNtoLN_Latency=150"\
 " -c VOLTAGERECORD=1"\
-" -c CURRENTRECORD=1"
+" -c CURRENTRECORD=0"
 
 
 MPIEXEC="mpiexec -n 8"
@@ -52,5 +54,5 @@ time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
 #python ../src/drawISF.py $SPIKE_DIR
-#python ../src/spike_analyze.py $SPIKE_DIR
-#python ../src/whole_in_one_spike.py $SPIKE_DIR
+python ../src/spike_analyze.py $SPIKE_DIR
+python ../src/whole_in_one_spike.py $SPIKE_DIR
