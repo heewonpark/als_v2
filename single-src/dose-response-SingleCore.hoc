@@ -87,9 +87,11 @@ SSK    = 0.966972
 GL     = 0.000000
 */
 
+
 //*****************************
 //Estimation Result JOB:4978192
 // Latecy function used.
+/*
 GKDRBAR=0.009439
 GNABAR =0.179608
 GCATBAR=0.000170
@@ -97,6 +99,33 @@ GSKBAR =0.236232
 GABAR  =0.252766
 SSK    =0.799873
 GL     =0.000011
+*/
+
+//*****************************
+//Estimation Result JOB:5020253
+//go_dose_MsPN_33
+/*
+GKDRBAR=0.014040
+GNABAR =0.467211
+GCATBAR=0.000008
+GSKBAR =0.305221
+GABAR  =0.049590
+SSK    =0.938101
+GL     =0.000049
+*/
+
+//*****************************
+//Estimation Result JOB:5020307
+//go_dose_MsPN_17
+/*
+GKDRBAR=0.077671
+GNABAR =2.487467
+GCATBAR=0.000037
+GSKBAR =0.322393
+GABAR  =0.053374
+SSK    =0.888541
+GL     =0.000013
+*/
 
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
@@ -116,6 +145,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
 	    
+	    /*
 	    cell.soma{
 		gnabar_MsPN  = GNABAR
 		gkdrbar_MsPN = GKDRBAR
@@ -125,7 +155,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 		gAbar_MsPN   = GABAR
 		S_sk_MsPN    = SSK
 	    }
-	    
+	    */
 	    //cell.soma.gkcabar_GPeA = 0
 	    cell.setType(1)
 	    //cell.setPN_biophys()
@@ -325,8 +355,8 @@ proc mkArtificial_RN_Single_Post_Syanpse(){local i, j, dose, gid localobj spvec,
 }
 
 proc mkStim(){
-    mkArtificial_RN()
-    //mkArtificial_RN_poisson()
+    //mkArtificial_RN()
+    mkArtificial_RN_poisson()
     //mkArtificial_RN_yuqiao()
     //mkArtificial_RN_Single_Post_Syanpse()
 }
@@ -422,7 +452,7 @@ proc setRecord(){localobj sref
     tvec.record(&t)
     setSpikeRecord()
     //    setVoltageRecord()
-    setCurrentRecord()
+    //setCurrentRecord()
     setNCRecord()
     //cells.o(0).soma sref = new SectionRef()
     mkRecorder()
@@ -498,7 +528,7 @@ proc mkPrinter(){local id,i localobj tvec,mt, fobj
 
 proc setPrinter(){
     printSpikeRecord()
-    printCurrentRecord()
+    //printCurrentRecord()
     //printVoltageRecord()
     printNCRecord()
     mkPrinter(FPRINT_DIR,tvec)

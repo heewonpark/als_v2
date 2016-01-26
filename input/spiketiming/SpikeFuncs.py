@@ -48,7 +48,7 @@ def frequency(t, dose, tau):
     return freq
 
 def mean_frequency_response_curve():
-    time=np.arange(-200,1000,1)
+    time=np.arange(0,1000,1)
 
     f10 = [frequency(t,10,getTau(10)) for t in time]
     f100 = [frequency(t,100,getTau(100)) for t in time]
@@ -57,19 +57,31 @@ def mean_frequency_response_curve():
     f5000 = [frequency(t,5000,getTau(5000)) for t in time]
     f10000 = [frequency(t,10000,getTau(10000)) for t in time]
 
-    fig1 = plt.figure()
-    plt.plot(time,f10)
-    plt.plot(time,f100)
-    plt.plot(time,f1000)
-    plt.plot(time,f2000)
-    plt.plot(time,f5000)
-    plt.plot(time,f10000)
-    
-    plt.savefig("mean-frequency-response.png")
+    #fig1 = plt.figure()
+    fig1 = plt.figure(figsize=(4,3),dpi=250)
+    fig1.subplots_adjust(bottom=0.2)
+    ax = fig1.add_subplot(111)
 
+    #plt.rcParams['font.family'] = 'Times New Roman' #全体のフォントを設定
+    plt.rcParams['font.size'] = 10 #フォントサイズを設定
+    #plt.rcParams['axes.linewidth'] = 1.5 #軸の太さを設定。目盛りは変わらない
+    #plt.rcParams['xtics.major.size'] = 10 #x軸目盛りの長さ
+    #plt.rcParams['xtics.major.width'] = 1.5 #x軸目盛りの太さ
+    plt.plot(time,f10,label="10ng")
+    plt.plot(time,f100,label="100ng")
+    plt.plot(time,f1000,label="1000ng")
+    plt.plot(time,f2000,label="2000ng")
+    plt.plot(time,f5000,label="5000ng")
+    plt.plot(time,f10000,label="10000ng")
+    #plt.legend()
+    plt.legend(frameon=False)
+    plt.ylabel("Frequency [Hz]")
+    plt.xlabel("Time [ms]")
+    #plt.savefig("mean-frequency-response.png")
+    plt.savefig("mean-frequency-response_small.png")
     plt.show()
 
-#mean_frequency_response_curve()
+mean_frequency_response_curve()
 def uniform():
     return np.random.rand()
 
