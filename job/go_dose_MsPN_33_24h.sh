@@ -4,7 +4,7 @@
 #PJM --rsc-list "node=33"
 #PJM --mpi "shape=1"
 #PJM --mpi "proc=8"
-#PJM --rsc-list "elapse=12:00:00"
+#PJM --rsc-list "elapse=24:00:00"
 
 #PJM --stg-transfiles all
 #PJM --mpi "use-rankdir"
@@ -42,7 +42,7 @@ export FLIB_CNTL_BARRIER_ERR=FALSE
 EXECFILE="./estimation_main"
 GENE_NUM="256"
 MU="-1" # -1 defaults (1/2 of GENE_NUM)
-MAXITER="100"
+MAXITER="50"
 MAXEVAL="-1"
 NUM_NRN_PROC="256"
 HOCFILE="./dose-response-estimator.hoc"

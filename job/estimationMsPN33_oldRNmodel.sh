@@ -16,15 +16,11 @@
 #PJM --stgin "rank=0 ./single-src/* %r:../"
 #PJM --stgin "rank=0 ./src/* %r:../"
 
-#--#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
-#--#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
-
-#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_poisson/* %r:../input/spiketiming/5000dose_1stims_poisson/"
-#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_poisson/* %r:../input/spiketiming/1000dose_1stims_poisson/"
-#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_poisson/* %r:../input/spiketiming/100dose_1stims_poisson/"
-#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_poisson/* %r:../input/spiketiming/10dose_1stims_poisson/"
+#PJM --stgin "rank=* ./input/spiketiming/5000dose_1stims_filtering/* %r:../input/spiketiming/5000dose_1stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_1stims_filtering/* %r:../input/spiketiming/1000dose_1stims_filtering_adaptation/"
+#PJM --stgin "rank=* ./input/spiketiming/100dose_1stims_filtering/* %r:../input/spiketiming/100dose_1stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/10dose_1stims_filtering/* %r:../input/spiketiming/10dose_1stims_filtering/"
 
 #PJM --stgin "rank=0 /home/hp120263/k01793/github/neuron_kplus72/specials/sparc64/special %r:../"
 #--PJM --stgin "rank=0 /home/e16003/neuron_kplus/specials/sparc64/special %r:../"
@@ -42,10 +38,10 @@ export FLIB_CNTL_BARRIER_ERR=FALSE
 EXECFILE="./estimation_main"
 GENE_NUM="256"
 MU="-1" # -1 defaults (1/2 of GENE_NUM)
-MAXITER="100"
+MAXITER="10"
 MAXEVAL="-1"
 NUM_NRN_PROC="256"
-HOCFILE="./dose-response-estimator.hoc"
+HOCFILE="./dose-response-estimator-oldRNmodel.hoc"
 #NRNIV="./nrniv"
 NRNIV="./special"
 NRNOPT="{}"

@@ -546,8 +546,8 @@ proc main() {\
     vses	= new List()
     nclist	= new List()
     pst_synapses= new List()
-    //mkArtificial_RN(10)
-    mkArtificial_RN_poisson(10)
+    mkArtificial_RN(10)
+    //mkArtificial_RN_poisson(10)
     //setStimVec()
     //setIClamp(0)
     //setSpikeRecord()
@@ -586,9 +586,10 @@ proc main() {\
 	    Simul_dur    = new Vector()
 	    for(k = 0; k < DOSE_V.size(); k+=1) {
 		//if(pc.id==0){printf("++++RUN FOR EACH DOSE[%d]\n",k)}
-		mkArtificial_RN_poisson(DOSE_V.x[k])		
+		//mkArtificial_RN_poisson(DOSE_V.x[k])		
+		mkArtificial_RN(DOSE_V.x[k])		
 		initModel(NCELLS)
-		//mkArtificial_RN(DOSE_V.x[k])
+		
 	
 		pc.set_maxstep(10)
 		//if(pc.id==0){printf("++++stdinit()\n")}
@@ -615,7 +616,7 @@ proc main() {\
 	    fitness += LeastSquares(Simul_peak, PEAKISF_V)*2
 	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
 	    fitness += LeastSquares(Simul_dur, DURATION_V)
-	    send_fit_vec.x(i) = fitness*100.0
+	    send_fit_vec.x(i) = fitness*10.0
 	}
 	{pc.set_parent_comm()}
 	pc.gather_d(send_fit_vec, nullvec, NUM_OF_POP_PER_PROC, root)
