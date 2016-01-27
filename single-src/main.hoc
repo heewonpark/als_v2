@@ -1,7 +1,7 @@
 {load_file("nrngui.hoc")}
 {load_file("Stick_V2.hoc")}
 {load_file("ranstream.hoc")}
-
+{load_file("ReadSPT.hoc")}
 //************************************************
 if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
 if(name_declared("IS_SUPERCOMPUTER")!=5){ execute("IS_SUPERCOMPUTER=0")}
@@ -31,6 +31,11 @@ if(name_declared("JOBID")!=5){ execute("JOBID=0")}
 if(name_declared("JOBBB")!=5){ execute("JOBBB=0")}
 if(name_declared("VOLTAGERECORD")!=5){ execute("VOLTAGERECORD=0")}
 if(name_declared("CURRENTRECORD")!=5){ execute("CURRENTRECORD=0")}
+
+if(name_declared("PN_NACH_GMAX")!=5){ execute("PN_NACH_GMAX=0.3")}
+if(name_declared("LN_NACH_GMAX")!=5){ execute("LN_NACH_GMAX=0.3")}
+if(name_declared("LN_NACH_GMAX")!=5){ execute("PtoL_NACH_GMAX=0.3")}
+if(name_declared("RNtoLN_Latency")!=5){ execute("RNtoLN_Latency=100")}
 
 objref pc
 pc = new ParallelContext()
@@ -136,8 +141,11 @@ if(pc.id==0){
     printf("SPIKE TIMING: %s\n",spt_file_dir)
     printf("PROBALITY LTOP: %f,PROBALITY LTOL: %f, RND_SEED: %d\n",PROB_LTOP,PROB_LTOL,RND_SEED)
     printf("PTOL_ON: %d, PROBALITY PTOL: %f, WEIGHT PTOL : %f\n",PTOL_ON,PROB_PTOL,WEIGHT_PTOL)
+    printf("PN_NACH_GMAX: %f, LN_NACH_GMAX: %f, PtoL_NACH_GMAX:%f\n",PN_NACH_GMAX, LN_NACH_GMAX,PtoL_NACH_GMAX)
+    printf("RNtoLN_Latency : %f\n",RNtoLN_Latency)
     printf("===================================================================\n")
 }
+
 objref cells, nclist
 objref ranlist
 proc mkNetwork(){
@@ -158,10 +166,12 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
     for(i=pc.id; i<ncell; i+=pc.nhost){
 	cell = new Stick()
 	//cells.append(cell)
+	cell.Delay = 1
 	if(i < NPN){
 	    //printf("MAKE PN:%d[%d]\n",i,pc.id)
 	    //cell.insertFukuda(i)
-	    cell.insertFukuda_tunned(i)
+	    //cell.insertFukuda_tunned(i)
+	    cell.insertMsPN(1)
 	    cell.setGID(i)
 	    cell.setType(1)
 	    //cell.setPN_biophys()
@@ -196,8 +206,8 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
 proc mkConnections(){
     if(pc.id==0)printf("mkConnections()\n")
     // connect RN to LN and PN
-    ConnectWithRN()
-    
+    //ConnectWithRN()
+    ConnectWithVecStim(DOSE,NSTIM)
     // connect LN and PN
     ConnectNtoN_NET_GABA()
 }
@@ -245,6 +255,79 @@ proc ConnectWithRN(){local i, j, base_gid, this_gid localobj syn, nc, nil, rnd
 	    nc.delay  = 1.0
 	    nc.weight = WEIGHT_RNtoLN
 	    rn_nclist.append(nc)
+	}
+    }
+}
+
+
+obfunc setVecStim(){localobj vs, spvec
+    spvec = $o1
+    vs = new VecStim(0.5)
+    vs.play(spvec)
+    return vs
+}
+
+objref spvecs, vses, ncs
+proc ConnectWithVecStim(){local i, j, base_gid, this_gid,dose,nstim localobj syn, nc, nil, rnd, spvec, vs, pst_synapse
+    if(pc.id==0)printf("ConnectWithVecStim()\n")
+    rnd = new Random(RND_SEED+pc.id)
+    rnd.uniform(0,1000)
+    base_gid = 100000
+    synlist = new List()
+
+    spvecs = new List()
+    vses   = new List()
+    ncs    = new List()
+    synlist = new List()
+    strdef _SPT_DIR_
+    strdef _SPT_NAME_
+    
+    dose = $1
+    nstim= $2
+    //--------------------------------------
+    // MAKE PRESYNAPSE
+    // No real RN
+    
+    //--------------------------------------
+    // MAKE POSTSYNAPSE
+
+    for i=0, PNs.count-1{
+	for j=0, NSYNAPSE-1{
+	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_30stims_filtering/",dose)
+	    if(dose==1000){
+		sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson_adaption/",dose,nstim)
+	    }else{
+		sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson/",dose,nstim)
+	    }
+	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,int(rnd.repick()))
+	    
+	    spvec = readSpikeTiming_poisson(_SPT_NAME_)
+	    //if(i==0)spvec.printf()
+	    vs    = setVecStim(spvec)
+	    pst_synapse = PNs.o(i).mkNET_nACh(PN_NACH_GMAX)
+	    nc = PNs.o(i).connectVecStim(vs,pst_synapse)
+	    spvecs.append(spvec)
+	    vses.append(vs)
+	    ncs.append(nc)
+	    synlist.append(pst_synapse)
+	}
+    }
+    
+    for i=0, LNs.count-1{
+	for j=0, NSYNAPSE-1{
+	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_30stims_filtering/",dose)
+	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson/",dose,nstim)
+	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,int(rnd.repick()))
+	    
+	    spvec = readSpikeTiming_poisson(_SPT_NAME_)
+	    //if(i==0)spvec.printf()
+	    vs    = setVecStim(spvec)
+	    pst_synapse = LNs.o(i).mkNET_nACh(LN_NACH_GMAX)
+	    nc = LNs.o(i).connectVecStim_fixedLatency(vs,pst_synapse,RNtoLN_Latency)
+	    spvecs.append(spvec)
+	    vses.append(vs)
+	    ncs.append(nc)
+	    synlist.append(pst_synapse)
 	}
     }
 }
@@ -371,11 +454,12 @@ proc ConnectNtoN_NET_GABA(){\
 		//if(((LNs.o(i).getGID()+j)%2==0)||(j==0)){
 		//if((LNs.o(i).getGID()+j)%2==0){
 		if(vec_exists(rndvec,j)==1){
-		    syn = LNs.o(i).setExp2Syn(0)
+		    syn = LNs.o(i).mkNET_nACh(PtoL_NACH_GMAX)
+		    //syn = LNs.o(i).setExp2Syn(0)
 		    src_gid = base_gid+j
 		    nc = pc.gid_connect(src_gid,syn)
 		    nc.delay  = 1.0
-		    nc.weight = WEIGHT_PTOL
+		    //nc.weight = WEIGHT_PTOL
 		    pn_nclist.append(nc)
 		    //printf("[EXP2SYN] gid: %d, LN's gid: %d, i: %d, j: %d\n",src_gid,LNs.o(i).getGID(),i,j) 
 		}
@@ -499,7 +583,7 @@ proc mkIclamp_PN(){local i localobj ic
 }
 
 proc mkStim(){
-    mkSerialStim()
+    //mkSerialStim()
     //mkIclamp_LN()
     //mkIclamp_PN()
     //mkstim_random()
@@ -510,10 +594,12 @@ mkStim()
 proc setVoltageRecord(){local i
     if(pc.id==0)printf("setVoltageRecord()\n")
     for i = 0, PNs.count()-1{
-	PNs.object(i).setVoltageRecord()
+	if(pc.id%5==0){
+	    PNs.object(i).setVoltageRecord()
+	}
     }
     for i = 0, LNs.count()-1{
-	if(pc.id%10==0){
+	if(pc.id%20==0){
 	    LNs.object(i).setVoltageRecord()
 	}
     }
@@ -545,7 +631,9 @@ proc setCurrentRecord_GABA(){local i
     if(pc.id==0)printf("setCurrentRecord_GABA()\n")
     for i = 0, PNs.count -1{
 	//printf("[PN]setCurrentRecord_GABA():%d\n",i)
-	PNs.object(i).setGABACurrentRecord()
+	if(pc.id%5==0){
+	    PNs.object(i).setGABACurrentRecord()
+	}
     }
     for i = 0, LNs.count -1{
 	//printf("[LN]setCurrentRecord_GABA():%d\n",i)
@@ -617,10 +705,12 @@ proc printSpikeRecord(){local i
 proc printVoltageRecord(){
     if(pc.id==0)printf("printVoltageRecord()\n")
     for i = 0, PNs.count -1{
-	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR,TVEC)
+	if(pc.id%5==0){
+	    PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR,TVEC)
+	}
     }
     for i = 0, LNs.count -1{
-	if(pc.id%10==0){
+	if(pc.id%20==0){
 	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}
     }
@@ -635,7 +725,9 @@ proc printCurrentRecord_GABA(){local i
     if(pc.id==0)printf("printCurrentRecord_GABA()\n")
     for i = 0, PNs.count -1{
 	//printf("[PN]printCurrentRecord_GABA():%d, %d\n",i,PNs.o(i).getGID())
-	PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR,TVEC)
+	if(pc.id%5==0){	
+	    PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR,TVEC)
+	}
     }
     for i = 0, LNs.count -1{
 	if(pc.id%10==0){

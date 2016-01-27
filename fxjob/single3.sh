@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #PJM --rsc-list "node=3"
-#PJM --rsc-list "elapse=1:00:00"
+#PJM --rsc-list "elapse=2:00:00"
 #PJM --rsc-list "rscgrp=fx-small"
 #PJM --mpi "proc=96"
 #PJM -s
@@ -62,29 +62,31 @@ HOC_NAME="./main.hoc"
 
 NRNOPT=\
 " -c JOBID=${PJM_JOBID}"\
-" -c STOPTIME=12000"\
+" -c STOPTIME=6000"\
 " -c IS_SUPERCOMPUTER=2"\
 " -c START_TIME=0"\
 " -c GABAB_ON=1"\
 " -c GABAA_ON=1"\
 " -c PTOL_ON=1"\
-" -c NSYNAPSE=100"\
+" -c NSYNAPSE=350"\
 " -c NPN=50"\
 " -c NLN=350"\
-" -c NRN=2000"\
-" -c WEIGHT_RNtoPN=0.04"\
-" -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.50"\
-" -c GABAA_LTOL=0.50"\
-" -c GABAB_LTOP=12.5"\
-" -c GABAB_LTOL=0.00"\
-" -c DOSE=1000"\
+" -c NRN=0"\
+" -c GABAA_LTOP=0.0"\
+" -c GABAA_LTOL=0.0"\
+" -c GABAB_LTOP=0.0"\
+" -c GABAB_LTOL=1.5"\
+" -c PN_NACH_GMAX=0.38"\
+" -c PtoL_NACH_GMAX=0.0"\
+" -c DOSE=10"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
 " -c PROB_PTOL=0.5"\
-" -c WEIGHT_PTOL=0.036"\
-" -c RND_SEED=0"
+" -c RND_SEED=0"\
+" -c RNtoLN_Latency=100"\
+" -c VOLTAGERECORD=0"\
+" -c CURRENTRECORD=0"
 
 LPG="lpgparm -t 4MB -s 4MB -d 4MB -h 4MB -p 4MB"
 MPIEXEC="mpiexec -mca mpi_print_stats 1"
