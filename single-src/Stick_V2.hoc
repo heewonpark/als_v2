@@ -427,7 +427,7 @@ obfunc connectVecStim(){local latency, id, i, seed, N, c localobj synapse, vecst
 	latency = 0
     }
     nc.delay = Delay + latency
-    //vs_ncs.append(nc)
+    //vs_ncs.append(nc) //this one should not be defined when working on estimation program
     return nc
 }
 
@@ -1240,7 +1240,7 @@ func getResDur(){localobj spt
     if(spt.size()==0){
 	return 0
     }else{
-	return spt.x[spt.size()-1]
+	return spt.x[spt.size()-1]-spt.x[0]
     }
 }
 

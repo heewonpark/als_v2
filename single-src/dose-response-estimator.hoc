@@ -69,6 +69,8 @@ if(name_declared("SWC_FILENAME")==0) {
 	execute("strdef SWC_FILENAME SWC_FILENAME=\"./050622_4_sn.swc\"")
 }
 
+
+
 objref cells
 //objref nclist
 objref g_ncstim_list
@@ -115,6 +117,19 @@ proc setTarget(){
     NSTIMS_V.append(10,20,45,50)
     DURATION_V.append(400,350,900,1300)
 }
+
+STOPTIME= 6000
+NRN=350
+PN_NACH_GMAX=0.4
+
+if(pc.id==0){
+    printf(":::::::::::::::::::::::::::::::::::::::::::::\n")
+    printf("STOPTIME: %d \n",STOPTIME)
+    printf("NRN: %d \n",NRN)
+    printf("PN_NACH_GMAX: %d \n",PN_NACH_GMAX)
+    printf(":::::::::::::::::::::::::::::::::::::::::::::\n")
+}
+
 setTarget()
 //-- make CellSwc object --
 proc mkCells(){local i, j, n, axonnum, ncells localobj cell, nc, nil, tmplist
@@ -224,6 +239,73 @@ proc mkArtificial_RN(){local i, j, gid, dose localobj spvec, vs, nc, pst_synapse
 	pst_synapse = cells.o(0).mkNET_nACh(NACH_GMAX)
 	//nc = cells.o(j).connectVecStim(vs,pst_synapse)
 	nc = cells.o(0).connectVecStim(vs,pst_synapse,dose,pc.id,i,NRN)
+	spvecs.append(spvec)
+	vses.append(vs)
+	nclist.append(nc)
+	pst_synapses.append(pst_synapse)
+    }
+    //}
+}
+
+objref sptlists
+proc loadSpikeTiming(){local i,k, dose localobj spvec, spts
+    sptlists = new List()
+    
+    for(k=0; k<DOSE_V.size() ; k+=1){
+	spts = new List()
+	dose = DOSE_V.x[k]
+	if(IS_SUPERCOMPUTER == 1){
+	    sprint(_SPT_DIR_,"./input/spiketiming/%ddose_1stims_poisson/",dose)   
+	}else if(IS_SUPERCOMPUTER == 0){
+	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_poisson/",dose)    
+	}else{
+	    printf("*** IS_SUPERCOMPUTER : %d [Value Error] ***\n",IS_SUPTERCOMPUTER)
+	    return 
+	}
+	for(i=0; i<NRN; i+=1){
+	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
+	    spvec = readSpikeTiming_yuqiao(_SPT_NAME_)
+	    spts.append(spvec)
+	}
+	sptlists.append(spts)
+    }
+}
+
+proc mkArtificial_RN_poisson(){local i, j, gid, dose,K localobj spvec, vs, nc, pst_synapse
+    strdef _SPT_DIR_,_SPT_NAME_
+    nclist.remove_all()
+    spvecs.remove_all()
+    vses.remove_all()
+    pst_synapses.remove_all()
+    
+    //dose = $1
+    K = $1
+    //if(pc.id==0){printf("mkArtificial_RN()\n")}
+    //print getcwd()
+    //for(j=0; j<cells.count(); j=j+1){
+    /*
+    if(IS_SUPERCOMPUTER == 1){
+	sprint(_SPT_DIR_,"./input/spiketiming/%ddose_1stims_poisson/",dose)   
+    }else if(IS_SUPERCOMPUTER == 0){
+
+	sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_poisson/",dose)    
+    }else{
+	printf("*** IS_SUPERCOMPUTER : %d [Value Error] ***\n",IS_SUPTERCOMPUTER)
+	return 
+    }
+    */
+
+    for(i=0; i<NRN; i=i+1){
+	/*
+	sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
+	spvec = readSpikeTiming_yuqiao(_SPT_NAME_)
+	*/
+	spvec = sptlists.o(K).o(i)
+	vs = setVecStim(spvec)
+	//pst_synapse = cells.o(j).mkNET_nACh(NACH_GMAX)
+	pst_synapse = cells.o(0).mkNET_nACh(NACH_GMAX)
+
+	nc = cells.o(0).connectVecStim(vs,pst_synapse)// No Latency
 	spvecs.append(spvec)
 	vses.append(vs)
 	nclist.append(nc)
@@ -501,7 +583,10 @@ proc main() {\
     vses	= new List()
     nclist	= new List()
     pst_synapses= new List()
-    mkArtificial_RN(10)
+    loadSpikeTiming()
+    //mkArtificial_RN(10)
+    mkArtificial_RN_poisson(0)
+
     //setStimVec()
     //setIClamp(0)
     //setSpikeRecord()
@@ -538,7 +623,8 @@ proc main() {\
 	    Simul_dur    = new Vector()
 	    for(k = 0; k < DOSE_V.size(); k+=1) {
 		initModel(NCELLS)
-		mkArtificial_RN(DOSE_V.x[k])
+		//mkArtificial_RN(DOSE_V.x[k])
+		mkArtificial_RN_poisson(k)
 		pc.set_maxstep(10)
 		stdinit()
 		pc.psolve(tstop)
