@@ -1,6 +1,7 @@
 {load_file("nrngui.hoc")}
 {load_file("Stick_V2.hoc")}
 {load_file("ranstream.hoc")}
+{load_file("stdlib.hoc")}
 
 //************************************************
 if(name_declared("STOPTIME")!=5){ execute("STOPTIME=50")}
@@ -138,7 +139,51 @@ GABAR  =0.053777
 SSK    =0.958038
 GL     =0.000030
 */
-/*
+GKDRBAR=0
+GNABAR =0
+GCATBAR=0
+GSKBAR =0
+GABAR  =0
+SSK    =0
+GL     =0
+
+proc load_estimated_parameters(){local jobid localobj fp,pv,p,s
+    jobid = $1
+    strdef pfile // parameter file
+    strdef stmt, buf
+    sprint(pfile,"./parameters/%d.dat",jobid)
+    fp = new File()
+    s = new String()
+    p = new List()
+    pv = new Vector(7)
+    for(i=0;i<7;i+=1){
+	p.append(s)
+    }
+    if(fp.ropen(pfile) !=1){
+	printf("ERROR: File was not found. (%s)\n",pfile)
+	return (-1)
+    }
+    while(fp.gets(buf) != -1){
+	if(strcmp("#",buf)==0){
+	    continue
+	}else{
+	    print "1   ",buf
+	    sscanf(buf,"%s %s %s %s %s %s %s\n",p.o(0).s,p.o(1).s,p.o(2).s,p.o(3).s,p.o(4).s,p.o(5).s,p.o(6).s)
+	    fp.gets(buf)
+	    sscanf(buf,"%d %d %d %d %d %d %d\n",&pv.x[0],&pv.x[1],&pv.x[2],&pv.x[3],&pv.x[4],&pv.x[5],&pv.x[6])
+	    print "2",buf
+	    break
+	}
+    }
+    for(i=0;i<7;i+=1){
+	sprint(stmt,"%s = %f",p.o(i).s,pv.x[i])
+	{execute(stmt)}
+    }
+}
+
+//load_estimated_parameters(5023689)
+load_estimated_parameters(5023688)
+
 if(pc.id==0){
     printf("********************************************************\n")
     printf("* PARAMETERS\n")
@@ -146,7 +191,7 @@ if(pc.id==0){
     printf("* GABAR=%d\tSSK=%d\tGL=%d\n",GABAR,SSK,GL)
     printf("********************************************************\n")
 }
-*/
+
 
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
@@ -166,7 +211,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
 	    
-	    /*
+
 	    cell.soma{
 		gnabar_MsPN  = GNABAR
 		gkdrbar_MsPN = GKDRBAR
@@ -176,7 +221,7 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 		gAbar_MsPN   = GABAR
 		S_sk_MsPN    = SSK
 	    }
-	    */
+
 	    //cell.soma.gkcabar_GPeA = 0
 	    cell.setType(1)
 	    //cell.setPN_biophys()

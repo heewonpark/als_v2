@@ -337,6 +337,11 @@ func getResponseDuration(){
     return cells.o(0).getResDur(cells.o(0).tvecSR)
 }
 
+
+proc showSpikeRecord(){
+    cells.o(0).showSpikeRecord(cells.o(0).tvecSR)
+}
+
 // --- fitness function ---
 func LeastSquares(){local i, sum, pow localobj real_value, simul_value
     simul_value = $o1
@@ -444,7 +449,8 @@ proc main_local() {\
     nclist = new List()
     pst_synapses = new List()
     if(pc.id==0){printf("+ mkArtificial_RN()\n")}
-    mkArtificial_RN(10)
+    //mkArtificial_RN(10)
+    mkArtificial_RN_poisson(10)
     //setStimVec()
     //setIClamp(0)
     //setSpikeRecord()
@@ -486,14 +492,19 @@ proc main_local() {\
 		if(pc.id==0){printf("++++ RUN FOR EACH DOSE[%d]\n",k)}
 		initModel(NCELLS)
 		//print DOSE_V.x[k]
-		mkArtificial_RN(DOSE_V.x[k])
+		//mkArtificial_RN(DOSE_V.x[k])
+		mkArtificial_RN_poisson(DOSE_V.x[k])
 		//printf("pc.psolve(%d)\n",tstop)
 		pc.set_maxstep(10)
 		stdinit()
-		pc.psolve(100)
+		pc.psolve(3000)
+		showSpikeRecord()
+		printf("\n")
 		peak    = CalcPeakISF()
 		nspikes = getNumSpikes()
 		dur     = getResponseDuration()
+		
+		printf("[%d,%d]peak: %f nspike: %d dur: %f\n",i,k,peak, nspikes, dur)
 		Simul_peak.append(peak)
 		Simul_spikes.append(nspikes)
 		Simul_dur.append(dur)
@@ -595,6 +606,7 @@ proc main() {\
 		stdinit()
 		//if(pc.id==0){printf("++++pc.psolve(%d)\n",tstop)}
 		pc.psolve(tstop)
+
 		peak    = CalcPeakISF()
 		nspikes = getNumSpikes()
 		dur     = getResponseDuration()

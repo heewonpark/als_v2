@@ -1278,6 +1278,12 @@ proc printSpikeRecord_DoseResponse(){local i, interval,tstop, istim1, istim2
     fileSR.close()
 }
 
+public showSpikeRecord
+proc showSpikeRecord(){localobj spt
+    spt = $o1
+    spt.printf("%5.5f\t")
+}
+
 public CalcPeakISF
 func CalcPeakISF(){local i, tmp localobj spt
     spt = $o1

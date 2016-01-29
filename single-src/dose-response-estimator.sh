@@ -14,8 +14,8 @@ mkdir -p ${SPIKE_DIR}
 
 NRNIV="/work/github/neuron_kplus/specials/x86_64/special -mpi"
 #HOC_NAME="./dose-response-estimator0109commit.hoc"
-#HOC_NAME="./dose-response-estimator.hoc"
-HOC_NAME="./dose-response-estimator-oldRNmodel.hoc"
+HOC_NAME="./dose-response-estimator.hoc"
+#HOC_NAME="./dose-response-estimator-oldRNmodel.hoc"
 
 NRNOPT=\
 " -c STOPTIME=2500"\
