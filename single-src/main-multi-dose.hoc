@@ -129,6 +129,26 @@ if(RND_SEED==0){
     RND_SEED=START_TIME
 }
 
+//*****************************
+//Estimation Result JOB:4978194
+//estimationMsPN129.sh
+jobid  = 4978194
+GKDRBAR= 0.009149
+GNABAR = 0.156315
+GCATBAR= 0.000338
+GSKBAR = 0.034495
+GABAR  = 0.252102
+SSK    = 0.966972
+GL     = 0.000000
+
+if(pc.id==0){
+    printf("********************************************************\n")
+    printf("* PARAMETERS [ESTIMATION JOBID: %d] \n",jobid)
+    printf("* GKDRBAR=%f\tGNABAR=%f\tGCATBAR=%f\tGSKBAR=%f\n",GKDRBAR,GNABAR,GCATBAR,GSKBAR)
+    printf("* GABAR=%f\tSSK=%f\tGL=%f\n",GABAR,SSK,GL)
+    printf("********************************************************\n")
+}
+
 if(pc.id==0){
     printf("===================================================================\n")
     printf("JOBID=%d\n",JOBID)
@@ -227,7 +247,7 @@ proc initModel() { local i, j, axonnum, ncells, v_init localobj tmplist
 
 	for i=0, PNs.count()-1{
 	    PNs.o(i).insertMsPN(1)
-	    /*
+
 	    PNs.o(i).soma{
 		gnabar_MsPN  = GNABAR
 		gkdrbar_MsPN = GKDRBAR
@@ -236,7 +256,7 @@ proc initModel() { local i, j, axonnum, ncells, v_init localobj tmplist
 		gskbar_MsPN  = GSKBAR
 		gAbar_MsPN   = GABAR
 		S_sk_MsPN    = SSK
-	    }*/
+	    }
 	}
 	for i=0, LNs.count()-1{
 	    LNs.o(i).insertLNlla(1)
@@ -363,7 +383,12 @@ proc ConnectWithVecStim(){local i, j, base_gid, this_gid,dose,nstim localobj syn
     for i=0, LNs.count-1{
 	for j=0, NSYNAPSE-1{
 	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_30stims_filtering/",dose)
-	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson/",dose,nstim)
+	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson/",dose,nstim)
+	    if(dose==1000){
+		sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson_adaption/",dose,nstim)
+	    }else{
+		sprint(_SPT_DIR_,"../input/spiketiming/%ddose_%dstims_poisson/",dose,nstim)
+	    }
 	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,int(rnd.repick()))
 	    
 	    spvec = readSpikeTiming_poisson(_SPT_NAME_)
@@ -378,6 +403,7 @@ proc ConnectWithVecStim(){local i, j, base_gid, this_gid,dose,nstim localobj syn
 	}
     }
 }
+
 obfunc mkRndvec(){local rnd_,vec_size,id_, vec_range, flg localobj r_, vec_
     vec_range = $1
     vec_size  = $2
@@ -794,8 +820,8 @@ proc setPrinter(){
 
 
 proc main(){local i,j,DOSE
-    mkNetwork(NCELL)
-    
+    mkCells(NCELL)
+        
     for(i=0; i<DOSE_V.size(); i+=1){
 	DOSE = DOSE_V.x[i]
 	print DOSE
@@ -809,8 +835,8 @@ proc main(){local i,j,DOSE
 	stdinit()
 	{pc.psolve(tstop)}
 	if(IS_SUPERCOMPUTER == 2){ //for fx100
-	    sprint(FPRINT_DIR,"../fx-result/%d/record/",JOBID)
-	    sprint(SPIKEOUT_DIR,"../fx-result/%d/spike/",JOBID)
+	    sprint(FPRINT_DIR,"../fx-result/%d/record/%d/",JOBID,DOSE)
+	    sprint(SPIKEOUT_DIR,"../fx-result/%d/spike/%d/",JOBID,DOSE)
 	}else{
 	    sprint(FPRINT_DIR,"../single-result/%010d/record/%d/",START_TIME,DOSE)
 	    sprint(SPIKEOUT_DIR,"../single-result/%010d/spike/%d/",START_TIME,DOSE)
