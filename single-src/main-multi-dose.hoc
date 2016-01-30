@@ -145,6 +145,9 @@ if(pc.id==0){
     printf("RNtoLN_Latency : %f\n",RNtoLN_Latency)
     printf("===================================================================\n")
 }
+objref DOSE_V
+DOSE_V = new Vector()
+DOSE_V.append(10,100,1000)
 
 objref cells, nclist
 objref ranlist
@@ -203,6 +206,49 @@ proc mkCells(){local i,ncell localobj cell, nc, nil
     }
     pc.multisplit()
 }
+
+proc initModel() { local i, j, axonnum, ncells, v_init localobj tmplist
+	
+	for i=0, PNs.count()-1{
+	    PNs.o(i).uninsertPas()
+	    PNs.o(i).uninsertHH()
+	    
+	    PNs.o(i).uninsertMsPN(1)
+	 
+	}
+
+	for i=0, LNs.count()-1{
+	    LNs.o(i).uninsertPas()
+	    LNs.o(i).uninsertHH()
+	    
+	    LNs.o(i).uninsertLNlla(1)
+	 
+	}
+
+	for i=0, PNs.count()-1{
+	    PNs.o(i).insertMsPN(1)
+	    /*
+	    PNs.o(i).soma{
+		gnabar_MsPN  = GNABAR
+		gkdrbar_MsPN = GKDRBAR
+		gl_MsPN      = GL
+		gcatbar_MsPN = GCATBAR
+		gskbar_MsPN  = GSKBAR
+		gAbar_MsPN   = GABAR
+		S_sk_MsPN    = SSK
+	    }*/
+	}
+	for i=0, LNs.count()-1{
+	    LNs.o(i).insertLNlla(1)
+	    LNs.o(i).soma{
+	    }
+	}
+
+	stdinit()
+}
+
+
+
 
 proc mkConnections(){
     if(pc.id==0)printf("mkConnections()\n")
@@ -746,15 +792,29 @@ proc setPrinter(){
     }
 }
 
-mkNetwork(NCELL)
-setRecord()
-//psection()
-pc.barrier()
-tstop = STOPTIME
-{pc.set_maxstep(10)}
-stdinit()
-{pc.psolve(tstop)}
-setPrinter()
+
+proc main(){local i,j,DOSE
+    mkNetwork(NCELL)
+    
+    for(i=0; i<DOSE_V.size(); i+=1){
+	DOSE = DOSE_V.x[i]
+	print DOSE
+	ConnectWithVecStim(DOSE,NSTIM)
+	initModel()
+	setRecord()
+	//psection()
+	pc.barrier()
+	tstop = STOPTIME
+	{pc.set_maxstep(10)}
+	stdinit()
+	{pc.psolve(tstop)}
+	sprint(FPRINT_DIR,"../single-result/%010d/record/%d/",START_TIME,DOSE)
+	sprint(SPIKEOUT_DIR,"../single-result/%010d/spike/%d/",START_TIME,DOSE)
+	setPrinter()
+    }
+}
+
+main()
 
 {pc.runworker()}
 {pc.done()}

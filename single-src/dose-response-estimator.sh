@@ -14,19 +14,20 @@ mkdir -p ${SPIKE_DIR}
 
 NRNIV="/work/github/neuron_kplus/specials/x86_64/special -mpi"
 #HOC_NAME="./dose-response-estimator0109commit.hoc"
-HOC_NAME="./dose-response-estimator.hoc"
+#HOC_NAME="./dose-response-estimator.hoc"
+HOC_NAME="./dose-response-estimator-check.hoc"
 #HOC_NAME="./dose-response-estimator-oldRNmodel.hoc"
 
 NRNOPT=\
-" -c STOPTIME=2500"\
+" -c STOPTIME=1000"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c NCELL=10"\
-" -c NRN=100"\
+" -c NRN=350"\
 " -c CELL_TYPE=1"\
 " -c WEIGHT_RNtoPN=0.50"\
 " -c WEIGHT_RNtoLN=0.02"\
-" -c PN_NACH_GMAX=0.3"\
+" -c PN_NACH_GMAX=0.7"\
 " -c RND_SEED=0"\
 " -c ESTIMATION=0" #ESTIMATION 1 for CMA-ES on Super Computer 
 #MPIEXEC="mpiexec -n 8"

@@ -77,7 +77,7 @@ GL      = 0.000041
 //*****************************
 //Estimation Result JOB:4978194
 //estimationMsPN129.sh
-/*
+jobid  = 4978194
 GKDRBAR= 0.009149
 GNABAR = 0.156315
 GCATBAR= 0.000338
@@ -85,7 +85,7 @@ GSKBAR = 0.034495
 GABAR  = 0.252102
 SSK    = 0.966972
 GL     = 0.000000
-*/
+
 
 
 //*****************************
@@ -139,6 +139,7 @@ GABAR  =0.053777
 SSK    =0.958038
 GL     =0.000030
 */
+/*
 GKDRBAR=0
 GNABAR =0
 GCATBAR=0
@@ -147,16 +148,48 @@ GABAR  =0
 SSK    =0
 GL     =0
 
+
+// DEFAULT
+jobid = -1
+GKDRBAR=0.005
+GNABAR =0.12
+GCATBAR=0.0001
+GSKBAR =0.002
+GABAR  =0.022
+SSK    =0.000050
+GL     =0.0003
+
+GKDRBAR=0.005
+GNABAR =0.12
+GCATBAR=0.0001
+GSKBAR =0.0017
+GABAR  =0.022
+//SSK    =0.000050
+SSK    =0.00005
+GL     =0.0003
+*/
+/*
+jobid = 5029771
+GKDRBAR=0.066028
+GNABAR =2.386494
+GCATBAR=0.002008
+GSKBAR =0.000055
+GABAR  =0.192825
+SSK    =0.837172
+GL     =0.000108
+*/
+
+/*
 proc load_estimated_parameters(){local jobid localobj fp,pv,p,s
     jobid = $1
     strdef pfile // parameter file
     strdef stmt, buf
     sprint(pfile,"./parameters/%d.dat",jobid)
     fp = new File()
-    s = new String()
     p = new List()
     pv = new Vector(7)
     for(i=0;i<7;i+=1){
+	s = new String()
 	p.append(s)
     }
     if(fp.ropen(pfile) !=1){
@@ -167,31 +200,33 @@ proc load_estimated_parameters(){local jobid localobj fp,pv,p,s
 	if(strcmp("#",buf)==0){
 	    continue
 	}else{
-	    print "1   ",buf
+	    //print "1   ",buf
 	    sscanf(buf,"%s %s %s %s %s %s %s\n",p.o(0).s,p.o(1).s,p.o(2).s,p.o(3).s,p.o(4).s,p.o(5).s,p.o(6).s)
 	    fp.gets(buf)
-	    sscanf(buf,"%d %d %d %d %d %d %d\n",&pv.x[0],&pv.x[1],&pv.x[2],&pv.x[3],&pv.x[4],&pv.x[5],&pv.x[6])
-	    print "2",buf
+	    sscanf(buf,"%f %f %f %f %f %f %f\n",&pv.x[0],&pv.x[1],&pv.x[2],&pv.x[3],&pv.x[4],&pv.x[5],&pv.x[6])
+	    //print "2",buf
 	    break
 	}
     }
     for(i=0;i<7;i+=1){
 	sprint(stmt,"%s = %f",p.o(i).s,pv.x[i])
+	//print stmt
 	{execute(stmt)}
     }
 }
-
+*/
+//jobid = 5023688
+//jobid = 5023689
 //load_estimated_parameters(5023689)
-load_estimated_parameters(5023688)
+//load_estimated_parameters(jobid)
 
 if(pc.id==0){
     printf("********************************************************\n")
-    printf("* PARAMETERS\n")
-    printf("* GKDRBAR=%d\tGNABAR=%d\tGCATBAR=%d\tGSKBAR=%d\n",GKDRBAR,GNABAR,GCATBAR,GSKBAR)
-    printf("* GABAR=%d\tSSK=%d\tGL=%d\n",GABAR,SSK,GL)
+    printf("* PARAMETERS [JOBID: %d] \n",jobid)
+    printf("* GKDRBAR=%f\tGNABAR=%f\tGCATBAR=%f\tGSKBAR=%f\n",GKDRBAR,GNABAR,GCATBAR,GSKBAR)
+    printf("* GABAR=%f\tSSK=%f\tGL=%f\n",GABAR,SSK,GL)
     printf("********************************************************\n")
 }
-
 
 {load_file("ReadSPT.hoc")}
 proc mkCells(){local i,ncell localobj cell, nc, nil, syn
@@ -210,7 +245,6 @@ proc mkCells(){local i,ncell localobj cell, nc, nil, syn
 	    //cell.insertMsPN_cad(i)
 	    //cell.insertMsPN_NoCad(i)
 	    //cell.insertFukuda_tunned()
-	    
 
 	    cell.soma{
 		gnabar_MsPN  = GNABAR

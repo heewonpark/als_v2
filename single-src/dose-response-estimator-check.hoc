@@ -61,7 +61,7 @@ STIM_INITIALIZED = 0
 
 //---------------------------------------
 // SET GLOBAL PARAMETERS
-STOPTIME = 3000
+//STOPTIME = 3000
 //STOPTIME = 100
 
 strdef FILENAME_PRINT
@@ -121,7 +121,78 @@ proc setTarget(){
     DURATION_V.append(400,350,900,1300)
 }
 setTarget()
+/*
+GKDRBAR=0
+GNABAR =0
+GCATBAR=0
+GSKBAR =0
+GABAR  =0
+SSK    =0
+GL     =0
+*/
+/*
+jobid = 5029771
+GKDRBAR=0.066028
+GNABAR =2.386494
+GCATBAR=0.002008
+GSKBAR =0.000055
+GABAR  =0.192825
+SSK    =0.837172
+GL     =0.000108
+*/
+
+GKDRBAR= 0.009149
+GNABAR = 0.156315
+GCATBAR= 0.000338
+GSKBAR = 0.034495
+GABAR  = 0.252102
+SSK    = 0.966972
+GL     = 0.000000
+
+
+proc load_estimated_parameters(){local jobid localobj fp,pv,p,s
+    jobid = $1
+    strdef pfile // parameter file
+    strdef stmt, buf
+    sprint(pfile,"./parameters/%d.dat",jobid)
+    fp = new File()
+    p = new List()
+    pv = new Vector(7)
+    for(i=0;i<7;i+=1){
+	s = new String()
+	p.append(s)
+    }
+    if(fp.ropen(pfile) !=1){
+	printf("ERROR: File was not found. (%s)\n",pfile)
+	return (-1)
+    }
+    while(fp.gets(buf) != -1){
+	if(strcmp("#",buf)==0){
+	    continue
+	}else{
+	    //print "1   ",buf
+	    sscanf(buf,"%s %s %s %s %s %s %s\n",p.o(0).s,p.o(1).s,p.o(2).s,p.o(3).s,p.o(4).s,p.o(5).s,p.o(6).s)
+	    fp.gets(buf)
+	    sscanf(buf,"%f %f %f %f %f %f %f\n",&pv.x[0],&pv.x[1],&pv.x[2],&pv.x[3],&pv.x[4],&pv.x[5],&pv.x[6])
+	    //print "2",buf
+	    break
+	}
+    }
+    for(i=0;i<7;i+=1){
+	sprint(stmt,"%s = %f",p.o(i).s,pv.x[i])
+	print stmt
+	{execute(stmt)}
+    }
+}
+/*
+//jobid = 5023688
+jobid = 5023689
+//load_estimated_parameters(5023689)
+load_estimated_parameters(jobid)
+*/
 //-- make CellSwc object --
+
+
 proc mkCells(){local i, j, n, axonnum, ncells localobj cell, nc, nil, tmplist
 
     ncells = $1
@@ -497,7 +568,7 @@ proc main_local() {\
 		//printf("pc.psolve(%d)\n",tstop)
 		pc.set_maxstep(10)
 		stdinit()
-		pc.psolve(3000)
+		pc.psolve(STOPTIME)
 		showSpikeRecord()
 		printf("\n")
 		peak    = CalcPeakISF()
@@ -512,7 +583,7 @@ proc main_local() {\
 	    printf("LeastSquares()\n")
 	    print Simul_spikes.size(), PEAKISF_V.size()
 	    printf("send_fit_vex.x(%d)\n",i)
-	    fitness += LeastSquares(Simul_peak, PEAKISF_V)
+	    fitness += LeastSquares(Simul_peak, PEAKISF_V)*2
 	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
 	    fitness += LeastSquares(Simul_dur, DURATION_V)
 	    send_fit_vec.x(i) = fitness*10.0
@@ -627,7 +698,7 @@ proc main() {\
 	    fitness += LeastSquares(Simul_peak, PEAKISF_V)*2
 	    fitness += LeastSquares(Simul_spikes, NSTIMS_V)
 	    fitness += LeastSquares(Simul_dur, DURATION_V)
-	    send_fit_vec.x(i) = fitness*100.0
+	    send_fit_vec.x(i) = fitness*10.0
 	}
 	{pc.set_parent_comm()}
 	pc.gather_d(send_fit_vec, nullvec, NUM_OF_POP_PER_PROC, root)
