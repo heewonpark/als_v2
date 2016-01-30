@@ -88,7 +88,7 @@ if(DOSE==1000){
 	spt_file_dir ="../input/spiketiming/1000dose_1stims_poisson/"
     }else if(NSTIM>1){
 	//spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
-	spt_file_dir ="../input/spiketiming/1000dose_30stims_poisson/"
+	spt_file_dir ="../input/spiketiming/1000dose_30stims_poisson_adaption/"
     }
 }else if(DOSE==2000){
     if(NSTIM==1){
@@ -808,8 +808,13 @@ proc main(){local i,j,DOSE
 	{pc.set_maxstep(10)}
 	stdinit()
 	{pc.psolve(tstop)}
-	sprint(FPRINT_DIR,"../single-result/%010d/record/%d/",START_TIME,DOSE)
-	sprint(SPIKEOUT_DIR,"../single-result/%010d/spike/%d/",START_TIME,DOSE)
+	if(IS_SUPERCOMPUTER == 2){ //for fx100
+	    sprint(FPRINT_DIR,"../fx-result/%d/record/",JOBID)
+	    sprint(SPIKEOUT_DIR,"../fx-result/%d/spike/",JOBID)
+	}else{
+	    sprint(FPRINT_DIR,"../single-result/%010d/record/%d/",START_TIME,DOSE)
+	    sprint(SPIKEOUT_DIR,"../single-result/%010d/spike/%d/",START_TIME,DOSE)
+	}
 	setPrinter()
     }
 }
