@@ -140,7 +140,7 @@ GABAR  =0.192825
 SSK    =0.837172
 GL     =0.000108
 */
-
+jobid  = 4978194
 GKDRBAR= 0.009149
 GNABAR = 0.156315
 GCATBAR= 0.000338
@@ -148,7 +148,6 @@ GSKBAR = 0.034495
 GABAR  = 0.252102
 SSK    = 0.966972
 GL     = 0.000000
-
 
 proc load_estimated_parameters(){local jobid localobj fp,pv,p,s
     jobid = $1

@@ -13,22 +13,13 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./dose-response-SingleCore.hoc"
+HOC_NAME="./coupling.hoc"
 
 NRNOPT=\
-" -c STOPTIME=3000"\
-" -c IS_SUPERCOMPUTER=0"\
-" -c START_TIME=${Time}"\
-" -c NCELL=10"\
-" -c NRN=350"\
-" -c CELL_TYPE=1"\
-" -c WEIGHT_RNtoPN=0.50"\
-" -c WEIGHT_RNtoLN=0.02"\
-" -c PN_NACH_GMAX=0.75"\
-" -c LN_NACH_GMAX=0.10"\
-" -c RND_SEED=0"
+" -c START_TIME=${Time}"
 
-MPIEXEC="mpiexec -n 8"
+#MPIEXEC="mpiexec -n 8"
+MPIEXEC=""
 EXEC="${MPIEXEC} ${NRNIV} ${NRNOPT} ${HOC_NAME}"
 
 echo $NRNOPT
@@ -36,10 +27,10 @@ echo $EXEC
 time $EXEC |tee $OUT
 
 python ../src/drawGraph.py $RECORD_DIR
-python ./butterworth.py $RECORD_DIR
+#python ./butterworth.py $RECORD_DIR
 #python ./NetCon_PSTH.py $SPIKE_DIR
 ##python ../src/drawISF.py $SPIKE_DIR
-python ../src/spike_analyze.py $SPIKE_DIR
+#python ../src/spike_analyze.py $SPIKE_DIR
 ##python ../src/whole_in_one_spike.py $SPIKE_DIR
-python ./draw_DoseCurve.py $SPIKE_DIR
+#python ./draw_DoseCurve.py $SPIKE_DIR
 #python ./draw_FreqCurve.py $SPIKE_DIR

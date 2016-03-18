@@ -37,11 +37,11 @@ proc mkcells(){local i, ncell localobj cell,nc,nil
 	
 	//Fukuda model
 	//cell.insertFukuda(i)
-	cell.insertMsPN(i)
+	//cell.insertMsPN(i)
 	cell.soma{
 	//    S_sk_MsPN = 50
 	}
-	//cell.insertFukuda_tunned(i)
+	cell.insertFukuda_tunned(i)
 	//cell.insertHH(i)
 	cell.setType(1)
 	

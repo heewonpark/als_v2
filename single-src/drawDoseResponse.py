@@ -59,7 +59,9 @@ def drawDoseResponse():
                 maximum = ISF
         peakISF.append(maximum)
 
-    fig = plt.figure()
+    #fig = plt.figure()
+    fig = plt.figure(figsize=(10,8),dpi=400)
+    fig.subplots_adjust(bottom=0.2)
     ax1 = fig.add_subplot(111)
     #ax2 = ax1.twiny()
     # From fujiwara 2014
@@ -78,21 +80,27 @@ def drawDoseResponse():
         X1.append(x)
         print x
         
-    
+    #plt.rcParams['font.family'] = 'Times New Roman' #全体のフォントを設定
+    plt.rcParams['font.size'] = 20 #フォントサイズを設定
+    #plt.rcParams['axes.linewidth'] = 1.5 #軸の太さを設定。目盛りは変わらない
+    #plt.rcParams['xtics.major.size'] = 10 #x軸目盛りの長さ                                         
+    #plt.rcParams['xtics.major.width'] = 1.5 #x軸目盛りの太さ     
+
     #ax2.plot(X1,Z,'r',label='Dose')
     #ax2.set_xscale('log')
     #ax2.set_xlim(0.1,10000)
     #ax2.set_xlabel("Dose[ng]")
-    ax1.plot(istims,peakISF,"bo",label='Istim')
+    ax1.plot(istims,peakISF,"b.",label='Istim',linewidth=2.0)
     #ax1.set_xlim(100,1000000)
+    ax1.set_xlim(0.1,1000)
     ax1.set_ylim(0,350)
     ax1.set_xscale('log')
-    ax1.set_xlabel("Imax[nA]")
-    ax1.set_ylabel("Peak ISF[Hz]")
+    ax1.set_xlabel("Imax [nA]")
+    ax1.set_ylabel("Peak ISF [Hz]")
     #ax1.set_legend()
     #ax2.set_legend()
     _SAVE_FIG_ = "%s/DoseResponseCurve.png"%target_dir
-    plt.title(_SAVE_FIG_)
+    #plt.title(_SAVE_FIG_)
     plt.savefig(_SAVE_FIG_)
     plt.show()
 
@@ -122,5 +130,5 @@ if len(sys.argv) is 2:
 _SAVE_CSV_ = "%s/DoseResponse.csv"%target_dir
 f = open(_SAVE_CSV_,'w')
 for i in range(len(istims)):
-    f.write("%d,%d\n"%(istims[i],peakISF[i]))
+    f.write("%f,%f\n"%(istims[i],peakISF[i]))
 f.close()

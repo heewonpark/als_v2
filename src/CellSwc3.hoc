@@ -999,6 +999,7 @@ proc fprintSpikeRecord(){local i, interval, tstop, delay
     fileSR.wopen(filename)
     fileSR.printf("$ Stimulation Interval(ms): %d\n",interval)
     fileSR.printf("$ Delay(ms): %f\n",delay)    
+    print "tvecSR  ",tvecSR.size()
     fileSR.printf("$ Number of data : %d\n",tvecSR.size())
     fileSR.printf("$ TSTOP : %d\n",tstop)
     tvecSR.printf(fileSR,"%5.5f\n")

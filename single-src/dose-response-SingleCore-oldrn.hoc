@@ -300,11 +300,14 @@ obfunc setVecStim(){localobj vs, spvec
 }
 
 objref spvecs, vses, ncs, pst_synapses
-proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
+proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse,rnd
     strdef _SPT_DIR_,_SPT_NAME_
     spvecs = new List()
     vses   = new List()
     ncs    = new List()
+    rnd = new Random(RND_SEED)
+    rnd.uniform(0,1000)
+
     pst_synapses = new List()
     
     if(pc.id==0){printf("mkArtificial_RN()\n")}
@@ -315,7 +318,8 @@ proc mkArtificial_RN(){local i, j, dose, gid localobj spvec, vs, nc, pst_synapse
 	    sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_filtering/",dose)
 	    //sprint(_SPT_DIR_,"../input/spiketiming/%ddose_1stims_poisson/",dose)
 	    
-	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
+	    //sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,i)
+	    sprint(_SPT_NAME_,"%sspt%03d.dat",_SPT_DIR_,int(rnd.repick()))
 	    
 	    spvec = readSpikeTiming(_SPT_NAME_)
 	    
@@ -460,8 +464,8 @@ proc mkArtificial_RN_Single_Post_Syanpse(){local i, j, dose, gid localobj spvec,
 }
 
 proc mkStim(){
-    //mkArtificial_RN()
-    mkArtificial_RN_poisson()
+    mkArtificial_RN()
+    //mkArtificial_RN_poisson()
     //mkArtificial_RN_yuqiao()
     //mkArtificial_RN_Single_Post_Syanpse()
 }

@@ -57,7 +57,9 @@ elif len(sys.argv) is 2:
                         sd.calc_iFreq()
                         sd.calc_avgFreq()
                         print sd.peakFreq, sd.avgFreq
-                        data.append([float(dose), sd.peakFreq, sd.avgFreq])
+                        sd.calc_nspikes()
+                        sd.calc_ResDur()
+                        data.append([float(dose), sd.peakFreq, sd.avgFreq, sd.nspikes, sd.resdur])
                         #data.append([int(dose), sd.peakFreq, sd.avgFreq])
                         sd = None
                     elif '_LN_' in full_dir:
@@ -69,7 +71,10 @@ elif len(sys.argv) is 2:
                         sd.calc_iFreq()
                         sd.calc_avgFreq()
                         print sd.peakFreq, sd.avgFreq
-                        data.append([int(freq), sd.peakFreq, sd.avgFreq])
+                        sd.calc_nspikes()
+                        sd.calc_ResDur()
+
+                        data.append([int(freq), sd.peakFreq, sd.avgFreq, sd.nspikes, sd.resdur])
                         sd = None
 
     else:
@@ -143,4 +148,4 @@ plt.title('Average Frequency')
 fig2name="%s/DoseCurve_avgFreq.png"%(target_dir)
 fig2.savefig(fig2name)
 
-plt.show()
+#plt.show()

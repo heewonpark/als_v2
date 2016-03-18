@@ -13,10 +13,10 @@ mkdir -p ${RECORD_DIR}
 mkdir -p ${SPIKE_DIR}
 
 NRNIV="../specials/x86_64/special -mpi"
-HOC_NAME="./main.hoc"
+HOC_NAME="./main-old.hoc"
 
 NRNOPT=\
-" -c STOPTIME=3610"\
+" -c STOPTIME=10"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
@@ -39,6 +39,8 @@ NRNOPT=\
 " -c PROB_PTOL=0.5"\
 " -c WEIGHT_PTOL=0.036"\
 " -c RND_SEED=0"
+" -c VOLTAGERECORD=1"\
+" -c CURRENTRECORD=1"
 
 
 MPIEXEC="mpiexec -n 8"

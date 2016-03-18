@@ -25,7 +25,7 @@ HOC_NAME="./main-multi-dose.hoc"
 
 
 NRNOPT=\
-" -c STOPTIME=3000"\
+" -c STOPTIME=2500"\
 " -c IS_SUPERCOMPUTER=0"\
 " -c START_TIME=${Time}"\
 " -c GABAB_ON=1"\
@@ -39,7 +39,7 @@ NRNOPT=\
 " -c GABAA_LTOL=0.0"\
 " -c GABAB_LTOP=22.0"\
 " -c GABAB_LTOL=0.7"\
-" -c PN_NACH_GMAX=0.38"\
+" -c PN_NACH_GMAX=0.70"\
 " -c LN_NACH_GMAX=0.10"\
 " -c PtoL_NACH_GMAX=0.1"\
 " -c DOSE=1000"\

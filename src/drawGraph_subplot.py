@@ -15,6 +15,15 @@ import sys
 import os.path
 import numpy as np
 
+#plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['font.size'] = 20
+plt.rcParams['axes.linewidth'] = 2.0
+#plt.rcParams['xtics.major.size'] = 10
+#plt.rcParams['xtics.major.width'] = 1.5
+
+#fig = plt.figure()
+fig = plt.figure(figsize=(6,6),dpi=250)
+count = 1
 def drawGraph(filename, show):
     datafile = open(filename,'r')
     data = datafile.readlines()
@@ -23,8 +32,6 @@ def drawGraph(filename, show):
     nColumns = int(nColumns)
     print nDatas, nColumns
     vec = [[0 for i in range(nDatas)] for j in range(nColumns)]
-    svec = [0 for i in range(nDatas)]
-
     dummy = []
     for i in range(0,nDatas):
         #print i
@@ -39,70 +46,73 @@ def drawGraph(filename, show):
             except IndexError:
                 print j,"  ", i
 
-    tmp = filename.rsplit('.',1)
-    imgFilename = "%s.png"%tmp[0]
-
     flg = pylab.figure()
-    if 'Synaptic' in filename:
-        for i in range(nDatas):
-            for j in range(1,nColumns):
-                svec[i] += vec[j][i]
-        pylab.plot(vec[0], svec)
-        pylab.ylabel("Current[nA]")        
-        _SAVETXT_NAME_ = "%s_Sum.dat"%(tmp[0])
-        np.savetxt(_SAVETXT_NAME_, svec, fmt="%.5f")
-    elif 'GABA' in filename:
-        for i in range(nDatas):
-            for j in range(1,nColumns):
-                svec[i] += vec[j][i]
-        pylab.plot(vec[0], svec)
-        pylab.ylabel("Current[nA]")        
-        _SAVETXT_NAME_ = "%s_Sum.dat"%(tmp[0])
-        np.savetxt(_SAVETXT_NAME_, svec, fmt="%.5f")
-    else:
-        pylab.ylabel("membrain potential[mV]")
-
     for j in range(1,nColumns):
         pylab.plot(vec[0], vec[j])
     #pylab.ylim(-100, 80)
-    #pylab.xlim(0,500)
+
     pylab.xlabel("time[ms]")
     #pylab.ylabel("current[nA]")
-    
+    pylab.ylabel("membrain potential[mV]")
+    tmp = filename.rsplit('.',1)
+    imgFilename = "%s.png"%tmp[0]
     #print imgFilename, tmp
-    pylab.title(imgFilename)
     pylab.savefig(imgFilename)
     if(show==True):
         pylab.show()
     pylab.close()
-    """
-    #### Graph for Thesis big
-    fig = plt.figure(figsize=(8,3),dpi=400)
-    fig.subplots_adjust(bottom=0.2)
-    ax = fig.add_subplot(111)
-    #plt.rcParams['font.family'] = 'Times New Roman'
-    plt.rcParams['font.size'] = 20
-    #plt.rcParams['axes.linewidth'] = 1.5
-    #plt.rcParams['xtics.major.size'] = 10
-    #plt.rcParams['xtics.major.width'] = 1.5
-    plt.axis('off')
-    plt.plot(vec[0],vec[1],'b')
-    #plt.plot([0,1000],[-80,-80],'k',linewidth=4.0)
-    plt.plot([0,200],[-80,-80],'k',linewidth=4.0)
     
-    plt.plot([-100,-100],[-100,-50],'k',linewidth=4.0)
-    plt.text(-100,-75, '50mV', ha = 'right', va = 'center')
-    plt.plot([-100,0],[-100,-100],'k',linewidth=4.0)
-    plt.text(-50,-100, '100ms', ha = 'center', va = 'top')
-    #plt.legend(frameon=False)
-    plt.xlim(-100,3000)
-    plt.ylim(-100,60)
-    plt.xlabel("Time[ms]")
-    plt.ylabel("membrain potential[mV]")
-    plt.savefig("%s_forThesis.png"%(imgFilename))
-    plt.close()
-    """
+    #plt.subplot(3,1,count)
+    plt.subplot(4,1,count)
+    #plt.axis('off')
+    for j in range(1,nColumns):
+        plt.plot(np.array(vec[0])-150, vec[j],'b',linewidth=2.0)
+    #plt.xlabel("time[ms]")
+    plt.xlim(-100,900)
+    #plt.xticks(np.arange(50,1150,200),np.arange(-100,1100,100))
+    plt.xticks(np.arange(0,1000,200))
+    if(count==1):
+        plt.yticks(np.arange(-100,100,50))
+        plt.tick_params(labelbottom='off')
+        ax1 = fig.add_axes((0, 0.2, 1, 0.8))
+        ax1.plot(vec[0],vec[1])
+    if(count==2):
+        plt.yticks(np.arange(0,20,5))
+        plt.ylim(-1,10.0)
+        plt.tick_params(labelbottom='off')
+    if(count==3):
+        plt.yticks(np.arange(0,0.15,0.05))
+        plt.ylim(-0.01,0.10)
+        plt.tick_params(labelbottom='off')
+    if(count==4):
+        plt.yticks(np.arange(-10,1,5))
+        plt.ylim(-10,1)
+        #plt.ylabel("membrain potential[mV]")
+        #plt.plot([50,150],[-0.05,-0.05],'k',linewidth=4.0)
+        
 
+"""
+drawGraph("../single-result/1018204713/record/Iclamp_LN1.txt",0)
+count+=1
+drawGraph("../single-result/1018204713/record/Iclamp_PN0.txt",0)
+count+=1
+drawGraph("../single-result/1018205741/record/Iclamp_PN0.txt",0)
+
+plt.savefig("../single-result/graph.png")
+plt.show()
+"""
+drawGraph("../single-result/0206214135/record/Voltage_LN_0.txt",0)
+count+=1
+drawGraph("../single-result/0206214135/record/GABAa_PN_1.txt",0)
+count+=1
+drawGraph("../single-result/0206212307/record/GABAb_PN_1.txt",0)
+count+=1
+drawGraph("../single-result/0206215752/record/Exp2Syn_LN_1.txt",0)
+
+plt.savefig("../single-result/ipsc.png")
+plt.show()
+plt.close()
+"""
 if len(sys.argv) is 1:
     print "NO FILENAME"
 elif len(sys.argv) is 2:
@@ -122,6 +132,7 @@ elif len(sys.argv) is 2:
         print "Wrong directory or filename"
 else:
     print "Wrong input"
+"""
 
 """
 elif len(sys.argv) is 2:

@@ -1,0 +1,110 @@
+load_file("nrngui.hoc")
+load_file("Stick_V2.hoc")
+
+objref records, rec_names, rec_ids, rec_types
+records = new List()
+rec_names = new List()
+rec_types = new List()
+rec_ids = new Vector()
+
+proc Recorder(){localobj name, rec,type
+    name = new String($s2)
+    type = new String($s3)
+    rec = new Vector()
+    rec.record(&$&1)
+    records.append(rec)
+    rec_names.append(name)
+    rec_types.append(type)
+    rec_ids.append($4)
+}
+
+//******************************************************
+// DECLARE CELLS
+//
+
+objref cell[2]
+cell[0] = new Stick()
+cell[1] = new Stick()
+
+//******************************************************
+// SETUP CELLS PROPERTY
+//
+
+//// PRE SYNAPTIC CELL
+cell[0].insertLNlla()
+//cell[0].insertHH()
+//cell[0].insertFukuda()
+//cell[0].insertMsPN(1)
+cell[0].setIclamp(150,10,6)
+//Recorder(&cell[0].soma.v(0.5),"PN","Voltage",0)
+Recorder(&cell[0].soma.v(0.5),"LN","Voltage",0)
+
+//// POST SYNAPTIC CELL
+//cell[1].insertHH()
+//cell[1].insertLNlla(1)
+//cell[1].insertFukuda()
+cell[1].insertMsPN(1)
+//Recorder(&cell[1].soma.v(0.5),"LN","Voltage",1)
+Recorder(&cell[1].soma.v(0.5),"PN","Voltage",1)
+
+objref tvec
+tvec = new Vector()
+tvec.record(&t)
+//******************************************************
+// SETUP CONNECTIONS
+//
+objref nc
+
+cell[1].setExp2Syn(0)
+Recorder(&cell[1].esyn.i,"LN","Exp2Syn",1)
+nc = cell[0].connect2target(cell[1].esyn)
+nc.weight = 0.1
+
+
+/*
+cell[1].mkNET_GABAa(1)
+Recorder(&cell[1].gaba.i,"PN","GABAa",1)
+*/
+/*
+cell[1].mkNET_GABAb(10)
+Recorder(&cell[1].gaba.i,"PN","GABAb",1)
+*/
+//nc = cell[0].connect2target(cell[1].gaba)
+
+//******************************************************
+// RUN PROGRAM
+//
+
+tstop = 1500
+dt = 0.025
+
+run()
+
+
+//******************************************************
+// PRINTOUT RECORD
+//
+
+proc mkPrinter(){local id,i localobj tvec,mt, fobj
+    strdef _FPRINT_DIR_,_FPRINT_NAME_
+    _FPRINT_DIR_= $s1
+    tvec = $o2
+    for i=0,records.count-1{
+	mt = new Matrix()
+	fobj = new File()
+	
+	//tvec.printf()
+	mt.resize(tvec.size(),2)
+	mt.setcol(0,tvec)
+	mt.setcol(1,records.o(i))
+	
+	//mt.printf("%5.5f\t")
+	sprint(_FPRINT_NAME_,"%s%s_%s_%d.txt",_FPRINT_DIR_,rec_types.o(i).s,rec_names.o(i).s,rec_ids.x[i]) 
+	fobj.wopen(_FPRINT_NAME_)
+	mt.fprint(fobj,"%5.5f\t")
+	fobj.close()
+    }
+}
+strdef FPRINT_DIR
+sprint(FPRINT_DIR,"../single-result/%010d/record/",START_TIME)
+mkPrinter(FPRINT_DIR,tvec)

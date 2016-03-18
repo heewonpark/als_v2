@@ -123,12 +123,13 @@ proc spikeout(){
 	printf("spike out(%d) for PN\n",pc.id)
 	pns.o(0).fprintSpikeRecord(SPIKEOUT_DIR,INTERVAL,STOPTIME)
     }
+
     if(lns.count()!=0){
 	printf("spike out(%d) for LN\n",pc.id)
 	lns.o(0).fprintSpikeRecord(SPIKEOUT_DIR,INTERVAL,STOPTIME)	    
     }
     if(rns.count()!=0){
-	//printf("spike out(%d) for RN\n",pc.id)
+	printf("spike out(%d) for RN\n",pc.id)
 	rns.o(0).fprintSpikeRecord(SPIKEOUT_DIR,INTERVAL,STOPTIME)	
     }
 }

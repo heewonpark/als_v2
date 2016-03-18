@@ -31,6 +31,8 @@ class Spike_Data:
         self.if_list  = []
         self.peakFreq = -100
         self.avgFreq  = 0
+        self.nspikes  = 0
+        self.resdur   = 0
 
     def Read(self, filename):
         _file_ = open(filename, 'r')
@@ -57,6 +59,16 @@ class Spike_Data:
             if(ifreq>peak):
                 peak=ifreq
         self.peakFreq = peak
+
+    # calculate number of spike 
+    def calc_nspikes(self):
+        self.nspikes = len(self.t_list)
+
+    def calc_ResDur(self):
+        if(len(self.t_list)>2):
+            self.resdur = self.t_list[-1]-self.t_list[0]
+        else:
+            self.resdur = 0
 
     # Calculate instantaneous frequency
     def calc_iFreq(self):
