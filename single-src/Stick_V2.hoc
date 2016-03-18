@@ -302,7 +302,7 @@ proc insertFukuda(){
 	el_GPeA = -50
     }
 }
-
+/*
 proc insertMsPN(){
     if($1==0){printf("insertMsPN()\n")}
     mechanism_flg = 3
@@ -349,7 +349,7 @@ proc insertMsPN_NoCad(){
 	//insert ca_dyn
     }
 }
-
+*/
 proc uninsertFukuda(){
     forall{
 	uninsert GPeA

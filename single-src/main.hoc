@@ -42,8 +42,8 @@ if(DOSE==1000){
     if(NSTIM==1){
 	spt_file_dir ="../input/spiketiming/1000dose_1stims_filtering/"
     }else if(NSTIM>1){
-	//spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
-	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering_adaptation/"
+	spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering/"
+	//spt_file_dir ="../input/spiketiming/1000dose_30stims_filtering_adaptation/"
     }
 }else if(DOSE==2000){
     if(NSTIM==1){
@@ -471,12 +471,14 @@ proc setVoltageRecord(){local i
 	PNs.object(i).setVoltageRecord()
     }
     for i = 0, LNs.count()-1{
-	if(pc.id%10==0){
+	//if(pc.id%10==0){
+	if(LNs.object(i).getGID()%50==0){
 	    LNs.object(i).setVoltageRecord()
 	}
     }
     for i = 0, RNs.count()-1{
-	if(i%40==0){
+	//if(i%40==0){
+	if(RNs.object(i).getGID()%1000==0){
 	    RNs.object(i).setVoltageRecord()
 	}
     }
@@ -507,7 +509,8 @@ proc setCurrentRecord_GABA(){local i
     }
     for i = 0, LNs.count -1{
 	//printf("[LN]setCurrentRecord_GABA():%d\n",i)
-	if(pc.id%10==0){
+	//if(pc.id%10==0){
+	if(LNs.object(i).getGID()%50==0){
 	    LNs.object(i).setGABACurrentRecord()
 	}
     }
@@ -559,6 +562,7 @@ proc printSpikeRecord(){local i
     }
     for i = 0, LNs.count -1{
 	if(pc.id%10==0){
+	
 	    LNs.object(i).printSpikeRecord(pc.id,LNs.o(i).getGID(),STOPTIME,SPIKEOUT_DIR)
 	}
     }
@@ -575,12 +579,14 @@ proc printVoltageRecord(){
 	PNs.object(i).printVoltageRecord(pc.id,PNs.o(i).getGID(),FPRINT_DIR,TVEC)
     }
     for i = 0, LNs.count -1{
-	if(pc.id%10==0){
+	//if(pc.id%10==0){
+	if(LNs.object(i).getGID()%50==0){
 	    LNs.object(i).printVoltageRecord(pc.id,LNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}
     }
     for i = 0, RNs.count -1{
-	if(i%40==0){
+	//if(i%40==0){
+	if(RNs.object(i).getGID()%1000==0){
 	    RNs.object(i).printVoltageRecord(pc.id,RNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}
     }
@@ -593,7 +599,8 @@ proc printCurrentRecord_GABA(){local i
 	PNs.object(i).printGABACurrentRecord(PNs.o(i).getGID(),FPRINT_DIR,TVEC)
     }
     for i = 0, LNs.count -1{
-	if(pc.id%10==0){
+	//if(pc.id%10==0){
+	if(LNs.object(i).getGID()%50==0){
 	    //printf("[LN]printCurrentRecord_GABA():%d, %d\n",i,LNs.o(i).getGID())
 	    LNs.object(i).printGABACurrentRecord(LNs.o(i).getGID(),FPRINT_DIR,TVEC)
 	}

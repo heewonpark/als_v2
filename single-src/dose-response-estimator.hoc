@@ -126,7 +126,7 @@ if(pc.id==0){
     printf(":::::::::::::::::::::::::::::::::::::::::::::\n")
     printf("STOPTIME: %d \n",STOPTIME)
     printf("NRN: %d \n",NRN)
-    printf("PN_NACH_GMAX: %d \n",PN_NACH_GMAX)
+    printf("PN_NACH_GMAX: %f \n",PN_NACH_GMAX)
     printf(":::::::::::::::::::::::::::::::::::::::::::::\n")
 }
 

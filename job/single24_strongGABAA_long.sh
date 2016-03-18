@@ -13,11 +13,12 @@
 #PJM --stgin-basedir /home/hp120263/k01793/code/al_V2/
 
 #PJM --stgin "rank=* ./input/* %r:../input/"
-#--#PJM --stgin "rank=* ./input/spiketiming/40stim/* %r:../input/spiketiming/40stim/"
-#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/2000dose_30stims_filtering/* %r:../input/spiketiming/2000dose_30stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/100dose_30stims_filtering/* %r:../input/spiketiming/100dose_30stims_filtering/"
-#PJM --stgin "rank=* ./input/spiketiming/10dose_30stims_filtering/* %r:../input/spiketiming/10dose_30stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/100dose_30stims_filtering/* %r:../input/spiketiming/100dose_30stims_filtering/"
+#--#PJM --stgin "rank=* ./input/spiketiming/10dose_30stims_filtering/* %r:../input/spiketiming/10dose_30stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_2000dose_30stims_filtering/"
+#PJM --stgin "rank=* ./input/spiketiming/1000dose_30stims_100dose_30stims_filtering/* %r:../input/spiketiming/1000dose_30stims_100dose_30stims_filtering/"
+
 #PJM --stgin "rank=* ./src/* %r:./"
 #PJM --stgin "rank=* ./single-src/* %r:./"
 #--#PJM --stgin "rank=* ../../github/neuron_kplus/stgin/* %r:./"
@@ -39,7 +40,7 @@ NRNIV="./special -mpi"
 HOC_NAME="./main.hoc"
 #NRNOPT=""
 NRNOPT=\
-" -c STOPTIME=3601"\
+" -c STOPTIME=72010"\
 " -c IS_SUPERCOMPUTER=1"\
 " -c START_TIME=0"\
 " -c GABAB_ON=1"\
@@ -51,11 +52,11 @@ NRNOPT=\
 " -c NRN=2000"\
 " -c WEIGHT_RNtoPN=0.04"\
 " -c WEIGHT_RNtoLN=0.018"\
-" -c GABAA_LTOP=0.50"\
+" -c GABAA_LTOP=12.50"\
 " -c GABAA_LTOL=0.50"\
-" -c GABAB_LTOP=12.50"\
+" -c GABAB_LTOP=0.50"\
 " -c GABAB_LTOL=0.00"\
-" -c DOSE=2000"\
+" -c DOSE=10002000"\
 " -c NSTIM=30"\
 " -c PROB_LTOP=0.5"\
 " -c PROB_LTOL=1.0"\
