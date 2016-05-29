@@ -46,6 +46,6 @@ job/.*
 
 # others
 !.gitkeep
-*.xlsx
+#*.xlsx
 tail
 al_env
